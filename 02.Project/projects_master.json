@@ -1,0 +1,135 @@
+{
+  "exportedAt": "2026-10-25T17:39:06.581Z",
+  "collections": [
+    "Orange~",
+    "Urban- Architecture- Landscape",
+    "Photography",
+    "Sketch",
+    "Model",
+    "Blog",
+    "Graphic Design",
+    "Branding",
+    "Practice Art"
+  ],
+  "projects": [
+    {
+      "id": "01_windy-hill-neighborhood_261025",
+      "stt": "01",
+      "slug": "windy-hill-neighborhood",
+      "title": "Windy Hill Neighborhood",
+      "subtitle": "",
+      "description": "~The residential design project in Bao Loc’s mountainous region is dedicated to embracing the natural and topographic essence of the area. This endeavor revolves around crafting housing solutions that seamlessly integrate with the unique mountainous environment. Emphasis is placed on low-rise apartments and single houses, each complemented by garden spaces and permeable surfaces to facilitate natural drainage and reduce environmental impact. The road network is thoughtfully planned, meticulously tracing the contours of the land to minimize disruption. Furthermore, public facilities and amenities are strategically positioned for easy access on foot, ensuring that essential services are within reach. This holistic approach endeavors to create a harmonious coexistence between human habitation and the natural beauty of the Bao Loc mountainous area, fostering sustainable and resilient living spaces that honor the region’s unique character.~",
+      "status": "published",
+      "dateAdded": "2026-10-25",
+      "metadata": [
+        {
+          "key": "Date",
+          "value": "12.2020"
+        },
+        {
+          "key": "Location",
+          "value": "Lam Dong.VN"
+        },
+        {
+          "key": "Role",
+          "value": "Urban Planner"
+        },
+        {
+          "key": "Project type",
+          "value": "Neighbourhood - Urban Planning"
+        }
+      ],
+      "collections": [
+        "Orange~",
+        "Model",
+        "Urban- Architecture- Landscape"
+      ],
+      "seo": {
+        "metaTitle": "",
+        "metaDescription": "",
+        "slug": "windy-hill-neighborhood"
+      },
+      "media": [
+        {
+          "type": "image",
+          "src": "./02.Project/01_windy-hill-neighborhood_261025/windy-hill-neighborhood-01.webp",
+          "isCover": false,
+          "caption": "Baro Portfolio25",
+          "thumb": "./02.Project/01_windy-hill-neighborhood_261025/windy-hill-neighborhood-01-thumb.webp"
+        },
+        {
+          "type": "image",
+          "src": "./02.Project/01_windy-hill-neighborhood_261025/windy-hill-neighborhood-cover.webp",
+          "isCover": true,
+          "caption": "Living",
+          "thumb": "./02.Project/01_windy-hill-neighborhood_261025/windy-hill-neighborhood-cover-thumb.webp"
+        },
+        {
+          "type": "image",
+          "src": "./02.Project/01_windy-hill-neighborhood_261025/windy-hill-neighborhood-03.webp",
+          "isCover": false,
+          "caption": "mh",
+          "thumb": "./02.Project/01_windy-hill-neighborhood_261025/windy-hill-neighborhood-03-thumb.webp"
+        },
+        {
+          "type": "image",
+          "src": "./02.Project/01_windy-hill-neighborhood_261025/windy-hill-neighborhood-04.webp",
+          "isCover": false,
+          "caption": "370206031_233749272725049_8156576336194971843_n",
+          "thumb": "./02.Project/01_windy-hill-neighborhood_261025/windy-hill-neighborhood-04-thumb.webp"
+        }
+      ]
+    },
+    {
+      "id": "02_fish-and-orchard_250402",
+      "stt": "02",
+      "slug": "fish-and-orchard",
+      "title": " Fish and Orchard",
+      "subtitle": "Eco-Industrial Regeneration • Ha Tu Urban Area",
+      "description": "Every journey begins with a shape.\n\nLike the first brick laid upon the foundation, this marks the beginning of an unwritten story. These sharp lines are more than just geometry—they are the imprint of thought, a balance between structure and creativity, between order and freedom.\n\nIt resembles a house in the making, but it could also be an unfinished structure, an idea taking form, a journey just beginning. The slanted edges are not instability, but momentum—movement, the first step forward.\n\nI don’t know where the future will take me. But I know 2025 is a milestone. At 27, or maybe just the 25-year-old full of fire, gathering every effort, every ounce of dedication to create something meaningful.\n\nI started with the idea of sustainability, learning to see cities like a doctor sees a patient—diagnosing before prescribing. I don’t want to simply create and let things fade away. I want to tell their stories, to document my path, in case one day I forget who I was, what I started with, what I dreamed of, and why I had to keep going.\n\nThe red is fire, energy, a heartbeat pulsing within calculated edges. The black is a foundation, a challenge, the things I must face. The white—empty yet full of potential—is the space for possibilities, for questions waiting to be answered.\n\nI call my creations oranges. I am the one who plants them. A small fish planting oranges—an odd image, perhaps. But someday, someone will cherish the fruits I grow.\n\nI am a dreamer. I break the expectations placed upon me. I am not perfect. I fear judgment. But I still do, I still write, I still create.\n\nAnd so, this is the story of this place.\n\n“The best time to plant an orange tree was ten years ago. The second-best time is now.”",
+      "status": "published",
+      "dateAdded": "2025-04-02",
+      "metadata": [
+        {
+          "key": "Date",
+          "value": "01.04.2025"
+        },
+        {
+          "key": "Location",
+          "value": "HCMC"
+        },
+        {
+          "key": "Award",
+          "value": "3rd Prize Loa Thanh National Award"
+        }
+      ],
+      "collections": [
+        "Orange~",
+        "Urban- Architecture- Landscape",
+        "Model",
+        "Sketch"
+      ],
+      "seo": {
+        "metaTitle": "Ha Tu Eco-Industrial Urban Area",
+        "metaDescription": "1/5000 scale zoning masterplan in Ha Long City.",
+        "slug": "fish-and-orchard"
+      },
+      "media": [
+        {
+          "type": "image",
+          "src": "./02.Project/02_fish-and-orchard_250402/fish-and-orchard-cover.webp",
+          "isCover": true,
+          "caption": "Screenshot 2025-03-24 175306",
+          "thumb": "./02.Project/02_fish-and-orchard_250402/fish-and-orchard-cover-thumb.webp"
+        },
+        {
+          "type": "image",
+          "src": "./02.Project/02_fish-and-orchard_250402/fish-and-orchard-02.webp",
+          "isCover": false,
+          "caption": "7b184c98-8df4-4138-b887-a2aa335044ab",
+          "thumb": "./02.Project/02_fish-and-orchard_250402/fish-and-orchard-02-thumb.webp"
+        }
+      ]
+    }
+  ]
+}

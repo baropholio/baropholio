@@ -1,0 +1,1127 @@
+{
+  "projects": [
+    {
+      "id": "proj-fish-orchard",
+      "slug": "fish-and-orchard",
+      "title": "Fish and Orchard",
+      "description": "Every journey begins with a shape.\\n\\nLike the first brick laid upon the foundation, this marks the beginning of an unwritten story. These sharp lines are more than just geometry—they are the imprint of thought, a balance between structure and creativity, between order and freedom.",
+      "published": true,
+      "collections": [
+        "Orange~",
+        "Graphic Design",
+        "Branding"
+      ],
+      "basicInfo": [
+        {
+          "id": "bi-1",
+          "label": "Project type",
+          "value": "Blog, Graphic Design"
+        },
+        {
+          "id": "bi-2",
+          "label": "Date",
+          "value": "01.04.2025"
+        },
+        {
+          "id": "bi-3",
+          "label": "Location",
+          "value": "Hochiminh city"
+        },
+        {
+          "id": "bi-4",
+          "label": "Project type",
+          "value": "Branding, Web Develop"
+        },
+        {
+          "id": "bi-5",
+          "label": "Designed by",
+          "value": "Baro Nguyen~"
+        }
+      ],
+      "media": [
+        {
+          "id": "m-1",
+          "name": "cover.jpg",
+          "dataUrl": "02.Project/project-01.jpg",
+          "isCover": true,
+          "alt": "Fish and Orchard Brand Identity Cover",
+          "title": "Brand Identity Cover"
+        },
+        {
+          "id": "m-2",
+          "name": "slide-01.jpg",
+          "dataUrl": "02.Project/project-02.jpg",
+          "isCover": false,
+          "alt": "Exhibition presentation screen",
+          "title": "Exhibition Projection"
+        },
+        {
+          "id": "m-3",
+          "name": "interior-glass.jpg",
+          "dataUrl": "02.Project/project-03.jpg",
+          "isCover": false,
+          "alt": "Spatial glass corner branding",
+          "title": "Glass Partition Branding"
+        },
+        {
+          "id": "m-4",
+          "name": "wayfinding-sign.jpg",
+          "dataUrl": "02.Project/project-04.jpg",
+          "isCover": false,
+          "alt": "Tactile sign cube mockup",
+          "title": "Exterior Sign Mockup"
+        }
+      ],
+      "seo": {
+        "metaTitle": "Fish and Orchard • Brand Identity & Spatial Design",
+        "metaDescription": "Every journey begins with a shape. Like the first brick laid upon the foundation, this marks the beginning of an unwritten architectural story.",
+        "slug": "fish-and-orchard"
+      },
+      "createdAt": "2025-04-01T08:00:00.000Z",
+      "updatedAt": "2025-04-01T10:30:00.000Z"
+    },
+    {
+      "id": "proj-1",
+      "slug": "1st-prize-final-project-urban-planning",
+      "title": "1st Prize - Final Project Urban Planning",
+      "description": "A spatial investigation synthesizing natural riparian hydrology with ecological human settlement patterns. Reclaiming ecological floodways and balancing sustainable residential typologies.",
+      "published": true,
+      "collections": [
+        "VUPDA 1ST PRIZE"
+      ],
+      "basicInfo": [
+        {
+          "id": "bi-1",
+          "label": "Date",
+          "value": "2024"
+        },
+        {
+          "id": "bi-2",
+          "label": "Organization",
+          "value": "Vietnam Urban Planning and Development Association (VUPDA)"
+        },
+        {
+          "id": "bi-3",
+          "label": "Award",
+          "value": "1st Prize - Excellent Under-Graduation Final Project On Urban and Rural Planning 2023"
+        },
+        {
+          "id": "bi-4",
+          "label": "Link",
+          "value": "https://quyhoachdothi.com/le-trao-giai-thuong-do-an-sinh-vien-tot-nghiep-xuat-sac-nam-2023/"
+        }
+      ],
+      "media": [
+        {
+          "id": "m-1",
+          "name": "project-01.jpg",
+          "dataUrl": "02.Project/project-01.jpg",
+          "isCover": true,
+          "alt": "1st Prize - Final Project Urban Planning",
+          "title": "1st Prize - Final Project Urban Planning"
+        }
+      ],
+      "seo": {
+        "metaTitle": "1st Prize - Final Project Urban Planning",
+        "metaDescription": "A spatial investigation synthesizing natural riparian hydrology with ecological human settlement patterns. Reclaiming ecological floodways and balancing sustainable residential typologies.",
+        "slug": "1st-prize-final-project-urban-planning"
+      },
+      "createdAt": "2026-10-25T11:38:22.463Z",
+      "updatedAt": "2026-10-25T11:38:22.463Z"
+    },
+    {
+      "id": "proj-2",
+      "slug": "third-prize-in-loa-thanh-awards-35th-edition",
+      "title": "Third Prize in Loa Thanh Awards (35th Edition)",
+      "description": "1/5000 Scale Zoning Plan for Ha Tu Urban Area, Ha Long City, Quang Ninh Province. Transforming industrial opencast coal mine spoils into an eco-coastal civic basin.",
+      "published": true,
+      "collections": [
+        "LOA THANH AWARD"
+      ],
+      "basicInfo": [
+        {
+          "id": "bi-1",
+          "label": "Date",
+          "value": "12/2023"
+        },
+        {
+          "id": "bi-2",
+          "label": "Organization",
+          "value": "Vietnam Association of Architects (VAA)"
+        },
+        {
+          "id": "bi-3",
+          "label": "Award",
+          "value": "Outstanding graduation project award for architecture & construction nationwide"
+        },
+        {
+          "id": "bi-4",
+          "label": "Link",
+          "value": "https://www.tapchikientruc.com.vn/cuoc-thi/qh-phan-khu-ty-le-1-5000-khu-do-thi-mo-ha-tu-phuong-ha-tu-ha-phong-tp-ha-long-tinh-quang-ninh-giai-ba-loa-thanh-2023.html"
+        }
+      ],
+      "media": [
+        {
+          "id": "m-1",
+          "name": "project-02.jpg",
+          "dataUrl": "02.Project/project-02.jpg",
+          "isCover": true,
+          "alt": "Third Prize in Loa Thanh Awards (35th Edition)",
+          "title": "Third Prize in Loa Thanh Awards (35th Edition)"
+        }
+      ],
+      "seo": {
+        "metaTitle": "Third Prize in Loa Thanh Awards (35th Edition)",
+        "metaDescription": "1/5000 Scale Zoning Plan for Ha Tu Urban Area, Ha Long City, Quang Ninh Province. Transforming industrial opencast coal mine spoils into an eco-coastal civic basin.",
+        "slug": "third-prize-in-loa-thanh-awards-35th-edition"
+      },
+      "createdAt": "2026-10-25T11:38:22.463Z",
+      "updatedAt": "2026-10-25T11:38:22.463Z"
+    },
+    {
+      "id": "proj-3",
+      "slug": "valedictorian-of-regional-urban-planning",
+      "title": "Valedictorian of Regional & Urban Planning",
+      "description": "Cumulative CGPA: 3.67/4.00 (Superior Honour). Faculty Ranking: 1/240, University Ranking: 2/1500. Five years of spatial research and morphology studies.",
+      "published": true,
+      "collections": [
+        "ACADEMIC HONOUR"
+      ],
+      "basicInfo": [
+        {
+          "id": "bi-1",
+          "label": "Date",
+          "value": "11/2023"
+        },
+        {
+          "id": "bi-2",
+          "label": "Organization",
+          "value": "University of Architecture Ho Chi Minh City (UAH)"
+        },
+        {
+          "id": "bi-3",
+          "label": "Award",
+          "value": "Superior Honour (CGPA 3.67/4.00 &bull; Rank 1/240)"
+        },
+        {
+          "id": "bi-4",
+          "label": "Link",
+          "value": ""
+        }
+      ],
+      "media": [
+        {
+          "id": "m-1",
+          "name": "project-03.jpg",
+          "dataUrl": "02.Project/project-03.jpg",
+          "isCover": true,
+          "alt": "Valedictorian of Regional & Urban Planning",
+          "title": "Valedictorian of Regional & Urban Planning"
+        }
+      ],
+      "seo": {
+        "metaTitle": "Valedictorian of Regional & Urban Planning",
+        "metaDescription": "Cumulative CGPA: 3.67/4.00 (Superior Honour). Faculty Ranking: 1/240, University Ranking: 2/1500. Five years of spatial research and morphology studies.",
+        "slug": "valedictorian-of-regional-urban-planning"
+      },
+      "createdAt": "2026-10-25T11:38:22.463Z",
+      "updatedAt": "2026-10-25T11:38:22.463Z"
+    },
+    {
+      "id": "proj-4",
+      "slug": "merit-award-general-planning-hcmc-2040",
+      "title": "Merit Award - General Planning HCMC 2040",
+      "description": "Conceptual masterplan proposing polycentric transit-oriented development (TOD) spines and green ecological corridors along the Saigon River networks.",
+      "published": true,
+      "collections": [
+        "MASTERPLANNING"
+      ],
+      "basicInfo": [
+        {
+          "id": "bi-1",
+          "label": "Date",
+          "value": "10/2022"
+        },
+        {
+          "id": "bi-2",
+          "label": "Organization",
+          "value": "Department of Planning and Architecture HCMC"
+        },
+        {
+          "id": "bi-3",
+          "label": "Award",
+          "value": "Conceptual Design Competition of General Planning for HCMC to 2040, vision to 2060"
+        },
+        {
+          "id": "bi-4",
+          "label": "Link",
+          "value": ""
+        }
+      ],
+      "media": [
+        {
+          "id": "m-1",
+          "name": "project-04.jpg",
+          "dataUrl": "02.Project/project-04.jpg",
+          "isCover": true,
+          "alt": "Merit Award - General Planning HCMC 2040",
+          "title": "Merit Award - General Planning HCMC 2040"
+        }
+      ],
+      "seo": {
+        "metaTitle": "Merit Award - General Planning HCMC 2040",
+        "metaDescription": "Conceptual masterplan proposing polycentric transit-oriented development (TOD) spines and green ecological corridors along the Saigon River networks.",
+        "slug": "merit-award-general-planning-hcmc-2040"
+      },
+      "createdAt": "2026-10-25T11:38:22.463Z",
+      "updatedAt": "2026-10-25T11:38:22.463Z"
+    },
+    {
+      "id": "proj-5",
+      "slug": "top-12-national-top-2-popular-vote",
+      "title": "Top 12 National & Top 2 Popular Vote",
+      "description": "Universal barrier-free vocational and residential campus designed for youth with disabilities in central Vietnam.",
+      "published": true,
+      "collections": [
+        "INCLUSIVE DESIGN"
+      ],
+      "basicInfo": [
+        {
+          "id": "bi-1",
+          "label": "Date",
+          "value": "12/2022"
+        },
+        {
+          "id": "bi-2",
+          "label": "Organization",
+          "value": "VUPDA, JC Design, Level Architect & Will to Live Center"
+        },
+        {
+          "id": "bi-3",
+          "label": "Award",
+          "value": "Architectural and Landscape Design of the 'Will to Live' Center"
+        },
+        {
+          "id": "bi-4",
+          "label": "Link",
+          "value": ""
+        }
+      ],
+      "media": [
+        {
+          "id": "m-1",
+          "name": "project-05.jpg",
+          "dataUrl": "02.Project/project-05.jpg",
+          "isCover": true,
+          "alt": "Top 12 National & Top 2 Popular Vote",
+          "title": "Top 12 National & Top 2 Popular Vote"
+        }
+      ],
+      "seo": {
+        "metaTitle": "Top 12 National & Top 2 Popular Vote",
+        "metaDescription": "Universal barrier-free vocational and residential campus designed for youth with disabilities in central Vietnam.",
+        "slug": "top-12-national-top-2-popular-vote"
+      },
+      "createdAt": "2026-10-25T11:38:22.463Z",
+      "updatedAt": "2026-10-25T11:38:22.463Z"
+    },
+    {
+      "id": "proj-6",
+      "slug": "second-prize-in-urban-void-2022",
+      "title": "Second Prize in Urban Void 2022",
+      "description": "Cross-border academic workshop on activating residual leftover urban voids and interstitial riverbanks as community cooling nodes.",
+      "published": true,
+      "collections": [
+        "INTERNATIONAL"
+      ],
+      "basicInfo": [
+        {
+          "id": "bi-1",
+          "label": "Date",
+          "value": "09/2022"
+        },
+        {
+          "id": "bi-2",
+          "label": "Organization",
+          "value": "University of Shiga Prefecture (Japan), HUTECH, UAH"
+        },
+        {
+          "id": "bi-3",
+          "label": "Award",
+          "value": "International Collaborative Research & Design Competition"
+        },
+        {
+          "id": "bi-4",
+          "label": "Link",
+          "value": ""
+        }
+      ],
+      "media": [
+        {
+          "id": "m-1",
+          "name": "project-06.jpg",
+          "dataUrl": "02.Project/project-06.jpg",
+          "isCover": true,
+          "alt": "Second Prize in Urban Void 2022",
+          "title": "Second Prize in Urban Void 2022"
+        }
+      ],
+      "seo": {
+        "metaTitle": "Second Prize in Urban Void 2022",
+        "metaDescription": "Cross-border academic workshop on activating residual leftover urban voids and interstitial riverbanks as community cooling nodes.",
+        "slug": "second-prize-in-urban-void-2022"
+      },
+      "createdAt": "2026-10-25T11:38:22.463Z",
+      "updatedAt": "2026-10-25T11:38:22.463Z"
+    },
+    {
+      "id": "proj-7",
+      "slug": "the-best-visual-presentation-award",
+      "title": "The Best Visual Presentation Award",
+      "description": "Spatial representation of porous living quarters, wind flow corridors, and hybrid street-porch domesticity in high-density post-pandemic neighborhoods.",
+      "published": true,
+      "collections": [
+        "VISUAL AESTHETICS"
+      ],
+      "basicInfo": [
+        {
+          "id": "bi-1",
+          "label": "Date",
+          "value": "12/2021"
+        },
+        {
+          "id": "bi-2",
+          "label": "Organization",
+          "value": "Tokyo City Univ, UTM Malaysia, UAH"
+        },
+        {
+          "id": "bi-3",
+          "label": "Award",
+          "value": "Urban Design with/after COVID-19 Pandemic"
+        },
+        {
+          "id": "bi-4",
+          "label": "Link",
+          "value": ""
+        }
+      ],
+      "media": [
+        {
+          "id": "m-1",
+          "name": "project-07.jpg",
+          "dataUrl": "02.Project/project-07.jpg",
+          "isCover": true,
+          "alt": "The Best Visual Presentation Award",
+          "title": "The Best Visual Presentation Award"
+        }
+      ],
+      "seo": {
+        "metaTitle": "The Best Visual Presentation Award",
+        "metaDescription": "Spatial representation of porous living quarters, wind flow corridors, and hybrid street-porch domesticity in high-density post-pandemic neighborhoods.",
+        "slug": "the-best-visual-presentation-award"
+      },
+      "createdAt": "2026-10-25T11:38:22.463Z",
+      "updatedAt": "2026-10-25T11:38:22.463Z"
+    },
+    {
+      "id": "proj-8",
+      "slug": "top-20-of-smart-city-2021-competition",
+      "title": "Top 20 of Smart City + 2021 Competition",
+      "description": "Data-driven spatial infrastructure modeling climate-resilient water basins and smart micro-mobility networks in urban deltas.",
+      "published": true,
+      "collections": [
+        "SMART CITY"
+      ],
+      "basicInfo": [
+        {
+          "id": "bi-1",
+          "label": "Date",
+          "value": "10/2021"
+        },
+        {
+          "id": "bi-2",
+          "label": "Organization",
+          "value": "ISCM, UEH, UNESCO UNITWIN, Chemonics, SmithGroup"
+        },
+        {
+          "id": "bi-3",
+          "label": "Award",
+          "value": "Global Smart Cities Forum & Design Competition"
+        },
+        {
+          "id": "bi-4",
+          "label": "Link",
+          "value": ""
+        }
+      ],
+      "media": [
+        {
+          "id": "m-1",
+          "name": "project-08.jpg",
+          "dataUrl": "02.Project/project-08.jpg",
+          "isCover": true,
+          "alt": "Top 20 of Smart City + 2021 Competition",
+          "title": "Top 20 of Smart City + 2021 Competition"
+        }
+      ],
+      "seo": {
+        "metaTitle": "Top 20 of Smart City + 2021 Competition",
+        "metaDescription": "Data-driven spatial infrastructure modeling climate-resilient water basins and smart micro-mobility networks in urban deltas.",
+        "slug": "top-20-of-smart-city-2021-competition"
+      },
+      "createdAt": "2026-10-25T11:38:22.463Z",
+      "updatedAt": "2026-10-25T11:38:22.463Z"
+    },
+    {
+      "id": "proj-9",
+      "slug": "best-design-award-zero-carbon-city",
+      "title": "Best Design Award - Zero Carbon City",
+      "description": "Passive solar urban morphology, natural ventilation wind-scoops, and renewable energy districts.",
+      "published": true,
+      "collections": [
+        "ZERO CARBON"
+      ],
+      "basicInfo": [
+        {
+          "id": "bi-1",
+          "label": "Date",
+          "value": "01/2021"
+        },
+        {
+          "id": "bi-2",
+          "label": "Organization",
+          "value": "UNESCO UNITWIN, Handong Global University, UEH, UAH"
+        },
+        {
+          "id": "bi-3",
+          "label": "Award",
+          "value": "Smart Design City for Zero Carbon Emission"
+        },
+        {
+          "id": "bi-4",
+          "label": "Link",
+          "value": ""
+        }
+      ],
+      "media": [
+        {
+          "id": "m-1",
+          "name": "project-09.jpg",
+          "dataUrl": "02.Project/project-09.jpg",
+          "isCover": true,
+          "alt": "Best Design Award - Zero Carbon City",
+          "title": "Best Design Award - Zero Carbon City"
+        }
+      ],
+      "seo": {
+        "metaTitle": "Best Design Award - Zero Carbon City",
+        "metaDescription": "Passive solar urban morphology, natural ventilation wind-scoops, and renewable energy districts.",
+        "slug": "best-design-award-zero-carbon-city"
+      },
+      "createdAt": "2026-10-25T11:38:22.463Z",
+      "updatedAt": "2026-10-25T11:38:22.463Z"
+    },
+    {
+      "id": "proj-10",
+      "slug": "uah-student-ambassador",
+      "title": "UAH Student Ambassador",
+      "description": "Represented the university in academic forums, student outreach, and official international delegations.",
+      "published": true,
+      "collections": [
+        "LEADERSHIP"
+      ],
+      "basicInfo": [
+        {
+          "id": "bi-1",
+          "label": "Date",
+          "value": "2021-2022"
+        },
+        {
+          "id": "bi-2",
+          "label": "Organization",
+          "value": "University of Architecture Ho Chi Minh City"
+        },
+        {
+          "id": "bi-3",
+          "label": "Award",
+          "value": "Official Ambassador of the University"
+        },
+        {
+          "id": "bi-4",
+          "label": "Link",
+          "value": ""
+        }
+      ],
+      "media": [
+        {
+          "id": "m-1",
+          "name": "project-10.jpg",
+          "dataUrl": "02.Project/project-10.jpg",
+          "isCover": true,
+          "alt": "UAH Student Ambassador",
+          "title": "UAH Student Ambassador"
+        }
+      ],
+      "seo": {
+        "metaTitle": "UAH Student Ambassador",
+        "metaDescription": "Represented the university in academic forums, student outreach, and official international delegations.",
+        "slug": "uah-student-ambassador"
+      },
+      "createdAt": "2026-10-25T11:38:22.463Z",
+      "updatedAt": "2026-10-25T11:38:22.463Z"
+    },
+    {
+      "id": "proj-11",
+      "slug": "student-with-5-good-criteria-univ-level",
+      "title": "Student with 5 Good Criteria (Univ. Level)",
+      "description": "Prestigious nationwide student title awarded for holistic excellence across academic research and social leadership.",
+      "published": true,
+      "collections": [
+        "CRITERIA AWARD"
+      ],
+      "basicInfo": [
+        {
+          "id": "bi-1",
+          "label": "Date",
+          "value": "2021-2022"
+        },
+        {
+          "id": "bi-2",
+          "label": "Organization",
+          "value": "University Level &bull; UAH"
+        },
+        {
+          "id": "bi-3",
+          "label": "Award",
+          "value": "Excellence in Ethics, Academics, Fitness, Volunteering, Integration"
+        },
+        {
+          "id": "bi-4",
+          "label": "Link",
+          "value": ""
+        }
+      ],
+      "media": [
+        {
+          "id": "m-1",
+          "name": "project-11.jpg",
+          "dataUrl": "02.Project/project-11.jpg",
+          "isCover": true,
+          "alt": "Student with 5 Good Criteria (Univ. Level)",
+          "title": "Student with 5 Good Criteria (Univ. Level)"
+        }
+      ],
+      "seo": {
+        "metaTitle": "Student with 5 Good Criteria (Univ. Level)",
+        "metaDescription": "Prestigious nationwide student title awarded for holistic excellence across academic research and social leadership.",
+        "slug": "student-with-5-good-criteria-univ-level"
+      },
+      "createdAt": "2026-10-25T11:38:22.463Z",
+      "updatedAt": "2026-10-25T11:38:22.463Z"
+    },
+    {
+      "id": "proj-12",
+      "slug": "uah-scholarship-top-1-merit-award",
+      "title": "UAH Scholarship & Top 1% Merit Award",
+      "description": "$1,100 merit scholarships awarded consecutively across degree progression for superior grade averages.",
+      "published": true,
+      "collections": [
+        "SCHOLARSHIP"
+      ],
+      "basicInfo": [
+        {
+          "id": "bi-1",
+          "label": "Date",
+          "value": "2019-2022"
+        },
+        {
+          "id": "bi-2",
+          "label": "Organization",
+          "value": "Faculty of Urban Planning & UAH"
+        },
+        {
+          "id": "bi-3",
+          "label": "Award",
+          "value": "Top 1% Academic Performance in Degree Program"
+        },
+        {
+          "id": "bi-4",
+          "label": "Link",
+          "value": ""
+        }
+      ],
+      "media": [
+        {
+          "id": "m-1",
+          "name": "project-12.jpg",
+          "dataUrl": "02.Project/project-12.jpg",
+          "isCover": true,
+          "alt": "UAH Scholarship & Top 1% Merit Award",
+          "title": "UAH Scholarship & Top 1% Merit Award"
+        }
+      ],
+      "seo": {
+        "metaTitle": "UAH Scholarship & Top 1% Merit Award",
+        "metaDescription": "$1,100 merit scholarships awarded consecutively across degree progression for superior grade averages.",
+        "slug": "uah-scholarship-top-1-merit-award"
+      },
+      "createdAt": "2026-10-25T11:38:22.463Z",
+      "updatedAt": "2026-10-25T11:38:22.463Z"
+    },
+    {
+      "id": "proj-13",
+      "slug": "dan-tri-former-architecture-valedictorian",
+      "title": "Dan Tri: Former Architecture Valedictorian",
+      "description": "Profile on overcoming obstacles and pursuing fine art & spatial design, bridging high-density planning with human empathy.",
+      "published": true,
+      "collections": [
+        "PRESS FEATURE"
+      ],
+      "basicInfo": [
+        {
+          "id": "bi-1",
+          "label": "Date",
+          "value": "2026"
+        },
+        {
+          "id": "bi-2",
+          "label": "Organization",
+          "value": "Dan Tri News"
+        },
+        {
+          "id": "bi-3",
+          "label": "Award",
+          "value": "National Media Profile"
+        },
+        {
+          "id": "bi-4",
+          "label": "Link",
+          "value": "https://dantri.com.vn/giao-duc/cuu-thu-khoa-kien-truc-tung-suyt-cach-mat-gia-dinh-vi-theo-duoi-hoi-hoa-20260504151503290.htm"
+        }
+      ],
+      "media": [
+        {
+          "id": "m-1",
+          "name": "project-13.jpg",
+          "dataUrl": "02.Project/project-13.jpg",
+          "isCover": true,
+          "alt": "Dan Tri: Former Architecture Valedictorian",
+          "title": "Dan Tri: Former Architecture Valedictorian"
+        }
+      ],
+      "seo": {
+        "metaTitle": "Dan Tri: Former Architecture Valedictorian",
+        "metaDescription": "Profile on overcoming obstacles and pursuing fine art & spatial design, bridging high-density planning with human empathy.",
+        "slug": "dan-tri-former-architecture-valedictorian"
+      },
+      "createdAt": "2026-10-25T11:38:22.463Z",
+      "updatedAt": "2026-10-25T11:38:22.463Z"
+    },
+    {
+      "id": "proj-14",
+      "slug": "sinh-vien-viet-nam-tien-phong-feature",
+      "title": "Sinh Vien Viet Nam - Tien Phong Feature",
+      "description": "Feature story on resilience, civic responsibility, and academic achievements in urban planning and architecture.",
+      "published": true,
+      "collections": [
+        "PRESS FEATURE"
+      ],
+      "basicInfo": [
+        {
+          "id": "bi-1",
+          "label": "Date",
+          "value": "2026"
+        },
+        {
+          "id": "bi-2",
+          "label": "Organization",
+          "value": "Tien Phong / Sinh Vien Viet Nam"
+        },
+        {
+          "id": "bi-3",
+          "label": "Award",
+          "value": "National Media Feature"
+        },
+        {
+          "id": "bi-4",
+          "label": "Link",
+          "value": "https://svvn.tienphong.vn/cuoc-song-cua-nam-sinh-tung-leo-mai-nha-dap-dam-chay-bi-don-la-truong-duoi-hoc-vi-chat-cam-gianh-loat-giai-thuong-lon-post1838655.tpo"
+        }
+      ],
+      "media": [
+        {
+          "id": "m-1",
+          "name": "project-14.jpg",
+          "dataUrl": "02.Project/project-14.jpg",
+          "isCover": true,
+          "alt": "Sinh Vien Viet Nam - Tien Phong Feature",
+          "title": "Sinh Vien Viet Nam - Tien Phong Feature"
+        }
+      ],
+      "seo": {
+        "metaTitle": "Sinh Vien Viet Nam - Tien Phong Feature",
+        "metaDescription": "Feature story on resilience, civic responsibility, and academic achievements in urban planning and architecture.",
+        "slug": "sinh-vien-viet-nam-tien-phong-feature"
+      },
+      "createdAt": "2026-10-25T11:38:22.463Z",
+      "updatedAt": "2026-10-25T11:38:22.463Z"
+    },
+    {
+      "id": "proj-15",
+      "slug": "120-hours-competition-archive",
+      "title": "120 Hours Competition Archive",
+      "description": "Rapid-fire 120-hour experimental studio project addressing unbuilt spatial futures.",
+      "published": true,
+      "collections": [
+        "INTERNATIONAL"
+      ],
+      "basicInfo": [
+        {
+          "id": "bi-1",
+          "label": "Date",
+          "value": "2024"
+        },
+        {
+          "id": "bi-2",
+          "label": "Organization",
+          "value": "120 Hours &middot; Oslo, Norway"
+        },
+        {
+          "id": "bi-3",
+          "label": "Award",
+          "value": "International Architectural Challenge"
+        },
+        {
+          "id": "bi-4",
+          "label": "Link",
+          "value": "https://www.120hours.no/archive"
+        }
+      ],
+      "media": [
+        {
+          "id": "m-1",
+          "name": "project-15.jpg",
+          "dataUrl": "02.Project/project-15.jpg",
+          "isCover": true,
+          "alt": "120 Hours Competition Archive",
+          "title": "120 Hours Competition Archive"
+        }
+      ],
+      "seo": {
+        "metaTitle": "120 Hours Competition Archive",
+        "metaDescription": "Rapid-fire 120-hour experimental studio project addressing unbuilt spatial futures.",
+        "slug": "120-hours-competition-archive"
+      },
+      "createdAt": "2026-10-25T11:38:22.463Z",
+      "updatedAt": "2026-10-25T11:38:22.463Z"
+    },
+    {
+      "id": "proj-16",
+      "slug": "co-founder-vice-president-bull-ascup-uah",
+      "title": "Co-founder & Vice President &bull; ASCUP.UAH",
+      "description": "Organized public spatial lectures, field trips, sketch workshops, and architectural software tutoring for over 400 members.",
+      "published": true,
+      "collections": [
+        "ORGANIZATION"
+      ],
+      "basicInfo": [
+        {
+          "id": "bi-1",
+          "label": "Date",
+          "value": "2021-2023"
+        },
+        {
+          "id": "bi-2",
+          "label": "Organization",
+          "value": "Academic Student Club of Urban Planning Faculty"
+        },
+        {
+          "id": "bi-3",
+          "label": "Award",
+          "value": "Student Academic Club Leadership"
+        },
+        {
+          "id": "bi-4",
+          "label": "Link",
+          "value": ""
+        }
+      ],
+      "media": [
+        {
+          "id": "m-1",
+          "name": "project-16.jpg",
+          "dataUrl": "02.Project/project-16.jpg",
+          "isCover": true,
+          "alt": "Co-founder & Vice President &bull; ASCUP.UAH",
+          "title": "Co-founder & Vice President &bull; ASCUP.UAH"
+        }
+      ],
+      "seo": {
+        "metaTitle": "Co-founder & Vice President &bull; ASCUP.UAH",
+        "metaDescription": "Organized public spatial lectures, field trips, sketch workshops, and architectural software tutoring for over 400 members.",
+        "slug": "co-founder-vice-president-bull-ascup-uah"
+      },
+      "createdAt": "2026-10-25T11:38:22.463Z",
+      "updatedAt": "2026-10-25T11:38:22.463Z"
+    },
+    {
+      "id": "proj-17",
+      "slug": "founder-bull-vn-planning-student-community",
+      "title": "Founder &bull; VN Planning Student Community",
+      "description": "Digital academic community connecting architecture and urban planning undergraduates across Vietnamese universities.",
+      "published": true,
+      "collections": [
+        "COMMUNITY"
+      ],
+      "basicInfo": [
+        {
+          "id": "bi-1",
+          "label": "Date",
+          "value": "2021-2024"
+        },
+        {
+          "id": "bi-2",
+          "label": "Organization",
+          "value": "Urban Planning, Landscape & Design Community - VN"
+        },
+        {
+          "id": "bi-3",
+          "label": "Award",
+          "value": "Nationwide Design Platform"
+        },
+        {
+          "id": "bi-4",
+          "label": "Link",
+          "value": ""
+        }
+      ],
+      "media": [
+        {
+          "id": "m-1",
+          "name": "project-17.jpg",
+          "dataUrl": "02.Project/project-17.jpg",
+          "isCover": true,
+          "alt": "Founder &bull; VN Planning Student Community",
+          "title": "Founder &bull; VN Planning Student Community"
+        }
+      ],
+      "seo": {
+        "metaTitle": "Founder &bull; VN Planning Student Community",
+        "metaDescription": "Digital academic community connecting architecture and urban planning undergraduates across Vietnamese universities.",
+        "slug": "founder-bull-vn-planning-student-community"
+      },
+      "createdAt": "2026-10-25T11:38:22.463Z",
+      "updatedAt": "2026-10-25T11:38:22.463Z"
+    },
+    {
+      "id": "proj-18",
+      "slug": "assistant-hku-uah-studio-workshop",
+      "title": "Assistant: HKU + UAH Studio Workshop",
+      "description": "Field researcher and studio assistant exploring landscape urbanism and amphibious architecture along the Dong Nai basin.",
+      "published": true,
+      "collections": [
+        "WORKSHOP"
+      ],
+      "basicInfo": [
+        {
+          "id": "bi-1",
+          "label": "Date",
+          "value": "10/2022"
+        },
+        {
+          "id": "bi-2",
+          "label": "Organization",
+          "value": "The University of Hong Kong & UAH"
+        },
+        {
+          "id": "bi-3",
+          "label": "Award",
+          "value": "MLA Studio II: Ho Chi Minh City Futures"
+        },
+        {
+          "id": "bi-4",
+          "label": "Link",
+          "value": ""
+        }
+      ],
+      "media": [
+        {
+          "id": "m-1",
+          "name": "project-18.jpg",
+          "dataUrl": "02.Project/project-18.jpg",
+          "isCover": true,
+          "alt": "Assistant: HKU + UAH Studio Workshop",
+          "title": "Assistant: HKU + UAH Studio Workshop"
+        }
+      ],
+      "seo": {
+        "metaTitle": "Assistant: HKU + UAH Studio Workshop",
+        "metaDescription": "Field researcher and studio assistant exploring landscape urbanism and amphibious architecture along the Dong Nai basin.",
+        "slug": "assistant-hku-uah-studio-workshop"
+      },
+      "createdAt": "2026-10-25T11:38:22.463Z",
+      "updatedAt": "2026-10-25T11:38:22.463Z"
+    },
+    {
+      "id": "proj-19",
+      "slug": "vietnam-urban-planning-journal-feature",
+      "title": "Vietnam Urban Planning Journal Feature",
+      "description": "Official feature coverage for Outstanding Graduation Theses of 2023.",
+      "published": true,
+      "collections": [
+        "PUBLICATIONS"
+      ],
+      "basicInfo": [
+        {
+          "id": "bi-1",
+          "label": "Date",
+          "value": "2023"
+        },
+        {
+          "id": "bi-2",
+          "label": "Organization",
+          "value": "Quy Hoach Do Thi Journal"
+        },
+        {
+          "id": "bi-3",
+          "label": "Award",
+          "value": "National Professional Publication"
+        },
+        {
+          "id": "bi-4",
+          "label": "Link",
+          "value": "https://quyhoachdothi.com/le-trao-giai-thuong-do-an-sinh-vien-tot-nghiep-xuat-sac-nam-2023/"
+        }
+      ],
+      "media": [
+        {
+          "id": "m-1",
+          "name": "project-19.jpg",
+          "dataUrl": "02.Project/project-19.jpg",
+          "isCover": true,
+          "alt": "Vietnam Urban Planning Journal Feature",
+          "title": "Vietnam Urban Planning Journal Feature"
+        }
+      ],
+      "seo": {
+        "metaTitle": "Vietnam Urban Planning Journal Feature",
+        "metaDescription": "Official feature coverage for Outstanding Graduation Theses of 2023.",
+        "slug": "vietnam-urban-planning-journal-feature"
+      },
+      "createdAt": "2026-10-25T11:38:22.463Z",
+      "updatedAt": "2026-10-25T11:38:22.463Z"
+    },
+    {
+      "id": "proj-20",
+      "slug": "head-of-program-study-abroad-101",
+      "title": "Head of Program: Study Abroad 101",
+      "description": "Curated webinars mentoring architectural students on graduate school portfolios and international scholarship applications.",
+      "published": true,
+      "collections": [
+        "WEBINAR SERIES"
+      ],
+      "basicInfo": [
+        {
+          "id": "bi-1",
+          "label": "Date",
+          "value": "2021-2022"
+        },
+        {
+          "id": "bi-2",
+          "label": "Organization",
+          "value": "ASCUP & Faculty of Urban Planning"
+        },
+        {
+          "id": "bi-3",
+          "label": "Award",
+          "value": "Academic Orientation Series"
+        },
+        {
+          "id": "bi-4",
+          "label": "Link",
+          "value": ""
+        }
+      ],
+      "media": [
+        {
+          "id": "m-1",
+          "name": "project-20.jpg",
+          "dataUrl": "02.Project/project-20.jpg",
+          "isCover": true,
+          "alt": "Head of Program: Study Abroad 101",
+          "title": "Head of Program: Study Abroad 101"
+        }
+      ],
+      "seo": {
+        "metaTitle": "Head of Program: Study Abroad 101",
+        "metaDescription": "Curated webinars mentoring architectural students on graduate school portfolios and international scholarship applications.",
+        "slug": "head-of-program-study-abroad-101"
+      },
+      "createdAt": "2026-10-25T11:38:22.463Z",
+      "updatedAt": "2026-10-25T11:38:22.463Z"
+    },
+    {
+      "id": "proj-21",
+      "slug": "living-patterns-systemic-spatial-care",
+      "title": "Living Patterns & Systemic Spatial Care",
+      "description": "“Believes that movement—even uncertain and slow—is better than standing still. Focused on listening to spaces, observing human living patterns, and designing with care and long-term systemic impact.”",
+      "published": true,
+      "collections": [
+        "CORE PHILOSOPHY"
+      ],
+      "basicInfo": [
+        {
+          "id": "bi-1",
+          "label": "Date",
+          "value": "2026"
+        },
+        {
+          "id": "bi-2",
+          "label": "Organization",
+          "value": "Baropholio Field Axiom"
+        },
+        {
+          "id": "bi-3",
+          "label": "Award",
+          "value": "Foundational Manifesto"
+        },
+        {
+          "id": "bi-4",
+          "label": "Link",
+          "value": ""
+        }
+      ],
+      "media": [
+        {
+          "id": "m-1",
+          "name": "project-21.jpg",
+          "dataUrl": "02.Project/project-21.jpg",
+          "isCover": true,
+          "alt": "Living Patterns & Systemic Spatial Care",
+          "title": "Living Patterns & Systemic Spatial Care"
+        }
+      ],
+      "seo": {
+        "metaTitle": "Living Patterns & Systemic Spatial Care",
+        "metaDescription": "“Believes that movement—even uncertain and slow—is better than standing still. Focused on listening to spaces, observing human living patterns, and designing with care and long-term systemic impact.”",
+        "slug": "living-patterns-systemic-spatial-care"
+      },
+      "createdAt": "2026-10-25T11:38:22.463Z",
+      "updatedAt": "2026-10-25T11:38:22.463Z"
+    }
+  ],
+  "collections": [
+    "Orange~",
+    "Urban- Architecture- Landscape",
+    "Photography",
+    "Sketch",
+    "Model",
+    "Blog",
+    "Graphic Design",
+    "Branding",
+    "Sustainable Strategy Consulting",
+    "Mapping",
+    "Practice Art"
+  ],
+  "exportedAt": "2026-10-25T11:38:22.463Z"
+}

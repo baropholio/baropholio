@@ -1,0 +1,1610 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>BAROPHOLIO — Bao Hoang Nguyen (Baro Nguyen)</title>
+  <meta name="description" content="Portfolio & Field Notes of Baro Nguyen (Bao Hoang Nguyen). Valedictorian, Urban & Regional Planner, Spatial Designer. Listening to spaces, observing human living patterns.">
+  
+  <!-- Preconnects -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  
+  <!-- Google Fonts: Playfair Display + Inter Tight -->
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&family=Inter+Tight:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+    /* ==========================================================================
+       DESIGN TOKENS & RESET
+       ========================================================================== */
+    :root {
+      --bg: #f2f0ec;
+      --bg-paper: #f7f5f0;
+      --fg: #0d0c0b;
+      --fg-soft: rgba(13, 12, 11, 0.72);
+      --fg-faint: rgba(13, 12, 11, 0.42);
+      --rule: rgba(13, 12, 11, 0.16);
+      --orange-main: #e65100;
+      --orange-grad: linear-gradient(90deg, #e65100 0%, #f57c00 100%);
+      --pad: clamp(16px, 3.2vw, 40px);
+      --ease: cubic-bezier(.22, .61, .36, 1);
+      --serif: "Playfair Display", Georgia, serif;
+      --sans: "Inter Tight", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      --hw: min(60vw, 680px);
+      --persp: 1150px;
+      --tap: 44px;
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      background: var(--bg);
+      color: var(--fg);
+      font-family: var(--sans);
+      font-weight: 400;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      scrollbar-gutter: stable;
+      text-size-adjust: 100%;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--fg);
+      overflow-x: hidden;
+      min-height: 100vh;
+      min-height: 100dvh;
+      overscroll-behavior-y: none;
+    }
+
+    body.locked {
+      overflow: hidden;
+      height: 100vh;
+      height: 100dvh;
+    }
+
+    img {
+      display: block;
+      max-width: 100%;
+      height: auto;
+    }
+
+    button {
+      inherit: font;
+      font-family: inherit;
+      color: inherit;
+      background: none;
+      border: none;
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+      touch-action: manipulation;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    /* Grain Overlay */
+    .grain {
+      position: fixed;
+      inset: -50%;
+      width: 200%;
+      height: 200%;
+      opacity: .18;
+      mix-blend-mode: multiply;
+      pointer-events: none;
+      z-index: 100;
+      background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='140' height='140'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3'/></filter><rect width='140' height='140' filter='url(%23n)' opacity='.5'/></svg>");
+    }
+
+    /* Vignette Softening */
+    .vig {
+      position: fixed;
+      inset: 0;
+      z-index: 12;
+      pointer-events: none;
+      background: radial-gradient(ellipse 88% 92% at 50% 50%, transparent 48%, rgba(242, 240, 236, .4) 80%, rgba(242, 240, 236, .85) 100%);
+      transition: opacity .6s var(--ease);
+    }
+    body.gridview .vig, body.lit .vig {
+      opacity: 0;
+    }
+
+    /* ==========================================================================
+       SPLASH PRELOADER
+       ========================================================================== */
+    #splash {
+      position: fixed;
+      inset: 0;
+      z-index: 250;
+      background: var(--bg);
+      display: grid;
+      place-items: center;
+      align-content: center;
+      gap: 24px;
+      transition: opacity .7s var(--ease), visibility .7s;
+    }
+    #splash.out {
+      opacity: 0;
+      pointer-events: none;
+    }
+    #splash .mark {
+      font-family: var(--serif);
+      font-size: clamp(28px, 4.4vw, 52px);
+      letter-spacing: .02em;
+      color: var(--fg);
+      font-weight: 500;
+      animation: riseIn 1.1s var(--ease) .1s forwards;
+      opacity: 0;
+      text-align: center;
+    }
+    #splash .mark span.orange-dot {
+      display: inline-block;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: var(--orange-grad);
+      margin-left: 6px;
+    }
+    #splash .bar {
+      width: clamp(140px, 20vw, 240px);
+      height: 2px;
+      background: var(--rule);
+      overflow: hidden;
+      position: relative;
+      border-radius: 2px;
+    }
+    #splash .bar s {
+      display: block;
+      height: 100%;
+      width: 100%;
+      background: var(--orange-main);
+      transform: scaleX(0);
+      transform-origin: 0 50%;
+      transition: transform .4s var(--ease);
+    }
+    #splash .tag {
+      font-size: 11px;
+      letter-spacing: .28em;
+      text-transform: uppercase;
+      color: var(--fg-soft);
+      animation: riseIn .9s var(--ease) .4s forwards;
+      opacity: 0;
+    }
+
+    @keyframes riseIn {
+      from { opacity: 0; transform: translateY(12px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ==========================================================================
+       HEADER CHROME
+       ========================================================================== */
+    header.chrome {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 70;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      padding: max(16px, calc(env(safe-area-inset-top, 0px) + 14px)) clamp(16px, 3.4vw, 44px) 14px;
+      background: linear-gradient(to bottom, rgba(242,240,236,.95) 0%, rgba(242,240,236,.7) 70%, rgba(242,240,236,0) 100%);
+      opacity: 0;
+      transition: opacity 1.2s var(--ease) .15s;
+    }
+    body.revealed header.chrome {
+      opacity: 1;
+    }
+
+    .wordmark {
+      font-family: var(--serif);
+      font-size: clamp(20px, 2.2vw, 28px);
+      letter-spacing: -.01em;
+      font-weight: 600;
+      color: var(--fg);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .wordmark-badge {
+      font-family: var(--sans);
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      background: rgba(13,12,11,.06);
+      border: 1px solid var(--rule);
+      padding: 3px 8px;
+      border-radius: 99px;
+      color: var(--fg-soft);
+    }
+
+    .menu-btn {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 5px;
+      min-width: var(--tap);
+      min-height: var(--tap);
+      padding: 8px 0 4px;
+      position: relative;
+      z-index: 95;
+    }
+    .menu-label {
+      font-family: var(--serif);
+      font-size: clamp(14px, 1.3vw, 16px);
+      letter-spacing: .01em;
+      color: var(--fg);
+      transition: opacity .35s var(--ease);
+    }
+    .menu-btn .bars {
+      position: relative;
+      width: clamp(38px, 4vw, 54px);
+      height: 14px;
+    }
+    .menu-btn .bars i {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 50%;
+      height: 1.5px;
+      background: var(--fg);
+      transition: transform .35s var(--ease), width .35s var(--ease);
+    }
+    .menu-btn .bars i:nth-child(1) {
+      transform: translateY(-4px);
+    }
+    .menu-btn .bars i:nth-child(2) {
+      width: 75%;
+      left: auto;
+      right: 0;
+      transform: translateY(4px);
+      background: var(--orange-main);
+    }
+    .menu-btn:hover .bars i:nth-child(2) {
+      width: 100%;
+    }
+
+    /* Menu Open State */
+    body.menu-open .menu-label { opacity: 0; }
+    body.menu-open .bars i:nth-child(1) { transform: translateY(0) rotate(45deg); width: 100%; }
+    body.menu-open .bars i:nth-child(2) { transform: translateY(0) rotate(-45deg); width: 100%; background: var(--fg); }
+
+    /* ==========================================================================
+       PHOTOGRAPHER / OWNER CARD & COLOPHON
+       ========================================================================== */
+    .bio.chrome {
+      position: fixed;
+      left: calc(var(--pad) + env(safe-area-inset-left, 0px));
+      bottom: calc(var(--pad) + env(safe-area-inset-bottom, 0px));
+      z-index: 55;
+      max-width: min(340px, 46vw);
+      opacity: 0;
+      transform: translateY(10px);
+      transition: opacity 1.2s var(--ease) .2s, transform 1.2s var(--ease) .2s;
+    }
+    body.revealed .bio.chrome {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    body.deep .bio.chrome, body.gridview .bio.chrome, body.lit .bio.chrome {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .bio .who {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 12px;
+    }
+    .bio-avatar {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 1px solid var(--rule);
+      background: #e2dfd7;
+      flex-shrink: 0;
+    }
+    .bio .name-box b {
+      font-family: var(--serif);
+      font-size: 18px;
+      font-weight: 500;
+      display: block;
+      line-height: 1.1;
+    }
+    .bio .name-box span {
+      font-size: 12px;
+      color: var(--fg-soft);
+      font-style: italic;
+    }
+    .bio p {
+      font-size: 12.5px;
+      line-height: 1.58;
+      color: var(--fg-soft);
+    }
+
+    .colophon.chrome {
+      position: fixed;
+      right: calc(var(--pad) + env(safe-area-inset-right, 0px));
+      bottom: calc(var(--pad) + env(safe-area-inset-bottom, 0px));
+      z-index: 55;
+      font-size: 12px;
+      color: var(--fg-faint);
+      text-align: right;
+      opacity: 0;
+      transition: opacity 1.2s var(--ease) .2s;
+    }
+    body.revealed .colophon.chrome { opacity: 1; }
+    body.gridview .colophon.chrome, body.lit .colophon.chrome { display: none; }
+
+    /* ==========================================================================
+       SCROLL CUE & GRID BUTTON
+       ========================================================================== */
+    .cue.chrome {
+      position: fixed;
+      left: 50%;
+      bottom: calc(var(--pad) + env(safe-area-inset-bottom, 0px) + 4px);
+      transform: translateX(-50%);
+      z-index: 54;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: .24em;
+      color: var(--fg-faint);
+      white-space: nowrap;
+      opacity: 0;
+      transition: opacity .8s var(--ease);
+    }
+    body.revealed .cue.chrome { opacity: 1; }
+    body.deep .cue.chrome, body.gridview .cue.chrome, body.lit .cue.chrome { opacity: 0; pointer-events: none; }
+
+    .cue s {
+      display: block;
+      width: 44px;
+      height: 1px;
+      background: var(--rule);
+      position: relative;
+      overflow: hidden;
+    }
+    .cue s::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: var(--fg);
+      animation: sweep 2.6s var(--ease) infinite;
+    }
+    @keyframes sweep {
+      0% { transform: translateX(-100%); }
+      50%, 100% { transform: translateX(100%); }
+    }
+
+    .gridbtn {
+      position: fixed;
+      left: calc(var(--pad) + env(safe-area-inset-left, 0px));
+      bottom: calc(var(--pad) + env(safe-area-inset-bottom, 0px));
+      z-index: 60;
+      width: 44px;
+      height: 44px;
+      padding: 8px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4px;
+      opacity: 0;
+      transform: translateY(8px);
+      pointer-events: none;
+      transition: opacity .4s var(--ease), transform .4s var(--ease);
+      border-radius: 6px;
+      background: rgba(242, 240, 236, .85);
+      border: 1px solid var(--rule);
+      backdrop-filter: blur(8px);
+    }
+    body.deep .gridbtn, body.gridview .gridbtn {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+    .gridbtn b {
+      background: var(--fg);
+      border-radius: 1.5px;
+      transition: transform .3s var(--ease), background .3s var(--ease);
+    }
+    .gridbtn:hover b {
+      background: var(--orange-main);
+    }
+    body.gridview .gridbtn b:nth-child(1) { transform: translate(2px, 2px); }
+    body.gridview .gridbtn b:nth-child(4) { transform: translate(-2px, -2px); }
+
+    /* ==========================================================================
+       STAGE & 3D ARCHIVE SPHERE
+       ========================================================================== */
+    #scrolltrack {
+      height: 116vh;
+      pointer-events: none;
+    }
+
+    #stage {
+      position: fixed;
+      inset: 0;
+      z-index: 10;
+      perspective: var(--persp);
+      perspective-origin: 50% 50%;
+      overflow: hidden;
+      touch-action: none;
+    }
+
+    #world {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 0;
+      height: 0;
+      transform-style: preserve-3d;
+      will-change: transform;
+    }
+
+    #orb {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 0;
+      height: 0;
+      transform-style: preserve-3d;
+      opacity: 1;
+      transform: none;
+    }
+
+    #headline {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: var(--hw);
+      margin-left: calc(var(--hw) / -2);
+      text-align: center;
+      font-family: var(--sans);
+      font-weight: 500;
+      font-size: clamp(26px, 3.8vw, 56px);
+      line-height: 1.05;
+      letter-spacing: -.03em;
+      color: var(--fg);
+      pointer-events: none;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+
+    #headline .inner {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      transform: translateY(-50%);
+    }
+
+    #headline span.word {
+      display: inline-block;
+      opacity: 0;
+      transform: translateY(.42em);
+      filter: blur(7px);
+      transition: opacity 1.05s var(--ease), transform 1.15s var(--ease), filter 1.05s var(--ease);
+      transition-delay: calc(.9s + var(--i) * .085s);
+    }
+    body.revealed #headline span.word {
+      opacity: 1;
+      transform: none;
+      filter: blur(0);
+    }
+
+    .quote-badge {
+      display: block;
+      font-family: var(--serif);
+      font-size: clamp(12px, 1.2vw, 15px);
+      font-style: italic;
+      letter-spacing: 0;
+      color: var(--orange-main);
+      margin-bottom: 12px;
+      font-weight: 400;
+    }
+
+    /* 3D Cards */
+    .card {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: var(--cw);
+      height: calc(var(--cw) / 1.4);
+      margin-left: calc(var(--cw) / -2);
+      margin-top: calc(var(--cw) / -2.8);
+      transform-style: preserve-3d;
+      cursor: pointer;
+    }
+    .card.tall {
+      height: calc(var(--cw) * 1.28);
+      margin-top: calc(var(--cw) * -0.64);
+    }
+
+    .card figure {
+      width: 100%;
+      height: 100%;
+      border-radius: 4px;
+      overflow: hidden;
+      background: var(--bg-paper);
+      position: relative;
+      border: 1px solid var(--rule);
+      box-shadow: 0 4px 20px rgba(13,12,11,.08);
+      transition: transform .5s var(--ease);
+    }
+    .card:hover figure {
+      transform: scale(1.05);
+    }
+
+    .card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0;
+      transition: opacity .8s var(--ease);
+    }
+    .card img.in {
+      opacity: 1;
+    }
+
+    .card figure::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgba(242, 240, 236, var(--d, 0));
+      pointer-events: none;
+      border-radius: 4px;
+      transition: background .1s linear;
+    }
+
+    .card-label {
+      position: absolute;
+      bottom: 0;
+      inset-x: 0;
+      padding: 8px 10px;
+      background: linear-gradient(to top, rgba(242,240,236,.95) 0%, rgba(242,240,236,0) 100%);
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--fg);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      opacity: 0.9;
+    }
+
+    /* ==========================================================================
+       FLAT GRID VIEW
+       ========================================================================== */
+    #grid {
+      position: fixed;
+      inset: 0;
+      z-index: 30;
+      overflow-y: auto;
+      padding: calc(var(--pad) * 3) var(--pad) calc(var(--pad) * 3);
+      background: var(--bg);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .6s var(--ease);
+    }
+    body.gridview #grid {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .grid-header {
+      max-width: 1400px;
+      margin: 0 auto 40px;
+      border-bottom: 1px solid var(--rule);
+      padding-bottom: 24px;
+    }
+    .grid-header h2 {
+      font-family: var(--serif);
+      font-size: clamp(28px, 4vw, 48px);
+      font-weight: 500;
+    }
+    .grid-header p {
+      color: var(--fg-soft);
+      font-size: 14px;
+      margin-top: 8px;
+    }
+
+    .rows {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: clamp(14px, 2vw, 24px);
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .grid-item {
+      position: relative;
+      aspect-ratio: 3/2;
+      border-radius: 4px;
+      overflow: hidden;
+      background: var(--bg-paper);
+      border: 1px solid var(--rule);
+      cursor: pointer;
+    }
+    .grid-item.tall { aspect-ratio: 4/5; }
+    .grid-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: .9;
+      transition: transform .7s var(--ease), opacity .7s var(--ease);
+    }
+    .grid-item:hover img {
+      transform: scale(1.05);
+      opacity: 1;
+    }
+
+    .grid-item figcaption {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 20px 16px 14px;
+      background: linear-gradient(to top, rgba(242,240,236,.98) 0%, rgba(242,240,236,.6) 50%, transparent 100%);
+      opacity: 0;
+      transform: translateY(8px);
+      transition: opacity .4s var(--ease), transform .4s var(--ease);
+    }
+    .grid-item:hover figcaption {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .grid-item figcaption h3 {
+      font-family: var(--serif);
+      font-size: 16px;
+      font-weight: 500;
+      color: var(--fg);
+    }
+    .grid-item figcaption p {
+      font-size: 12px;
+      color: var(--fg-soft);
+      margin-top: 2px;
+    }
+
+    /* ==========================================================================
+       LIGHTBOX & DETAIL CARD (FLIP ANIMATED)
+       ========================================================================== */
+    #lit {
+      position: fixed;
+      inset: 0;
+      z-index: 90;
+      display: grid;
+      place-items: center;
+      padding: clamp(50px, 7vh, 80px) var(--pad);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .42s var(--ease);
+    }
+    body.lit #lit {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    #lit .scrim {
+      position: absolute;
+      inset: 0;
+      background: rgba(242, 240, 236, .85);
+      backdrop-filter: blur(12px);
+    }
+
+    .plate {
+      position: relative;
+      z-index: 2;
+      width: min(82vw, 880px, (100vh - 220px) * 1.4);
+      background: var(--bg-paper);
+      border: 1px solid var(--rule);
+      border-radius: 6px;
+      box-shadow: 0 20px 60px rgba(13,12,11,.15);
+      overflow: hidden;
+      padding: clamp(20px, 3vw, 36px);
+      transition: transform .62s var(--ease), opacity .42s var(--ease);
+    }
+
+    .shot-box {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16/9;
+      border-radius: 4px;
+      overflow: hidden;
+      background: #e5e2d9;
+      border: 1px solid var(--rule);
+    }
+    .shot-box img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .lit-close {
+      position: absolute;
+      top: 14px;
+      right: 14px;
+      z-index: 5;
+      font-size: 12px;
+      font-weight: 500;
+      padding: 8px 16px;
+      border-radius: 99px;
+      background: rgba(242, 240, 236, .9);
+      border: 1px solid var(--rule);
+      color: var(--fg);
+      backdrop-filter: blur(4px);
+      transition: background .3s var(--ease), border-color .3s var(--ease);
+    }
+    .lit-close:hover {
+      background: var(--fg);
+      color: var(--bg);
+    }
+
+    .meta-content {
+      display: grid;
+      grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+      gap: clamp(20px, 3vw, 40px);
+      padding-top: 24px;
+    }
+    .meta-left h2 {
+      font-family: var(--serif);
+      font-size: clamp(22px, 2.2vw, 32px);
+      font-weight: 500;
+      line-height: 1.1;
+      margin-bottom: 8px;
+    }
+    .meta-left .where {
+      font-size: 13px;
+      color: var(--orange-main);
+      font-weight: 500;
+    }
+    .meta-right .note {
+      font-size: 14px;
+      line-height: 1.6;
+      color: var(--fg-soft);
+    }
+
+    /* ==========================================================================
+       FULLSCREEN MENU
+       ========================================================================== */
+    #menu {
+      position: fixed;
+      inset: 0;
+      z-index: 80;
+      background: var(--bg-paper);
+      display: grid;
+      place-items: center;
+      clip-path: inset(0 0 100% 0);
+      transition: clip-path .75s var(--ease);
+      pointer-events: none;
+    }
+    body.menu-open #menu {
+      clip-path: inset(0);
+      pointer-events: auto;
+    }
+
+    #menu nav {
+      display: flex;
+      flex-direction: column;
+      gap: clamp(8px, 1.8vw, 18px);
+      text-align: center;
+    }
+    #menu nav a {
+      font-family: var(--serif);
+      font-size: clamp(32px, 7vw, 72px);
+      line-height: 1.1;
+      color: var(--fg);
+      opacity: .6;
+      transition: opacity .3s var(--ease), transform .3s var(--ease);
+    }
+    #menu nav a:hover {
+      opacity: 1;
+      transform: scale(1.03);
+      color: var(--orange-main);
+    }
+
+    #menu .addr {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: calc(var(--pad) + env(safe-area-inset-bottom, 0px));
+      text-align: center;
+      font-size: 13px;
+      color: var(--fg-faint);
+      line-height: 1.7;
+    }
+
+    /* ==========================================================================
+       FOOTER / NEWSLETTER SECTION
+       ========================================================================== */
+    .contact-bar {
+      margin-top: 40px;
+      padding-top: 32px;
+      border-top: 1px solid var(--rule);
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    .subscribe-box {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .subscribe-box input[type="email"] {
+      border: none;
+      border-bottom: 1px solid var(--fg);
+      background: transparent;
+      padding: 10px 0;
+      font-family: var(--serif);
+      font-size: clamp(14px, 1.5vw, 18px);
+      color: var(--fg);
+      flex: 1;
+      min-width: 240px;
+      outline: none;
+    }
+    .subscribe-box button.btn-send {
+      padding: 10px 28px;
+      border: 1px solid var(--fg);
+      font-family: var(--serif);
+      font-size: 15px;
+      transition: background .3s var(--ease), color .3s var(--ease);
+    }
+    .subscribe-box button.btn-send:hover {
+      background: var(--fg);
+      color: var(--bg);
+    }
+
+    .social-links {
+      display: flex;
+      gap: 16px;
+      align-items: center;
+      margin-top: 10px;
+    }
+    .social-links a {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--fg-soft);
+      border-bottom: 1px solid transparent;
+      transition: border-color .3s, color .3s;
+    }
+    .social-links a:hover {
+      color: var(--orange-main);
+      border-color: var(--orange-main);
+    }
+
+    /* ==========================================================================
+       CUSTOM CURSOR
+       ========================================================================== */
+    #dot {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 18px;
+      height: 18px;
+      margin: -9px 0 0 -9px;
+      border-radius: 50%;
+      background: var(--orange-main);
+      opacity: .8;
+      pointer-events: none;
+      z-index: 300;
+      transition: width .35s var(--ease), height .35s var(--ease), margin .35s var(--ease), background .35s var(--ease);
+    }
+    #dot.wide {
+      width: 50px;
+      height: 50px;
+      margin: -25px 0 0 -25px;
+      background: rgba(230, 81, 0, 0.15);
+      border: 1px solid var(--orange-main);
+    }
+    @media (hover: none), (pointer: coarse) {
+      #dot { display: none; }
+    }
+
+    /* ==========================================================================
+       RESPONSIVE BREAKPOINTS
+       ========================================================================== */
+    @media (max-width: 900px) {
+      .bio.chrome { max-width: min(420px, 100vw - 32px); }
+      .meta-content { grid-template-columns: 1fr; gap: 14px; padding-top: 16px; }
+      .plate { width: min(92vw, (100dvh - 200px) * 1.4); }
+      #grid { padding-top: calc(var(--pad) * 2.8); }
+    }
+
+    @media (max-width: 768px) {
+      .colophon.chrome { display: none; }
+      #headline { font-size: clamp(22px, 6vw, 34px); }
+      #menu nav a { font-size: clamp(28px, 9vw, 52px); }
+    }
+
+    @media (max-width: 640px) {
+      :root { --hw: min(84vw, 360px); --pad: clamp(12px, 4vw, 18px); }
+      .bio-avatar { width: 40px; height: 40px; }
+      .bio .name-box b { font-size: 16px; }
+      .bio p { font-size: 11.5px; line-height: 1.5; }
+      .cue.chrome { display: none; }
+      #grid .rows { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 10px; }
+      .grid-item figcaption { opacity: 1; transform: none; background: linear-gradient(to top, rgba(242,240,236,.95) 0%, transparent 100%); padding: 10px; }
+      .grid-item figcaption h3 { font-size: 13px; }
+    }
+
+    @media (max-width: 380px) {
+      :root { --hw: min(88vw, 320px); }
+      .bio p { display: none; }
+      #grid .rows { grid-template-columns: 1fr; }
+    }
+
+    @media (max-height: 520px) and (orientation: landscape) {
+      .bio.chrome, .colophon.chrome, .cue.chrome { display: none; }
+      #headline { font-size: clamp(18px, 4.8vh, 28px); }
+      .plate { width: min(58vw, (100dvh - 80px) * 1.5); }
+    }
+  </style>
+</head>
+<body class="locked">
+
+  <!-- Grain Texture Overlay -->
+  <div class="grain"></div>
+  <div class="vig"></div>
+
+  <!-- Splash / Preloader -->
+  <div id="splash">
+    <div class="mark">BAROPHOLIO<span class="orange-dot"></span></div>
+    <div class="bar"><s id="bar"></s></div>
+    <div class="tag">Bao Hoang Nguyen &middot; Portfolio</div>
+  </div>
+
+  <!-- Header Chrome -->
+  <header class="chrome">
+    <a href="#" class="wordmark" aria-label="Baropholio Home">
+      BAROPHOLIO <span class="wordmark-badge">2026 Archive</span>
+    </a>
+    <button id="menuBtn" class="menu-btn" aria-expanded="false" aria-controls="menu" aria-label="Open menu">
+      <span class="menu-label">Menu</span>
+      <span class="bars"><i></i><i></i></span>
+    </button>
+  </header>
+
+  <!-- Owner Bio Card -->
+  <div class="bio chrome">
+    <div class="who">
+      <div class="bio-avatar" style="background:#d9d5cb; display:flex; align-items:center; justify-content:center; font-weight:bold; font-family:var(--serif); color:var(--orange-main);">BN</div>
+      <div class="name-box">
+        <b>Bao Hoang Nguyen</b>
+        <span>Baro Nguyen &middot; /ˈbærəʊ ŋwiəʔən/</span>
+      </div>
+    </div>
+    <p>
+      Grew up in a highland region. Believes that movement—even uncertain and slow—is better than standing still. Focused on listening to spaces and long-term systemic impact.
+    </p>
+  </div>
+
+  <!-- Colophon -->
+  <div class="colophon chrome">
+    Valedictorian Urban Planning '23<br>
+    Ho Chi Minh City, Vietnam
+  </div>
+
+  <!-- Grid Toggle Button -->
+  <button id="gridBtn" class="gridbtn" aria-label="Toggle grid view">
+    <b></b><b></b><b></b><b></b>
+  </button>
+
+  <!-- Scroll Cue -->
+  <div class="cue chrome">
+    <s></s> Drag to rotate sphere
+  </div>
+
+  <!-- Scrolltrack container -->
+  <div id="scrolltrack"></div>
+
+  <!-- 3D Stage -->
+  <div id="stage">
+    <div id="world">
+      <div id="orb"></div>
+      <h1 id="headline">
+        <span class="inner">
+          <span class="quote-badge">“THE BEST TIME TO PLANT AN ORANGE TREE WAS TEN YEARS AGO. THE SECOND BEST TIME IS NOW.”</span>
+          ORANGE GROVE
+        </span>
+      </h1>
+    </div>
+  </div>
+
+  <!-- Flat Grid View -->
+  <div id="grid">
+    <div class="grid-header">
+      <h2>Selected Works & Achievements</h2>
+      <p>A chronological archive of spatial research, urban planning awards, leadership, and public features.</p>
+    </div>
+    <div class="rows" id="gridRows"></div>
+  </div>
+
+  <!-- Lightbox Card -->
+  <div id="lit">
+    <div class="scrim" id="scrim"></div>
+    <div class="plate" id="plate">
+      <button class="lit-close" id="litClose" data-close>Close &times;</button>
+      <div class="shot-box">
+        <div id="litImgBox" style="width:100%; height:100%; background: linear-gradient(135deg, #e65100 0%, #263238 100%); display:flex; align-items:center; justify-content:center; color:#fff; font-family:var(--serif); font-size:24px; padding:20px; text-align:center;"></div>
+      </div>
+      <div class="meta-content">
+        <div class="meta-left">
+          <h2 id="litTitle">Achievement Title</h2>
+          <div class="where" id="litWhere">Organization / Year</div>
+        </div>
+        <div class="meta-right">
+          <div class="note" id="litNote">Description and details will appear here.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Fullscreen Menu -->
+  <div id="menu">
+    <nav>
+      <a href="#" data-grid>The Archive</a>
+      <a href="#" id="menuBio">About Baro</a>
+      <a href="#" id="menuPress">Publications & Press</a>
+      <a href="#" id="menuContact" data-close-menu>Contact</a>
+    </nav>
+    <div class="addr">
+      Bao Hoang Nguyen (Baro Nguyen)<br>
+      Academic & Spatial Urban Designer &middot; UAH Alumni<br>
+      <a href="mailto:contact@baronguyen.com" style="text-decoration:underline; color:var(--fg);">contact@baronguyen.com</a>
+    </div>
+  </div>
+
+  <!-- Contact & Footer Section (inside grid bottom) -->
+
+  <!-- Custom Cursor -->
+  <div id="dot"></div>
+
+  <!-- ==========================================================================
+       MAIN JAVASCRIPT
+       ========================================================================== -->
+  <script>
+    (function () {
+      "use strict";
+
+      /* DATA RECORD (Baro Nguyen Portfolio Information) */
+      var ACHIEVEMENTS = [
+        {
+          date: "2024",
+          title: "1st Prize - Final Project Urban Planning",
+          where: "VUPDA (Vietnam Urban Planning & Dev Association)",
+          note: "1st Prize - Excellent Under-Graduation Final Project On Urban and Rural Planning 2023.",
+          bg: "linear-gradient(135deg, #e65100, #ffb74d)",
+          code: "1ST"
+        },
+        {
+          date: "12/2023",
+          title: "Third Prize in Loa Thanh Awards (35th Ed.)",
+          where: "Vietnam Association of Architects (VAA)",
+          note: "Outstanding graduation project award for architecture and construction students nationwide. 1/5000 Scale Zoning Plan for Ha Tu Urban Area, Ha Long City.",
+          bg: "linear-gradient(135deg, #2e7d32, #81c784)",
+          code: "LOA THANH"
+        },
+        {
+          date: "11/2023",
+          title: "Valedictorian of Regional & Urban Planning",
+          where: "University of Architecture Ho Chi Minh City (UAH)",
+          note: "Cumulative CGPA: 3.67/4.00 (Superior). Ranking: 1/240 (Faculty), 2/1500 (University).",
+          bg: "linear-gradient(135deg, #1565c0, #64b5f6)",
+          code: "VALEDICTORIAN"
+        },
+        {
+          date: "2021-2022",
+          title: "UAH Student Ambassador",
+          where: "University of Architecture Ho Chi Minh City",
+          note: "Represented the university in academic forums, student outreach, and official international delegations.",
+          bg: "linear-gradient(135deg, #6a1b9a, #ba68c8)",
+          code: "AMBASSADOR"
+        },
+        {
+          date: "2019-2022",
+          title: "UAH's Scholarship & Top 1% Award",
+          where: "UAH Faculty of Urban Planning",
+          note: "$1,100 merit award given to top 1% academic performers across the entire degree program.",
+          bg: "linear-gradient(135deg, #d84315, #ff8a65)",
+          code: "TOP 1%"
+        },
+        {
+          date: "12/2022",
+          title: "Top 12 & Top 2 Popular Vote",
+          where: "Will to Live Center / VUPDA / Level Architect",
+          note: "Architectural and Landscape Design Competition for the 'Will to Live' Center for disabled youth.",
+          bg: "linear-gradient(135deg, #00838f, #4dd0e1)",
+          code: "WILL TO LIVE"
+        },
+        {
+          date: "10/2022",
+          title: "Merit Award - General Planning HCMC 2040",
+          where: "Department of Planning and Architecture HCMC",
+          note: "Conceptual Design Competition of General Planning for Ho Chi Minh City to 2040, vision to 2060.",
+          bg: "linear-gradient(135deg, #424242, #9e9e9e)",
+          code: "HCMC 2040"
+        },
+        {
+          date: "09/2022",
+          title: "Second Prize in Urban Void 2022",
+          where: "University of Shiga Prefecture & UAH & HUTECH",
+          note: "International collaborative research & design competition on activating leftover urban spaces.",
+          bg: "linear-gradient(135deg, #ef6c00, #ffb74d)",
+          code: "URBAN VOID"
+        },
+        {
+          date: "12/2021",
+          title: "Best Visual Presentation Award",
+          where: "Tokyo City University / UTM / UAH",
+          note: "Urban Design with/after COVID-19 Pandemic workshop & international design showcase.",
+          bg: "linear-gradient(135deg, #c2185b, #f06292)",
+          code: "VISUAL"
+        },
+        {
+          date: "10/2021",
+          title: "Top 20 Smart City + 2021",
+          where: "ISCM, UEH & 15 Global Universities / UNESCO",
+          note: "Smart city solutions for resilience and sustainable urban growth across Southeast Asia.",
+          bg: "linear-gradient(135deg, #00695c, #4db6ac)",
+          code: "SMART CITY"
+        },
+        {
+          date: "01/2021",
+          title: "Best Design Award - Zero Carbon Emission",
+          where: "UNESCO UNITWIN / Handong Global Univ / UEH / UAH",
+          note: "Smart Design City for Zero Carbon Emission initiative.",
+          bg: "linear-gradient(135deg, #2e7d32, #a5d6a7)",
+          code: "ZERO CARBON"
+        },
+        {
+          date: "2021-2023",
+          title: "Co-founder & Vice President",
+          where: "ASCUP.UAH (Academic Club of Urban Planning)",
+          note: "Founded student research club, organized webinars, academic mentoring, and regional workshops.",
+          bg: "linear-gradient(135deg, #37474f, #78909c)",
+          code: "ASCUP"
+        },
+        {
+          date: "2021-2024",
+          title: "Founder of Urban Planning Community VN",
+          where: "Landscape & Design Student Community VN",
+          note: "Created a nationwide knowledge sharing platform connecting over 10,000 architecture & planning students.",
+          bg: "linear-gradient(135deg, #e65100, #ff9800)",
+          code: "COMMUNITY"
+        },
+        {
+          date: "10/2022",
+          title: "Assistant - MLA Studio II: HCMC Futures",
+          where: "HKU (Hong Kong University) + UAH Workshop",
+          note: "Facilitated cross-border field research on water urbanism in Saigon.",
+          bg: "linear-gradient(135deg, #283593, #7986cb)",
+          code: "HKU WORKSHOP"
+        },
+        {
+          date: "2026",
+          title: "Dan Tri News Feature",
+          where: "Dan Tri Press",
+          note: "'Former architecture valedictorian who nearly fell out with his family for pursuing art'.",
+          bg: "linear-gradient(135deg, #880e4f, #ec407a)",
+          code: "DAN TRI"
+        },
+        {
+          date: "2026",
+          title: "Sinh Vien Viet Nam Feature",
+          where: "Tien Phong Press",
+          note: "Feature story on perseverance, climbing rooftops to put out fires, and achieving top academic honors.",
+          bg: "linear-gradient(135deg, #4a148c, #ab47bc)",
+          code: "TIEN PHONG"
+        },
+        {
+          date: "2023",
+          title: "Vietnam Urban Planning Journal Feature",
+          where: "Quy Hoach Do Thi",
+          note: "Award Ceremony coverage for Outstanding Graduation Thesis of 2023.",
+          bg: "linear-gradient(135deg, #004d40, #26a69a)",
+          code: "JOURNAL"
+        },
+        {
+          date: "2024",
+          title: "120 Hours Archive & Competition",
+          where: "120 Hours Architecture Norway",
+          note: "Selected entrant in international 120-hour experimental design challenge.",
+          bg: "linear-gradient(135deg, #bf360c, #ff7043)",
+          code: "120 HOURS"
+        },
+        {
+          date: "2021-2022",
+          title: "Head of Program - Study Abroad 101",
+          where: "UAH Academic Series",
+          note: "Led webinar series helping Vietnamese design students apply for international graduate programs.",
+          bg: "linear-gradient(135deg, #1b5e20, #66bb6a)",
+          code: "WEBINAR"
+        },
+        {
+          date: "09/2021",
+          title: "The Urban Progress of Saigon - Cho Lon",
+          where: "Historical Urbanism Series",
+          note: "Organized public lecture analyzing spatial evolution of Saigon from 19th to 20th centuries.",
+          bg: "linear-gradient(135deg, #4e342e, #8d6e63)",
+          code: "SAIGON HISTORY"
+        },
+        {
+          date: "2021-2022",
+          title: "Prize for Student with 5 Good Criteria",
+          where: "University Level Honor",
+          note: "Awarded for excellence in Ethics, Academics, Physicality, Volunteerism, and Integration.",
+          bg: "linear-gradient(135deg, #f57f17, #ffee58)",
+          code: "5 GOOD"
+        }
+      ];
+
+      /* APP STATE */
+      var N = ACHIEVEMENTS.length;
+      var GA = Math.PI * (3 - Math.sqrt(5));
+      var rotX = -4, rotY = 0;
+      var dragX = 0, dragY = 0;
+      var velX = 0, velY = 0;
+      var isDragging = false;
+      var startPX = 0, startPY = 0;
+      var focusedIdx = -1;
+
+      /* DOM ELEMENTS */
+      var splash = document.getElementById("splash");
+      var bar = document.getElementById("bar");
+      var stage = document.getElementById("stage");
+      var world = document.getElementById("world");
+      var orb = document.getElementById("orb");
+      var headline = document.getElementById("headline");
+      var grid = document.getElementById("grid");
+      var gridRows = document.getElementById("gridRows");
+      var gridBtn = document.getElementById("gridBtn");
+      var lit = document.getElementById("lit");
+      var scrim = document.getElementById("scrim");
+      var plate = document.getElementById("plate");
+      var litClose = document.getElementById("litClose");
+      var menu = document.getElementById("menu");
+      var menuBtn = document.getElementById("menuBtn");
+      var dot = document.getElementById("dot");
+
+      /* PRELOADER SIMULATION */
+      var loadProgress = 0;
+      var loadTimer = setInterval(function () {
+        loadProgress += 0.15 + Math.random() * 0.25;
+        if (loadProgress >= 1) {
+          loadProgress = 1;
+          clearInterval(loadTimer);
+          setTimeout(initApp, 400);
+        }
+        bar.style.transform = "scaleX(" + loadProgress + ")";
+      }, 100);
+
+      function initApp() {
+        splash.classList.add("out");
+        document.body.classList.remove("locked");
+        document.body.classList.add("revealed");
+        setTimeout(function() { splash.remove(); }, 800);
+      }
+
+      /* SPHERE GEOMETRY & SPATIAL CALCULATIONS */
+      var cardEls = [];
+      var cardCoords = [];
+
+      function calculateSphereRadius() {
+        var w = window.innerWidth;
+        var h = window.innerHeight;
+        var hr = w <= 380 ? 0.38 : (w <= 640 ? 0.42 : 0.46);
+        var wr = w <= 380 ? 0.48 : (w <= 640 ? 0.52 : 0.58);
+        var floor = w <= 380 ? 108 : (w <= 640 ? 120 : 155);
+        return Math.max(floor, Math.min(460, h * hr, w * wr));
+      }
+
+      function buildSphere() {
+        orb.innerHTML = "";
+        cardEls = [];
+        cardCoords = [];
+
+        var R = calculateSphereRadius();
+        var scale = window.innerWidth <= 380 ? 0.44 : (window.innerWidth <= 640 ? 0.46 : 0.48);
+        var cw = Math.round(Math.max(80, R * scale));
+
+        document.documentElement.style.setProperty("--cw", cw + "px");
+
+        for (var i = 0; i < N; i++) {
+          var y = 1 - (i / (N - 1)) * 2;
+          var rad = Math.sqrt(Math.max(0, 1 - y * y));
+          var theta = i * GA;
+          var x = Math.cos(theta) * rad;
+          var z = Math.sin(theta) * rad;
+
+          var lat = Math.asin(y) * (180 / Math.PI);
+          var lon = Math.atan2(x, z) * (180 / Math.PI);
+
+          cardCoords.push({ x: x, y: y, z: z, lat: lat, lon: lon });
+
+          var card = document.createElement("div");
+          card.className = "card" + (i % 7 === 0 ? " tall" : "");
+          card.setAttribute("data-idx", i);
+
+          var item = ACHIEVEMENTS[i];
+          card.innerHTML =
+            '<figure>' +
+              '<div style="width:100%;height:100%;background:' + item.bg + ';display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff;padding:12px;text-align:center;">' +
+                '<span style="font-size:10px;letter-spacing:2px;opacity:0.8;">' + item.date + '</span>' +
+                '<strong style="font-family:var(--serif);font-size:14px;margin-top:4px;">' + item.code + '</strong>' +
+              '</div>' +
+              '<div class="card-label">' + item.title + '</div>' +
+            '</figure>';
+
+          var transformStr = 'translate3d(' + (x * R) + 'px, ' + (-y * R) + 'px, ' + (z * R) + 'px) rotateY(' + lon + 'deg) rotateX(' + lat + 'deg)';
+          card.style.transform = transformStr;
+
+          orb.appendChild(card);
+          cardEls.push(card);
+
+          // Add in state to image/figure
+          setTimeout((function(el){
+            return function(){ el.querySelector('figure').classList.add('in'); };
+          })(card), 200 + i * 40);
+        }
+      }
+
+      /* POPULATE FLAT GRID */
+      function buildGrid() {
+        gridRows.innerHTML = "";
+        for (var i = 0; i < N; i++) {
+          var item = ACHIEVEMENTS[i];
+          var fig = document.createElement("figure");
+          fig.className = "grid-item" + (i % 7 === 0 ? " tall" : "");
+          fig.setAttribute("data-idx", i);
+          fig.innerHTML =
+            '<div style="width:100%;height:100%;background:' + item.bg + ';display:flex;align-items:center;justify-content:center;color:#fff;font-family:var(--serif);font-size:22px;font-weight:bold;">' + item.code + '</div>' +
+            '<figcaption>' +
+              '<h3>' + item.title + '</h3>' +
+              '<p>' + item.where + ' &middot; ' + item.date + '</p>' +
+            '</figcaption>';
+          gridRows.appendChild(fig);
+        }
+
+        // Append Newsletter / Footer inside grid scroll context
+        var contactSec = document.createElement("div");
+        contactSec.className = "contact-bar";
+        contactSec.innerHTML =
+          '<div style="font-family:var(--serif); font-size:clamp(22px, 3vw, 36px); font-weight:500;">' +
+            'Like a little fish rising from the depths of the ocean to catch a glimpse of the fading sunlight.' +
+          '</div>' +
+          '<div class="subscribe-box">' +
+            '<input type="email" placeholder="You hand me a tangerine, I trade you an orange/email *" />' +
+            '<button class="btn-send">Send</button>' +
+          '</div>' +
+          '<div class="social-links">' +
+            '<a href="https://www.instagram.com" target="_blank">Instagram</a>' +
+            '<a href="https://www.linkedin.com" target="_blank">LinkedIn</a>' +
+            '<a href="https://www.behance.net" target="_blank">Behance</a>' +
+          '</div>';
+        grid.appendChild(contactSec);
+      }
+
+      /* RENDER & ANIMATION LOOP */
+      function renderLoop() {
+        if (!isDragging && !document.body.classList.contains("lit")) {
+          dragX += velX;
+          dragY += velY;
+          velX *= 0.94;
+          velY *= 0.94;
+          if (Math.abs(velX) < 0.001) velX = 0;
+          if (Math.abs(velY) < 0.001) velY = 0;
+        }
+
+        var sy = rotY + dragX;
+        var sx = Math.max(-32, Math.min(32, rotX + dragY));
+
+        // Scroll dolly progress
+        var scrollP = Math.min(1, window.scrollY / (window.innerHeight * 0.16));
+        var R = calculateSphereRadius();
+        var camZ = scrollP * Math.min(64, R * 0.12);
+
+        world.style.transform = "translateZ(" + camZ + "px) rotateY(" + sy + "deg) rotateX(" + sx + "deg)";
+
+        // HEADLINE TRANSFORM MANIFESTO: Centering counter-rotation
+        headline.style.transform = "rotateX(" + (-sx) + "deg) rotateY(" + (-sy) + "deg) translateZ(" + (R * 0.62) + "px)";
+        headline.style.opacity = Math.max(0, 1 - scrollP * 0.55);
+
+        // Update lighting depth per card
+        for (var i = 0; i < N; i++) {
+          var c = cardCoords[i];
+          // Cosine depth projection
+          var radY = sy * (Math.PI / 180);
+          var radX = sx * (Math.PI / 180);
+          var zf = c.z * Math.cos(radY) - c.x * Math.sin(radY);
+          var base = 0.14 + 0.86 * Math.pow((zf + 1) / 2, 0.85);
+          var dim = (1 - scrollP * 1.6) * (1 - base);
+          dim = Math.max(0, Math.min(1, dim));
+          cardEls[i].style.setProperty("--d", dim.toFixed(2));
+        }
+
+        requestAnimationFrame(renderLoop);
+      }
+
+      /* INTERACTION: DRAG & ROTATE SPHERE */
+      function onPointerDown(e) {
+        if (document.body.classList.contains("lit") || document.body.classList.contains("gridview")) return;
+        isDragging = true;
+        startPX = e.clientX || (e.touches && e.touches[0].clientX);
+        startPY = e.clientY || (e.touches && e.touches[0].clientY);
+        velX = 0;
+        velY = 0;
+      }
+
+      function onPointerMove(e) {
+        if (!isDragging) return;
+        var px = e.clientX || (e.touches && e.touches[0].clientX);
+        var py = e.clientY || (e.touches && e.touches[0].clientY);
+
+        var dx = px - startPX;
+        var dy = py - startPY;
+
+        velX = dx * 0.12;
+        velY = -dy * 0.12;
+
+        startPX = px;
+        startPY = py;
+      }
+
+      function onPointerUp() {
+        isDragging = false;
+      }
+
+      /* LIGHTBOX OPEN / CLOSE WITH FLIP */
+      function openLightbox(idx, sourceEl) {
+        focusedIdx = idx;
+        var item = ACHIEVEMENTS[idx];
+
+        document.getElementById("litTitle").textContent = item.title;
+        document.getElementById("litWhere").textContent = item.where + " (" + item.date + ")";
+        document.getElementById("litNote").textContent = item.note;
+
+        var box = document.getElementById("litImgBox");
+        box.style.background = item.bg;
+        box.textContent = item.title;
+
+        document.body.classList.add("lit");
+
+        // FLIP Animation
+        if (sourceEl) {
+          var rect = sourceEl.getBoundingClientRect();
+          var plateRect = plate.getBoundingClientRect();
+
+          var dx = rect.left + rect.width / 2 - (plateRect.left + plateRect.width / 2);
+          var dy = rect.top + rect.height / 2 - (plateRect.top + plateRect.height / 2);
+          var scale = Math.max(0.1, rect.width / plateRect.width);
+
+          plate.style.transition = "none";
+          plate.style.transform = "translate(" + dx + "px, " + dy + "px) scale(" + scale + ")";
+          plate.style.opacity = "0";
+
+          requestAnimationFrame(function () {
+            plate.style.transition = "transform 0.55s var(--ease), opacity 0.4s var(--ease)";
+            plate.style.transform = "none";
+            plate.style.opacity = "1";
+          });
+        }
+      }
+
+      function closeLightbox() {
+        document.body.classList.remove("lit");
+        focusedIdx = -1;
+      }
+
+      /* EVENT LISTENERS */
+      window.addEventListener("pointerdown", onPointerDown);
+      window.addEventListener("pointermove", onPointerMove);
+      window.addEventListener("pointerup", onPointerUp);
+
+      // Card clicks
+      stage.addEventListener("click", function (e) {
+        var card = e.target.closest(".card");
+        if (card) {
+          var idx = parseInt(card.getAttribute("data-idx"), 10);
+          openLightbox(idx, card);
+        }
+      });
+
+      grid.addEventListener("click", function (e) {
+        var item = e.target.closest(".grid-item");
+        if (item) {
+          var idx = parseInt(item.getAttribute("data-idx"), 10);
+          openLightbox(idx, item);
+        }
+      });
+
+      scrim.addEventListener("click", closeLightbox);
+      litClose.addEventListener("click", closeLightbox);
+
+      // Grid toggle button
+      gridBtn.addEventListener("click", function () {
+        document.body.classList.toggle("gridview");
+      });
+
+      // Menu Toggle
+      menuBtn.addEventListener("click", function () {
+        var isOpen = document.body.classList.toggle("menu-open");
+        menuBtn.setAttribute("aria-expanded", isOpen ? "true" : "false");
+      });
+
+      // Menu Links
+      document.querySelectorAll("[data-grid]").forEach(function (el) {
+        el.addEventListener("click", function (e) {
+          e.preventDefault();
+          document.body.classList.remove("menu-open");
+          document.body.classList.add("gridview");
+        });
+      });
+
+      document.querySelectorAll("[data-close-menu]").forEach(function (el) {
+        el.addEventListener("click", function (e) {
+          e.preventDefault();
+          document.body.classList.remove("menu-open");
+        });
+      });
+
+      document.getElementById("menuBio").addEventListener("click", function(e) {
+        e.preventDefault();
+        document.body.classList.remove("menu-open");
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+
+      document.getElementById("menuPress").addEventListener("click", function(e) {
+        e.preventDefault();
+        document.body.classList.remove("menu-open");
+        document.body.classList.add("gridview");
+      });
+
+      // Keyboard Esc
+      window.addEventListener("keydown", function (e) {
+        if (e.key === "Escape") {
+          if (document.body.classList.contains("lit")) closeLightbox();
+          else if (document.body.classList.contains("menu-open")) document.body.classList.remove("menu-open");
+          else if (document.body.classList.contains("gridview")) document.body.classList.remove("gridview");
+        }
+      });
+
+      // Custom Cursor tracking
+      window.addEventListener("pointermove", function (e) {
+        dot.style.transform = "translate3d(" + e.clientX + "px, " + e.clientY + "px, 0)";
+      });
+
+      document.addEventListener("mouseover", function (e) {
+        if (e.target.closest("a, button, .card, .grid-item")) {
+          dot.classList.add("wide");
+        } else {
+          dot.classList.remove("wide");
+        }
+      });
+
+      // Resize Listener
+      window.addEventListener("resize", function () {
+        buildSphere();
+      });
+
+      /* INITIAL BUILD */
+      buildSphere();
+      buildGrid();
+      requestAnimationFrame(renderLoop);
+
+    })();
+  </script>
+</body>
+</html>

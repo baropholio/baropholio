@@ -1,0 +1,4820 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>BAROPHOLIO &mdash; Spatial Design &amp; Urban Planning Archive</title>
+  <meta name="description" content="Spatial design, urban planning archive, and field notes. Listening to spaces, observing human living patterns.">
+  
+  <!-- Preconnects -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  
+  <!-- Google Fonts: Space Grotesk (Harvard GSD Gothic equivalent) + Epilogue + Newsreader -->
+  <link href="https://fonts.googleapis.com/css2?family=Epilogue:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@300;400;500;600;700&display=swap&subset=vietnamese,latin-ext" rel="stylesheet">
+
+  <style>
+    /* ==========================================================================
+       DESIGN TOKENS & PALETTE (HARVARD GSD TYPOGRAPHY & CAST & RENDER PALETTE)
+       ========================================================================== */
+    :root {
+      --bg: #f2f0ec;
+      --shade: #f2f0ec;
+      --fg: #0d0c0b;
+      --fg-soft: rgba(13, 12, 11, 0.64);
+      --fg-faint: rgba(13, 12, 11, 0.42);
+      --rule: rgba(13, 12, 11, 0.16);
+      --pill-bg: #0a0908;
+      --pill-fg: #ffffff;
+      --accent: #c46210;
+      --pad: clamp(16px, 3vw, 36px);
+      --ease: cubic-bezier(.22, .61, .36, 1);
+      --serif: "Space Grotesk", "Epilogue", -apple-system, sans-serif;
+      --sans: "Space Grotesk", "Epilogue", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      --editorial: "Newsreader", Georgia, serif;
+      --hw: min(58vw, 660px);
+      --persp: 1150px;
+      --tap: 44px;
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      background: var(--bg);
+      color: var(--fg);
+      font-family: var(--sans);
+      font-weight: 400;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      scrollbar-gutter: stable;
+      text-size-adjust: 100%;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--fg);
+      overflow-x: hidden;
+      min-height: 100vh;
+      min-height: 100dvh;
+      overscroll-behavior-y: none;
+    }
+
+    body.locked {
+      overflow: hidden;
+      height: 100vh;
+      height: 100dvh;
+    }
+
+    img, svg {
+      display: block;
+      max-width: 100%;
+      height: auto;
+    }
+
+    button {
+      font-family: inherit;
+      color: inherit;
+      background: none;
+      border: none;
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+      touch-action: manipulation;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    /* Grain Overlay */
+    .grain {
+      position: fixed;
+      inset: -50%;
+      width: 200%;
+      height: 200%;
+      opacity: .14;
+      mix-blend-mode: multiply;
+      pointer-events: none;
+      z-index: 100;
+      background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='140' height='140'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3'/></filter><rect width='140' height='140' filter='url(%23n)' opacity='.5'/></svg>");
+    }
+
+    /* Vignette Softening */
+    .vig {
+      position: fixed;
+      inset: 0;
+      z-index: 12;
+      pointer-events: none;
+      background: radial-gradient(ellipse 88% 92% at 50% 50%, transparent 48%, rgba(242, 240, 236, .45) 80%, rgba(242, 240, 236, .9) 100%);
+      transition: opacity .6s var(--ease);
+    }
+    body.gridview .vig, body.lit .vig, body.about-open .vig {
+      opacity: 0;
+    }
+
+    /* ==========================================================================
+       SPLASH PRELOADER & MATRIX CODE TO LOGO ANIMATION
+       ========================================================================== */
+    #splash {
+      position: fixed;
+      inset: 0;
+      z-index: 250;
+      background: #0d0c0b;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      transition: opacity .8s var(--ease), visibility .8s;
+    }
+    #splash.out {
+      opacity: 0;
+      pointer-events: none;
+      visibility: hidden;
+    }
+
+    /* Ambient background flash during transition */
+    #splash .splash-bg-flash {
+      position: absolute;
+      inset: 0;
+      background: #0d0c0b;
+      z-index: 1;
+      pointer-events: none;
+      transition: background-color .65s ease;
+    }
+
+    #splashCanvas {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 2;
+      display: block;
+    }
+
+    .splash-content {
+      position: relative;
+      z-index: 3;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      pointer-events: none;
+    }
+
+    /* Resolved Clean Logo Container */
+    .splash-resolved {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 20px;
+      opacity: 0;
+      transform: scale(0.92);
+      transition: opacity .6s var(--ease), transform .6s var(--ease);
+    }
+    .splash-resolved.show {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    .splash-logo {
+      width: clamp(52px, 6vw, 76px);
+      height: clamp(52px, 6vw, 76px);
+      object-fit: contain;
+      filter: drop-shadow(0 4px 14px rgba(0, 0, 0, 0.25));
+    }
+    #splash .mark {
+      font-family: var(--serif);
+      font-size: clamp(28px, 4.2vw, 46px);
+      letter-spacing: .02em;
+      color: #0d0c0b;
+      font-weight: 600;
+      text-align: center;
+      line-height: 1;
+      transition: color .5s ease;
+    }
+    #splash .mark span.accent-dot {
+      display: inline-block;
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--accent);
+      margin-left: 6px;
+    }
+
+    /* Palette Loading Bar */
+    #splash .bar-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+      opacity: 0;
+      transform: translateY(10px);
+      transition: opacity .6s var(--ease), transform .6s var(--ease);
+    }
+    #splash .bar-wrap.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    #splash .bar {
+      width: clamp(200px, 28vw, 360px);
+      height: 6px;
+      border-radius: 99px;
+      background: rgba(13, 12, 11, 0.12);
+      overflow: hidden;
+      position: relative;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+    }
+    .splash-palette-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transform: scaleX(0);
+      transform-origin: 0 50%;
+      transition: transform .2s linear;
+    }
+    #splash .tag {
+      font-size: 11px;
+      letter-spacing: .28em;
+      text-transform: uppercase;
+      color: var(--fg-soft);
+      font-weight: 500;
+    }
+
+    @keyframes riseIn {
+      from { opacity: 0; transform: translateY(12px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ==========================================================================
+       HEADER CHROME
+       ========================================================================== */
+    header.chrome {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 70;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: max(16px, calc(env(safe-area-inset-top, 0px) + 14px)) clamp(16px, 3.4vw, 44px) 14px;
+      background: linear-gradient(to bottom, rgba(242,240,236,.96) 0%, rgba(242,240,236,.75) 72%, rgba(242,240,236,0) 100%);
+      opacity: 0;
+      transition: opacity 1.2s var(--ease) .15s;
+    }
+    body.revealed header.chrome {
+      opacity: 1;
+    }
+
+    .brand-group {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 6px;
+    }
+
+    .wordmark {
+      font-family: var(--serif);
+      font-size: clamp(20px, 2.2vw, 28px);
+      letter-spacing: -.02em;
+      font-weight: 500;
+      color: var(--fg);
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      cursor: pointer;
+      text-decoration: none;
+    }
+    .brand-logo-mark {
+      height: clamp(26px, 2.6vw, 34px);
+      width: auto;
+      object-fit: contain;
+      display: inline-block;
+      vertical-align: middle;
+      transition: transform .4s var(--ease);
+      filter: drop-shadow(0 1px 3px rgba(13, 12, 11, 0.08));
+    }
+    .wordmark:hover .brand-logo-mark {
+      transform: scale(1.08) rotate(3deg);
+    }
+    .wordmark-badge {
+      font-family: var(--sans);
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      background: rgba(13,12,11,.05);
+      border: 1px solid var(--rule);
+      padding: 3px 8px;
+      border-radius: 99px;
+      color: var(--fg-soft);
+    }
+
+    /* Subtle Palette Bar Revealing from Left to Right */
+    .palette-bar-track {
+      width: clamp(140px, 15vw, 210px);
+      height: 4.5px;
+      border-radius: 99px;
+      overflow: hidden;
+      background: rgba(13, 12, 11, 0.06);
+      position: relative;
+      box-shadow: inset 0 1px 2px rgba(0,0,0,0.05);
+      cursor: pointer;
+    }
+    .palette-bar-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      /* Smooth reveal from left to right */
+      clip-path: inset(0 100% 0 0);
+      transition: clip-path 1.9s cubic-bezier(0.16, 1, 0.3, 1) 0.55s, filter .3s ease;
+    }
+    body.revealed .palette-bar-img {
+      clip-path: inset(0 0% 0 0);
+    }
+    .palette-bar-track:hover .palette-bar-img {
+      filter: brightness(1.1) contrast(1.05);
+    }
+
+    .header-nav {
+      display: flex;
+      align-items: center;
+      gap: clamp(14px, 2.2vw, 28px);
+    }
+    .header-nav a.nav-link {
+      font-size: 13.5px;
+      font-weight: 400;
+      letter-spacing: -.005em;
+      color: var(--fg);
+      opacity: .8;
+      transition: opacity .3s var(--ease);
+    }
+    .header-nav a.nav-link:hover {
+      opacity: 1;
+    }
+
+    .pill-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      height: 36px;
+      padding: 0 18px;
+      border-radius: 999px;
+      background: var(--pill-bg);
+      color: var(--pill-fg);
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: -.005em;
+      border: 1px solid rgba(10,9,8,.12);
+      box-shadow: 0 1px 0 rgba(255,255,255,.10) inset;
+      -webkit-text-fill-color: var(--pill-fg);
+      transition: transform .3s var(--ease), background .3s var(--ease);
+      cursor: pointer;
+    }
+    .pill-btn:hover {
+      transform: translateY(-1.5px);
+      background: #000;
+    }
+
+    /* â”€â”€ Unified Close Icon Button (grid, book, about, menu) â”€â”€ */
+    .grid-close-btn,
+    .book-close-btn,
+    .about-close-btn,
+    .menu-close-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      border: 1px solid var(--rule);
+      background: transparent;
+      color: var(--fg);
+      cursor: pointer;
+      transition:
+        background .25s ease,
+        border-color .25s ease,
+        transform .25s ease,
+        color .25s ease;
+      flex-shrink: 0;
+    }
+    .grid-close-btn:hover,
+    .book-close-btn:hover,
+    .about-close-btn:hover,
+    .menu-close-btn:hover {
+      background: var(--fg);
+      color: var(--bg);
+      border-color: var(--fg);
+      transform: rotate(90deg);
+    }
+    .grid-close-btn svg,
+    .book-close-btn svg,
+    .about-close-btn svg,
+    .menu-close-btn svg {
+      pointer-events: none;
+    }
+
+    .menu-btn {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 5px;
+      min-width: var(--tap);
+      min-height: var(--tap);
+      padding: 8px 0 4px;
+      position: relative;
+      z-index: 95;
+    }
+    .menu-btn .bars {
+      position: relative;
+      width: clamp(34px, 3.6vw, 48px);
+      height: 14px;
+    }
+    .menu-btn .bars i {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 50%;
+      height: 1.5px;
+      background: var(--fg);
+      transition: transform .35s var(--ease), width .35s var(--ease);
+    }
+    .menu-btn .bars i:nth-child(1) {
+      transform: translateY(-4px);
+    }
+    .menu-btn .bars i:nth-child(2) {
+      width: 72%;
+      left: auto;
+      right: 0;
+      transform: translateY(4px);
+      background: var(--accent);
+    }
+    .menu-btn:hover .bars i:nth-child(2) {
+      width: 100%;
+    }
+
+    /* Menu Open State */
+    body.menu-open .menu-btn .bars i:nth-child(1) { transform: translateY(0) rotate(45deg); width: 100%; }
+    body.menu-open .menu-btn .bars i:nth-child(2) { transform: translateY(0) rotate(-45deg); width: 100%; background: var(--fg); }
+
+    /* ==========================================================================
+       BOTTOM CHROME (COLOPHON & CONTROLS)
+       ========================================================================== */
+    .colophon.chrome,
+    .cue.chrome {
+      display: none !important;
+    }
+    body.revealed .cue.chrome { opacity: 1; }
+    body.gridview .cue.chrome, body.lit .cue.chrome, body.about-open .cue.chrome { opacity: 0; pointer-events: none; }
+
+    .cue s {
+      display: block;
+      width: 40px;
+      height: 1px;
+      background: var(--rule);
+      position: relative;
+      overflow: hidden;
+    }
+    .cue s::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: var(--fg);
+      animation: sweep 2.6s var(--ease) infinite;
+    }
+    @keyframes sweep {
+      0% { transform: translateX(-100%); }
+      50%, 100% { transform: translateX(100%); }
+    }
+
+    .gridbtn {
+      position: fixed;
+      left: calc(var(--pad) + env(safe-area-inset-left, 0px));
+      bottom: calc(var(--pad) + env(safe-area-inset-bottom, 0px));
+      z-index: 60;
+      width: 42px;
+      height: 42px;
+      padding: 7px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4px;
+      opacity: 0;
+      transform: translateY(8px);
+      pointer-events: none;
+      transition: opacity .4s var(--ease), transform .4s var(--ease);
+      border-radius: 6px;
+      background: rgba(242, 240, 236, .88);
+      border: 1px solid var(--rule);
+      backdrop-filter: blur(8px);
+    }
+    body.revealed .gridbtn {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+    body.lit .gridbtn, body.about-open .gridbtn {
+      opacity: 0;
+      pointer-events: none;
+    }
+    .gridbtn b {
+      background: var(--fg);
+      border-radius: 1px;
+      transition: transform .3s var(--ease), background .3s var(--ease);
+    }
+    .gridbtn:hover b {
+      background: var(--accent);
+    }
+    body.gridview .gridbtn b:nth-child(1) { transform: translate(2.5px, 2.5px); }
+    body.gridview .gridbtn b:nth-child(4) { transform: translate(-2.5px, -2.5px); }
+
+    /* ==========================================================================
+       3D STAGE & ORB ARCHIVE
+       ========================================================================== */
+    #scrolltrack {
+      height: 116vh;
+      pointer-events: none;
+    }
+
+    #stage {
+      position: fixed;
+      inset: 0;
+      z-index: 10;
+      perspective: var(--persp);
+      perspective-origin: 50% 50%;
+      overflow: hidden;
+      touch-action: none;
+      transition: opacity .6s var(--ease), filter .6s var(--ease);
+    }
+    body.gridview #stage {
+      opacity: 0;
+      filter: blur(12px);
+      pointer-events: none;
+    }
+
+    #world {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 0;
+      height: 0;
+      transform-style: preserve-3d;
+      will-change: transform;
+    }
+
+    #orb {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 0;
+      height: 0;
+      transform-style: preserve-3d;
+      opacity: 1;
+      transform: none;
+    }
+
+    #headline {
+      display: none;
+    }
+
+    #headline .inner {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      transform: translateY(-50%);
+    }
+
+    #headline .quote-badge {
+      display: block;
+      font-family: var(--sans);
+      font-size: clamp(10px, 0.95vw, 12px);
+      letter-spacing: .22em;
+      text-transform: uppercase;
+      font-weight: 500;
+      color: var(--fg-soft);
+      margin-bottom: 12px;
+    }
+
+    #headline .word {
+      display: inline-block;
+      opacity: 0;
+      transform: translateY(.42em);
+      filter: blur(6px);
+      transition: opacity 1.05s var(--ease), transform 1.15s var(--ease), filter 1.05s var(--ease);
+    }
+    body.revealed #headline .word {
+      opacity: 1;
+      transform: none;
+      filter: blur(0);
+      transition-delay: calc(.8s + var(--i) * .085s);
+    }
+
+    /* Cards in 3D Sphere */
+    .card {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: var(--cw);
+      cursor: pointer;
+      transform-style: preserve-3d;
+      will-change: transform, opacity;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .card figure {
+      width: 100%;
+      height: 100%;
+      border-radius: 4px;
+      overflow: hidden;
+      background: #e6e3dc;
+      border: 1px solid rgba(13, 12, 11, 0.12);
+      box-shadow: 0 4px 16px rgba(13, 12, 11, 0.06);
+      position: relative;
+      transition: transform .4s var(--ease), box-shadow .4s var(--ease);
+    }
+    .card:hover figure {
+      transform: scale(1.045);
+      box-shadow: 0 12px 30px rgba(13, 12, 11, 0.12);
+      border-color: rgba(13, 12, 11, 0.35);
+    }
+
+    /* Card Background Image & Canvas */
+    .card-bg-img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: 1;
+      transition: transform .5s var(--ease), opacity .3s ease;
+      opacity: 1;
+      filter: contrast(1.02);
+    }
+    .card:hover .card-bg-img {
+      transform: scale(1.06);
+    }
+
+    /* Card Artwork Interior: Pure image default, hover reveals clean project info */
+    .card-canvas {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 12px;
+      color: var(--fg);
+      background: linear-gradient(180deg, rgba(13,12,11,0) 30%, rgba(13,12,11,0.78) 100%);
+      position: relative;
+      z-index: 2;
+      opacity: 0;
+      transition: opacity .32s ease;
+      pointer-events: none;
+    }
+    .card:hover .card-canvas {
+      opacity: 1;
+    }
+    .card-sphere-info {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+    .card-canvas .cat-tag {
+      font-size: 8px;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+      font-weight: 700;
+      color: var(--accent);
+    }
+    .card-canvas .mid-title {
+      font-family: var(--serif);
+      font-size: clamp(11px, 1.25vw, 13px);
+      line-height: 1.25;
+      font-weight: 500;
+      color: #ffffff;
+      display: -webkit-box;
+      line-clamp: 2;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    .card-canvas .bot-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      font-family: var(--sans);
+      font-size: 8px;
+      letter-spacing: .08em;
+      color: rgba(255, 255, 255, 0.55);
+      margin-top: 4px;
+    }
+
+    /* Depth wash */
+    .card figure::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgba(242, 240, 236, var(--d, 0));
+      border-radius: 4px;
+      pointer-events: none;
+      transition: background .2s ease;
+    }
+
+    /* Reel Mode Card Caption (Inspired by Editorial Strip) */
+    .card-reel-caption {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: -32px;
+      display: flex;
+      align-items: baseline;
+      gap: 6px;
+      font-family: var(--sans);
+      font-size: 11px;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      color: var(--fg);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      opacity: 0;
+      transform: translateY(-4px);
+      transition: opacity .4s ease, transform .4s ease;
+      pointer-events: none;
+    }
+    .card-reel-caption .reel-idx {
+      font-weight: 600;
+      color: var(--accent);
+    }
+    .card-reel-caption .reel-title {
+      font-weight: 500;
+      color: var(--fg);
+    }
+    .card-reel-caption .reel-cat {
+      font-size: 9.5px;
+      color: var(--fg-faint);
+    }
+
+    body.reel-mode .card-reel-caption {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    body.reel-mode .sphere-canvas {
+      opacity: 0;
+      pointer-events: none;
+    }
+    body.reel-mode .card figure {
+      box-shadow: 0 16px 44px rgba(13, 12, 11, 0.12);
+      border-color: rgba(13, 12, 11, 0.22);
+    }
+    body.reel-mode .card-bg-img {
+      opacity: 1;
+    }
+
+    /* Bottom Mode Switcher Pill (Inspired by the Reference Image) */
+    .bottom-mode-pill {
+      position: fixed;
+      left: 50%;
+      bottom: calc(var(--pad) + env(safe-area-inset-bottom, 0px) - 2px);
+      transform: translateX(-50%);
+      z-index: 65;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 5px 14px;
+      border-radius: 999px;
+      background: rgba(250, 248, 245, 0.94);
+      border: 1px solid var(--rule);
+      box-shadow: 0 4px 18px rgba(13, 12, 11, 0.08);
+      backdrop-filter: blur(10px);
+      opacity: 0;
+      transition: opacity 1s var(--ease) .3s, transform .4s var(--ease);
+    }
+    body.revealed .bottom-mode-pill {
+      opacity: 1;
+    }
+    body.gridview .bottom-mode-pill, body.lit .bottom-mode-pill, body.about-open .bottom-mode-pill {
+      opacity: 0;
+      pointer-events: none;
+    }
+    .mode-tab-btn {
+      font-size: 11px;
+      font-family: var(--sans);
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      font-weight: 500;
+      color: var(--fg-soft);
+      padding: 5px 12px;
+      border-radius: 999px;
+      transition: color .25s ease, background .25s ease;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .mode-tab-btn:hover {
+      color: var(--fg);
+    }
+    .mode-tab-btn.active {
+      color: #fff;
+      background: var(--pill-bg);
+    }
+    .mode-tab-btn .tab-dot {
+      display: inline-block;
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: var(--accent);
+    }
+    .mode-tab-sep {
+      color: var(--rule);
+      font-size: 11px;
+    }
+
+    /* ==========================================================================
+       FLAT GRID VIEW (#grid)
+       ========================================================================== */
+    #grid {
+      position: fixed;
+      inset: 0;
+      z-index: 20;
+      overflow-y: auto;
+      background: var(--bg);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .5s var(--ease);
+      padding: calc(var(--pad) * 3) var(--pad) calc(var(--pad) * 4);
+    }
+    body.gridview #grid {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .grid-container {
+      max-width: 1480px;
+      margin: 0 auto;
+    }
+    .grid-header {
+      margin-bottom: clamp(24px, 4vw, 48px);
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--rule);
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: 16px;
+    }
+    .grid-header h2 {
+      font-family: var(--serif);
+      font-size: clamp(26px, 3.6vw, 44px);
+      font-weight: 500;
+      letter-spacing: -.01em;
+    }
+    .grid-header p {
+      font-size: 13px;
+      color: var(--fg-soft);
+      max-width: 52ch;
+    }
+
+    .grid-rows {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: clamp(10px, 1.5vw, 18px);
+    }
+
+    /* â”€â”€ Square image-cover card â”€â”€ */
+    .grid-card {
+      position: relative;
+      aspect-ratio: 1 / 1;
+      border-radius: 6px;
+      overflow: hidden;
+      cursor: pointer;
+      background: #1a1715;
+      /* Random floating & pulsing animation via CSS variables */
+      animation: cardFloat var(--float-dur, 4.2s) ease-in-out infinite var(--float-delay, 0s);
+      transition:
+        transform .45s cubic-bezier(.22,.61,.36,1),
+        box-shadow .45s cubic-bezier(.22,.61,.36,1);
+      will-change: transform;
+    }
+
+    @keyframes cardFloat {
+      0%, 100% {
+        transform: translateY(0px) scale(1);
+      }
+      33% {
+        transform: translateY(calc(var(--float-y, -7px) * 0.5)) scale(var(--float-scale-1, 1.025));
+      }
+      66% {
+        transform: translateY(var(--float-y, -8px)) scale(var(--float-scale-2, 0.985));
+      }
+    }
+
+    /* hover: pause float and scale up slightly, show project info */
+    .grid-card:hover {
+      animation-play-state: paused;
+      transform: translateY(-4px) scale(1.06) !important;
+      box-shadow: 0 20px 42px rgba(13,12,11,.22);
+      z-index: 5;
+    }
+
+    /* scroll-shrink state: co láº¡i báº±ng 1/5 (scale 0.2) khi lÄƒn chuá»™t, quÃ¡ trÃ¬nh co dÃ£n cá»±c ká»³ mÆ°á»£t mÃ  */
+    .grid-card.scrolling {
+      animation-play-state: paused;
+      transform: scale(0.2) !important;
+      box-shadow: none !important;
+      opacity: 0.9;
+      transition: transform .55s cubic-bezier(.16, 1, .3, 1), opacity .55s ease !important;
+    }
+    .grid-card.scrolling:hover {
+      transform: scale(0.2) !important;
+    }
+
+    /* Cover image fills the square completely */
+    .grid-card-thumb-wrap {
+      position: absolute;
+      inset: 0;
+      background: #2a2520;
+    }
+    .grid-card-thumb {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform .5s cubic-bezier(.22,.61,.36,1);
+    }
+    .grid-card:hover .grid-card-thumb {
+      transform: scale(1.08);
+    }
+
+    /* Dark gradient overlay: áº¨N khi bÃ¬nh thÆ°á»ng, CHá»ˆ HIá»†N KHI HOVER */
+    .grid-card-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        to bottom,
+        rgba(13,12,11,.1) 15%,
+        rgba(13,12,11,.85) 100%
+      );
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity .32s ease, visibility .32s ease;
+      pointer-events: none;
+    }
+    .grid-card:hover .grid-card-overlay {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    /* Text layer: áº¨N BÃŒNH THÆ¯á»œNG, ÄÆ¯A CHUá»˜T VÃ€O Má»šI HIá»†N RA */
+    .grid-card-info {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      padding: 14px 16px;
+      color: #fff;
+      pointer-events: none;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(8px);
+      transition: opacity .32s var(--ease), transform .32s var(--ease), visibility .32s ease;
+    }
+    .grid-card:hover .grid-card-info {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+
+    .grid-card-info .cat-label {
+      font-size: 8.5px;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+      color: var(--accent);
+      font-weight: 700;
+      margin-bottom: 4px;
+      display: block;
+    }
+    .grid-card-info .card-title {
+      font-size: 12px;
+      font-weight: 500;
+      font-family: var(--serif);
+      line-height: 1.35;
+      color: rgba(255,255,255,.95);
+    }
+    .grid-card-info .card-index {
+      font-size: 9px;
+      letter-spacing: .15em;
+      color: rgba(255,255,255,.5);
+      margin-top: 5px;
+      display: block;
+    }
+
+    /* Fallback: no image placeholder */
+    .grid-card-placeholder {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #1a1715 0%, #2e2822 100%);
+    }
+    .grid-card-placeholder .ph-cat {
+      font-size: 9px;
+      letter-spacing: .26em;
+      text-transform: uppercase;
+      color: var(--accent);
+      text-align: center;
+      padding: 0 12px;
+      opacity: 0;
+      transition: opacity .3s ease;
+    }
+    .grid-card:hover .grid-card-placeholder .ph-cat {
+      opacity: 1;
+    }
+
+    /* ==========================================================================
+       3D ARCHITECTURAL MONOGRAPH BOOK SPREAD (#bookModal)
+       - Two square 1:1 pages side by side forming a 2:1 open book spread
+       - Left page: Strictly project information (text only)
+       - Right page: Strictly visual photography / architectural drawing
+       - Realistic 3D ambient shadow & center spine gutter on minimal white background
+       ========================================================================== */
+    #bookModal {
+      position: fixed;
+      inset: 0;
+      z-index: 140;
+      background: #ffffff;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: clamp(16px, 3vh, 36px) clamp(16px, 3vw, 40px);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .45s cubic-bezier(.22, .61, .36, 1);
+      overflow: hidden;
+    }
+    body.book-open #bookModal {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .book-modal-scrim {
+      position: absolute;
+      inset: 0;
+      background: #ffffff;
+      z-index: 1;
+    }
+
+    /* Top Minimalist Header Bar */
+    .book-top-bar {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 30;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: clamp(14px, 2.4vw, 24px) clamp(20px, 3.5vw, 48px);
+      border-bottom: 1px solid rgba(13, 12, 11, 0.08);
+      background: rgba(255, 255, 255, 0.94);
+      backdrop-filter: blur(8px);
+    }
+    .book-archive-indicator {
+      font-family: var(--sans);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: #0d0c0b;
+    }
+    .book-index-counter {
+      font-family: var(--sans);
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: rgba(13, 12, 11, 0.45);
+      margin-left: 12px;
+      padding-left: 12px;
+      border-left: 1px solid rgba(13, 12, 11, 0.15);
+    }
+    /* book-close-btn styles handled by unified close icon system above */
+
+    /* Side Nav Turn Arrows */
+    .book-turn-arrow {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 35;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: #ffffff;
+      border: 1px solid rgba(13, 12, 11, 0.14);
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #0d0c0b;
+      transition: transform .25s ease, background-color .25s ease, color .25s ease, box-shadow .25s ease;
+    }
+    .book-turn-prev {
+      left: clamp(10px, 2vw, 32px);
+    }
+    .book-turn-next {
+      right: clamp(10px, 2vw, 32px);
+    }
+    .book-turn-arrow:hover {
+      background: #0d0c0b;
+      color: #ffffff;
+      transform: translateY(-50%) scale(1.08);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.16);
+    }
+
+    /* Mobile Page Switcher Tabs (Only below 768px) */
+    .book-mobile-tabs {
+      display: none;
+      position: absolute;
+      top: 58px;
+      z-index: 30;
+      gap: 6px;
+      background: rgba(13, 12, 11, 0.05);
+      padding: 3px;
+      border-radius: 999px;
+    }
+    .book-mob-tab {
+      background: transparent;
+      border: none;
+      padding: 5px 14px;
+      border-radius: 999px;
+      font-family: var(--sans);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: rgba(13, 12, 11, 0.6);
+      cursor: pointer;
+      transition: all .2s ease;
+    }
+    .book-mob-tab.active {
+      background: #0d0c0b;
+      color: #ffffff;
+    }
+
+    /* 3D Book Stage & Stack Viewport (Accordion Book Concept) */
+    .book-stage {
+      position: relative;
+      z-index: 10;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      perspective: 1500px;
+      margin-top: 16px;
+    }
+
+    /* Stack Wings: Left & Right Fanned Out Book Pages like Accordion 3D Deck */
+    .book-stack-wing {
+      position: absolute;
+      top: 50%;
+      width: clamp(200px, 32vw, 420px);
+      aspect-ratio: 1 / 1;
+      border-radius: 6px;
+      background: #faf8f5;
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.22);
+      pointer-events: auto;
+      cursor: pointer;
+      overflow: hidden;
+      transform-style: preserve-3d;
+      transition: transform .6s cubic-bezier(0.25, 1, 0.5, 1), opacity .5s ease, filter .5s ease;
+      z-index: 5;
+    }
+    .book-stack-wing img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .book-stack-left {
+      left: 50%;
+      transform: translateY(-50%) translateX(-148%) translateZ(-90px) rotateY(44deg) scale(0.86);
+      opacity: 0.72;
+      filter: brightness(0.88);
+    }
+    .book-stack-left:hover {
+      opacity: 0.95;
+      transform: translateY(-50%) translateX(-140%) translateZ(-40px) rotateY(36deg) scale(0.9);
+      filter: brightness(1);
+    }
+    .book-stack-right {
+      left: 50%;
+      transform: translateY(-50%) translateX(48%) translateZ(-90px) rotateY(-44deg) scale(0.86);
+      opacity: 0.72;
+      filter: brightness(0.88);
+    }
+    .book-stack-right:hover {
+      opacity: 0.95;
+      transform: translateY(-50%) translateX(40%) translateZ(-40px) rotateY(-36deg) scale(0.9);
+      filter: brightness(1);
+    }
+    @media (max-width: 900px) {
+      .book-stack-wing { display: none !important; }
+    }
+
+    /* The Open Book Spread: Exactly 2:1 Ratio (2 Side-by-Side 1:1 Square Pages) */
+    .book-spread {
+      display: flex;
+      width: min(92vw, calc((82vh - 54px) * 2), 1140px);
+      aspect-ratio: 2 / 1;
+      position: relative;
+      background: #faf8f5;
+      border-radius: 6px;
+      box-shadow:
+        0 42px 95px -20px rgba(13, 12, 11, 0.35),
+        0 20px 45px -10px rgba(13, 12, 11, 0.18),
+        0 0 1px rgba(0, 0, 0, 0.3);
+      transform-style: preserve-3d;
+      transition: transform .65s cubic-bezier(0.25, 1, 0.5, 1), opacity .5s ease;
+      z-index: 20;
+    }
+    body:not(.book-open) .book-spread {
+      transform: scale(0.82) translateY(32px) rotateX(12deg);
+      opacity: 0;
+    }
+    body.book-open .book-spread {
+      transform: scale(1) translateY(0) rotateX(4deg);
+      opacity: 1;
+    }
+
+    /* Common Page Architecture */
+    .book-page {
+      width: 50%;
+      height: 100%;
+      aspect-ratio: 1 / 1;
+      position: relative;
+      overflow: hidden;
+      transform-style: preserve-3d;
+      transition: transform .7s cubic-bezier(0.25, 1, 0.5, 1);
+    }
+
+    /* LEFT PAGE: Square 1:1, STRICTLY PROJECT TEXT ONLY */
+    .book-page-left {
+      background: #faf8f5;
+      border-top-left-radius: 6px;
+      border-bottom-left-radius: 6px;
+      border-left: 2px solid #e8e4db;
+      box-shadow: -4px 0 0 -1px #dcd7cc, -8px 0 0 -2px #cfc9be;
+      transform-origin: right center;
+      transform: rotateY(9deg);
+    }
+    body:not(.book-open) .book-page-left {
+      transform: rotateY(-36deg);
+    }
+    body.book-open .book-page-left {
+      transform: rotateY(9deg);
+    }
+
+    .page-content-wrapper {
+      padding: clamp(28px, 4.2vw, 48px);
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      gap: 16px;
+      box-sizing: border-box;
+      position: relative;
+      z-index: 5;
+    }
+
+    /* Running Head */
+    .page-running-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-family: var(--sans);
+      font-size: 8.5px;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: #f15805;
+      padding-bottom: 6px;
+      border-bottom: 1px solid rgba(13, 12, 11, 0.08);
+      margin-bottom: 4px;
+    }
+    .running-date {
+      color: rgba(13, 12, 11, 0.4);
+      font-weight: 500;
+    }
+
+    /* Project Title: Bold Grotesque, prominent and legible */
+    .page-title {
+      font-family: var(--sans);
+      font-size: clamp(20px, 2.4vw, 30px);
+      font-weight: 800;
+      line-height: 1.15;
+      letter-spacing: -0.025em;
+      color: #0d0c0b;
+      margin: 0;
+      text-transform: uppercase;
+    }
+
+    /* Group 1: Metadata Cluster (Compact, delicate, refined) */
+    .page-metadata-block {
+      display: flex;
+      flex-direction: column;
+      gap: 3.5px;
+      padding: 10px 0;
+      border-top: 1px dashed rgba(13, 12, 11, 0.12);
+      border-bottom: 1px dashed rgba(13, 12, 11, 0.12);
+      margin: 2px 0;
+    }
+    .meta-field {
+      display: flex;
+      font-size: 9px;
+      line-height: 1.4;
+    }
+    .meta-label {
+      width: 82px;
+      flex-shrink: 0;
+      font-family: var(--sans);
+      font-size: 8px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: rgba(13, 12, 11, 0.42);
+    }
+    .meta-value {
+      font-family: var(--sans);
+      color: rgba(13, 12, 11, 0.88);
+      font-weight: 500;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    /* Group 2: Editorial Narrative Body (Small, elegant architectural font) */
+    .page-editorial-text {
+      font-family: var(--sans);
+      font-size: clamp(9.5px, 0.85vw, 11px);
+      line-height: 1.65;
+      color: rgba(13, 12, 11, 0.72);
+      flex: 1;
+      overflow-y: auto;
+      padding-right: 6px;
+      margin: 0;
+    }
+
+    /* Group 3: Archive Publication Link */
+    .page-action-row {
+      margin: 0;
+      padding-top: 4px;
+    }
+    .page-archive-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-family: var(--sans);
+      font-size: 8.5px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: #f15805;
+      text-decoration: none;
+      border-bottom: 1px solid #f15805;
+      padding-bottom: 2px;
+      transition: opacity .2s ease;
+    }
+    .page-archive-link:hover {
+      opacity: 0.7;
+    }
+
+    /* Bottom Folio */
+    .page-folio-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-family: var(--sans);
+      font-size: 8px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: rgba(13, 12, 11, 0.38);
+      padding-top: 8px;
+      border-top: 1px solid rgba(13, 12, 11, 0.08);
+      margin-top: auto;
+    }
+    .folio-num {
+      font-weight: 700;
+      color: #0d0c0b;
+    }
+
+    /* Page Inner Spine Gradient */
+    .page-gutter-gradient-left {
+      position: absolute;
+      top: 0; bottom: 0; right: 0;
+      width: 44px;
+      background: linear-gradient(to right, rgba(0,0,0,0) 0%, rgba(0,0,0,0.06) 100%);
+      pointer-events: none;
+      z-index: 10;
+    }
+    .page-gutter-gradient-right {
+      position: absolute;
+      top: 0; bottom: 0; left: 0;
+      width: 44px;
+      background: linear-gradient(to left, rgba(0,0,0,0) 0%, rgba(0,0,0,0.06) 100%);
+      pointer-events: none;
+      z-index: 10;
+    }
+
+    /* CENTER BINDING GUTTER SHADOW */
+    .book-spine-gutter {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 50%;
+      width: 56px;
+      transform: translateX(-50%);
+      background: linear-gradient(
+        90deg,
+        rgba(0, 0, 0, 0) 0%,
+        rgba(0, 0, 0, 0.03) 22%,
+        rgba(0, 0, 0, 0.14) 44%,
+        rgba(0, 0, 0, 0.28) 50%,
+        rgba(0, 0, 0, 0.14) 56%,
+        rgba(0, 0, 0, 0.03) 78%,
+        rgba(0, 0, 0, 0) 100%
+      );
+      pointer-events: none;
+      z-index: 25;
+    }
+
+    /* RIGHT PAGE: Square 1:1, STRICTLY IMAGE VISUAL ONLY (Supports Flip Book for multiple project images) */
+    .book-page-right {
+      background: #141312;
+      border-top-right-radius: 6px;
+      border-bottom-right-radius: 6px;
+      border-right: 2px solid #e8e4db;
+      box-shadow: 4px 0 0 -1px #dcd7cc, 8px 0 0 -2px #cfc9be;
+      transform-origin: left center;
+      transform: rotateY(-9deg);
+      cursor: pointer;
+    }
+    body:not(.book-open) .book-page-right {
+      transform: rotateY(36deg);
+    }
+    body.book-open .book-page-right {
+      transform: rotateY(-9deg);
+    }
+
+    .page-visual-wrapper {
+      width: 100%;
+      height: 100%;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #151413;
+      perspective: 1200px;
+    }
+    .book-full-image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform .45s cubic-bezier(0.25, 1, 0.5, 1), opacity .35s ease;
+      transform-origin: left center;
+    }
+    .book-full-image.flipping {
+      transform: rotateY(-65deg) scale(0.92);
+      opacity: 0.2;
+    }
+
+    /* Flip Page Indicator & Hint */
+    .book-flip-indicator {
+      position: absolute;
+      top: 14px;
+      right: 16px;
+      z-index: 15;
+      font-family: var(--sans);
+      font-size: 8.5px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      font-weight: 700;
+      color: rgba(255, 255, 255, 0.9);
+      background: rgba(13, 12, 11, 0.6);
+      backdrop-filter: blur(8px);
+      padding: 4px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      pointer-events: none;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: opacity .3s ease;
+    }
+    .book-flip-indicator .flip-dot {
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: #f15805;
+    }
+
+    /* Fallback Drawing Plate when no image is loaded yet */
+    .book-drawing-plate {
+      position: absolute;
+      inset: 0;
+      display: none;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: clamp(24px, 4vw, 44px);
+      background: radial-gradient(circle at 50% 50%, #1e1d1a 0%, #100f0e 100%);
+      color: rgba(255, 255, 255, 0.85);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      box-sizing: border-box;
+    }
+    .draft-grid-bg {
+      position: absolute;
+      inset: 0;
+      background-image: 
+        linear-gradient(to right, rgba(255,255,255,0.05) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255,255,255,0.05) 1px, transparent 1px);
+      background-size: 24px 24px;
+      opacity: 0.6;
+      pointer-events: none;
+    }
+    .draft-compass-mark {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-family: var(--sans);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      color: #f15805;
+    }
+    .draft-plate-info {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .draft-tag {
+      font-family: var(--sans);
+      font-size: 9.5px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: #f15805;
+      font-weight: 600;
+    }
+    .draft-title {
+      font-family: var(--sans);
+      font-size: 15px;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+      color: #ffffff;
+    }
+    .draft-coords {
+      font-family: var(--sans);
+      font-size: 9px;
+      letter-spacing: 0.1em;
+      color: rgba(255, 255, 255, 0.45);
+    }
+
+    /* Right Folio Overlay */
+    .page-folio-row.right-folio {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      z-index: 15;
+      background: linear-gradient(to top, rgba(0, 0, 0, 0.72) 0%, transparent 100%);
+      padding: 14px 24px 10px 24px;
+      color: rgba(255, 255, 255, 0.9);
+      border-top: none;
+    }
+    .page-folio-row.right-folio .folio-num {
+      color: #ffffff;
+    }
+
+    /* 3D Soft Cast Shadow Under Book */
+    .book-cast-shadow {
+      position: absolute;
+      bottom: -30px;
+      left: 5%;
+      right: 5%;
+      height: 60px;
+      background: radial-gradient(ellipse at 50% 25%, rgba(13, 12, 11, 0.28) 0%, rgba(13, 12, 11, 0.08) 55%, transparent 75%);
+      filter: blur(16px);
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    /* RESPONSIVE: Mobile screens below 768px */
+    @media (max-width: 768px) {
+      .book-spread {
+        width: min(90vw, 380px);
+        aspect-ratio: 1 / 1;
+        height: auto;
+      }
+      .book-page {
+        width: 100%;
+        position: absolute;
+        inset: 0;
+        border-radius: 4px;
+      }
+      .book-spine-gutter {
+        display: none;
+      }
+      .book-mobile-tabs {
+        display: flex;
+      }
+      /* Tab view switching on mobile */
+      body.mob-visual-active .book-page-left {
+        display: none;
+      }
+      body:not(.mob-visual-active) .book-page-right {
+        display: none;
+      }
+      .page-content-wrapper {
+        padding: 20px;
+      }
+    }
+
+            /* ==========================================================================
+       ABOUT SLIDE-OVER DRAWER (MIST REVEAL & BLACK-TO-WHITE SCROLL GRADIENT)
+       ========================================================================== */
+    #about-drawer {
+      position: fixed;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      width: min(100vw, 760px);
+      background: #080807;
+      color: #0d0c0b;
+      border-left: 1px solid rgba(255, 255, 255, 0.09);
+      box-shadow: -30px 0 70px rgba(0, 0, 0, 0.6);
+      z-index: 100;
+      transform: translateX(100%);
+      transition: transform .55s var(--ease);
+      overflow-y: auto;
+      overflow-x: hidden;
+      -webkit-overflow-scrolling: touch;
+      display: flex;
+      flex-direction: column;
+      scroll-behavior: smooth;
+    }
+    body.about-open #about-drawer {
+      transform: translateX(0);
+    }
+
+    .about-scrim {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.65);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      z-index: 99;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .4s ease;
+    }
+    body.about-open .about-scrim {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .about-header {
+      padding: max(18px, calc(env(safe-area-inset-top, 0px) + 14px)) clamp(20px, 4vw, 36px) 18px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      background: rgba(8, 8, 7, 0.88);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      z-index: 30;
+      transition: background-color .35s ease, border-color .35s ease;
+    }
+    .about-header .about-header-tag {
+      font-size: 11px;
+      letter-spacing: .26em;
+      text-transform: uppercase;
+      font-weight: 700;
+      color: var(--accent);
+      font-family: var(--sans);
+    }
+    .about-close-btn {
+      color: #ffffff;
+      border-color: rgba(255, 255, 255, 0.2);
+      background: rgba(255, 255, 255, 0.04);
+      transition: all .25s var(--ease);
+    }
+    .about-close-btn:hover {
+      background: var(--accent) !important;
+      border-color: var(--accent) !important;
+      color: #ffffff !important;
+    }
+
+    /* Cover Hero (Initial Full-Height Portrait) */
+    .about-cover-hero {
+      position: relative;
+      width: 100%;
+      height: 100vh;
+      height: 100dvh;
+      min-height: 560px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: clamp(24px, 5vw, 44px);
+      overflow: hidden;
+      background: #080807;
+      flex-shrink: 0;
+    }
+    .about-cover-media {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+    }
+    .about-cover-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center top;
+      filter: contrast(1.06) saturate(1.1) brightness(0.92);
+      transform: scale(1.01);
+      display: block;
+    }
+    .about-cover-video {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0.45;
+      mix-blend-mode: screen;
+      pointer-events: none;
+    }
+    .about-cover-scrim {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        to bottom,
+        rgba(8, 8, 7, 0.35) 0%,
+        rgba(8, 8, 7, 0.1) 25%,
+        rgba(8, 8, 7, 0.5) 65%,
+        rgba(8, 8, 7, 0.98) 100%
+      );
+      pointer-events: none;
+    }
+    .about-cover-content {
+      position: relative;
+      z-index: 2;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .about-cover-content .about-name {
+      font-family: var(--serif);
+      font-size: clamp(34px, 5.5vw, 54px);
+      font-weight: 600;
+      color: #ffffff;
+      line-height: 1.05;
+      margin: 0;
+      letter-spacing: -0.025em;
+    }
+    .about-cover-content .about-alias-row {
+      display: flex;
+      align-items: baseline;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .about-cover-content .about-alias {
+      font-size: 14.5px;
+      color: #ffaa55;
+      font-weight: 500;
+    }
+    .about-cover-content .ipa {
+      font-family: 'Inter', var(--sans);
+      color: rgba(255, 255, 255, 0.65);
+      font-size: 13px;
+      letter-spacing: 0.02em;
+    }
+    .about-cover-content .about-role-tag {
+      font-size: 11.5px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: #ffaa55;
+      margin-top: 6px;
+      font-weight: 600;
+      display: inline-block;
+    }
+    .about-scroll-indicator {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 10px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, 0.5);
+      margin-top: 20px;
+      animation: floatPrompt 2.4s ease-in-out infinite;
+    }
+    @keyframes floatPrompt {
+      0%, 100% { transform: translateY(0); opacity: 0.5; }
+      50% { transform: translateY(6px); opacity: 0.9; }
+    }
+
+    /* Vibrant Orange Tilde */
+    .accent-tilde {
+      color: #f15805 !important;
+      font-weight: 700;
+      margin-left: 2px;
+      display: inline-block;
+    }
+    .about-cover-content .about-name .accent-tilde,
+    .about-cover-content .about-alias .accent-tilde {
+      color: #f15805 !important;
+    }
+
+    /* Mist Bridge: Seamless gradient mist zone directly below hero portrait */
+    .about-mist-bridge {
+      height: clamp(80px, 12vw, 150px);
+      width: 100%;
+      background: linear-gradient(
+        to bottom,
+        rgba(8, 8, 7, 0.98) 0%,
+        rgba(8, 8, 7, 0.75) 30%,
+        rgba(8, 8, 7, 0.25) 70%,
+        rgba(8, 8, 7, 0) 100%
+      );
+      position: relative;
+      overflow: hidden;
+      pointer-events: none;
+      flex-shrink: 0;
+    }
+
+    /* Body Container (Transparent to reveal smooth background scroll transition) */
+    .about-body {
+      padding: clamp(32px, 5vw, 56px) clamp(24px, 4.5vw, 44px) 80px;
+      display: flex;
+      flex-direction: column;
+      gap: clamp(48px, 6vw, 72px);
+      background: transparent;
+      color: #0d0c0b;
+    }
+
+    /* Mist Reveal Animation: Elements emerge as if condensing from dense morning mist */
+    .about-reveal-item {
+      opacity: 0;
+      transform: translateY(44px) scale(0.975);
+      filter: blur(22px);
+      transition: 
+        opacity 1.6s cubic-bezier(0.16, 1, 0.3, 1),
+        transform 1.6s cubic-bezier(0.16, 1, 0.3, 1),
+        filter 1.8s cubic-bezier(0.16, 1, 0.3, 1);
+      will-change: opacity, transform, filter;
+    }
+    .about-reveal-item.revealed {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+      filter: blur(0px);
+    }
+
+    /* Orange Grove Manifesto (Frameless Typography on Paper White) */
+    .about-manifesto-block {
+      display: grid;
+      grid-template-columns: 1.1fr 1fr;
+      gap: clamp(24px, 4vw, 44px);
+      align-items: center;
+      padding-bottom: clamp(32px, 4vw, 48px);
+      border-bottom: 1px solid rgba(13, 12, 11, 0.12);
+    }
+    @media (max-width: 620px) {
+      .about-manifesto-block {
+        grid-template-columns: 1fr;
+        gap: 28px;
+      }
+    }
+    .about-manifesto-left {
+      border-right: 1px solid rgba(13, 12, 11, 0.12);
+      padding-right: clamp(16px, 3vw, 32px);
+    }
+    @media (max-width: 620px) {
+      .about-manifesto-left {
+        border-right: none;
+        border-bottom: 1px solid rgba(13, 12, 11, 0.12);
+        padding-right: 0;
+        padding-bottom: 24px;
+      }
+    }
+    .about-orange-quote {
+      font-family: var(--sans);
+      font-size: clamp(18px, 2.5vw, 24px);
+      font-weight: 700;
+      line-height: 1.3;
+      text-transform: uppercase;
+      letter-spacing: -0.02em;
+      color: #0d0c0b;
+      margin-bottom: 16px;
+    }
+    .about-orange-credit {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
+      color: var(--accent);
+    }
+    .about-manifesto-right {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .about-welcome-title {
+      font-family: var(--serif);
+      font-size: 15.5px;
+      color: #0d0c0b;
+      margin-bottom: 10px;
+      line-height: 1.35;
+    }
+    .about-welcome-desc {
+      font-family: var(--serif);
+      font-size: 13px;
+      line-height: 1.74;
+      color: #383531;
+      text-align: justify;
+    }
+
+    /* Artist Statement / Bio Paragraphs */
+    .about-bio-block {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      padding-bottom: clamp(32px, 4vw, 48px);
+      border-bottom: 1px solid rgba(13, 12, 11, 0.12);
+    }
+    .about-section-label {
+      font-size: 10.5px;
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
+      font-weight: 700;
+      color: var(--accent);
+      margin-bottom: 4px;
+    }
+    .about-bio-paragraphs {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .about-bio-paragraphs p {
+      font-family: 'Inter', var(--sans);
+      font-size: 14px;
+      line-height: 1.8;
+      color: #242220;
+      text-align: justify;
+    }
+    .about-palette-row {
+      margin-top: 20px;
+      padding-top: 18px;
+      border-top: 1px solid rgba(13, 12, 11, 0.08);
+    }
+    .about-palette-row .palette-lbl {
+      font-size: 9.5px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: rgba(13, 12, 11, 0.45);
+      margin-bottom: 8px;
+      font-weight: 500;
+    }
+    .about-palette-row .palette-img-wrap {
+      height: 6px;
+      width: 100%;
+      max-width: 240px;
+      border-radius: 99px;
+      overflow: hidden;
+      background: rgba(13, 12, 11, 0.08);
+    }
+    .about-palette-row .palette-img-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .about-socials-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 20px;
+    }
+    .about-socials-row a {
+      font-size: 12.5px;
+      font-weight: 500;
+      color: #0d0c0b;
+      border: 1px solid rgba(13, 12, 11, 0.2);
+      padding: 8px 18px;
+      border-radius: 999px;
+      background: #ffffff;
+      transition: all .25s var(--ease);
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      box-shadow: 0 1px 3px rgba(13, 12, 11, 0.04);
+    }
+    .about-socials-row a:hover {
+      background: var(--accent);
+      color: #ffffff;
+      border-color: var(--accent);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(196, 98, 16, 0.25);
+    }
+
+    /* Dossier Sections (Achievements, Leadership, Press - Frameless) */
+    .about-dossier-section {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+      padding-bottom: clamp(32px, 4vw, 48px);
+      border-bottom: 1px solid rgba(13, 12, 11, 0.12);
+    }
+    .about-dossier-section:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+    .about-section-header {
+      display: flex;
+      align-items: baseline;
+      gap: 12px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid rgba(13, 12, 11, 0.12);
+    }
+    .about-section-header .section-badge {
+      font-size: 10px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      font-weight: 700;
+      color: var(--accent);
+    }
+    .about-section-header .section-heading {
+      font-family: var(--sans);
+      font-size: clamp(20px, 2.6vw, 25px);
+      font-weight: 600;
+      color: #0d0c0b;
+      letter-spacing: -0.015em;
+      margin: 0;
+    }
+
+    .timeline-list {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    .timeline-item {
+      display: grid;
+      grid-template-columns: 92px 1fr;
+      gap: 18px;
+      align-items: baseline;
+      padding-bottom: 18px;
+      border-bottom: 1px dashed rgba(13, 12, 11, 0.14);
+    }
+    .timeline-item:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+    @media (max-width: 520px) {
+      .timeline-item {
+        grid-template-columns: 1fr;
+        gap: 6px;
+      }
+    }
+    .timeline-date {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      color: var(--accent);
+      background: rgba(196, 98, 16, 0.08);
+      border: 1px solid rgba(196, 98, 16, 0.25);
+      padding: 4px 8px;
+      border-radius: 4px;
+      text-align: center;
+      white-space: nowrap;
+      font-family: var(--sans);
+    }
+    .timeline-content h4 {
+      font-family: var(--sans);
+      font-size: 14px;
+      font-weight: 600;
+      color: #0d0c0b;
+      line-height: 1.38;
+      margin: 0 0 5px 0;
+    }
+    .timeline-content p {
+      font-family: 'Inter', var(--sans);
+      font-size: 13px;
+      line-height: 1.62;
+      color: #484541;
+      margin: 0;
+    }
+    .timeline-content p strong {
+      color: #0d0c0b;
+      font-weight: 600;
+    }
+
+    /* Leadership Groups */
+    .leadership-group {
+      margin-bottom: 24px;
+    }
+    .leadership-group:last-child {
+      margin-bottom: 0;
+    }
+    .leadership-subhead {
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      font-weight: 700;
+      color: var(--accent);
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .leadership-subhead::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: rgba(13, 12, 11, 0.1);
+    }
+
+    /* Press & Publications Cards (Frameless Minimalist Editorial List on Paper White) */
+    .press-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+    .press-card {
+      padding: 16px 0;
+      border-bottom: 1px solid rgba(13, 12, 11, 0.1);
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      transition: transform .2s var(--ease);
+    }
+    .press-card:last-child {
+      border-bottom: none;
+    }
+    .press-card-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+    }
+    .press-source {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--accent);
+      letter-spacing: 0.04em;
+    }
+    .press-year {
+      font-size: 11px;
+      font-weight: 600;
+      color: rgba(13, 12, 11, 0.42);
+    }
+    .press-card-title {
+      font-family: var(--sans);
+      font-size: 14px;
+      font-weight: 600;
+      line-height: 1.42;
+      color: #0d0c0b;
+    }
+    .press-card-desc {
+      font-family: 'Inter', var(--sans);
+      font-size: 12.5px;
+      line-height: 1.6;
+      color: #484541;
+    }
+    .press-card-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      margin-top: 4px;
+    }
+    .press-link {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--accent);
+      text-decoration: underline;
+      text-underline-offset: 3px;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      transition: color .2s ease;
+    }
+    .press-link:hover {
+      color: #9c4500;
+    }
+
+    /* ==========================================================================
+       FULLSCREEN MENU (#menu - EXACT ARCHITECTURAL MATCH TO REFERENCE)
+       ========================================================================== */
+    #menu {
+      position: fixed;
+      inset: 0;
+      z-index: 150;
+      background: #ffffff;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      padding: clamp(24px, 4.5vw, 52px) clamp(24px, 5.5vw, 68px);
+      clip-path: inset(0 0 100% 0);
+      transition: clip-path .6s cubic-bezier(.22, .61, .36, 1);
+      pointer-events: none;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+    body.menu-open #menu {
+      clip-path: inset(0 0 0 0);
+      pointer-events: auto;
+    }
+
+    /* Top Bar: Minimalist ✕ Close Button on Left, Brand Emblem on Right */
+    .menu-top-bar {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: clamp(28px, 4.5vh, 52px);
+    }
+    /* menu-close-btn: handled by unified close icon system */
+    .menu-logo-wrap {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+    }
+    .menu-brand-logo {
+      height: clamp(48px, 5.5vw, 66px);
+      width: auto;
+      object-fit: contain;
+      display: block;
+    }
+
+    /* Navigation List: Left-Aligned, Bold Architectural Grotesque */
+    .menu-main-nav {
+      display: flex;
+      flex-direction: column;
+      gap: clamp(14px, 2.2vh, 24px);
+      max-width: 580px;
+      width: 100%;
+    }
+    .menu-nav-item {
+      font-family: var(--sans);
+      font-size: clamp(23px, 3.2vw, 36px);
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      text-decoration: none;
+      color: #0d0c0b;
+      display: inline-flex;
+      align-items: center;
+      transition: color .22s ease, transform .22s ease;
+      cursor: pointer;
+      line-height: 1.15;
+    }
+    .menu-nav-item:hover {
+      color: #f15805;
+      transform: translateX(4px);
+    }
+    .menu-nav-item.active-orange {
+      color: #f15805;
+    }
+
+    /* Accordion Row for ORANGE~ */
+    .menu-row-dropdown {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+    }
+    .menu-row-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+      cursor: pointer;
+    }
+    .menu-chevron-icon {
+      width: 22px;
+      height: 22px;
+      color: #0d0c0b;
+      transition: transform .3s ease, color .22s ease;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      line-height: 0;
+    }
+    .menu-row-header:hover .menu-chevron-icon {
+      color: #f15805;
+    }
+    .menu-row-dropdown.expanded .menu-chevron-icon {
+      transform: rotate(180deg);
+      color: #f15805;
+    }
+    .menu-orange-drawer {
+      max-height: 0;
+      opacity: 0;
+      overflow: hidden;
+      transition: max-height .4s cubic-bezier(.22, .61, .36, 1), opacity .35s ease, margin .3s ease;
+      font-family: var(--editorial);
+      font-style: italic;
+      font-size: 15px;
+      line-height: 1.6;
+      color: rgba(13, 12, 11, 0.76);
+      border-left: 2px solid #f15805;
+      padding-left: 14px;
+      margin-top: 0;
+    }
+    .menu-row-dropdown.expanded .menu-orange-drawer {
+      max-height: 160px;
+      opacity: 1;
+      margin-top: 10px;
+      margin-bottom: 6px;
+    }
+
+    /* Social Icons Row Directly Under Contact */
+    .menu-socials-row {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-top: clamp(16px, 2.4vh, 26px);
+      padding-top: 4px;
+    }
+    .menu-social-pill {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: #000000;
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      transition: transform .25s ease, background-color .25s ease, box-shadow .25s ease;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+      line-height: 0;
+    }
+    .menu-social-pill svg {
+      width: 17px;
+      height: 17px;
+      fill: currentColor;
+    }
+    .menu-social-pill:hover {
+      transform: translateY(-3px) scale(1.06);
+      background: #f15805;
+      color: #ffffff;
+      box-shadow: 0 6px 16px rgba(241, 88, 5, 0.28);
+    }
+
+    /* ==========================================================================
+       CUSTOM CURSOR
+       ========================================================================== */
+    #dot {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 14px;
+      height: 14px;
+      margin: -7px 0 0 -7px;
+      border-radius: 50%;
+      background: rgba(13, 12, 11, 0.85);
+      pointer-events: none;
+      z-index: 300;
+      transition: width .3s var(--ease), height .3s var(--ease), margin .3s var(--ease), background-color .3s ease;
+    }
+    #dot.wide {
+      width: 44px;
+      height: 44px;
+      margin: -22px 0 0 -22px;
+      background: rgba(196, 98, 16, 0.15);
+      border: 1px solid var(--accent);
+    }
+    @media (pointer: coarse), (hover: none) {
+      #dot { display: none; }
+    }
+
+    /* ==========================================================================
+       RESPONSIVE BREAKPOINTS
+       ========================================================================== */
+    @media (max-width: 768px) {
+      .header-nav a.nav-link { display: none; }
+      #headline { font-size: clamp(20px, 5.8vw, 32px); }
+      .colophon.chrome { display: none; }
+    }
+    @media (max-width: 640px) {
+      :root { --hw: min(84vw, 360px); --pad: clamp(14px, 3.8vw, 20px); }
+      .cue.chrome { display: none; }
+    }
+  </style>
+</head>
+<body class="locked">
+
+  <!-- Grain Texture Overlay & Vignette -->
+  <div class="grain"></div>
+  <div class="vig"></div>
+
+  <!-- Splash / Preloader with Dynamic Code Matrix into Logo -->
+  <div id="splash">
+    <div class="splash-bg-flash" id="splashBgFlash"></div>
+    <canvas id="splashCanvas"></canvas>
+    
+    <div class="splash-content">
+      <div class="splash-resolved" id="splashResolved">
+        <img src="01.Logo/Baropholio%20logo2-01.png" alt="Baropholio Logo" class="splash-logo">
+        <div class="mark" id="splashMark">BAROPHOLIO<span class="accent-dot"></span></div>
+      </div>
+      <div class="bar-wrap" id="splashBarWrap">
+        <div class="bar">
+          <img src="01.Logo/palette%20bar-01.png" alt="Palette Loading Bar" id="splashBarImg" class="splash-palette-img">
+        </div>
+        <div class="tag" id="splashTag">SPATIAL ARCHIVE &bull; 2026</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Header Chrome -->
+  <header class="chrome">
+    <div class="brand-group">
+      <a href="#" class="wordmark" aria-label="Baropholio Home">
+        <img src="01.Logo/Baropholio%20logo2-01.png" alt="Baropholio Logo" class="brand-logo-mark">
+        <span class="brand-title">BAROPHOLIO</span>
+      </a>
+      <!-- Subtle Palette Bar revealing from left to right -->
+      <div class="palette-bar-track" title="Orange Tree Palette &bull; 2026 Archive">
+        <img src="01.Logo/palette%20bar-01.png" alt="Color Palette" class="palette-bar-img">
+      </div>
+    </div>
+
+    <div class="header-nav">
+      <a href="#" class="nav-link" id="navGrid">Works</a>
+      <a href="#" class="nav-link" id="navAbout">About</a>
+      <button class="pill-btn" id="navContact">Get in touch</button>
+      <button id="menuBtn" class="menu-btn" aria-expanded="false" aria-controls="menu" aria-label="Open menu">
+        <span class="bars"><i></i><i></i></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Grid Toggle Button -->
+  <button id="gridBtn" class="gridbtn" aria-label="Toggle flat grid view">
+    <b></b><b></b><b></b><b></b>
+  </button>
+
+  <!-- Bottom Mode Switcher Pill (Inspired by the Reference Image) -->
+  <div class="bottom-mode-pill" id="bottomModePill">
+    <button class="mode-tab-btn active" id="btnSphereTab">
+      <span class="tab-dot"></span> 3D Sphere
+    </button>
+    <span class="mode-tab-sep">/</span>
+    <button class="mode-tab-btn" id="btnReelTab">
+      Horizontal Reel &rarr;
+    </button>
+  </div>
+
+  <!-- Scrolltrack container for zoom dolly -->
+  <div id="scrolltrack"></div>
+
+  <!-- 3D Stage -->
+  <div id="stage">
+    <div id="world">
+      <div id="orb"></div>
+      
+      <!-- Headline Centered on Origin (Harvard GSD Typography: Orange Tree Quote) -->
+      <h1 id="headline">
+        <span class="inner">
+          <span class="quote-badge" style="letter-spacing: 0.28em; font-size: 10.5px;">AXIOM &bull; 2026 ARCHIVE</span>
+          <span class="quote-main" style="font-size: clamp(22px, 3vw, 32px); line-height: 1.18; font-family: var(--sans); display: block; max-width: 20ch; margin: 0 auto; font-weight: 500; letter-spacing: -0.03em; color: var(--fg); text-shadow: 0 1px 18px rgba(242,240,236,0.9);">
+            &ldquo;The best time to plant an orange tree was ten years ago. The second best time is now.&rdquo;
+          </span>
+        </span>
+      </h1>
+    </div>
+  </div>
+
+  <!-- Flat Grid View -->
+  <div id="grid">
+    <div class="grid-container">
+      <div class="grid-header" style="justify-content: flex-end; border-bottom: none; margin-bottom: 12px; padding-bottom: 0;">
+        <button class="grid-close-btn" onclick="toggleGrid(false)" aria-label="Close grid">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+      <div class="grid-rows" id="gridRows"></div>
+    </div>
+  </div>
+
+  <!-- 3D ARCHITECTURAL MONOGRAPH BOOK SPREAD MODAL -->
+  <div id="bookModal" class="book-modal-backdrop" role="dialog" aria-modal="true" aria-label="Project Monograph Book">
+    <div class="book-modal-scrim" id="bookScrim"></div>
+
+    <!-- Top Minimalist Bar: Running Info & Close Button -->
+    <header class="book-top-bar">
+      <div class="book-bar-left">
+        <span class="book-archive-indicator">[ 23:11 ARCHIVAL MONOGRAPH ]</span>
+        <span class="book-index-counter" id="bookIndexCounter">RECORD 01 OF 21</span>
+      </div>
+      <div class="book-bar-right">
+        <button class="book-close-btn" id="bookCloseBtn" aria-label="Close book spread"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+      </div>
+    </header>
+
+    <!-- Side Navigation Controls (Previous / Next Project) -->
+    <button class="book-turn-arrow book-turn-prev" id="bookPrevBtn" aria-label="Previous project spread">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+    </button>
+    <button class="book-turn-arrow book-turn-next" id="bookNextBtn" aria-label="Next project spread">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+    </button>
+
+    <!-- Mobile Page Switcher Tabs (Only Visible on Small Screens) -->
+    <div class="book-mobile-tabs" id="bookMobileTabs">
+      <button class="book-mob-tab active" id="tabTextBtn">1. Text Info</button>
+      <button class="book-mob-tab" id="tabVisualBtn">2. Visual Plate</button>
+    </div>
+
+    <!-- The 3D Open Book Spread with Accordion Stack Wings -->
+    <div class="book-stage">
+      <!-- Previous Project Fanned Wing (Stack Left) -->
+      <div class="book-stack-wing book-stack-left" id="stackWingLeft" title="Click to view previous project">
+        <img src="" alt="Previous project" id="stackImgLeft">
+      </div>
+
+      <div class="book-spread" id="bookSpread">
+        
+        <!-- LEFT PAGE: Square 1:1, STRICTLY PROJECT TEXT ONLY -->
+        <article class="book-page book-page-left" id="bookPageLeft">
+          <div class="page-content-wrapper">
+            
+            <!-- Running Head -->
+            <div class="page-running-head">
+              <span class="running-category" id="bookCategoryTag">VUPDA 1ST PRIZE</span>
+              <span class="running-date" id="bookYearTag">2024</span>
+            </div>
+
+            <!-- Project Title (Bold Grotesque Typography) -->
+            <h2 class="page-title" id="bookTitle">1st Prize - Final Project Urban Planning</h2>
+
+            <!-- Metadata Block (Architectural Dossier Format like Camden Reference) -->
+            <div class="page-metadata-block">
+              <div class="meta-field">
+                <span class="meta-label">Award</span>
+                <span class="meta-value" id="bookAward">1st Prize - Under-Graduation Final Project</span>
+              </div>
+              <div class="meta-field">
+                <span class="meta-label">Organization</span>
+                <span class="meta-value" id="bookOrganization">Vietnam Urban Planning and Development Association</span>
+              </div>
+              <div class="meta-field">
+                <span class="meta-label">Typology</span>
+                <span class="meta-value" id="bookTypology">Ecological Urbanism &amp; Regional Planning</span>
+              </div>
+              <div class="meta-field">
+                <span class="meta-label">Location</span>
+                <span class="meta-value" id="bookLocation">Ho Chi Minh City, Vietnam</span>
+              </div>
+            </div>
+
+            <!-- Editorial Description (Prose, Harvard GSD Voice) -->
+            <div class="page-editorial-text" id="bookDesc">
+              A spatial investigation synthesizing natural riparian hydrology with ecological human settlement patterns. Reclaiming ecological floodways and balancing sustainable residential typologies with long-term climate resilience.
+            </div>
+
+            <!-- External Link -->
+            <div class="page-action-row" id="bookActionRow">
+              <a href="#" target="_blank" rel="noopener noreferrer" class="page-archive-link" id="bookLink">
+                Official Archive Publication &rarr;
+              </a>
+            </div>
+
+            <!-- Bottom Folio -->
+            <div class="page-folio-row">
+              <span class="folio-book-label">BAROPHOLIO &bull; MONOGRAPH</span>
+              <span class="folio-num" id="bookLeftFolio">32</span>
+            </div>
+          </div>
+
+          <!-- Page Inner Shadow near Spine Fold -->
+          <div class="page-gutter-gradient-left"></div>
+        </article>
+
+        <!-- CENTER BINDING GUTTER SHADOW (3D Seam Fold) -->
+        <div class="book-spine-gutter" aria-hidden="true"></div>
+
+        <!-- RIGHT PAGE: Square 1:1, STRICTLY VISUAL IMAGE ONLY (Click/Tap to Flip Multiple Images) -->
+        <article class="book-page book-page-right" id="bookPageRight" title="Click to flip through project images">
+          <div class="book-flip-indicator" id="bookFlipIndicator">
+            <span class="flip-dot"></span>
+            <span id="flipCountText">PLATE 1 / 1 &bull; TAP TO FLIP</span>
+          </div>
+          <div class="page-visual-wrapper" id="bookVisualWrap">
+            <img src="" alt="" class="book-full-image" id="bookImage" />
+            <!-- Architectural Draft Fallback Canvas Plate -->
+            <div class="book-drawing-plate" id="bookDrawingPlate">
+              <div class="draft-grid-bg"></div>
+              <div class="draft-compass-mark">
+                <svg width="36" height="36" viewBox="0 0 40 40" fill="none" stroke="currentColor">
+                  <circle cx="20" cy="20" r="16" stroke-dasharray="2 2" stroke-width="0.8"/>
+                  <line x1="20" y1="4" x2="20" y2="36" stroke-width="0.8"/>
+                  <line x1="4" y1="20" x2="36" y2="20" stroke-width="0.8"/>
+                  <polygon points="20,8 23,20 20,17 17,20" fill="currentColor"/>
+                </svg>
+                <span>N</span>
+              </div>
+              <div class="draft-plate-info">
+                <span class="draft-tag">SPATIAL RESEARCH ARCHIVE</span>
+                <span class="draft-title" id="draftPlateTitle">PROJECT VISUALIZATION</span>
+                <span class="draft-coords">10&deg;46'37&quot;N 106&deg;41'43&quot;E &bull; HO CHI MINH CITY</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Bottom Folio Right -->
+          <div class="page-folio-row right-folio">
+            <span class="folio-book-label" id="bookPlateCaption">PLATE // DRAWINGS &amp; PHOTOGRAPHY</span>
+            <span class="folio-num" id="bookRightFolio">33</span>
+          </div>
+
+          <!-- Page Inner Shadow near Spine Fold -->
+          <div class="page-gutter-gradient-right"></div>
+        </article>
+
+      </div>
+
+      <!-- Next Project Fanned Wing (Stack Right) -->
+      <div class="book-stack-wing book-stack-right" id="stackWingRight" title="Click to view next project">
+        <img src="" alt="Next project" id="stackImgRight">
+      </div>
+
+      <!-- Realistic Soft 3D Ground Shadow Under the Entire Book -->
+      <div class="book-cast-shadow" aria-hidden="true"></div>
+    </div>
+  </div>
+
+      <!-- About Slide-Over Drawer (Dedicated Personal Information Location) -->
+  <div class="about-scrim" id="aboutScrim"></div>
+  <aside id="about-drawer" aria-label="About Baro Nguyen">
+    <div class="about-header">
+      <span class="about-header-tag">PERSONAL</span>
+      <button class="about-close-btn" id="aboutCloseBtn" aria-label="Close dossier">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+
+    <!-- 1. Full-Height Initial Cover Portrait -->
+    <div class="about-cover-hero">
+      <div class="about-cover-media">
+        <img src="03.%20Profile%20pic/Profile%20pic%201.jpg" alt="Baro Nguyen (Bao Hoang Nguyen)" class="about-cover-img" />
+        <video autoplay muted loop playsinline class="about-cover-video">
+          <source src="03.%20Profile%20pic/pt.mp4" type="video/mp4" />
+        </video>
+        <div class="about-cover-scrim"></div>
+      </div>
+      <div class="about-cover-content">
+        <h2 class="about-name">Baro Nguyen<span class="accent-tilde" style="color: #f15805 !important;">~</span></h2>
+        <div class="about-alias-row">
+          <span class="about-alias">Bao Hoang Nguyen<span class="accent-tilde" style="color: #f15805 !important;">~</span></span>
+          <span class="ipa">/’bærəʊ ŋwiəʔən/</span>
+        </div>
+        <div class="about-role-tag">The Orange Orchardist &bull; Keeper of the Grove</div>
+        <div class="about-scroll-indicator">
+          <span>SCROLL TO EXPLORE</span>
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><polyline points="19 12 12 19 5 12"></polyline></svg>
+        </div>
+      </div>
+    </div>
+
+    <!-- Soft Mist Gradient Bridge from Dark Hero into Architectural Paper White -->
+    <div class="about-mist-bridge" aria-hidden="true"></div>
+
+    <div class="about-body">
+      <!-- 2. Orange Grove & Welcome Manifesto (Matching Reference Exactly) -->
+      <div class="about-manifesto-block about-reveal-item">
+        <div class="about-manifesto-left">
+          <div class="about-orange-quote">
+            &ldquo;THE BEST TIME<br>TO PLANT<br>AN ORANGE TREE<br>WAS TEN YEARS AGO.<br>THE SECOND<br>BEST TIME IS NOW.&rdquo;
+          </div>
+          <div class="about-orange-credit">ORANGE GROVE</div>
+        </div>
+        <div class="about-manifesto-right">
+          <div class="about-welcome-title">Welcome to<br><strong style="font-weight: 700; color: #ffffff; font-size: 16.5px;">Baropholio</strong></div>
+          <p class="about-welcome-desc">
+            &mdash;a place where ideas are planted, nurtured, and grown into something meaningful. Each project, each thought, and each moment shared here is a fruit of passion, persistence, and imagination. This is not just a collection of works; it&rsquo;s a journey, a story in the making.
+          </p>
+        </div>
+      </div>
+
+      <!-- 3. Artist Statement & Living Patterns -->
+      <div class="about-bio-block about-reveal-item">
+        <div class="about-section-label">Field Axiom &bull; Living Patterns</div>
+        <div class="about-bio-paragraphs">
+          <p>I grew up in a small highland region, far from most things people take for granted. The distance taught me one thing early: that movement, even uncertain, even slow is better than standing still.</p>
+          <p>Most of what I've learned came from failure. The rare chances that worked out brought me here. The ones that didn't gave me something quieter, a way of seeing, a patience for the long road. Like a small fish rising toward the surface: not because it's sure of the light, but because it hasn't stopped yet.</p>
+          <p>I don't think anyone is inherently better than anyone else. Some people simply see a little sooner, and act. That's all I try to do.</p>
+          <p>My work begins with listening to a space, observing how people live inside it, what it asks of them, what it quietly takes away. Only after that do I think about what might be added, changed, or left alone.</p>
+          <p>I believe a home is rarely just a home. When it's built with care, it shapes the people inside it. Those people carry something outward into their families, their neighbors, the street. The change doesn't announce itself. It just spreads, the way warmth does, slowly and without asking permission.</p>
+        </div>
+        <div class="about-palette-row">
+          <div class="palette-lbl">Identity Spectrum &bull; Harvest Palette</div>
+          <div class="palette-img-wrap">
+            <img src="01.Logo/palette%20bar-01.png" alt="Orange Tree Palette" />
+          </div>
+        </div>
+        <div class="about-socials-row">
+          <a href="https://www.linkedin.com" target="_blank" rel="noopener noreferrer">LinkedIn ↗</a>
+          <a href="https://www.behance.net" target="_blank" rel="noopener noreferrer">Behance ↗</a>
+          <a href="https://www.instagram.com" target="_blank" rel="noopener noreferrer">Instagram ↗</a>
+          <a href="mailto:contact@baronguyen.com">Email ↗</a>
+        </div>
+      </div>
+
+      <!-- 4. Achievements (Chronological) -->
+      <div class="about-dossier-section about-reveal-item">
+        <div class="about-section-header">
+          <span class="section-badge">HONORS &bull; MERIT</span>
+          <h3 class="section-heading">Achievements</h3>
+        </div>
+        <div class="timeline-list">
+          <div class="timeline-item">
+            <div class="timeline-date">01 | 2024</div>
+            <div class="timeline-content">
+              <h4>1st Prize &ndash; Excellent Under-Graduation Final Project On Urban and Rural Planning 2023</h4>
+              <p>Awarded by <strong>VIETNAM URBAN PLANNING AND DEVELOPMENT ASSOCIATION (VUPDA)</strong></p>
+            </div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-date">12 | 2023</div>
+            <div class="timeline-content">
+              <h4>Third Prize in Loa Thanh Awards &ndash; 35th</h4>
+              <p>Awarded by <strong>VIETNAM ASSOCIATION OF ARCHITECTS (VAA)</strong> for Outstanding graduation project award for architecture and construction students nationwide</p>
+            </div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-date">11 | 2023</div>
+            <div class="timeline-content">
+              <h4>Valedictorian of Regional &amp; Urban Planning (2023)</h4>
+              <p>Cumulative CGPA: <strong>3.67 / 4.00 &ndash; Superior</strong> &bull; Ranking: <strong>1/240</strong> (Faculty) | <strong>2/1500</strong> (University-wide)</p>
+            </div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-date">2021&ndash;2022</div>
+            <div class="timeline-content">
+              <h4>UAH Student Ambassador 2021, 2022</h4>
+              <p>University of Architecture Ho Chi Minh City</p>
+            </div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-date">2021&ndash;2022</div>
+            <div class="timeline-content">
+              <h4>Prize for Student with 5 Good Criteria</h4>
+              <p>University level distinction for academic &amp; civic excellence</p>
+            </div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-date">2019&ndash;2022</div>
+            <div class="timeline-content">
+              <h4>UAH's Scholarship &ndash; Top 1% of Program</h4>
+              <p><strong>$1,100</strong> merit scholarship awarded for top 1% academic performers (2019 / 2020 / 2021 / 2022)</p>
+            </div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-date">12 | 2022</div>
+            <div class="timeline-content">
+              <h4>Top 12 (National Round) &amp; Top 2 Popular Vote</h4>
+              <p>Architectural and landscape design of the "Will to Live" Center Competition by <strong>VUPDA</strong>, JC Design Group, Level Architect and Will to Live Center</p>
+            </div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-date">10 | 2022</div>
+            <div class="timeline-content">
+              <h4>Merit Award &ndash; Conceptual Design Competition</h4>
+              <p>General Planning for Ho Chi Minh City to 2040, vision to 2060 by <strong>Department of Planning and Architecture HCMC</strong></p>
+            </div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-date">09 | 2022</div>
+            <div class="timeline-content">
+              <h4>Second Prize in Urban Void 2022</h4>
+              <p>Jointly organized by <strong>University of Shiga Prefecture (Japan)</strong>, HUTECH University and University of Architecture HCMC</p>
+            </div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-date">12 | 2021</div>
+            <div class="timeline-content">
+              <h4>The Best Visual Presentation &ndash; Urban Design with/after COVID-19</h4>
+              <p>Collaborative studio by <strong>Tokyo City University</strong>, Universiti Teknologi Malaysia and University of Architecture HCMC</p>
+            </div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-date">10 | 2021</div>
+            <div class="timeline-content">
+              <h4>Top 20 of Smart City + 2021 Design Competition</h4>
+              <p>Organized by <strong>ISCM, UEH</strong> in partnership with 15 Global Universities, UNESCO/UNITWIN, Chemonics International, SmithGroup, XnTree and World Smart Cities Forum</p>
+            </div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-date">01 | 2021</div>
+            <div class="timeline-content">
+              <h4>Best Design Award &ndash; Smart Design City for Zero Carbon Emission</h4>
+              <p>Organized by <strong>UNESCO UNITWIN</strong>, Handong Global University, University of Economics HCMC and University of Architecture HCMC</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 5. Leadership & Workshops -->
+      <div class="about-dossier-section about-reveal-item">
+        <div class="about-section-header">
+          <span class="section-badge">COMMUNITY &bull; INITIATIVE</span>
+          <h3 class="section-heading">Leadership &amp; Workshops</h3>
+        </div>
+
+        <div class="leadership-group">
+          <div class="leadership-subhead">Founder &amp; Co-Founder</div>
+          <div class="timeline-list">
+            <div class="timeline-item">
+              <div class="timeline-date">2021&ndash;2023</div>
+              <div class="timeline-content">
+                <h4>Co-founder &amp; Vice President</h4>
+                <p>Academic Student Club of Urban Planning Faculty &ndash; University of Architecture Ho Chi Minh City (<strong>ASCUP.UAH</strong>)</p>
+              </div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-date">2021&ndash;2024</div>
+              <div class="timeline-content">
+                <h4>Founder</h4>
+                <p><strong>URBAN PLANNING, LANDSCAPE &amp; DESIGN STUDENT COMMUNITY &ndash; VN</strong></p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="leadership-group">
+          <div class="leadership-subhead">Program Organizer</div>
+          <div class="timeline-list">
+            <div class="timeline-item">
+              <div class="timeline-date">10 | 2022</div>
+              <div class="timeline-content">
+                <h4>Assistant &ndash; MLA Studio II: Ho Chi Minh City Futures</h4>
+                <p>The University of Hong Kong (HKU) + University of Architecture HCMC Workshop</p>
+              </div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-date">2021&ndash;2022</div>
+              <div class="timeline-content">
+                <h4>Head of the Program &ndash; Webinar Series &ldquo;STUDY ABROAD ORIENTATION 101&rdquo;</h4>
+                <p>Multi-part mentorship series connecting UAH alumni across Europe, Japan, and North America</p>
+              </div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-date">09 | 2021</div>
+              <div class="timeline-content">
+                <h4>Head of Program &ndash; Webinar &ldquo;The Urban Progress of Saigon &ndash; Cho Lon from the 19th to 20th Centuries&rdquo;</h4>
+                <p>Historical spatial morphology investigation and architectural dialogue</p>
+              </div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-date">09 | 2020</div>
+              <div class="timeline-content">
+                <h4>Head of Competition Committee</h4>
+                <p>Student's Traditional Festival of University of Architecture HCMC 2020</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="leadership-group">
+          <div class="leadership-subhead">Member</div>
+          <div class="timeline-list">
+            <div class="timeline-item">
+              <div class="timeline-date">2021&ndash;2022</div>
+              <div class="timeline-content">
+                <h4>Member of Executive Committee (2019&ndash;2020)</h4>
+                <p>Music Club of University of Architecture HCMC</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="leadership-group">
+          <div class="leadership-subhead">Participant &ndash; International Workshop</div>
+          <div class="timeline-list">
+            <div class="timeline-item">
+              <div class="timeline-date">11 | 2022</div>
+              <div class="timeline-content">
+                <h4>Design Research Workshop</h4>
+                <p>University of Architecture HCMC &amp; University of Southern California (USC)</p>
+              </div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-date">09 | 2022</div>
+              <div class="timeline-content">
+                <h4>International Architectural Students Workshop, &ldquo;Urban Void&rdquo;</h4>
+                <p>Trans-disciplinary spatial remediation workshop</p>
+              </div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-date">04 | 2022</div>
+              <div class="timeline-content">
+                <h4>Workshop: 1st Phase of Tan Thuan Interactive System</h4>
+                <p>City Science LAB high-tech urban simulation applications</p>
+              </div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-date">09 | 2021</div>
+              <div class="timeline-content">
+                <h4>Japan-Asia Youth Exchange Program in Science (SAKURA Exchange Program in Science)</h4>
+                <p>Academic scientific diplomacy exchange with Japanese academic researchers</p>
+              </div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-date">09 | 2021</div>
+              <div class="timeline-content">
+                <h4>Webinar: Encounters with Architectural Modernism in Vietnam</h4>
+                <p>Theoretical monograph on mid-century Vietnamese modernism</p>
+              </div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-date">07 | 2021</div>
+              <div class="timeline-content">
+                <h4>ISCM International Summer Design Camp</h4>
+                <p>Institute of Smart City and Management, UEH</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 6. Press & Publications -->
+      <div class="about-dossier-section about-reveal-item">
+        <div class="about-section-header">
+          <span class="section-badge">PRESS &bull; MONOGRAPH</span>
+          <h3 class="section-heading">News &amp; Publications</h3>
+        </div>
+        <div class="press-grid">
+          <div class="press-card">
+            <div class="press-card-top">
+              <span class="press-source">Dân Trí</span>
+              <span class="press-year">2026</span>
+            </div>
+            <div class="press-card-title">&ldquo;Cựu thủ khoa Kiến trúc từng suýt cạch mặt gia đình vì theo đuổi hội họa&rdquo;</div>
+            <div class="press-card-desc">Former architecture valedictorian who nearly fell out with his family for pursuing art. Comprehensive biographical interview.</div>
+            <div class="press-card-links">
+              <a href="https://dantri.com.vn/giao-duc/cuu-thu-khoa-kien-truc-tung-suyt-cach-mat-gia-dinh-vi-theo-duoi-hoi-hoa-20260504151503290.htm" target="_blank" rel="noopener noreferrer" class="press-link">Read on Dân Trí ↗</a>
+            </div>
+          </div>
+
+          <div class="press-card">
+            <div class="press-card-top">
+              <span class="press-source">Sinh Viên Việt Nam (SVVN) &ndash; Báo Tiền Phong</span>
+              <span class="press-year">2026</span>
+            </div>
+            <div class="press-card-title">&ldquo;Cuộc sống của nam sinh từng leo mái nhà dập đám cháy: bị đồn là trường đuổi học vì chất cấm, giành loạt giải thưởng lớn&rdquo;</div>
+            <div class="press-card-desc">The life of a student who climbed rooftops to put out a fire: overcoming adversity to earn university valedictorian honors and major national distinction.</div>
+            <div class="press-card-links">
+              <a href="https://svvn.tienphong.vn/cuoc-song-cua-nam-sinh-tung-leo-mai-nha-dap-dam-chay-bi-don-la-truong-duoi-hoc-vi-chat-cam-gianh-loat-giai-thuong-lon-post1838655.tpo" target="_blank" rel="noopener noreferrer" class="press-link">Read on SVVN Tiền Phong ↗</a>
+            </div>
+          </div>
+
+          <div class="press-card">
+            <div class="press-card-top">
+              <span class="press-source">120 Hours Competition Archive</span>
+              <span class="press-year">2024</span>
+            </div>
+            <div class="press-card-title">120 Hours International Student Architecture Competition Archive</div>
+            <div class="press-card-desc">Experimental spatial design submissions archived on the international platform.</div>
+            <div class="press-card-links">
+              <a href="https://www.120hours.no/archive" target="_blank" rel="noopener noreferrer" class="press-link">120 Hours Archive ↗</a>
+              <a href="https://cdn.sanity.io/images/brweazek/production/9de9c99d61416e32888b59587456430c304ee0e1-1280x905.jpg" target="_blank" rel="noopener noreferrer" class="press-link">Archived Image 1 ↗</a>
+              <a href="https://cdn.sanity.io/images/brweazek/production/0afa14bdb973228a82c8cdee2c2539c39d467351-1280x905.jpg" target="_blank" rel="noopener noreferrer" class="press-link">Archived Image 2 ↗</a>
+            </div>
+          </div>
+
+          <div class="press-card">
+            <div class="press-card-top">
+              <span class="press-source">Quy Hoạch Đô Thị (Vietnam Urban Planning Journal)</span>
+              <span class="press-year">2023</span>
+            </div>
+            <div class="press-card-title">Award Ceremony for Outstanding Graduation Thesis of 2023</div>
+            <div class="press-card-desc">Official monograph and press coverage honoring top thesis distinctions nationwide.</div>
+            <div class="press-card-links">
+              <a href="https://quyhoachdothi.com/le-trao-giai-thuong-do-an-sinh-vien-tot-nghiep-xuat-sac-nam-2023/" target="_blank" rel="noopener noreferrer" class="press-link">View Journal Report ↗</a>
+            </div>
+          </div>
+
+          <div class="press-card">
+            <div class="press-card-top">
+              <span class="press-source">Tạp Chí Kiến Trúc (Vietnam Association of Architects)</span>
+              <span class="press-year">2023</span>
+            </div>
+            <div class="press-card-title">1/5000 Scale Zoning Plan for Ha Tu Urban Area, Ha Long City, Quang Ninh Province &ndash; Third Prize, Loa Thanh Award 2023</div>
+            <div class="press-card-desc">Specialized architectural and urban analysis on mine landscape regeneration.</div>
+            <div class="press-card-links">
+              <a href="https://www.tapchikientruc.com.vn/cuoc-thi/qh-phan-khu-ty-le-1-5000-khu-do-thi-mo-ha-tu-phuong-ha-tu-ha-phong-tp-ha-long-tinh-quang-ninh-giai-ba-loa-thanh-2023.html" target="_blank" rel="noopener noreferrer" class="press-link">Read on Tạp Chí Kiến Trúc ↗</a>
+            </div>
+          </div>
+
+          <div class="press-card">
+            <div class="press-card-top">
+              <span class="press-source">Dân Sinh &ndash; Dân Trí &amp; Kiến Trúc Đăng Quang</span>
+              <span class="press-year">2022</span>
+            </div>
+            <div class="press-card-title">Launching Architectural &amp; Landscape Design Competition for Vocational Training &amp; Employment Centers for People with Disabilities</div>
+            <div class="press-card-desc">National competition reportage for inclusive social community infrastructure.</div>
+            <div class="press-card-links">
+              <a href="https://dansinh.dantri.com.vn/dien-dan-dan-sinh/phat-dong-cuoc-thi-thiet-ke-kien-truc-va-canh-quan-cac-trung-tam-day-nghe-va-lam-viec-cho-nguoi-khuyet-tat-20221025214405000.htm" target="_blank" rel="noopener noreferrer" class="press-link">Dân Sinh Article ↗</a>
+              <a href="https://kientrucdangquang.wordpress.com/2022/10/28/cuoc-thi-thiet-ke-kien-truc-va-canh-quan-theo-mo-hinh-thuc-tap-sinh-trung-tam-nghi-luc-song/" target="_blank" rel="noopener noreferrer" class="press-link">Kiến Trúc Đăng Quang ↗</a>
+            </div>
+          </div>
+
+          <div class="press-card">
+            <div class="press-card-top">
+              <span class="press-source">University of Economics Ho Chi Minh City (UEH)</span>
+              <span class="press-year">2021</span>
+            </div>
+            <div class="press-card-title">International Design Summer Camp 2021: Developing Smart Design Ideas for a Carbon-Neutral City</div>
+            <div class="press-card-desc">Global smart city research showcase and sustainable design sprint.</div>
+            <div class="press-card-links">
+              <a href="https://ueh.edu.vn/cuoc-song-ueh/tin-tuc/trai-he-thiet-ke-quoc-te-2021-phat-trien-y-tuong-thiet-ke-thong-minh-cho-thanh-pho-khong-phat-thai-carbon-57357" target="_blank" rel="noopener noreferrer" class="press-link">UEH News ↗</a>
+            </div>
+          </div>
+
+          <div class="press-card">
+            <div class="press-card-top">
+              <span class="press-source">Voice of Ho Chi Minh City (VOH)</span>
+              <span class="press-year">2021</span>
+            </div>
+            <div class="press-card-title">Many Smart Design Ideas for a Carbon-Neutral City</div>
+            <div class="press-card-desc">Radio broadcast and journalistic editorial on youth innovations for net-zero cities.</div>
+            <div class="press-card-links">
+              <a href="https://voh.com.vn/giao-duc/nhieu-y-tuong-thiet-ke-thong-minh-cho-thanh-pho-khong-phat-thai-carbon-409801.html" target="_blank" rel="noopener noreferrer" class="press-link">VOH Broadcast Report ↗</a>
+            </div>
+          </div>
+
+          <div class="press-card">
+            <div class="press-card-top">
+              <span class="press-source">City Science Network &amp; MIT Media Lab</span>
+              <span class="press-year">2021</span>
+            </div>
+            <div class="press-card-title">Cities Within: The City Science Summit 2021</div>
+            <div class="press-card-desc">International conference proceedings on autonomous mobility and algorithmic city modeling.</div>
+            <div class="press-card-links">
+              <a href="https://citysciencenetwork.org/workshops" target="_blank" rel="noopener noreferrer" class="press-link">City Science Network ↗</a>
+              <a href="https://www.media.mit.edu/events/cities-with-in-the-city-science-summit/" target="_blank" rel="noopener noreferrer" class="press-link">MIT Media Lab Event ↗</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Fullscreen Menu (Exact Match to User Reference Screenshot) -->
+  <div id="menu" role="dialog" aria-modal="true" aria-label="Main Navigation">
+    <!-- Top Bar: Minimalist ✕ Close on Left, Brand Logo on Right -->
+    <div class="menu-top-bar">
+      <button id="menuCloseBtn" class="menu-close-btn" aria-label="Close navigation menu"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+      <div class="menu-logo-wrap">
+        <img src="01.Logo/Baropholio logo2-01.png" alt="Baropholio Brand Mark" class="menu-brand-logo" />
+      </div>
+    </div>
+
+    <!-- Main Navigation List -->
+    <nav class="menu-main-nav">
+      <a href="#" id="menuHome" class="menu-nav-item active-orange">HOME</a>
+      
+      <div class="menu-row-dropdown" id="menuOrangeGroup">
+        <div class="menu-row-header" id="menuOrangeHeader">
+          <span class="menu-nav-item" style="margin:0;">ORANGE~</span>
+          <span class="menu-chevron-icon" id="menuOrangeChevron">
+            <svg width="18" height="12" viewBox="0 0 18 12" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="2 3 9 10 16 3"></polyline>
+            </svg>
+          </span>
+        </div>
+        <div class="menu-orange-drawer" id="menuOrangeDrawer">
+          &ldquo;The best time to plant an orange tree was ten years ago. The second best time is now.&rdquo;<br>
+          <span style="font-family: var(--sans); font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; font-style: normal; color: #f15805; display: inline-block; margin-top: 6px;">Baropholio &bull; Studio Ethos</span>
+        </div>
+      </div>
+
+      <a href="#" id="menuProjects" class="menu-nav-item">PROJECTS</a>
+      <a href="#" id="menuArchive" class="menu-nav-item">ARCHIVE</a>
+      <a href="#" id="menuCollaborate" class="menu-nav-item">COLLABORATE</a>
+      <a href="#" id="menuAbout" class="menu-nav-item">ABOUT</a>
+      <a href="#" id="menuContact" class="menu-nav-item">CONTACT</a>
+
+      <!-- Circular Social Badges Under Contact -->
+      <div class="menu-socials-row">
+        <a href="https://www.instagram.com" target="_blank" rel="noopener noreferrer" class="menu-social-pill" aria-label="Instagram">
+          <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+        </a>
+        <a href="https://www.linkedin.com" target="_blank" rel="noopener noreferrer" class="menu-social-pill" aria-label="LinkedIn">
+          <svg viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+        </a>
+        <a href="https://www.behance.net" target="_blank" rel="noopener noreferrer" class="menu-social-pill" aria-label="Behance">
+          <svg viewBox="0 0 24 24"><path d="M22 7h-7v-2h7v2zm1.726 10c-.442 1.297-2.029 3-4.976 3-3.468 0-5.75-2.704-5.75-6.035 0-3.376 2.308-6.027 5.75-6.027 3.308 0 5.419 2.41 5.419 5.862 0 .524-.047 1.05-.143 1.54h-7.986c.112 1.71 1.42 2.86 3.125 2.86 1.411 0 2.375-.71 2.777-1.4l1.784.2zm-2.028-3.66c-.035-1.353-1.014-2.43-2.541-2.43-1.558 0-2.54 1.077-2.613 2.43h5.154zm-14.698-3.34c1.23 0 2.05-.67 2.05-1.8 0-1.22-.92-1.7-2.12-1.7h-4.93v3.5h5zm.37 5.5c1.44 0 2.39-.77 2.39-2.05 0-1.39-1.04-1.95-2.5-1.95h-5.26v4h5.37zm-8.37-11.5h8.21c2.81 0 4.67 1.34 4.67 3.48 0 1.28-.67 2.3-1.78 2.85 1.52.54 2.39 1.83 2.39 3.47 0 2.58-2.07 4.2-5.34 4.2h-8.15v-14z"/></svg>
+        </a>
+      </div>
+    </nav>
+  </div>
+
+  <!-- Custom Cursor -->
+  <div id="dot"></div>
+
+  <!-- Projects Database Script (External File for Easy Management) -->
+  <script src="02.Project/projects_data.js"></script>
+
+  <!-- ==========================================================================
+       MAIN JAVASCRIPT
+       ========================================================================== -->
+  <script>
+    (function () {
+      "use strict";
+
+      /* ======================================================================
+         1. 21 ARCHIVAL RECORDS (DYNAMICALLY LOADED FROM 02.Project/projects_data.js)
+         ====================================================================== */
+      var DEFAULT_RECORDS = [
+        {
+          id: 1,
+          cat: "VUPDA 1ST PRIZE",
+          date: "2024",
+          title: "1st Prize - Final Project Urban Planning",
+          org: "Vietnam Urban Planning and Development Association (VUPDA)",
+          desc: "1st Prize - Excellent Under-Graduation Final Project On Urban and Rural Planning 2023. A spatial investigation synthesizing natural riparian hydrology with ecological human settlement patterns.",
+          link: "https://quyhoachdothi.com/le-trao-giai-thuong-do-an-sinh-vien-tot-nghiep-xuat-sac-nam-2023/"
+        },
+        {
+          id: 2,
+          cat: "LOA THANH AWARD",
+          date: "12/2023",
+          title: "Third Prize in Loa Thanh Awards (35th Edition)",
+          org: "Vietnam Association of Architects (VAA)",
+          desc: "Outstanding graduation project award for architecture and construction students nationwide. 1/5000 Scale Zoning Plan for Ha Tu Urban Area, Ha Long City, Quang Ninh Province. Reclaiming former opencast coal mine spoils into an eco-coastal civic basin.",
+          link: "https://www.tapchikientruc.com.vn/cuoc-thi/qh-phan-khu-ty-le-1-5000-khu-do-thi-mo-ha-tu-phuong-ha-tu-ha-phong-tp-ha-long-tinh-quang-ninh-giai-ba-loa-thanh-2023.html"
+        },
+        {
+          id: 3,
+          cat: "ACADEMIC HONOUR",
+          date: "11/2023",
+          title: "Valedictorian of Regional & Urban Planning",
+          org: "University of Architecture Ho Chi Minh City (UAH)",
+          desc: "Cumulative CGPA: 3.67/4.00 (Superior Honour). Class Ranking: 1/240 (Faculty), 2/1500 (University-wide). Recognizing 5 years of rigorous morphological and regional spatial studies.",
+          link: ""
+        },
+        {
+          id: 4,
+          cat: "MASTERPLANNING",
+          date: "10/2022",
+          title: "Merit Award - General Planning HCMC 2040",
+          org: "Department of Planning and Architecture HCMC",
+          desc: "Conceptual Design Competition of General Planning for Ho Chi Minh City to 2040, vision to 2060. Formulated decentralized transit-oriented nodes and living green water-spines.",
+          link: ""
+        },
+        {
+          id: 5,
+          cat: "INCLUSIVE DESIGN",
+          date: "12/2022",
+          title: "Top 12 National Round & Top 2 Popular Vote",
+          org: "VUPDA, JC Design, Level Architect & Will to Live Center",
+          desc: "Architectural and Landscape Design of the 'Will to Live' Center for disabled youth. Built on radical accessibility and universal spatial freedom.",
+          link: ""
+        },
+        {
+          id: 6,
+          cat: "INTERNATIONAL",
+          date: "09/2022",
+          title: "Second Prize in Urban Void 2022",
+          org: "University of Shiga Prefecture (Japan), HUTECH, UAH",
+          desc: "Cross-border collaborative workshop addressing residual urban voids and interstitial riverbanks as spontaneous social cooling squares.",
+          link: ""
+        },
+        {
+          id: 7,
+          cat: "VISUAL AESTHETICS",
+          date: "12/2021",
+          title: "The Best Visual Presentation Award",
+          org: "Tokyo City Univ, UTM Malaysia, UAH",
+          desc: "Urban Design with/after COVID-19 Pandemic. Reimagining neighborhood street sections and porch thresholds for post-crisis living densities.",
+          link: ""
+        },
+        {
+          id: 8,
+          cat: "SMART CITY",
+          date: "10/2021",
+          title: "Top 20 of Smart City + 2021 Design Competition",
+          org: "ISCM, UEH, UNESCO UNITWIN, Chemonics, SmithGroup",
+          desc: "Global smart city challenge integrating big-data spatial mobility with climate-resilient water basins.",
+          link: ""
+        },
+        {
+          id: 9,
+          cat: "ZERO CARBON",
+          date: "01/2021",
+          title: "Best Design Award - Zero Carbon Emission City",
+          org: "UNESCO UNITWIN, Handong Global University, UEH, UAH",
+          desc: "Smart Design City for Zero Carbon Emission. Micro-climate orientation and renewable energy infrastructure.",
+          link: ""
+        },
+        {
+          id: 10,
+          cat: "LEADERSHIP",
+          date: "2021-2022",
+          title: "UAH Student Ambassador",
+          org: "University of Architecture Ho Chi Minh City",
+          desc: "Official ambassador representing UAH in academic congresses, student admissions orientation, and international guest delegations.",
+          link: ""
+        },
+        {
+          id: 11,
+          cat: "CRITERIA AWARD",
+          date: "2021-2022",
+          title: "Prize for Student with 5 Good Criteria",
+          org: "University Level &middot; UAH",
+          desc: "Conferred for superior performance across Moral Ethics, Academic Rigor, Physical Fitness, Volunteerism, and Global Integration.",
+          link: ""
+        },
+        {
+          id: 12,
+          cat: "SCHOLARSHIP",
+          date: "2019-2022",
+          title: "UAH's Scholarship & Top 1% Merit Award",
+          org: "Faculty of Urban Planning & UAH",
+          desc: "$1,100 merit award given to the top 1% academic performers in the urban planning program across consecutive academic years.",
+          link: ""
+        },
+        {
+          id: 13,
+          cat: "PRESS FEATURE",
+          date: "2026",
+          title: "Dan Tri: Former Architecture Valedictorian Feature",
+          org: "Dan Tri News",
+          desc: "National profile: 'Former architecture valedictorian who nearly fell out with his family for pursuing art' — documenting the journey from a highland upbringing to spatial design excellence.",
+          link: "https://dantri.com.vn/giao-duc/cuu-thu-khoa-kien-truc-tung-suyt-cach-mat-gia-dinh-vi-theo-duoi-hoi-hoa-20260504151503290.htm"
+        },
+        {
+          id: 14,
+          cat: "PRESS FEATURE",
+          date: "2026",
+          title: "Sinh Vien Viet Nam - Tien Phong Feature",
+          org: "Tien Phong / Sinh Vien Viet Nam",
+          desc: "Feature story: 'The life of a male student who once climbed rooftops to put out a fire: achieving multiple major awards' — exploring perseverance and civic duty.",
+          link: "https://svvn.tienphong.vn/cuoc-song-cua-nam-sinh-tung-leo-mai-nha-dap-dam-chay-bi-don-la-truong-duoi-hoc-vi-chat-cam-gianh-loat-giai-thuong-lon-post1838655.tpo"
+        },
+        {
+          id: 15,
+          cat: "INTERNATIONAL",
+          date: "2024",
+          title: "120 Hours Competition Archive",
+          org: "120 Hours &middot; Oslo, Norway",
+          desc: "Participated in the legendary 120-hour non-stop student architectural competition, testing rapid conceptualization under extreme constraints.",
+          link: "https://www.120hours.no/archive"
+        },
+        {
+          id: 16,
+          cat: "ORGANIZATION",
+          date: "2021-2023",
+          title: "Co-founder & Vice President &bull; ASCUP.UAH",
+          org: "Academic Student Club of Urban Planning Faculty - UAH",
+          desc: "Founded academic workshops, cross-faculty research seminars, and community design studios for urban planning students.",
+          link: ""
+        },
+        {
+          id: 17,
+          cat: "COMMUNITY",
+          date: "2021-2024",
+          title: "Founder &bull; VN Urban Planning Student Community",
+          org: "Urban Planning, Landscape & Design Community - VN",
+          desc: "Established a nationwide open digital exchange platform for young Vietnamese planners, architects, and landscape researchers.",
+          link: ""
+        },
+        {
+          id: 18,
+          cat: "WORKSHOP",
+          date: "10/2022",
+          title: "Assistant: HKU + UAH Workshop",
+          org: "The University of Hong Kong & UAH",
+          desc: "Assistant in MLA Studio II: Ho Chi Minh City Futures, exploring rapid delta urbanization and tidal adaptation along the Dong Nai River.",
+          link: ""
+        },
+        {
+          id: 19,
+          cat: "PUBLICATIONS",
+          date: "2023",
+          title: "Vietnam Urban Planning Journal Publication",
+          org: "Quy Hoach Do Thi Journal",
+          desc: "Official press coverage and analytical monograph on the Award Ceremony for Outstanding Graduation Thesis of 2023.",
+          link: "https://quyhoachdothi.com/le-trao-giai-thuong-do-an-sinh-vien-tot-nghiep-xuat-sac-nam-2023/"
+        },
+        {
+          id: 20,
+          cat: "WEBINAR SERIES",
+          date: "2021-2022",
+          title: "Head of Program: Study Abroad Orientation 101",
+          org: "ASCUP & Faculty of Urban Planning",
+          desc: "Directed a multi-part mentorship series connecting UAH alumni in Europe, Japan, and North America with undergraduate scholars.",
+          link: ""
+        },
+        {
+          id: 21,
+          cat: "CORE PHILOSOPHY",
+          date: "2026",
+          title: "Living Patterns &amp; Systemic Spatial Care",
+          org: "Baropholio Field Axiom",
+          desc: "“Believes that movement—even uncertain and slow—is better than standing still. Focused on listening to spaces, observing human living patterns, and designing with care and long-term systemic impact.”",
+          link: ""
+        }
+      ];
+
+      // ======================================================================
+      // 1B. REAL-TIME SYNCHRONIZATION WITH CMS ADMIN (LOCALSTORAGE & BROADCAST)
+      // ======================================================================
+      function convertCmsProjectToRecord(p, idx) {
+        var dateVal = (p.basicInfo && p.basicInfo.find(function(b) { return b.label && b.label.toLowerCase() === "date"; }))
+          ? p.basicInfo.find(function(b) { return b.label && b.label.toLowerCase() === "date"; }).value
+          : (p.createdAt ? new Date(p.createdAt).getFullYear().toString() : (p.dateAdded || "2025"));
+
+        var orgVal = (p.basicInfo && p.basicInfo.find(function(b) { return b.label && b.label.toLowerCase().includes("org"); }))
+          ? p.basicInfo.find(function(b) { return b.label && b.label.toLowerCase().includes("org"); }).value
+          : "Baropholio";
+
+        var awardVal = (p.basicInfo && p.basicInfo.find(function(b) { return b.label && (b.label.toLowerCase().includes("award") || b.label.toLowerCase().includes("role")) && !b.label.toLowerCase().includes("org"); }))
+          ? p.basicInfo.find(function(b) { return b.label && (b.label.toLowerCase().includes("award") || b.label.toLowerCase().includes("role")) && !b.label.toLowerCase().includes("org"); }).value
+          : (p.subtitle || "");
+
+        var linkVal = (p.basicInfo && p.basicInfo.find(function(b) { return b.label && b.label.toLowerCase() === "link"; }))
+          ? p.basicInfo.find(function(b) { return b.label && b.label.toLowerCase() === "link"; }).value
+          : "";
+
+        var coverItem = p.media && p.media.find(function(m) { return m.isCover; });
+        var imgVal = (coverItem && (coverItem.dataUrl || coverItem.src)) 
+          || (p.media && p.media[0] ? (p.media[0].dataUrl || p.media[0].src) : "") 
+          || p.image || "";
+
+        var galleryVals = (p.media || []).map(function(m) { return m.dataUrl || m.src; }).filter(Boolean);
+        if (galleryVals.length === 0 && imgVal) galleryVals = [imgVal];
+
+        var primaryCat = (p.collections && p.collections[0]) || "ARCHIVE";
+
+        return {
+          id: idx + 1,
+          title: p.title || "Untitled",
+          category: primaryCat,
+          cat: primaryCat,
+          year: dateVal,
+          date: dateVal,
+          organization: orgVal,
+          org: orgVal,
+          award: awardVal,
+          description: p.description || "",
+          desc: p.description || "",
+          image: imgVal,
+          link: linkVal,
+          gallery: galleryVals
+        };
+      }
+
+      function loadLiveRecords() {
+        // Priority 1: Check localStorage from CMS admin (v5 -> v4 -> v3 -> general)
+        var storageKeys = ["baropholio_wix_portfolio_v5", "baropholio_wix_portfolio_v4", "baropholio_wix_portfolio_v3", "baropholio_cms_state"];
+        for (var k = 0; k < storageKeys.length; k++) {
+          try {
+            var raw = localStorage.getItem(storageKeys[k]);
+            if (raw) {
+              var parsed = JSON.parse(raw);
+              if (parsed && Array.isArray(parsed.projects) && parsed.projects.length > 0) {
+                // Filter only published projects (ignore hidden or soft-deleted)
+                var active = parsed.projects.filter(function(p) { return p.published !== false; });
+                if (active.length > 0) {
+                  return active.map(convertCmsProjectToRecord);
+                }
+              } 
+            }
+          } catch(e) {}
+        }
+
+        // Priority 2: Use window.BAROPHOLIO_PROJECTS from 02.Project/projects_data.js
+        if (window.BAROPHOLIO_PROJECTS && Array.isArray(window.BAROPHOLIO_PROJECTS) && window.BAROPHOLIO_PROJECTS.length > 0) {
+          return window.BAROPHOLIO_PROJECTS;
+        }
+
+        // Priority 3: Fallback default
+        return DEFAULT_RECORDS;
+      }
+
+      var RECORDS = loadLiveRecords();
+
+      /* ======================================================================
+         2. FIBONACCI 3D SPHERE ENGINE
+         ====================================================================== */
+      var stage = document.getElementById("stage");
+      var world = document.getElementById("world");
+      var orb = document.getElementById("orb");
+      var headline = document.getElementById("headline");
+      var splash = document.getElementById("splash");
+      var bar = document.getElementById("bar");
+      var grid = document.getElementById("grid");
+      var gridRows = document.getElementById("gridRows");
+
+      var N = RECORDS.length;
+      var GA = Math.PI * (3 - Math.sqrt(5)); // Golden Angle
+      var cards = [];
+      var unitVectors = [];
+
+      var R = 280;
+      var cw = 140;
+      var perspective = 1150;
+      var reelCardW = 320;
+      var reelCardH = 320;
+      var reelGap = 26;
+
+      function calcDimensions() {
+        var w = window.innerWidth;
+        var h = window.innerHeight;
+        var hr = w <= 380 ? 0.38 : (w <= 640 ? 0.42 : 0.46);
+        var wr = w <= 380 ? 0.48 : (w <= 640 ? 0.52 : 0.58);
+        var floor = w <= 380 ? 115 : (w <= 640 ? 140 : 180);
+        R = Math.max(floor, Math.min(480, h * hr, w * wr));
+
+        var scale = w <= 380 ? 0.44 : (w <= 640 ? 0.46 : 0.48);
+        cw = Math.round(Math.max(88, R * scale));
+        
+        reelCardW = Math.round(Math.max(220, Math.min(400, w * 0.28, h * 0.48)));
+        reelCardH = reelCardW;
+        reelGap = Math.round(Math.max(18, w * 0.02));
+
+        perspective = w <= 380 ? 640 : (w <= 640 ? 780 : (w <= 900 ? 940 : 1150));
+        document.documentElement.style.setProperty("--persp", perspective + "px");
+        document.documentElement.style.setProperty("--cw", cw + "px");
+      }
+      calcDimensions();
+
+      function buildSphereAndGrid() {
+        if (!orb || !gridRows) return;
+        orb.innerHTML = "";
+        gridRows.innerHTML = "";
+        cards = [];
+        unitVectors = [];
+        N = RECORDS.length;
+
+        for (var i = 0; i < N; i++) {
+          var y = 1 - (i / (Math.max(1, N - 1))) * 2;
+          var rad = Math.sqrt(Math.max(0, 1 - y * y));
+          var theta = i * GA;
+          var x = Math.cos(theta) * rad;
+          var z = Math.sin(theta) * rad;
+          unitVectors.push({ x: x, y: y, z: z });
+
+          var card = document.createElement("div");
+          card.className = "card" + (i === 20 ? " tall" : "");
+          card.setAttribute("data-idx", i);
+
+          var rec = RECORDS[i];
+          var catName = rec.category || rec.cat || "ARCHIVE";
+          var dateYear = rec.year || rec.date || "2026";
+          var orgName = rec.organization || rec.org || "";
+          var shortOrg = orgName ? orgName.split("(")[0].trim().slice(0, 24) : "ARCHIVE";
+
+          var imgHtml = rec.image 
+            ? '<img src="' + rec.image + '" alt="' + rec.title + '" class="card-bg-img" onerror="this.style.display=\'none\';">' 
+            : '<div class="grid-card-placeholder" style="position:absolute;inset:0;"><span class="ph-cat" style="opacity:1;">' + catName + '</span></div>';
+
+          var reelCaption = 
+            '<div class="card-reel-caption">' +
+              '<span class="reel-idx">[' + (i < 9 ? "0" + (i+1) : (i+1)) + ']</span>' +
+              '<span class="reel-title">' + rec.title + '</span>' +
+              '<span class="reel-cat">&bull; ' + catName + '</span>' +
+            '</div>';
+
+          card.innerHTML = 
+            '<figure>' +
+              imgHtml +
+              '<div class="card-canvas sphere-canvas">' +
+                '<div class="card-sphere-info">' +
+                  '<span class="cat-tag">' + catName + '</span>' +
+                  '<div class="mid-title">' + rec.title + '</div>' +
+                  '<div class="bot-row">' +
+                    '<span>' + shortOrg + '</span>' +
+                    '<span>NO. ' + (i < 9 ? "0" + (i+1) : (i+1)) + '</span>' +
+                  '</div>' +
+                '</div>' +
+              '</div>' +
+              reelCaption +
+            '</figure>';
+
+          orb.appendChild(card);
+          cards.push(card);
+
+          // Populate flat grid card
+          var gCard = document.createElement("div");
+          gCard.className = "grid-card";
+          gCard.setAttribute("data-idx", i);
+
+          var dur = (3.4 + ((i * 1.37) % 2.6)).toFixed(2) + "s";
+          var delay = (-((i * 1.83) % 4.0)).toFixed(2) + "s";
+          var floatY = (-5 - ((i * 2.1) % 8)).toFixed(1) + "px";
+          var sc1 = (1.015 + ((i * 0.007) % 0.035)).toFixed(3);
+          var sc2 = (0.970 - ((i * 0.006) % 0.025)).toFixed(3);
+
+          gCard.style.setProperty("--float-dur", dur);
+          gCard.style.setProperty("--float-delay", delay);
+          gCard.style.setProperty("--float-y", floatY);
+          gCard.style.setProperty("--float-scale-1", sc1);
+          gCard.style.setProperty("--float-scale-2", sc2);
+
+          if (rec.image) {
+            gCard.innerHTML =
+              '<div class="grid-card-thumb-wrap">' +
+                '<img src="' + rec.image + '" alt="' + rec.title + '" class="grid-card-thumb" loading="lazy" onerror="this.parentElement.className=\'grid-card-placeholder\';this.remove();">' +
+              '</div>' +
+              '<div class="grid-card-overlay"></div>' +
+              '<div class="grid-card-info">' +
+                '<span class="cat-label">' + catName + '</span>' +
+                '<div class="card-title">' + rec.title + '</div>' +
+                '<span class="card-index">NO. ' + (i < 9 ? "0"+(i+1) : (i+1)) + '</span>' +
+              '</div>';
+          } else {
+            gCard.innerHTML =
+              '<div class="grid-card-placeholder">' +
+                '<span class="ph-cat">' + catName + '</span>' +
+              '</div>' +
+              '<div class="grid-card-overlay"></div>' +
+              '<div class="grid-card-info">' +
+                '<span class="cat-label">' + catName + '</span>' +
+                '<div class="card-title">' + rec.title + '</div>' +
+                '<span class="card-index">NO. ' + (i < 9 ? "0"+(i+1) : (i+1)) + '</span>' +
+              '</div>';
+          }
+          gridRows.appendChild(gCard);
+        }
+      }
+
+      // Initial build
+      buildSphereAndGrid();
+
+      // Real-time Auto-Sync Handler across tabs
+      function autoSyncProjects() {
+        var updated = loadLiveRecords();
+        if (updated && updated.length > 0) {
+          RECORDS = updated;
+          buildSphereAndGrid();
+          calcDimensions();
+          console.log("🔄 [Auto-Sync] Portfolio updated with " + RECORDS.length + " projects!");
+        }
+      }
+
+      window.addEventListener("storage", function(e) {
+        if (!e.key || e.key.indexOf("baropholio") !== -1) {
+          autoSyncProjects();
+        }
+      });
+
+      try {
+        var bc = new BroadcastChannel("baropholio_cms_sync");
+        bc.onmessage = function() {
+          autoSyncProjects();
+        };
+      } catch(e) {}
+
+      // Async fetch for projects_master.json if served over HTTP
+      try {
+        fetch("./02.Project/projects_master.json?t=" + Date.now())
+          .then(function(res) { if (res.ok) return res.json(); })
+          .then(function(data) {
+            if (data && Array.isArray(data.projects) && data.projects.length > 0) {
+              var active = data.projects.filter(function(p) { return p.status !== "hidden"; });
+              if (active.length > 0) {
+                RECORDS = active.map(convertCmsProjectToRecord);
+                buildSphereAndGrid();
+                calcDimensions();
+              }
+            }
+          })
+          .catch(function() {});
+      } catch(e) {}
+
+      /* ======================================================================
+         3. DUAL-VIEW ENGINE: 3D SPHERE <-> HORIZONTAL REEL MORPH
+         ====================================================================== */
+      var viewMode = "sphere"; // "sphere" or "reel"
+      var morph = 0.0;
+      var targetMorph = 0.0;
+      var reelOffset = 0.0;
+      var reelVel = 0.0;
+      var autoSpeed = 1.15; // Smooth automatic glide from right to left
+      var isHoveringCard = false;
+
+      var spin = 0;
+      var tilt = -4;
+      var dragX = 0;
+      var dragY = 0;
+      var velX = 0;
+      var velY = 0;
+      var camZ = 0;
+      var camZTarget = 0;
+      var focusedIdx = -1;
+      var isDragging = false;
+      var downX = 0;
+      var downY = 0;
+      var lastX = 0;
+      var lastY = 0;
+
+      function renderFrame() {
+        // Morph interpolation with smoothstep
+        morph += (targetMorph - morph) * 0.075;
+        if (Math.abs(targetMorph - morph) < 0.001) morph = targetMorph;
+        var t = morph;
+        var easeT = t * t * (3 - 2 * t); // smoothstep 0..1
+
+        if (t > 0.48) {
+          document.body.classList.add("reel-mode");
+        } else {
+          document.body.classList.remove("reel-mode");
+        }
+
+        // Automatic horizontal pan from right to left in Reel Mode
+        if (t > 0.02 && !isDragging && focusedIdx === -1 && !document.body.classList.contains("about-open")) {
+          var currentSpeed = autoSpeed * (isHoveringCard ? 0.15 : 1.0);
+          reelOffset -= currentSpeed;
+          reelOffset += reelVel;
+          reelVel *= 0.93;
+          if (Math.abs(reelVel) < 0.005) reelVel = 0;
+        }
+
+        // Camera inertia physics in Sphere Mode
+        if (!isDragging && focusedIdx === -1 && !document.body.classList.contains("about-open") && t < 0.5) {
+          dragX += velX;
+          dragY += velY;
+          velX *= 0.94;
+          velY *= 0.94;
+          if (Math.abs(velX) < 0.002) velX = 0;
+          if (Math.abs(velY) < 0.002) velY = 0;
+
+          if (tilt + dragY > 32) dragY = 32 - tilt;
+          if (tilt + dragY < -32) dragY = -32 - tilt;
+        }
+
+        var maxScroll = window.innerHeight * 0.16;
+        var p = Math.min(1, Math.max(0, window.pageYOffset / (maxScroll || 1)));
+        camZTarget = p * Math.min(64, R * 0.14);
+        camZ += (camZTarget - camZ) * 0.08;
+
+        var sx = tilt + dragY;
+        var sy = spin + dragX;
+
+        // In Reel mode, world unrolls smoothly to face user squarely
+        var curSX = sx * (1 - easeT);
+        var curSY = sy * (1 - easeT);
+        var curCamZ = camZ * (1 - easeT);
+
+        world.style.transform = "translateZ(" + curCamZ.toFixed(1) + "px) rotateY(" + curSY.toFixed(1) + "deg) rotateX(" + curSX.toFixed(1) + "deg)";
+
+        // Headline counter-rotates and fades out during morph to reel
+        if (headline) {
+          headline.style.transform = "rotateX(" + (-curSX.toFixed(1)) + "deg) rotateY(" + (-curSY.toFixed(1)) + "deg) translateZ(" + (R * 0.62) + "px)";
+          headline.style.opacity = Math.max(0, (1 - p * 0.55) * (1 - easeT * 1.5));
+        }
+
+        // Seamless conveyor ribbon wrap math
+        var stride = reelCardW + reelGap;
+        var totalReelWidth = N * stride;
+
+        var radSX = curSX * Math.PI / 180;
+        var radSY = curSY * Math.PI / 180;
+        var cosX = Math.cos(radSX), sinX = Math.sin(radSX);
+        var cosY = Math.cos(radSY), sinY = Math.sin(radSY);
+
+        for (var i = 0; i < N; i++) {
+          var u = unitVectors[i];
+          var lat = Math.asin(u.y) * 180 / Math.PI;
+          var lon = Math.atan2(u.x, u.z) * 180 / Math.PI;
+
+          // 3D Sphere Position
+          var sphX = u.x * R;
+          var sphY = -u.y * R;
+          var sphZ = u.z * R;
+
+          // Horizontal Reel Position (smoothly wrapped around center)
+          var rawX = i * stride + reelOffset;
+          var wrappedX = ((rawX % totalReelWidth) + totalReelWidth) % totalReelWidth;
+          var reelX = wrappedX - (totalReelWidth / 2);
+          var reelY = 0;
+          var reelZ = 40;
+
+          // Dynamic Morph Interpolation
+          var curX = sphX * (1 - easeT) + reelX * easeT;
+          var curY = sphY * (1 - easeT) + reelY * easeT;
+          var curZ = sphZ * (1 - easeT) + reelZ * easeT;
+          var curRotY = lon * (1 - easeT);
+          var curRotX = lat * (1 - easeT);
+
+          // Card Dimension Interpolation
+          var curW = cw * (1 - easeT) + reelCardW * easeT;
+          var curH = (cw / 1.45) * (1 - easeT) + reelCardH * easeT;
+
+          var el = cards[i];
+          el.style.width = curW.toFixed(1) + "px";
+          el.style.height = curH.toFixed(1) + "px";
+          el.style.marginLeft = (-curW / 2).toFixed(1) + "px";
+          el.style.marginTop = (-curH / 2).toFixed(1) + "px";
+          el.style.transform = "translate3d(" + curX.toFixed(1) + "px, " + curY.toFixed(1) + "px, " + curZ.toFixed(1) + "px) rotateY(" + curRotY.toFixed(1) + "deg) rotateX(" + curRotX.toFixed(1) + "deg)";
+
+          // Depth Wash (fades out in reel mode so all projects are vivid)
+          var x1 = u.x * cosY + u.z * sinY;
+          var z1 = -u.x * sinY + u.z * cosY;
+          var y2 = -u.y * cosX - z1 * sinX;
+          var z2 = -u.y * sinX + z1 * cosX;
+
+          var zf = z2;
+          var base = 0.14 + 0.86 * Math.pow(Math.max(0, (zf + 1) / 2), 0.85);
+          var shade = 1 - Math.min(1, p * 1.5);
+          var dim = shade * (1 - base) * (1 - easeT);
+
+          if (focusedIdx !== -1) {
+            dim = Math.min(1, dim + 0.75);
+          }
+          el.style.setProperty("--d", dim.toFixed(2));
+          el.style.opacity = (focusedIdx === i ? 0 : 1);
+        }
+
+        requestAnimationFrame(renderFrame);
+      }
+
+      // Hover card slows down the reel
+      cards.forEach(function(c) {
+        c.addEventListener("mouseenter", function() { isHoveringCard = true; });
+        c.addEventListener("mouseleave", function() { isHoveringCard = false; });
+      });
+
+      /* ======================================================================
+         4. POINTER & TOUCH GESTURES (DUAL MODE AWARE)
+         ====================================================================== */
+      var startTarget = null;
+
+      stage.addEventListener("pointerdown", function (e) {
+        if (focusedIdx !== -1 || document.body.classList.contains("about-open")) return;
+        isDragging = true;
+        downX = e.clientX;
+        downY = e.clientY;
+        lastX = e.clientX;
+        lastY = e.clientY;
+        velX = 0;
+        velY = 0;
+        reelVel = 0;
+        startTarget = e.target;
+        try { stage.setPointerCapture(e.pointerId); } catch(err){}
+      });
+
+      window.addEventListener("pointermove", function (e) {
+        if (!isDragging) return;
+        var dx = e.clientX - lastX;
+        var dy = e.clientY - lastY;
+        lastX = e.clientX;
+        lastY = e.clientY;
+
+        if (viewMode === "sphere") {
+          dragX += dx * 0.16;
+          dragY -= dy * 0.16;
+          velX = dx * 0.14;
+          velY = -dy * 0.14;
+        } else {
+          // Horizontal reel drag
+          reelOffset += dx * 1.6;
+          reelVel = dx * 1.4;
+        }
+      });
+
+      function stopDrag(e) {
+        if (!isDragging) return;
+        isDragging = false;
+        var dist = Math.hypot(e.clientX - downX, e.clientY - downY);
+        // Click action: Opens 3D Architectural Monograph Book Spread
+        if (dist < 10) {
+          var targetCard = (startTarget && startTarget.closest) ? startTarget.closest(".card") : null;
+          if (!targetCard) {
+            targetCard = document.elementFromPoint(e.clientX, e.clientY);
+            if (targetCard) targetCard = targetCard.closest(".card");
+          }
+          if (targetCard) {
+            var idx = parseInt(targetCard.getAttribute("data-idx"), 10);
+            if (!isNaN(idx)) {
+              openBook(idx);
+            }
+          }
+        }
+        startTarget = null;
+      }
+      window.addEventListener("pointerup", stopDrag);
+      window.addEventListener("pointercancel", stopDrag);
+
+      // Mode Switcher function
+      window.switchMode = function(newMode, focusIdx) {
+        viewMode = newMode;
+        var btnSphere = document.getElementById("btnSphereTab");
+        var btnReel = document.getElementById("btnReelTab");
+        var cueText = document.getElementById("cueText");
+
+        if (newMode === "reel") {
+          targetMorph = 1.0;
+          if (btnSphere) btnSphere.classList.remove("active");
+          if (btnReel) btnReel.classList.add("active");
+          if (cueText) cueText.innerHTML = "Drag to scroll &middot; Click card to view details";
+          if (typeof focusIdx === "number") {
+            var stride = reelCardW + reelGap;
+            reelOffset = -(focusIdx * stride);
+          }
+        } else {
+          targetMorph = 0.0;
+          if (btnSphere) btnSphere.classList.add("active");
+          if (btnReel) btnReel.classList.remove("active");
+          if (cueText) cueText.innerHTML = "Click any card or drag to explore sphere";
+        }
+      };
+
+      var btnSphereTab = document.getElementById("btnSphereTab");
+      var btnReelTab = document.getElementById("btnReelTab");
+      if (btnSphereTab) btnSphereTab.addEventListener("click", function(){ window.switchMode("sphere"); });
+      if (btnReelTab) btnReelTab.addEventListener("click", function(){ window.switchMode("reel"); });
+
+      /* ======================================================================
+         5. 3D ARCHITECTURAL MONOGRAPH BOOK SPREAD SYSTEM
+         ====================================================================== */
+      var currentBookIdx = 0;
+      var bookModal = document.getElementById("bookModal");
+      var bookScrim = document.getElementById("bookScrim");
+      var bookCloseBtn = document.getElementById("bookCloseBtn");
+      var bookPrevBtn = document.getElementById("bookPrevBtn");
+      var bookNextBtn = document.getElementById("bookNextBtn");
+      var bookIndexCounter = document.getElementById("bookIndexCounter");
+      
+      var bookCategoryTag = document.getElementById("bookCategoryTag");
+      var bookYearTag = document.getElementById("bookYearTag");
+      var bookTitle = document.getElementById("bookTitle");
+      var bookAward = document.getElementById("bookAward");
+      var bookOrganization = document.getElementById("bookOrganization");
+      var bookTypology = document.getElementById("bookTypology");
+      var bookLocation = document.getElementById("bookLocation");
+      var bookDesc = document.getElementById("bookDesc");
+      var bookLink = document.getElementById("bookLink");
+      var bookActionRow = document.getElementById("bookActionRow");
+      var bookLeftFolio = document.getElementById("bookLeftFolio");
+      var bookRightFolio = document.getElementById("bookRightFolio");
+      
+      var bookImage = document.getElementById("bookImage");
+      var bookDrawingPlate = document.getElementById("bookDrawingPlate");
+      var draftPlateTitle = document.getElementById("draftPlateTitle");
+      var bookPlateCaption = document.getElementById("bookPlateCaption");
+
+      var tabTextBtn = document.getElementById("tabTextBtn");
+      var tabVisualBtn = document.getElementById("tabVisualBtn");
+
+      // Flip Book internal image gallery state for the current project
+      var currentProjectImgIdx = 0;
+      var currentProjectImages = [];
+      var bookPageRight = document.getElementById("bookPageRight");
+      var bookFlipIndicator = document.getElementById("bookFlipIndicator");
+      var flipCountText = document.getElementById("flipCountText");
+
+      function updateRightPageImage(imgSrc, animate) {
+        if (!bookImage) return;
+        if (animate) {
+          bookImage.classList.add("flipping");
+          setTimeout(function() {
+            bookImage.src = imgSrc;
+            bookImage.classList.remove("flipping");
+          }, 220);
+        } else {
+          bookImage.src = imgSrc;
+        }
+
+        if (flipCountText && currentProjectImages.length > 0) {
+          flipCountText.textContent = "PLATE " + (currentProjectImgIdx + 1) + " / " + currentProjectImages.length + " â€¢ TAP TO FLIP";
+        }
+      }
+
+      function flipProjectImage() {
+        if (!currentProjectImages || currentProjectImages.length <= 1) return;
+        currentProjectImgIdx = (currentProjectImgIdx + 1) % currentProjectImages.length;
+        updateRightPageImage(currentProjectImages[currentProjectImgIdx], true);
+      }
+
+      if (bookPageRight) {
+        bookPageRight.addEventListener("click", function(e) {
+          // Do not trigger flip if clicking inside external links or buttons
+          if (e.target.closest("a") || e.target.closest("button")) return;
+          flipProjectImage();
+        });
+      }
+
+      function loadBookSpread(idx) {
+        if (!RECORDS || RECORDS.length === 0) return;
+        currentBookIdx = (idx + RECORDS.length) % RECORDS.length;
+        var rec = RECORDS[currentBookIdx];
+        if (!rec) return;
+
+        // Reset flip book images for this project
+        currentProjectImgIdx = 0;
+        currentProjectImages = [];
+        if (rec.gallery && Array.isArray(rec.gallery) && rec.gallery.length > 0) {
+          currentProjectImages = rec.gallery.slice();
+        } else if (rec.images && Array.isArray(rec.images) && rec.images.length > 0) {
+          currentProjectImages = rec.images.slice();
+        } else if (rec.image) {
+          currentProjectImages = [rec.image];
+        }
+
+        if (bookFlipIndicator) {
+          bookFlipIndicator.style.display = currentProjectImages.length > 1 ? "flex" : "none";
+        }
+
+        // Top counter
+        if (bookIndexCounter) {
+          bookIndexCounter.textContent = "RECORD " + (currentBookIdx < 9 ? "0" + (currentBookIdx + 1) : (currentBookIdx + 1)) + " OF " + (RECORDS.length < 10 ? "0" + RECORDS.length : RECORDS.length);
+        }
+
+        // Left Page: Strictly Text Information
+        if (bookCategoryTag) bookCategoryTag.textContent = rec.category || rec.cat || "SPATIAL ARCHIVE";
+        if (bookYearTag) bookYearTag.textContent = rec.year || rec.date || "2024";
+        if (bookTitle) bookTitle.textContent = rec.title || "Untitled Project";
+        if (bookAward) bookAward.textContent = rec.award || rec.details || rec.competition || "Academic & Professional Distinction";
+        if (bookOrganization) bookOrganization.textContent = rec.organization || rec.org || "Vietnam Urban Planning & Architecture";
+        if (bookTypology) bookTypology.textContent = rec.typology || "Urban Planning & Ecological Settlement";
+        if (bookLocation) bookLocation.textContent = rec.location || "Ho Chi Minh City, Vietnam";
+        if (bookDesc) bookDesc.textContent = rec.description || rec.desc || "A spatial investigation synthesizing riparian ecological systems with resilient community infrastructure.";
+
+        if (rec.link && bookLink) {
+          bookLink.href = rec.link;
+          if (bookActionRow) bookActionRow.style.display = "block";
+        } else if (bookActionRow) {
+          bookActionRow.style.display = "none";
+        }
+
+        var pageNumLeft = (currentBookIdx * 2 + 1);
+        var pageNumRight = (currentBookIdx * 2 + 2);
+        if (bookLeftFolio) bookLeftFolio.textContent = (pageNumLeft < 10 ? "0" + pageNumLeft : pageNumLeft);
+        if (bookRightFolio) bookRightFolio.textContent = (pageNumRight < 10 ? "0" + pageNumRight : pageNumRight);
+
+        // Right Page: Strictly Image / Visual
+        if (draftPlateTitle) draftPlateTitle.textContent = rec.title;
+        if (bookPlateCaption) bookPlateCaption.textContent = "PLATE // " + (rec.category || rec.cat || "VISUAL ARCHIVE");
+
+        var activeCoverImg = currentProjectImages[0];
+        if (activeCoverImg && bookImage) {
+          bookImage.style.display = "none";
+          if (bookDrawingPlate) bookDrawingPlate.style.display = "flex";
+
+          var testImg = new Image();
+          testImg.src = activeCoverImg;
+          testImg.onload = function () {
+            if (bookImage) {
+              updateRightPageImage(activeCoverImg, false);
+              bookImage.alt = rec.title;
+              bookImage.style.display = "block";
+            }
+            if (bookDrawingPlate) bookDrawingPlate.style.display = "none";
+          };
+          testImg.onerror = function () {
+            if (bookImage) bookImage.style.display = "none";
+            if (bookDrawingPlate) bookDrawingPlate.style.display = "flex";
+          };
+        } else {
+          if (bookImage) bookImage.style.display = "none";
+          if (bookDrawingPlate) bookDrawingPlate.style.display = "flex";
+        }
+
+        // Update 3D Accordion Stack Wings (Previous & Next Projects)
+        var prevIdx = (currentBookIdx - 1 + RECORDS.length) % RECORDS.length;
+        var nextIdx = (currentBookIdx + 1) % RECORDS.length;
+        var prevRec = RECORDS[prevIdx];
+        var nextRec = RECORDS[nextIdx];
+
+        var stackImgLeft = document.getElementById("stackImgLeft");
+        var stackImgRight = document.getElementById("stackImgRight");
+        if (stackImgLeft && prevRec) {
+          stackImgLeft.src = prevRec.image || "01.Logo/Baropholio logo2-01.png";
+          stackImgLeft.alt = prevRec.title || "Previous Project";
+        }
+        if (stackImgRight && nextRec) {
+          stackImgRight.src = nextRec.image || "01.Logo/Baropholio logo2-01.png";
+          stackImgRight.alt = nextRec.title || "Next Project";
+        }
+      }
+
+      function openBook(idx) {
+        closeAbout();
+        closeMenu();
+        if (document.body.classList.contains("gridview")) window.toggleGrid(false);
+        loadBookSpread(idx);
+        document.body.classList.add("book-open");
+      }
+      window.openBook = openBook;
+
+      function closeBook() {
+        document.body.classList.remove("book-open");
+      }
+      window.closeBook = closeBook;
+
+      // Backward compatibility
+      window.openLightbox = openBook;
+      window.closeLightbox = closeBook;
+
+      if (bookCloseBtn) bookCloseBtn.addEventListener("click", closeBook);
+      if (bookScrim) bookScrim.addEventListener("click", closeBook);
+
+      if (bookPrevBtn) {
+        bookPrevBtn.addEventListener("click", function(e) {
+          e.stopPropagation();
+          loadBookSpread(currentBookIdx - 1);
+        });
+      }
+      if (bookNextBtn) {
+        bookNextBtn.addEventListener("click", function(e) {
+          e.stopPropagation();
+          loadBookSpread(currentBookIdx + 1);
+        });
+      }
+
+      // Click on Stack Wings (Previous / Next Project)
+      var stackWingLeft = document.getElementById("stackWingLeft");
+      var stackWingRight = document.getElementById("stackWingRight");
+      if (stackWingLeft) {
+        stackWingLeft.addEventListener("click", function(e) {
+          e.stopPropagation();
+          loadBookSpread(currentBookIdx - 1);
+        });
+      }
+      if (stackWingRight) {
+        stackWingRight.addEventListener("click", function(e) {
+          e.stopPropagation();
+          loadBookSpread(currentBookIdx + 1);
+        });
+      }
+
+      // Mobile view tabs
+      if (tabTextBtn && tabVisualBtn) {
+        tabTextBtn.addEventListener("click", function () {
+          tabTextBtn.classList.add("active");
+          tabVisualBtn.classList.remove("active");
+          document.body.classList.remove("mob-visual-active");
+        });
+        tabVisualBtn.addEventListener("click", function () {
+          tabVisualBtn.classList.add("active");
+          tabTextBtn.classList.remove("active");
+          document.body.classList.add("mob-visual-active");
+        });
+      }
+
+      // Grid Card Click opens 3D Book Spread
+      if (gridRows) {
+        gridRows.addEventListener("click", function(e) {
+          var cardEl = e.target.closest(".grid-card");
+          if (cardEl) {
+            var idx = parseInt(cardEl.getAttribute("data-idx"), 10);
+            toggleGrid(false);
+            openBook(idx);
+          }
+        });
+      }
+
+      /* ======================================================================
+         6. FLAT GRID & ABOUT DRAWER CONTROLS
+         ====================================================================== */
+      var gridBtn = document.getElementById("gridBtn");
+      var navGrid = document.getElementById("navGrid");
+      var menuWorks = document.getElementById("menuWorks");
+
+      window.toggleGrid = function (force) {
+        var isGrid = document.body.classList.toggle("gridview", force);
+        if (isGrid) {
+          closeAbout();
+          closeMenu();
+          closeBook();
+        }
+      };
+
+      gridBtn.addEventListener("click", function () { window.toggleGrid(); });
+      navGrid.addEventListener("click", function (e) { e.preventDefault(); window.toggleGrid(true); });
+
+      // â”€â”€ Scroll-shrink effect on grid cards (shrink to 1/5 = scale 0.2) â”€â”€
+      (function() {
+        var gridEl = document.getElementById("grid");
+        var scrollTimer = null;
+        var isScrolling = false;
+
+        function applyScrolling() {
+          if (!document.body.classList.contains("gridview")) return;
+          var cards = gridEl.querySelectorAll(".grid-card");
+          for (var c = 0; c < cards.length; c++) {
+            cards[c].classList.add("scrolling");
+          }
+        }
+        function clearScrolling() {
+          var cards = gridEl.querySelectorAll(".grid-card");
+          for (var c = 0; c < cards.length; c++) {
+            cards[c].classList.remove("scrolling");
+          }
+          isScrolling = false;
+        }
+
+        gridEl.addEventListener("scroll", function() {
+          if (!isScrolling) {
+            isScrolling = true;
+            applyScrolling();
+          }
+          clearTimeout(scrollTimer);
+          scrollTimer = setTimeout(clearScrolling, 380);
+        }, { passive: true });
+
+        window.addEventListener("wheel", function() {
+          if (!document.body.classList.contains("gridview")) return;
+          if (!isScrolling) {
+            isScrolling = true;
+            applyScrolling();
+          }
+          clearTimeout(scrollTimer);
+          scrollTimer = setTimeout(clearScrolling, 380);
+        }, { passive: true });
+      })();
+
+      // Logo click returns to clean home page
+      var brandWordmark = document.querySelector(".wordmark");
+      if (brandWordmark) {
+        brandWordmark.addEventListener("click", function(e) {
+          e.preventDefault();
+          closeBook();
+          closeAbout();
+          closeMenu();
+          if (document.body.classList.contains("gridview")) window.toggleGrid(false);
+          if (viewMode !== "sphere") window.switchMode("sphere");
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        });
+      }
+
+      // About Drawer
+      var aboutDrawer = document.getElementById("about-drawer");
+      var aboutScrim = document.getElementById("aboutScrim");
+      var aboutCloseBtn = document.getElementById("aboutCloseBtn");
+      var navAbout = document.getElementById("navAbout");
+      var navContact = document.getElementById("navContact");
+
+      function updateAboutMistAndTheme() {
+        if (!aboutDrawer) return;
+        var scrollTop = aboutDrawer.scrollTop;
+        var hero = aboutDrawer.querySelector(".about-cover-hero");
+        var heroH = hero ? hero.offsetHeight : (window.innerHeight || 700);
+
+        // Smooth background interpolation from pure black (#080807) to paper white (#faf8f5)
+        // Transition starts at 15% scroll and finishes right when hero finishes (90%)
+        var rangeStart = heroH * 0.15;
+        var rangeEnd = heroH * 0.90;
+        var rawT = Math.min(1, Math.max(0, (scrollTop - rangeStart) / (rangeEnd - rangeStart)));
+        // Smoothstep cubic easing for ultra-smooth transition
+        var t = rawT * rawT * (3 - 2 * rawT);
+
+        var r = Math.round(8 + (250 - 8) * t);
+        var g = Math.round(8 + (248 - 8) * t);
+        var b = Math.round(7 + (245 - 7) * t);
+        aboutDrawer.style.backgroundColor = "rgb(" + r + "," + g + "," + b + ")";
+
+        // Sticky header adapts seamlessly so close button is always distinct
+        var aboutHeader = aboutDrawer.querySelector(".about-header");
+        if (aboutHeader) {
+          if (t > 0.55) {
+            aboutHeader.style.backgroundColor = "rgba(250, 248, 245, 0.94)";
+            aboutHeader.style.borderBottomColor = "rgba(13, 12, 11, 0.1)";
+            if (aboutCloseBtn) {
+              aboutCloseBtn.style.color = "#0d0c0b";
+              aboutCloseBtn.style.borderColor = "rgba(13, 12, 11, 0.22)";
+              aboutCloseBtn.style.backgroundColor = "rgba(13, 12, 11, 0.05)";
+            }
+            aboutDrawer.style.borderLeftColor = "rgba(13, 12, 11, 0.12)";
+          } else {
+            aboutHeader.style.backgroundColor = "rgba(8, 8, 7, 0.88)";
+            aboutHeader.style.borderBottomColor = "rgba(255, 255, 255, 0.08)";
+            if (aboutCloseBtn) {
+              aboutCloseBtn.style.color = "#ffffff";
+              aboutCloseBtn.style.borderColor = "rgba(255, 255, 255, 0.2)";
+              aboutCloseBtn.style.backgroundColor = "rgba(255, 255, 255, 0.04)";
+            }
+            aboutDrawer.style.borderLeftColor = "rgba(255, 255, 255, 0.09)";
+          }
+        }
+
+        // Mist Reveal check (Condense from mist into clarity)
+        var drawerBottom = aboutDrawer.getBoundingClientRect().bottom;
+        var items = aboutDrawer.querySelectorAll(".about-reveal-item");
+        items.forEach(function(item) {
+          var rect = item.getBoundingClientRect();
+          if (rect.top < drawerBottom - 30) {
+            item.classList.add("revealed");
+          }
+        });
+      }
+
+      if (aboutDrawer) {
+        aboutDrawer.addEventListener("scroll", updateAboutMistAndTheme, { passive: true });
+      }
+
+      function openAbout() {
+        closeLightbox();
+        closeMenu();
+        toggleGrid(false);
+        if (aboutDrawer) {
+          aboutDrawer.scrollTop = 0;
+          aboutDrawer.style.backgroundColor = "rgb(8, 8, 7)";
+          var items = aboutDrawer.querySelectorAll(".about-reveal-item");
+          items.forEach(function(item) {
+            item.classList.remove("revealed");
+          });
+        }
+        document.body.classList.add("about-open");
+        setTimeout(updateAboutMistAndTheme, 200);
+      }
+
+      function closeAbout() {
+        document.body.classList.remove("about-open");
+      }
+
+      navAbout.addEventListener("click", function(e){ e.preventDefault(); openAbout(); });
+      navContact.addEventListener("click", function(e){ e.preventDefault(); openAbout(); });
+
+      aboutCloseBtn.addEventListener("click", closeAbout);
+      aboutScrim.addEventListener("click", closeAbout);
+
+      // Fullscreen Menu & Actions (Matching User Reference Layout)
+      var menuBtn = document.getElementById("menuBtn");
+      var menuCloseBtn = document.getElementById("menuCloseBtn");
+      var menuHome = document.getElementById("menuHome");
+      var menuOrangeHeader = document.getElementById("menuOrangeHeader");
+      var menuOrangeGroup = document.getElementById("menuOrangeGroup");
+      var menuProjects = document.getElementById("menuProjects");
+      var menuArchive = document.getElementById("menuArchive");
+      var menuCollaborate = document.getElementById("menuCollaborate");
+      var menuAbout = document.getElementById("menuAbout");
+      var menuContact = document.getElementById("menuContact");
+
+      function toggleMenu() {
+        document.body.classList.toggle("menu-open");
+      }
+      function closeMenu() {
+        document.body.classList.remove("menu-open");
+      }
+
+      if (menuBtn) menuBtn.addEventListener("click", toggleMenu);
+      if (menuCloseBtn) menuCloseBtn.addEventListener("click", closeMenu);
+
+      if (menuHome) {
+        menuHome.addEventListener("click", function (e) {
+          e.preventDefault();
+          closeMenu();
+          if (viewMode !== "sphere") window.switchMode("sphere");
+          if (document.body.classList.contains("gridview")) window.toggleGrid(false);
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        });
+      }
+
+      if (menuOrangeHeader) {
+        menuOrangeHeader.addEventListener("click", function (e) {
+          e.preventDefault();
+          if (menuOrangeGroup) menuOrangeGroup.classList.toggle("expanded");
+        });
+      }
+
+      if (menuProjects) {
+        menuProjects.addEventListener("click", function (e) {
+          e.preventDefault();
+          closeMenu();
+          if (document.body.classList.contains("gridview")) window.toggleGrid(false);
+          if (viewMode !== "reel") window.switchMode("reel");
+        });
+      }
+
+      if (menuArchive) {
+        menuArchive.addEventListener("click", function (e) {
+          e.preventDefault();
+          closeMenu();
+          window.toggleGrid(true);
+        });
+      }
+
+      if (menuCollaborate) {
+        menuCollaborate.addEventListener("click", function (e) {
+          e.preventDefault();
+          closeMenu();
+          openAbout();
+        });
+      }
+
+      if (menuAbout) {
+        menuAbout.addEventListener("click", function (e) {
+          e.preventDefault();
+          closeMenu();
+          openAbout();
+        });
+      }
+
+      if (menuContact) {
+        menuContact.addEventListener("click", function (e) {
+          e.preventDefault();
+          closeMenu();
+          openAbout();
+        });
+      }
+
+      // Global Keydown (ESC & Arrows)
+      window.addEventListener("keydown", function (e) {
+        if (e.key === "Escape") {
+          if (document.body.classList.contains("book-open")) closeBook();
+          else if (document.body.classList.contains("lit")) closeLightbox();
+          else if (document.body.classList.contains("about-open")) closeAbout();
+          else if (document.body.classList.contains("menu-open")) closeMenu();
+          else if (document.body.classList.contains("gridview")) toggleGrid(false);
+          else if (viewMode === "reel") window.switchMode("sphere");
+        } else if (document.body.classList.contains("book-open")) {
+          if (e.key === "ArrowLeft") {
+            e.preventDefault();
+            loadBookSpread(currentBookIdx - 1);
+          } else if (e.key === "ArrowRight") {
+            e.preventDefault();
+            loadBookSpread(currentBookIdx + 1);
+          }
+        }
+      });
+
+      /* ======================================================================
+         7. CUSTOM CURSOR
+         ====================================================================== */
+      var dot = document.getElementById("dot");
+      var cursorX = window.innerWidth / 2;
+      var cursorY = window.innerHeight / 2;
+      var dotX = cursorX;
+      var dotY = cursorY;
+
+      window.addEventListener("pointermove", function (e) {
+        cursorX = e.clientX;
+        cursorY = e.clientY;
+      });
+
+      function updateCursor() {
+        dotX += (cursorX - dotX) * 0.22;
+        dotY += (cursorY - dotY) * 0.22;
+        if (dot) {
+          dot.style.transform = "translate3d(" + dotX + "px, " + dotY + "px, 0)";
+        }
+        requestAnimationFrame(updateCursor);
+      }
+      updateCursor();
+
+      document.querySelectorAll("a, button, .card, .grid-card").forEach(function(el) {
+        el.addEventListener("mouseenter", function () { if (dot) dot.classList.add("wide"); });
+        el.addEventListener("mouseleave", function () { if (dot) dot.classList.remove("wide"); });
+      });
+
+      /* ======================================================================
+         8. BOOT / REVEAL WITH CODE-TO-LOGO MATRIX ANIMATION
+         ====================================================================== */
+      window.addEventListener("resize", function () {
+        calcDimensions();
+        layoutSphere();
+      });
+
+      // --- Matrix Code & Logo Transition Controller ---
+      (function initCodeIntro() {
+        var splash = document.getElementById("splash");
+        var splashBgFlash = document.getElementById("splashBgFlash");
+        var canvas = document.getElementById("splashCanvas");
+        var splashResolved = document.getElementById("splashResolved");
+        var splashMark = document.getElementById("splashMark");
+        var splashBarWrap = document.getElementById("splashBarWrap");
+        var splashBarImg = document.getElementById("splashBarImg");
+        var splashTag = document.getElementById("splashTag");
+
+        if (!canvas || !splash) {
+          if (splash) splash.classList.add("out");
+          document.body.classList.remove("locked");
+          document.body.classList.add("revealed");
+          return;
+        }
+
+        var ctx = canvas.getContext("2d");
+        var dpr = Math.min(window.devicePixelRatio || 1, 2);
+        var cw = 0, ch = 0;
+
+        function resizeCanvas() {
+          cw = canvas.width = window.innerWidth * dpr;
+          ch = canvas.height = window.innerHeight * dpr;
+          ctx.scale(dpr, dpr);
+        }
+        resizeCanvas();
+
+        // Palette of 3 colors: orange, black/dark, white
+        var palette = [
+          { r: 235, g: 86,  b: 8,   hex: "#eb5608" }, // Brand vibrant orange
+          { r: 245, g: 130, b: 32,  hex: "#f58220" }, // Bright orange
+          { r: 255, g: 255, b: 255, hex: "#ffffff" }, // White
+          { r: 230, g: 230, b: 230, hex: "#e6e6e6" }, // Light white
+          { r: 20,  g: 18,  b: 16,  hex: "#141210" }, // Deep black
+          { r: 40,  g: 35,  b: 30,  hex: "#28231e" }  // Charcoal black
+        ];
+
+        var glyphs = "0123456789ABCDEFBAROPHOLIOXYZ<>/[]{}#*+=_!?:~%$^&";
+        var particles = [];
+        var animationStarted = false;
+
+        // Build target shape purely via high-fidelity Canvas vector rendering (zero CORS dependency)
+        function buildParticleGrid() {
+          if (animationStarted) return;
+          animationStarted = true;
+
+          var offW = 600;
+          var offH = 150;
+          var offCanvas = document.createElement("canvas");
+          offCanvas.width = offW;
+          offCanvas.height = offH;
+          var offCtx = offCanvas.getContext("2d");
+
+          // Draw geometric emblem mark of BAROPHOLIO (Orange folded polygon + white accent + black ribbon)
+          // 1. Orange background pentagon/faceted shape
+          offCtx.save();
+          offCtx.fillStyle = "#eb5608";
+          offCtx.beginPath();
+          offCtx.moveTo(25, 30);
+          offCtx.lineTo(95, 15);
+          offCtx.lineTo(125, 45);
+          offCtx.lineTo(125, 125);
+          offCtx.lineTo(25, 125);
+          offCtx.closePath();
+          offCtx.fill();
+
+          // 2. White diamond accent
+          offCtx.fillStyle = "#ffffff";
+          offCtx.beginPath();
+          offCtx.moveTo(85, 35);
+          offCtx.lineTo(98, 48);
+          offCtx.lineTo(85, 61);
+          offCtx.lineTo(72, 48);
+          offCtx.closePath();
+          offCtx.fill();
+
+          // 3. Black stylized folded ribbon 'B'
+          offCtx.fillStyle = "#141210";
+          offCtx.beginPath();
+          offCtx.moveTo(42, 40);
+          offCtx.lineTo(60, 40);
+          offCtx.lineTo(40, 80);
+          offCtx.lineTo(65, 80);
+          offCtx.lineTo(40, 120);
+          offCtx.lineTo(30, 105);
+          offCtx.lineTo(48, 70);
+          offCtx.lineTo(30, 70);
+          offCtx.closePath();
+          offCtx.fill();
+          offCtx.restore();
+
+          // Draw wordmark text "BAROPHOLIO" character by character to detect the 3 "O"s
+          // Set fillStyle WHITE before drawing so characters appear on canvas for sampling
+          offCtx.fillStyle = "#ffffff";
+          offCtx.font = "900 78px 'Space Grotesk', -apple-system, sans-serif";
+          offCtx.textAlign = "left";
+          offCtx.textBaseline = "middle";
+
+          var textLetters = "BAROPHOLIO";
+          // Measure total text width first to check canvas fit
+          var totalTextW = offCtx.measureText(textLetters).width;
+          // Icon occupies ~140px, start text after icon
+          var textStartX = 145;
+          // Expand offCanvas if needed so all text fits
+          if (textStartX + totalTextW + 10 > offW) {
+            offW = Math.ceil(textStartX + totalTextW + 20);
+            offCanvas.width = offW;
+            offCanvas.height = offH;
+            // Must redraw icon since canvas was resized (reset blank)
+            offCtx.fillStyle = "#eb5608";
+            offCtx.beginPath();
+            offCtx.moveTo(25, 30); offCtx.lineTo(95, 15); offCtx.lineTo(125, 45);
+            offCtx.lineTo(125, 125); offCtx.lineTo(25, 125); offCtx.closePath(); offCtx.fill();
+            offCtx.fillStyle = "#ffffff";
+            offCtx.beginPath();
+            offCtx.moveTo(85, 35); offCtx.lineTo(98, 48); offCtx.lineTo(85, 61);
+            offCtx.lineTo(72, 48); offCtx.closePath(); offCtx.fill();
+            offCtx.fillStyle = "#141210";
+            offCtx.beginPath();
+            offCtx.moveTo(42, 40); offCtx.lineTo(60, 40); offCtx.lineTo(40, 80);
+            offCtx.lineTo(65, 80); offCtx.lineTo(40, 120); offCtx.lineTo(30, 105);
+            offCtx.lineTo(48, 70); offCtx.lineTo(30, 70); offCtx.closePath(); offCtx.fill();
+            // Restore font/style for text
+            offCtx.fillStyle = "#ffffff";
+            offCtx.font = "900 78px 'Space Grotesk', -apple-system, sans-serif";
+            offCtx.textAlign = "left";
+            offCtx.textBaseline = "middle";
+          }
+
+          // Draw each letter and record bounding boxes for O-detection
+          var letterBoxes = [];
+          var curX = textStartX;
+          for (var li = 0; li < textLetters.length; li++) {
+            var ch = textLetters[li];
+            offCtx.fillStyle = "#ffffff"; // always white for sampling
+            offCtx.fillText(ch, curX, 75);
+            var chW = offCtx.measureText(ch).width;
+            letterBoxes.push({ char: ch, startX: curX, endX: curX + chW, isO: (ch === 'O') });
+            curX += chW;
+          }
+          console.log("LetterBoxes:", JSON.stringify(letterBoxes.map(function(l){ return l.char+":"+Math.round(l.startX)+"-"+Math.round(l.endX); })));
+          console.log("offW:", offW, "totalTextW:", totalTextW);
+
+          var imgData;
+          try {
+            imgData = offCtx.getImageData(0, 0, offW, offH).data;
+          } catch(e) {
+            console.warn("ImageData sampling fallback", e);
+            imgData = null;
+          }
+
+          var density = 5; // step size in pixels - denser sampling for clearer text shape
+          var screenW = window.innerWidth;
+          var screenH = window.innerHeight;
+          var centerX = screenW / 2;
+          var centerY = screenH / 2 - 20;
+
+          // Target scale on screen — account for dynamically expanded offW
+          var targetW = Math.min(screenW * 0.88, offW * 1.6);
+          var scaleRatio = targetW / offW;
+          var offsetX = centerX - (offW * scaleRatio) / 2;
+          var offsetY = centerY - (offH * scaleRatio) / 2;
+
+          particles = [];
+
+          if (imgData) {
+            for (var py = 0; py < offH; py += density) {
+              for (var px = 0; px < offW; px += density) {
+                var idx = (py * offW + px) * 4;
+                var a = imgData[idx + 3];
+                if (a > 60) {
+                  var isIcon = (px < 140);
+                  var isLetterO = false;
+                  if (!isIcon) {
+                    for (var b = 0; b < letterBoxes.length; b++) {
+                      if (px >= letterBoxes[b].startX && px < letterBoxes[b].endX) {
+                        if (letterBoxes[b].isO) isLetterO = true;
+                        break;
+                      }
+                    }
+                  }
+
+                  var startX = Math.random() * screenW;
+                  var startY = Math.random() * screenH;
+
+                  // Initial random colors for the code phase (cam, Ä‘en, tráº¯ng)
+                  var initialCol = palette[Math.floor(Math.random() * palette.length)];
+
+                  particles.push({
+                    targetX: offsetX + px * scaleRatio,
+                    targetY: offsetY + py * scaleRatio,
+                    x: startX,
+                    y: startY,
+                    vx: (Math.random() - 0.5) * 4,
+                    vy: 3 + Math.random() * 6,
+                    char: glyphs[Math.floor(Math.random() * glyphs.length)],
+                    size: 11 + Math.random() * 5,
+                    color: initialCol,
+                    alpha: 0.85 + Math.random() * 0.15,
+                    changeRate: Math.floor(3 + Math.random() * 6),
+                    counter: 0,
+                    isIcon: isIcon,
+                    isLetterO: isLetterO
+                  });
+                }
+              }
+            }
+          }
+
+          // Ambient code rain particles
+          for (var i = 0; i < 80; i++) {
+            var colAmb = palette[Math.floor(Math.random() * palette.length)];
+            particles.push({
+              targetX: Math.random() * screenW,
+              targetY: Math.random() * screenH,
+              x: Math.random() * screenW,
+              y: Math.random() * screenH,
+              vx: 0,
+              vy: 3 + Math.random() * 8,
+              char: glyphs[Math.floor(Math.random() * glyphs.length)],
+              size: 10 + Math.random() * 4,
+              color: colAmb,
+              alpha: 0.28,
+              changeRate: 4,
+              counter: 0,
+              ambient: true
+            });
+          }
+
+          startMatrixAnimation();
+        }
+
+        // Safety fallback: splash MUST fade out after max 4.8s under all circumstances
+        setTimeout(function() {
+          if (splash && !splash.classList.contains("out")) {
+            splash.classList.add("out");
+            document.body.classList.remove("locked");
+            document.body.classList.add("revealed");
+          }
+        }, 4800);
+
+        // startTime is set just before the animation loop begins (inside startMatrixAnimation)
+        var startTime = 0;
+
+        function startMatrixAnimation() {
+          startTime = performance.now(); // Reset timer right when animation begins
+          requestAnimationFrame(loop);
+        }
+
+        // Start after fonts are ready to ensure correct text rendering on offscreen canvas
+        if (document.fonts && document.fonts.ready) {
+          document.fonts.ready.then(function() { buildParticleGrid(); });
+        } else {
+          // Fallback: short delay for fonts to load
+          setTimeout(buildParticleGrid, 200);
+        }
+
+        function loop(now) {
+          var elapsed = (now - startTime) / 1000;
+          var screenW = window.innerWidth;
+          var screenH = window.innerHeight;
+
+          ctx.clearRect(0, 0, screenW, screenH);
+
+          // Flow timeline:
+          // 0.0s - 1.0s: Code rain with mixed orange/black/white particles on Black BG
+          // 1.0s - 2.2s: Background shifts to ORANGE (#eb5608). Particles gather into BAROPHOLIO:
+          //              - Chá»¯ Ä‘en trÃªn ná»n cam
+          //              - 3 chá»¯ 'O' mÃ u tráº¯ng
+          //              - Icon logo sáº¯c sáº£o
+          // 2.2s - 2.9s: MÃ n hÃ¬nh loang tráº¯ng (White radial ripple wash out) chuyá»ƒn háº¿t ná»n cam thÃ nh tráº¯ng (#f2f0ec)
+          // 2.9s - 4.2s: Logo tháº­t + tÃªn + thanh palette bar hiá»‡n ra vÃ  cháº¡y tiáº¿n Ä‘á»™
+          // 4.3s: Splash biáº¿n máº¥t vÃ o trang chÃ­nh
+
+          var bgFlashColor = "#0d0c0b";
+          if (elapsed < 1.0) {
+            bgFlashColor = "#0d0c0b";
+          } else if (elapsed >= 1.0 && elapsed < 2.2) {
+            bgFlashColor = "#eb5608"; // Full Orange Background
+          } else {
+            bgFlashColor = "var(--bg, #f2f0ec)"; // White site Background
+          }
+          if (splashBgFlash.style.backgroundColor !== bgFlashColor) {
+            splashBgFlash.style.backgroundColor = bgFlashColor;
+          }
+
+          // Gathering progress:
+          // Starts at 1.0s, fully converged by 2.0s (1 second to fully assemble)
+          var gatherProgress = 0;
+          if (elapsed > 1.0) {
+            gatherProgress = Math.min(1, (elapsed - 1.0) / 1.0);
+            gatherProgress = 1 - Math.pow(1 - gatherProgress, 2.5); // Ease out - fast snap
+          }
+
+          // 1. Draw particles
+          ctx.font = "bold 13px 'Space Grotesk', monospace";
+          ctx.textAlign = "center";
+          ctx.textBaseline = "middle";
+
+          for (var i = 0; i < particles.length; i++) {
+            var p = particles[i];
+            p.counter++;
+            if (p.counter % p.changeRate === 0) {
+              p.char = glyphs[Math.floor(Math.random() * glyphs.length)];
+            }
+
+            if (p.ambient) {
+              // Floating ambient code
+              p.y += p.vy;
+              if (p.y > screenH + 20) {
+                p.y = -20;
+                p.x = Math.random() * screenW;
+              }
+              if (elapsed >= 2.0) {
+                p.alpha = Math.max(0, p.alpha - 0.03);
+              }
+              if (p.alpha > 0.01) {
+                ctx.fillStyle = (elapsed >= 1.0 && elapsed < 2.2) ? "#ffffff" : p.color.hex;
+                ctx.globalAlpha = p.alpha;
+                ctx.fillText(p.char, p.x, p.y);
+              }
+              continue;
+            }
+
+            // Target particles (forming BAROPHOLIO)
+            if (gatherProgress <= 0) {
+              p.y += p.vy;
+              p.x += p.vx;
+              if (p.y > screenH + 30) {
+                p.y = -20;
+                p.x = p.targetX + (Math.random() - 0.5) * 160;
+              }
+              p.x += (p.targetX - p.x) * 0.035;
+            } else {
+              // Strongly converge onto target position — larger factor for snappier lock
+              var lockStrength = 0.12 + gatherProgress * 0.22;
+              p.x += (p.targetX - p.x) * lockStrength;
+              p.y += (p.targetY - p.y) * lockStrength;
+            }
+
+            // Particle Color specification:
+            // When gathering on orange background (1.0s - 2.2s):
+            // - Wordmark letters: BLACK (#0d0c0b)
+            // - 3 letters 'O': WHITE (#ffffff)
+            // - Icon: Black & White & deep contrast
+            var drawColor = p.color.hex;
+            if (elapsed >= 1.0) {
+              if (p.isIcon) {
+                drawColor = "#0d0c0b";
+              } else if (p.isLetterO) {
+                drawColor = "#ffffff"; // 3 chá»¯ O mÃ u tráº¯ng
+              } else {
+                drawColor = "#0d0c0b"; // Táº¥t cáº£ cÃ¡c chá»¯ cÃ²n láº¡i mÃ u Ä‘en
+              }
+            }
+
+            var currentAlpha = p.alpha;
+            // When white ripple expands (elapsed >= 2.2), particles dissolve smoothly
+            if (elapsed >= 2.2) {
+              currentAlpha = Math.max(0, 1 - (elapsed - 2.2) / 0.45);
+            }
+
+            if (currentAlpha > 0.01) {
+              ctx.save();
+              ctx.fillStyle = drawColor;
+              ctx.globalAlpha = currentAlpha;
+              ctx.font = "bold " + p.size + "px 'Space Grotesk', monospace";
+              ctx.fillText(p.char, p.x, p.y);
+              ctx.restore();
+            }
+          }
+
+          // 2. White loang ripple effect (Expanding circle loang tá»« giá»¯a ra háº¿t toÃ n mÃ n hÃ¬nh)
+          if (elapsed >= 2.2 && elapsed < 3.2) {
+            var rippleProgress = Math.min(1, (elapsed - 2.2) / 0.65);
+            // Ease out expansion
+            var rFactor = Math.sin(rippleProgress * Math.PI / 2);
+            var maxR = Math.hypot(screenW, screenH);
+            var curR = maxR * rFactor;
+
+            ctx.save();
+            ctx.beginPath();
+            ctx.arc(screenW / 2, screenH / 2, curR, 0, Math.PI * 2);
+            ctx.fillStyle = "#f2f0ec";
+            ctx.fill();
+            ctx.restore();
+          }
+
+          // 3. Reveal clean real logo, name and palette bar
+          if (elapsed >= 2.7 && !splashResolved.classList.contains("show")) {
+            splashResolved.classList.add("show");
+            splashBarWrap.classList.add("show");
+          }
+
+          // Progress palette bar
+          if (elapsed >= 2.7 && splashBarImg) {
+            var barProgress = Math.min(1, (elapsed - 2.7) / 1.1);
+            splashBarImg.style.transform = "scaleX(" + barProgress + ")";
+            if (bar) bar.style.transform = "scaleX(" + barProgress + ")";
+          }
+
+          // 4. Final dismiss into main page
+          if (elapsed >= 4.3) {
+            splash.classList.add("out");
+            document.body.classList.remove("locked");
+            document.body.classList.add("revealed");
+            return; // stop loop
+          }
+
+          requestAnimationFrame(loop);
+        }
+      })();
+
+      // Run camera loop
+      renderFrame();
+
+    })();
+  </script>
+</body>
+</html>
