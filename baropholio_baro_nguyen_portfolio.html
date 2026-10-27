@@ -381,6 +381,7 @@
       display: flex;
       align-items: center;
       gap: clamp(14px, 2.2vw, 28px);
+      margin-left: auto;
     }
     .header-nav a.nav-link {
       font-size: 13.5px;
@@ -417,7 +418,7 @@
       background: #000;
     }
 
-    /* â”€â”€ Unified Close Icon Button (grid, book, about, menu) â”€â”€ */
+    /* ── TASK-07: Unified Sharp Glassmorphic Close Button (grid, book, about, menu) ── */
     .grid-close-btn,
     .book-close-btn,
     .about-close-btn,
@@ -427,10 +428,12 @@
       justify-content: center;
       width: 36px;
       height: 36px;
-      border-radius: 50%;
-      border: none !important;
-    box-shadow: 0 4px 16px rgba(13, 12, 11, 0.08);
-      background: transparent;
+      border-radius: 0px !important;
+      background: rgba(255, 255, 255, 0.35) !important;
+      backdrop-filter: blur(20px) saturate(180%) !important;
+      -webkit-backdrop-filter: blur(20px) saturate(180%) !important;
+      border: 1px solid rgba(255, 255, 255, 0.45) !important;
+      box-shadow: 0 4px 16px rgba(13, 12, 11, 0.08);
       color: var(--fg);
       cursor: pointer;
       transition:
@@ -444,9 +447,9 @@
     .book-close-btn:hover,
     .about-close-btn:hover,
     .menu-close-btn:hover {
-      background: var(--fg);
-      color: var(--bg);
-      border-color: var(--fg);
+      background: #0d0c0b !important;
+      color: #ffffff !important;
+      border-color: #0d0c0b !important;
       transform: rotate(90deg);
     }
     .grid-close-btn svg,
@@ -529,26 +532,28 @@
       50%, 100% { transform: translateX(100%); }
     }
 
+    /* TASK-07: Sharp Glassmorphic Grid Toggle Button */
     .gridbtn {
       position: fixed;
       left: calc(var(--pad) + env(safe-area-inset-left, 0px));
       bottom: calc(var(--pad) + env(safe-area-inset-bottom, 0px));
       z-index: 60;
-      width: 42px;
-      height: 42px;
+      width: 40px;
+      height: 40px;
       padding: 7px;
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 4px;
+      gap: 3px;
       opacity: 0;
       transform: translateY(8px);
       pointer-events: none;
       transition: opacity .4s var(--ease), transform .4s var(--ease);
-      border-radius: 6px;
-      background: rgba(242, 240, 236, .88);
-      border: none !important;
-    box-shadow: 0 4px 16px rgba(13, 12, 11, 0.08);
-      backdrop-filter: blur(8px);
+      border-radius: 0px !important;
+      background: rgba(255, 255, 255, 0.35) !important;
+      backdrop-filter: blur(20px) saturate(180%) !important;
+      -webkit-backdrop-filter: blur(20px) saturate(180%) !important;
+      border: 1px solid rgba(255, 255, 255, 0.45) !important;
+      box-shadow: 0 4px 16px rgba(13, 12, 11, 0.08) !important;
     }
     body.revealed .gridbtn {
       opacity: 1;
@@ -561,7 +566,7 @@
     }
     .gridbtn b {
       background: var(--fg);
-      border-radius: 1px;
+      border-radius: 0px !important;
       transition: transform .3s var(--ease), background .3s var(--ease);
     }
     .gridbtn:hover b {
@@ -691,7 +696,9 @@
       transition: transform .5s var(--ease), opacity .3s ease;
       opacity: 1;
       filter: contrast(1.02);
+      display: block;
     }
+    .card-bg-img[src=""], .card-bg-img:not([src]) { display: none; }
     .card:hover .card-bg-img {
       transform: scale(1.06);
     }
@@ -813,7 +820,7 @@
     }
 
     /* ==========================================================================
-       GIONATAN NESE 3D WEBGL SPHERE & INTERACTIVE OVERLAYS
+       BARO NGUYEN 3D WEBGL SPHERE & INTERACTIVE OVERLAYS
        ========================================================================== */
     .gn-sphere-canvas {
       position: absolute;
@@ -824,21 +831,20 @@
       z-index: 5;
       touch-action: none;
       pointer-events: auto;
-      transition: opacity 0.6s var(--ease), filter 0.6s var(--ease);
+      transition: filter 0.6s var(--ease);
     }
-    body.reel-mode .gn-sphere-canvas,
     body.gridview .gn-sphere-canvas,
     body.book-open .gn-sphere-canvas {
       opacity: 0 !important;
       pointer-events: none !important;
     }
-    body:not(.reel-mode) #orb {
+    body.gridview #orb,
+    body.book-open #orb {
       opacity: 0 !important;
       pointer-events: none !important;
     }
-    body.reel-mode #orb {
-      opacity: 1 !important;
-      pointer-events: auto !important;
+    #orb {
+      transition: opacity 0.15s linear;
     }
     body.has-expanded-card #headline {
       opacity: 0 !important;
@@ -947,7 +953,7 @@
       color: var(--fg-soft);
     }
 
-    /* Gionatan Nese Bottom Project Sheet & Hover Bar */
+    /* Baro Nguyen Bottom Project Sheet & Hover Bar */
     .gn-project-sheet {
       position: fixed;
       left: 50%;
@@ -969,7 +975,7 @@
       pointer-events: none !important;
     }
 
-    /* Hover preview bar */
+    /* TASK-07: Sharp Glassmorphic Hover Preview Bar */
     .gn-sheet-preview {
       display: flex;
       flex-direction: column;
@@ -979,13 +985,13 @@
       transform: translateY(14px);
       transition: opacity 0.35s var(--ease), transform 0.35s var(--ease);
       pointer-events: none;
-      background: rgba(255, 255, 255, 0.72);
-      backdrop-filter: blur(18px) saturate(180%);
-      -webkit-backdrop-filter: blur(18px) saturate(180%);
+      background: rgba(255, 255, 255, 0.35) !important;
+      backdrop-filter: blur(20px) saturate(180%) !important;
+      -webkit-backdrop-filter: blur(20px) saturate(180%) !important;
       padding: 8px 22px;
-      border-radius: 999px;
-      border: none !important;
-      box-shadow: 0 8px 28px rgba(13, 12, 11, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.85);
+      border-radius: 0px !important;
+      border: 1px solid rgba(255, 255, 255, 0.45) !important;
+      box-shadow: 0 8px 32px 0 rgba(13, 12, 11, 0.08) !important;
       max-width: 90vw;
     }
     .gn-sheet-preview.show {
@@ -1012,21 +1018,20 @@
       max-width: 48ch;
     }
 
-    /* Expanded Hero Drawer */
+    /* TASK-07: Sharp Glassmorphic Expanded Hero Drawer */
     .gn-sheet-expanded {
       position: fixed;
       bottom: calc(var(--pad) + env(safe-area-inset-bottom, 0px) + 8px);
       left: 50%;
       transform: translateX(-50%) translateY(32px);
       width: min(94vw, 540px);
-      background: rgba(242, 240, 236, 0.96);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      border: none !important;
-    box-shadow: 0 4px 16px rgba(13, 12, 11, 0.08);
-      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.42) !important;
+      backdrop-filter: blur(24px) saturate(180%) !important;
+      -webkit-backdrop-filter: blur(24px) saturate(180%) !important;
+      border: 1px solid rgba(255, 255, 255, 0.5) !important;
+      box-shadow: 0 24px 60px rgba(13, 12, 11, 0.14) !important;
+      border-radius: 0px !important;
       padding: 22px 26px;
-      box-shadow: 0 24px 60px rgba(13, 12, 11, 0.18);
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -1098,22 +1103,22 @@
       text-transform: uppercase;
       cursor: pointer;
       transition: all 0.28s cubic-bezier(0.16, 1, 0.3, 1);
-      backdrop-filter: blur(16px) saturate(180%);
-      -webkit-backdrop-filter: blur(16px) saturate(180%);
+      border-radius: 0px !important;
     }
     .gn-action-btn.primary {
       flex: 1;
       padding: 12px 20px;
-      border-radius: 999px;
-      background: rgba(18, 18, 18, 0.78);
-      color: #ffffff;
-      border: none !important;
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.16), inset 0 1px 0 rgba(255, 255, 255, 0.25);
+      border-radius: 0px !important;
+      background: #0d0c0b !important;
+      color: #ffffff !important;
+      border: 1px solid #0d0c0b !important;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.14);
     }
     .gn-action-btn.primary:hover {
-      background: rgba(196, 98, 16, 0.88);
-      border-color: rgba(255, 255, 255, 0.45);
-      box-shadow: 0 10px 30px rgba(196, 98, 16, 0.36), inset 0 1px 0 rgba(255, 255, 255, 0.35);
+      background: #c46210 !important;
+      border-color: #c46210 !important;
+      color: #ffffff !important;
+      box-shadow: 0 8px 24px rgba(196, 98, 16, 0.35);
       transform: translateY(-1px);
     }
     .gn-action-btn.secondary.gn-btn-close-icon {
@@ -1121,20 +1126,23 @@
       width: 44px;
       height: 44px;
       padding: 0;
-      border-radius: 50%;
-      background: rgba(255, 255, 255, 0.75);
+      border-radius: 0px !important;
+      background: rgba(255, 255, 255, 0.35) !important;
+      backdrop-filter: blur(20px) saturate(180%) !important;
+      -webkit-backdrop-filter: blur(20px) saturate(180%) !important;
       color: var(--fg);
-      border: none !important;
-      box-shadow: 0 4px 18px rgba(13, 12, 11, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.95);
+      border: 1px solid rgba(255, 255, 255, 0.45) !important;
+      box-shadow: 0 4px 16px rgba(13, 12, 11, 0.08);
     }
     .gn-action-btn.secondary.gn-btn-close-icon:hover {
-      background: rgba(255, 255, 255, 0.95);
-      border-color: rgba(13, 12, 11, 0.25);
-      transform: rotate(90deg) scale(1.06);
+      background: #0d0c0b !important;
+      color: #ffffff !important;
+      border-color: #0d0c0b !important;
+      transform: rotate(90deg);
       box-shadow: 0 8px 24px rgba(13, 12, 11, 0.15);
     }
 
-    /* Bottom Mode Switcher Pill (Inspired by the Reference Image) */
+    /* TASK-04 & TASK-07: Sharp Glassmorphic Geometric Mode Switcher */
     .bottom-mode-pill {
       position: fixed;
       left: 50%;
@@ -1143,14 +1151,14 @@
       z-index: 65;
       display: flex;
       align-items: center;
-      gap: 6px;
-      padding: 5px 14px;
-      border-radius: 999px;
-      background: rgba(255, 255, 255, 0.75);
-      border: none !important;
-      box-shadow: 0 6px 24px rgba(13, 12, 11, 0.09), inset 0 1px 0 rgba(255, 255, 255, 0.85);
-      backdrop-filter: blur(18px) saturate(180%);
-      -webkit-backdrop-filter: blur(18px) saturate(180%);
+      gap: 5px;
+      padding: 4px 8px;
+      border-radius: 0px !important;
+      background: rgba(255, 255, 255, 0.35) !important;
+      border: 1px solid rgba(255, 255, 255, 0.45) !important;
+      box-shadow: 0 8px 32px 0 rgba(13, 12, 11, 0.08) !important;
+      backdrop-filter: blur(20px) saturate(180%) !important;
+      -webkit-backdrop-filter: blur(20px) saturate(180%) !important;
       opacity: 0;
       transition: opacity 1s var(--ease) .3s, transform .4s var(--ease);
     }
@@ -1162,33 +1170,108 @@
       pointer-events: none;
     }
     .mode-tab-btn {
-      font-size: 11px;
-      font-family: var(--sans);
-      letter-spacing: .08em;
-      text-transform: uppercase;
-      font-weight: 500;
-      color: var(--fg-soft);
-      padding: 5px 12px;
-      border-radius: 999px;
-      transition: color .25s ease, background .25s ease;
+      padding: 6px 10px;
+      border-radius: 0px !important;
+      border: 1px solid transparent !important;
+      background: transparent !important;
+      transition: all .22s ease;
       cursor: pointer;
-      display: flex;
+      display: inline-flex;
       align-items: center;
-      gap: 6px;
+      justify-content: center;
+      line-height: 0;
     }
     .mode-tab-btn:hover {
-      color: var(--fg);
+      background: rgba(255, 255, 255, 0.5) !important;
+      border-color: rgba(255, 255, 255, 0.7) !important;
     }
     .mode-tab-btn.active {
-      color: #fff;
-      background: var(--pill-bg);
+      background: rgba(13, 12, 11, 0.08) !important;
+      border-color: rgba(13, 12, 11, 0.16) !important;
     }
-    .mode-tab-btn .tab-dot {
-      display: inline-block;
-      width: 5px;
-      height: 5px;
-      border-radius: 50%;
-      background: var(--accent);
+    /* TASK: Orange Harvest Single Mode Switcher (Không nền, chỉ hiện 1 quả cam, khi nhấp to lên và chuyển mượt) */
+    .bottom-mode-pill.orange-toggle-btn {
+      position: fixed;
+      left: 50%;
+      bottom: calc(var(--pad) + env(safe-area-inset-bottom, 0px) + 2px);
+      transform: translateX(-50%);
+      z-index: 65;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0;
+      background: transparent !important;
+      border: none !important;
+      box-shadow: none !important;
+      backdrop-filter: none !important;
+      -webkit-backdrop-filter: none !important;
+      cursor: pointer;
+      opacity: 0;
+      transition: opacity 1s var(--ease) .3s;
+      outline: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+    body.revealed .bottom-mode-pill.orange-toggle-btn {
+      opacity: 1;
+    }
+    body.gridview .bottom-mode-pill,
+    body.lit .bottom-mode-pill,
+    body.about-open .bottom-mode-pill {
+      opacity: 0;
+      pointer-events: none;
+    }
+    .orange-icon-wrap {
+      position: relative;
+      width: 48px;
+      height: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    .orange-toggle-btn:hover .orange-icon-wrap {
+      transform: scale(1.14);
+    }
+    /* Khi nhấp chuột: quả cam to lên một tí */
+    .orange-toggle-btn:active .orange-icon-wrap,
+    .orange-icon-wrap.popping {
+      transform: scale(1.30) !important;
+    }
+    .orange-toggle-img {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      height: 40px;
+      width: auto;
+      max-width: 48px;
+      object-fit: contain;
+      pointer-events: none;
+      transition: opacity 0.45s cubic-bezier(0.22, 1, 0.36, 1), transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1), filter 0.45s ease;
+      filter: drop-shadow(0 3px 8px rgba(196, 98, 16, 0.35));
+    }
+    /* Trạng thái 3D Sphere: Chỉ hiện quả cam tròn */
+    .orange-toggle-btn.mode-sphere .img-sphere {
+      opacity: 1;
+      transform: translate(-50%, -50%) scale(1) rotate(0deg);
+      visibility: visible;
+    }
+    .orange-toggle-btn.mode-sphere .img-reel {
+      opacity: 0;
+      transform: translate(-50%, -50%) scale(0.6) rotate(-20deg);
+      visibility: hidden;
+      pointer-events: none;
+    }
+    /* Trạng thái Horizontal Reel: Chỉ hiện quả cam cắt lát */
+    .orange-toggle-btn.mode-reel .img-sphere {
+      opacity: 0;
+      transform: translate(-50%, -50%) scale(0.6) rotate(20deg);
+      visibility: hidden;
+      pointer-events: none;
+    }
+    .orange-toggle-btn.mode-reel .img-reel {
+      opacity: 1;
+      transform: translate(-50%, -50%) scale(1) rotate(0deg);
+      visibility: visible;
     }
     .mode-tab-sep {
       color: var(--rule);
@@ -1464,17 +1547,19 @@
     }
     /* book-close-btn styles handled by unified close icon system above */
 
-    /* Side Nav Turn Arrows */
+    /* TASK-07: Sharp Glassmorphic Side Nav Turn Arrows */
     .book-turn-arrow {
       position: absolute;
       top: 50%;
       transform: translateY(-50%);
       z-index: 35;
-      width: 44px;
-      height: 44px;
-      border-radius: 50%;
-      background: #ffffff;
-      border: 1px solid rgba(13, 12, 11, 0.14);
+      width: 42px;
+      height: 42px;
+      border-radius: 0px !important;
+      background: rgba(255, 255, 255, 0.35) !important;
+      backdrop-filter: blur(20px) saturate(180%) !important;
+      -webkit-backdrop-filter: blur(20px) saturate(180%) !important;
+      border: 1px solid rgba(255, 255, 255, 0.45) !important;
       box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
       cursor: pointer;
       display: flex;
@@ -1490,9 +1575,10 @@
       right: clamp(10px, 2vw, 32px);
     }
     .book-turn-arrow:hover {
-      background: #0d0c0b;
-      color: #ffffff;
-      transform: translateY(-50%) scale(1.08);
+      background: #0d0c0b !important;
+      color: #ffffff !important;
+      border-color: #0d0c0b !important;
+      transform: translateY(-50%) scale(1.06);
       box-shadow: 0 6px 20px rgba(0, 0, 0, 0.16);
     }
 
@@ -1852,6 +1938,85 @@
     .book-full-image.flipping {
       transform: rotateY(-65deg) scale(0.92);
       opacity: 0.2;
+    }
+
+    /* Interactive Project Video & Sharp Glassmorphic Controls */
+    .book-full-video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: none;
+      background: #000;
+      cursor: pointer;
+      transition: transform .45s cubic-bezier(0.25, 1, 0.5, 1), opacity .35s ease;
+      transform-origin: left center;
+    }
+    .book-full-video.flipping {
+      transform: rotateY(-65deg) scale(0.92);
+      opacity: 0.2;
+    }
+    .book-video-controls {
+      position: absolute;
+      bottom: 12px;
+      left: 12px;
+      right: 12px;
+      z-index: 25;
+      display: none;
+      align-items: center;
+      gap: 10px;
+      padding: 7px 14px;
+      background: rgba(18, 16, 15, 0.82) !important;
+      backdrop-filter: blur(20px) saturate(180%) !important;
+      -webkit-backdrop-filter: blur(20px) saturate(180%) !important;
+      border: 1px solid rgba(255, 255, 255, 0.22) !important;
+      border-radius: 0px !important;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.45);
+      color: #fff;
+      user-select: none;
+    }
+    .bvc-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 28px;
+      height: 28px;
+      background: transparent !important;
+      border: none !important;
+      border-radius: 0px !important;
+      color: #fff;
+      cursor: pointer;
+      padding: 0;
+      line-height: 0;
+      transition: transform 0.18s ease, color 0.18s ease;
+    }
+    .bvc-btn:hover {
+      color: #eb5608;
+      transform: scale(1.15);
+    }
+    .bvc-progress-track {
+      flex: 1;
+      height: 4px;
+      background: rgba(255, 255, 255, 0.25);
+      cursor: pointer;
+      position: relative;
+      transition: height 0.18s ease;
+    }
+    .bvc-progress-track:hover {
+      height: 6px;
+    }
+    .bvc-progress-bar {
+      height: 100%;
+      width: 0%;
+      background: #eb5608;
+      pointer-events: none;
+      transition: width 0.08s linear;
+    }
+    .bvc-time {
+      font-family: var(--mono, monospace);
+      font-size: 10.5px;
+      letter-spacing: 0.04em;
+      color: rgba(255, 255, 255, 0.88);
+      white-space: nowrap;
     }
 
     /* Flip Page Indicator & Hint */
@@ -2823,20 +2988,6 @@
     <div class="header-nav">
       <a href="#" class="nav-link" id="navGrid">Works</a>
       <a href="#" class="nav-link" id="navAbout">About</a>
-      <div class="header-social-links">
-        <a href="https://www.instagram.com/baropholio/" target="_blank" rel="noopener noreferrer" class="header-social-icon" aria-label="Instagram" title="Instagram">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
-        </a>
-        <a href="https://www.linkedin.com/in/baronguyen1308/" target="_blank" rel="noopener noreferrer" class="header-social-icon" aria-label="LinkedIn" title="LinkedIn">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
-        </a>
-        <a href="https://www.behance.net/hoangbaonguyen" target="_blank" rel="noopener noreferrer" class="header-social-icon" aria-label="Behance" title="Behance">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M22 7h-7v-2h7v2zm1.726 10c-.442 1.297-2.029 3-4.976 3-3.468 0-5.75-2.704-5.75-6.035 0-3.376 2.308-6.027 5.75-6.027 3.308 0 5.419 2.41 5.419 5.862 0 .524-.047 1.05-.143 1.54h-7.986c.112 1.71 1.42 2.86 3.125 2.86 1.411 0 2.375-.71 2.777-1.4l1.784.2zm-2.028-3.66c-.035-1.353-1.014-2.43-2.541-2.43-1.558 0-2.54 1.077-2.613 2.43h5.154zm-14.698-3.34c1.23 0 2.05-.67 2.05-1.8 0-1.22-.92-1.7-2.12-1.7h-4.93v3.5h5zm.37 5.5c1.44 0 2.39-.77 2.39-2.05 0-1.39-1.04-1.95-2.5-1.95h-5.26v4h5.37zm-8.37-11.5h8.21c2.81 0 4.67 1.34 4.67 3.48 0 1.28-.67 2.3-1.78 2.85 1.52.54 2.39 1.83 2.39 3.47 0 2.58-2.07 4.2-5.34 4.2h-8.15v-14z"/></svg>
-        </a>
-        <a href="mailto:baropholio@gmail.com" class="header-social-icon" aria-label="Email" title="Email: baropholio@gmail.com">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M2 4C2 2.897 2.897 2 4 2h16c1.103 0 2 .897 2 2v14c0 1.103-.897 2-2 2H4c-1.103 0-2-.897-2-2V4zm2 0v.511l8 4.8 8-4.8V4H4zm0 2.845V18h16V6.845L12 11.5 4 6.845z"/></svg>
-        </a>
-      </div>
       <button id="menuBtn" class="menu-btn" aria-expanded="false" aria-controls="menu" aria-label="Open menu">
         <span class="bars"><i></i><i></i></span>
       </button>
@@ -2848,23 +2999,20 @@
     <b></b><b></b><b></b><b></b>
   </button>
 
-  <!-- Bottom Mode Switcher Pill (Inspired by the Reference Image) -->
-  <div class="bottom-mode-pill" id="bottomModePill">
-    <button class="mode-tab-btn active" id="btnSphereTab">
-      <span class="tab-dot"></span> 3D Sphere
-    </button>
-    <span class="mode-tab-sep">/</span>
-    <button class="mode-tab-btn" id="btnReelTab">
-      Horizontal Reel &rarr;
-    </button>
-  </div>
+  <!-- Orange Harvest Single Mode Switcher (Không nền, chỉ hiện 1 quả cam, khi nhấp to lên và chuyển mượt) -->
+  <button class="bottom-mode-pill orange-toggle-btn mode-sphere" id="bottomModePill" type="button" aria-label="Switch between 3D Sphere and Horizontal Reel" title="Switch View Mode">
+    <div class="orange-icon-wrap" id="orangeIconWrap">
+      <img src="05.Elements/3d%20sphere.webp" alt="3D Sphere" class="orange-toggle-img img-sphere" id="btnSphereTab">
+      <img src="05.Elements/horizontal%20reel.webp" alt="Horizontal Reel" class="orange-toggle-img img-reel" id="btnReelTab">
+    </div>
+  </button>
 
   <!-- Scrolltrack container for zoom dolly -->
   <div id="scrolltrack"></div>
 
   <!-- 3D Stage -->
   <div id="stage">
-    <!-- Gionatan Nese WebGL 3D Sphere Canvas -->
+    <!-- Baro Nguyen WebGL 3D Sphere Canvas -->
     <canvas id="gnSphereCanvas" class="gn-sphere-canvas"></canvas>
 
     <div id="world">
@@ -2882,12 +3030,12 @@
     </div>
   </div>
 
-  <!-- Gionatan Nese Interactive Cursor Pill -->
+  <!-- Baro Nguyen Interactive Cursor Pill -->
   <div id="gnCursorPill" class="gn-cursor-pill" aria-hidden="true">
     <span class="gn-pill-text" id="gnPillText">EXPAND</span>
   </div>
 
-  <!-- Gionatan Nese Center Intro Monogram, Side Titles & Counter -->
+  <!-- Baro Nguyen Center Intro Monogram, Side Titles & Counter -->
   <div id="gnIntroOverlay" class="gn-intro-overlay">
     <span class="gn-intro-side left">Orange Havest</span>
     <div class="gn-intro-center-wrap">
@@ -2897,7 +3045,7 @@
     <div class="gn-intro-counter" id="gnIntroCounter">001</div>
   </div>
 
-  <!-- Gionatan Nese Bottom Project Info & Expanded Sheet -->
+  <!-- Baro Nguyen Bottom Project Info & Expanded Sheet -->
   <div id="gnProjectSheet" class="gn-project-sheet" aria-live="polite">
     <!-- Hover Preview -->
     <div class="gn-sheet-preview" id="gnSheetPreview">
@@ -3044,6 +3192,41 @@
           </div>
           <div class="page-visual-wrapper" id="bookVisualWrap">
             <img src="" alt="" class="book-full-image" id="bookImage" />
+            <video id="bookVideo" class="book-full-video" playsinline preload="auto"></video>
+
+            <!-- Sharp Glassmorphic Video Controls (Only appears when viewing video inside project) -->
+            <div class="book-video-controls" id="bookVideoControls">
+              <button type="button" class="bvc-btn" id="bookVideoPlayBtn" title="Play / Pause" aria-label="Play or Pause video">
+                <svg id="bvcPlayIcon" width="13" height="13" viewBox="0 0 24 24" fill="currentColor">
+                  <polygon points="5 3 19 12 5 21 5 3"/>
+                </svg>
+                <svg id="bvcPauseIcon" width="13" height="13" viewBox="0 0 24 24" fill="currentColor" style="display: none;">
+                  <rect x="6" y="4" width="4" height="16"/>
+                  <rect x="14" y="4" width="4" height="16"/>
+                </svg>
+              </button>
+              
+              <div class="bvc-progress-track" id="bvcProgressTrack" title="Seek timeline">
+                <div class="bvc-progress-bar" id="bvcProgressBar"></div>
+              </div>
+              
+              <span class="bvc-time" id="bvcTime">00:00 / 00:00</span>
+              
+              <button type="button" class="bvc-btn" id="bookVideoMuteBtn" title="Mute / Unmute Audio" aria-label="Mute or Unmute audio">
+                <!-- Sound ON icon -->
+                <svg id="bvcVolumeIcon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: none;">
+                  <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" fill="currentColor"/>
+                  <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/>
+                </svg>
+                <!-- Muted icon -->
+                <svg id="bvcMutedIcon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" fill="currentColor"/>
+                  <line x1="23" y1="9" x2="17" y2="15"/>
+                  <line x1="17" y1="9" x2="23" y2="15"/>
+                </svg>
+              </button>
+            </div>
+
             <!-- Architectural Draft Fallback Canvas Plate -->
             <div class="book-drawing-plate" id="bookDrawingPlate">
               <div class="draft-grid-bg"></div>
@@ -3568,8 +3751,8 @@
   <!-- GSAP Animation Library -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 
-  <!-- Gionatan Nese 3D WebGL Sphere Engine -->
-  <script src="gionatan_sphere_engine.js"></script>
+  <!-- Baro Nguyen 3D WebGL Sphere Engine -->
+  <script src="baro_sphere_engine.js"></script>
 
   <!-- ==========================================================================
        MAIN JAVASCRIPT
@@ -3924,9 +4107,17 @@
           var orgName = rec.organization || rec.org || "";
           var shortOrg = orgName ? orgName.split("(")[0].trim().slice(0, 24) : "ARCHIVE";
 
-          var imgHtml = rec.image 
-            ? '<img src="' + rec.image + '" alt="' + rec.title + '" class="card-bg-img" onerror="this.style.display=\'none\';">' 
-            : '<div class="grid-card-placeholder" style="position:absolute;inset:0;"><span class="ph-cat" style="opacity:1;">' + catName + '</span></div>';
+          var mediaCover = rec.video || rec.image || "";
+          var isCoverVideo = /\.(mp4|webm|ogg|mov)(\?.*)?$/i.test(mediaCover);
+
+          var imgHtml = "";
+          if (isCoverVideo) {
+            imgHtml = '<video src="' + mediaCover + '" autoplay loop muted playsinline disablepictureinpicture preload="metadata" class="card-bg-img" style="object-fit:cover;pointer-events:none;width:100%;height:100%;"></video>';
+          } else if (mediaCover) {
+            imgHtml = '<img src="' + mediaCover + '" alt="' + rec.title + '" class="card-bg-img" onerror="this.style.display=\'none\';">';
+          } else {
+            imgHtml = '<div class="grid-card-placeholder" style="position:absolute;inset:0;"><span class="ph-cat" style="opacity:1;">' + catName + '</span></div>';
+          }
 
           var reelCaption = 
             '<div class="card-reel-caption">' +
@@ -3971,10 +4162,21 @@
           gCard.style.setProperty("--float-scale-1", sc1);
           gCard.style.setProperty("--float-scale-2", sc2);
 
-          if (rec.image) {
+          if (isCoverVideo) {
             gCard.innerHTML =
               '<div class="grid-card-thumb-wrap">' +
-                '<img src="' + rec.image + '" alt="' + rec.title + '" class="grid-card-thumb" loading="lazy" onerror="this.parentElement.className=\'grid-card-placeholder\';this.remove();">' +
+                '<video src="' + mediaCover + '" autoplay loop muted playsinline disablepictureinpicture preload="metadata" class="grid-card-thumb" style="object-fit:cover;pointer-events:none;width:100%;height:100%;"></video>' +
+              '</div>' +
+              '<div class="grid-card-overlay"></div>' +
+              '<div class="grid-card-info">' +
+                '<span class="cat-label">' + catName + '</span>' +
+                '<div class="card-title">' + rec.title + '</div>' +
+                '<span class="card-index">NO. ' + (i < 9 ? "0"+(i+1) : (i+1)) + '</span>' +
+              '</div>';
+          } else if (mediaCover) {
+            gCard.innerHTML =
+              '<div class="grid-card-thumb-wrap">' +
+                '<img src="' + mediaCover + '" alt="' + rec.title + '" class="grid-card-thumb" loading="lazy" onerror="this.parentElement.className=\'grid-card-placeholder\';this.remove();">' +
               '</div>' +
               '<div class="grid-card-overlay"></div>' +
               '<div class="grid-card-info">' +
@@ -4000,8 +4202,9 @@
 
       // Initial build
       buildSphereAndGrid();
-      if (window.gnSphereEngine) {
-        window.gnSphereEngine.rebuild(RECORDS);
+      var activeEngine = window.baroSphereEngine || window.gnSphereEngine;
+      if (activeEngine) {
+        activeEngine.rebuild(RECORDS);
       }
 
       // Real-time Auto-Sync Handler across tabs
@@ -4012,8 +4215,9 @@
           window.RECORDS = updated;
           buildSphereAndGrid();
           calcDimensions();
-          if (window.gnSphereEngine) {
-            window.gnSphereEngine.rebuild(RECORDS);
+          var eng = window.baroSphereEngine || window.gnSphereEngine;
+          if (eng) {
+            eng.rebuild(RECORDS);
           }
           console.log("🔄 [Auto-Sync] Portfolio updated with " + RECORDS.length + " projects!");
         }
@@ -4076,11 +4280,33 @@
       var lastY = 0;
 
       function renderFrame() {
-        // Morph interpolation with smoothstep
-        morph += (targetMorph - morph) * 0.075;
-        if (Math.abs(targetMorph - morph) < 0.001) morph = targetMorph;
+        // TASK-05: Morph interpolation with smoothstep & dampened transition
+        morph += (targetMorph - morph) * 0.042;
+        if (Math.abs(targetMorph - morph) < 0.0005) morph = targetMorph;
         var t = morph;
         var easeT = t * t * (3 - 2 * t); // smoothstep 0..1
+
+        // Smooth cross-fade between 3D WebGL Canvas and Horizontal Reel DOM Orb
+        var gnCanvas = document.getElementById("gnSphereCanvas");
+        var orbEl = document.getElementById("orb");
+        if (gnCanvas && orbEl) {
+          if (t <= 0.002) {
+            gnCanvas.style.opacity = "1";
+            gnCanvas.style.pointerEvents = "auto";
+            orbEl.style.opacity = "0";
+            orbEl.style.pointerEvents = "none";
+          } else if (t >= 0.998) {
+            gnCanvas.style.opacity = "0";
+            gnCanvas.style.pointerEvents = "none";
+            orbEl.style.opacity = "1";
+            orbEl.style.pointerEvents = "auto";
+          } else {
+            gnCanvas.style.opacity = (1 - easeT).toFixed(3);
+            gnCanvas.style.pointerEvents = "none";
+            orbEl.style.opacity = easeT.toFixed(3);
+            orbEl.style.pointerEvents = "none";
+          }
+        }
 
         if (t > 0.48) {
           document.body.classList.add("reel-mode");
@@ -4266,37 +4492,58 @@
       // Mode Switcher function
       window.switchMode = function(newMode, focusIdx) {
         viewMode = newMode;
-        var btnSphere = document.getElementById("btnSphereTab");
-        var btnReel = document.getElementById("btnReelTab");
+        var pill = document.getElementById("bottomModePill");
+        var iconWrap = document.getElementById("orangeIconWrap");
         var cueText = document.getElementById("cueText");
+
+        // Hiệu ứng nhấp chuột: quả cam to lên một tí rồi morph mượt
+        if (iconWrap) {
+          iconWrap.classList.remove("popping");
+          void iconWrap.offsetWidth;
+          iconWrap.classList.add("popping");
+          setTimeout(function() {
+            if (iconWrap) iconWrap.classList.remove("popping");
+          }, 350);
+        }
 
         if (newMode === "reel") {
           targetMorph = 1.0;
-          if (btnSphere) btnSphere.classList.remove("active");
-          if (btnReel) btnReel.classList.add("active");
+          if (pill) {
+            pill.classList.remove("mode-sphere");
+            pill.classList.add("mode-reel");
+            pill.setAttribute("title", "Currently Horizontal Reel — Click to switch to 3D Sphere");
+          }
           if (cueText) cueText.innerHTML = "Drag to scroll &middot; Click card to view details";
           if (typeof focusIdx === "number") {
             var stride = reelCardW + reelGap;
             reelOffset = -(focusIdx * stride);
           }
-          if (window.gnSphereEngine) {
-            window.gnSphereEngine.setMode("reel");
+          var engine = window.baroSphereEngine || window.gnSphereEngine;
+          if (engine) {
+            engine.setMode("reel");
           }
         } else {
           targetMorph = 0.0;
-          if (btnSphere) btnSphere.classList.add("active");
-          if (btnReel) btnReel.classList.remove("active");
+          if (pill) {
+            pill.classList.remove("mode-reel");
+            pill.classList.add("mode-sphere");
+            pill.setAttribute("title", "Currently 3D Sphere — Click to switch to Horizontal Reel");
+          }
           if (cueText) cueText.innerHTML = "Click any card or drag to explore sphere";
-          if (window.gnSphereEngine) {
-            window.gnSphereEngine.setMode("sphere");
+          var eng = window.baroSphereEngine || window.gnSphereEngine;
+          if (eng) {
+            eng.setMode("sphere");
           }
         }
       };
 
-      var btnSphereTab = document.getElementById("btnSphereTab");
-      var btnReelTab = document.getElementById("btnReelTab");
-      if (btnSphereTab) btnSphereTab.addEventListener("click", function(){ window.switchMode("sphere"); });
-      if (btnReelTab) btnReelTab.addEventListener("click", function(){ window.switchMode("reel"); });
+      var bottomPill = document.getElementById("bottomModePill");
+      if (bottomPill) {
+        bottomPill.addEventListener("click", function(e) {
+          e.preventDefault();
+          window.switchMode(viewMode === "sphere" ? "reel" : "sphere");
+        });
+      }
 
       /* ======================================================================
          5. 3D ARCHITECTURAL MONOGRAPH BOOK SPREAD SYSTEM
@@ -4327,6 +4574,72 @@
       var draftPlateTitle = document.getElementById("draftPlateTitle");
       var bookPlateCaption = document.getElementById("bookPlateCaption");
 
+      // Video player elements
+      var bookVideo = document.getElementById("bookVideo");
+      var bookVideoControls = document.getElementById("bookVideoControls");
+      var bookVideoPlayBtn = document.getElementById("bookVideoPlayBtn");
+      var bookVideoMuteBtn = document.getElementById("bookVideoMuteBtn");
+      var bvcPlayIcon = document.getElementById("bvcPlayIcon");
+      var bvcPauseIcon = document.getElementById("bvcPauseIcon");
+      var bvcVolumeIcon = document.getElementById("bvcVolumeIcon");
+      var bvcMutedIcon = document.getElementById("bvcMutedIcon");
+      var bvcProgressBar = document.getElementById("bvcProgressBar");
+      var bvcProgressTrack = document.getElementById("bvcProgressTrack");
+      var bvcTime = document.getElementById("bvcTime");
+
+      function formatTime(s) {
+        var m = Math.floor(s / 60);
+        var sec = Math.floor(s % 60);
+        return (m < 10 ? "0" + m : m) + ":" + (sec < 10 ? "0" + sec : sec);
+      }
+
+      function updateVideoUI() {
+        if (!bookVideo) return;
+        if (bvcPlayIcon) bvcPlayIcon.style.display = bookVideo.paused ? "block" : "none";
+        if (bvcPauseIcon) bvcPauseIcon.style.display = bookVideo.paused ? "none" : "block";
+        if (bvcVolumeIcon) bvcVolumeIcon.style.display = bookVideo.muted ? "none" : "block";
+        if (bvcMutedIcon) bvcMutedIcon.style.display = bookVideo.muted ? "block" : "none";
+        var duration = bookVideo.duration || 0;
+        var current = bookVideo.currentTime || 0;
+        if (bvcProgressBar) bvcProgressBar.style.width = (duration > 0 ? (current / duration) * 100 : 0) + "%";
+        if (bvcTime) bvcTime.textContent = formatTime(current) + " / " + formatTime(duration);
+      }
+
+      if (bookVideo) {
+        bookVideo.addEventListener("timeupdate", updateVideoUI);
+        bookVideo.addEventListener("play", updateVideoUI);
+        bookVideo.addEventListener("pause", updateVideoUI);
+        bookVideo.addEventListener("volumechange", updateVideoUI);
+        bookVideo.addEventListener("loadedmetadata", updateVideoUI);
+      }
+      if (bookVideoPlayBtn) {
+        bookVideoPlayBtn.addEventListener("click", function(e) {
+          e.stopPropagation();
+          if (!bookVideo) return;
+          if (bookVideo.paused) bookVideo.play().catch(function(){});
+          else bookVideo.pause();
+          updateVideoUI();
+        });
+      }
+      if (bookVideoMuteBtn) {
+        bookVideoMuteBtn.addEventListener("click", function(e) {
+          e.stopPropagation();
+          if (!bookVideo) return;
+          bookVideo.muted = !bookVideo.muted;
+          if (!bookVideo.muted && bookVideo.paused) bookVideo.play().catch(function(){});
+          updateVideoUI();
+        });
+      }
+      if (bvcProgressTrack) {
+        bvcProgressTrack.addEventListener("click", function(e) {
+          e.stopPropagation();
+          if (!bookVideo || !bookVideo.duration) return;
+          var rect = bvcProgressTrack.getBoundingClientRect();
+          var ratio = (e.clientX - rect.left) / rect.width;
+          bookVideo.currentTime = ratio * bookVideo.duration;
+        });
+      }
+
       var tabTextBtn = document.getElementById("tabTextBtn");
       var tabVisualBtn = document.getElementById("tabVisualBtn");
 
@@ -4355,6 +4668,13 @@
       }
 
       function flipProjectImage() {
+        // If viewing video, clicking right page toggles play/pause instead of flipping
+        if (bookVideo && bookVideo.style.display !== "none") {
+          if (bookVideo.paused) bookVideo.play().catch(function(){});
+          else bookVideo.pause();
+          updateVideoUI();
+          return;
+        }
         if (!currentProjectImages || currentProjectImages.length <= 1) return;
         currentProjectImgIdx = (currentProjectImgIdx + 1) % currentProjectImages.length;
         updateRightPageImage(currentProjectImages[currentProjectImgIdx], true);
@@ -4420,16 +4740,35 @@
         if (draftPlateTitle) draftPlateTitle.textContent = rec.title;
         if (bookPlateCaption) bookPlateCaption.textContent = "PLATE // " + (rec.category || rec.cat || "VISUAL ARCHIVE");
 
-        var activeCoverImg = currentProjectImages[0];
-        if (activeCoverImg && bookImage) {
-          bookImage.style.display = "none";
+        var activeCover = (rec.video) ? rec.video : (currentProjectImages[0] || "");
+        var isActiveCoverVideo = /\.(mp4|webm|ogg|mov)(\?.*)?$/i.test(activeCover) || !!rec.video;
+
+        // Hide all first
+        if (bookImage) bookImage.style.display = "none";
+        if (bookVideo) { bookVideo.pause(); bookVideo.muted = true; bookVideo.style.display = "none"; }
+        if (bookVideoControls) bookVideoControls.style.display = "none";
+        if (bookDrawingPlate) bookDrawingPlate.style.display = "flex";
+
+        if (isActiveCoverVideo && activeCover && bookVideo) {
+          // Show video player with interactive controls
+          bookVideo.src = activeCover;
+          bookVideo.muted = true;
+          bookVideo.loop = true;
+          bookVideo.style.display = "block";
+          if (bookVideoControls) bookVideoControls.style.display = "flex";
+          if (bookDrawingPlate) bookDrawingPlate.style.display = "none";
+          bookVideo.load();
+          bookVideo.play().catch(function(){});
+          updateVideoUI();
+        } else if (activeCover) {
+          if (bookImage) bookImage.style.display = "none";
           if (bookDrawingPlate) bookDrawingPlate.style.display = "flex";
 
           var testImg = new Image();
-          testImg.src = activeCoverImg;
+          testImg.src = activeCover;
           testImg.onload = function () {
             if (bookImage) {
-              updateRightPageImage(activeCoverImg, false);
+              updateRightPageImage(activeCover, false);
               bookImage.alt = rec.title;
               bookImage.style.display = "block";
             }
@@ -4439,9 +4778,6 @@
             if (bookImage) bookImage.style.display = "none";
             if (bookDrawingPlate) bookDrawingPlate.style.display = "flex";
           };
-        } else {
-          if (bookImage) bookImage.style.display = "none";
-          if (bookDrawingPlate) bookDrawingPlate.style.display = "flex";
         }
 
         // Update 3D Accordion Stack Wings (Previous & Next Projects)
@@ -4473,6 +4809,14 @@
 
       function closeBook() {
         document.body.classList.remove("book-open");
+        // Stop and mute video when closing
+        if (bookVideo) {
+          bookVideo.pause();
+          bookVideo.muted = true;
+          bookVideo.src = "";
+          bookVideo.style.display = "none";
+        }
+        if (bookVideoControls) bookVideoControls.style.display = "none";
       }
       window.closeBook = closeBook;
 
@@ -5080,8 +5424,9 @@
             splash.classList.add("out");
             document.body.classList.remove("locked");
             document.body.classList.add("revealed");
-            if (window.gnSphereEngine) {
-              window.gnSphereEngine.startIntro();
+            var eng = window.baroSphereEngine || window.gnSphereEngine;
+            if (eng) {
+              eng.startIntro();
             }
           }
         }, 4800);
@@ -5251,8 +5596,9 @@
             splash.classList.add("out");
             document.body.classList.remove("locked");
             document.body.classList.add("revealed");
-            if (window.gnSphereEngine) {
-              window.gnSphereEngine.startIntro();
+            var eng = window.baroSphereEngine || window.gnSphereEngine;
+            if (eng) {
+              eng.startIntro();
             }
             return; // stop loop
           }
@@ -5264,6 +5610,67 @@
       // Run camera loop
       renderFrame();
 
+    })();
+  </script>
+
+  <!-- Content & Asset Protection Layer (Chống copy thông tin & tải ảnh trái phép) -->
+  <script>
+    (function () {
+      // Tự động bỏ qua khi đang phát triển/chạy thử trên máy (localhost, 127.0.0.1 hoặc mở trực tiếp file://)
+      var isLocalDev = window.location.hostname === 'localhost' ||
+                       window.location.hostname === '127.0.0.1' ||
+                       window.location.protocol === 'file:';
+
+      if (!isLocalDev) {
+        // 1. Chặn click chuột phải (Context Menu)
+        document.addEventListener('contextmenu', function (e) {
+          e.preventDefault();
+        }, false);
+
+        // 2. Chặn phím tắt DevTools, View Source, Save Page (hỗ trợ cả Windows Ctrl và macOS Cmd)
+        document.addEventListener('keydown', function (e) {
+          // Chặn F12
+          if (e.key === 'F12') {
+            e.preventDefault();
+            return false;
+          }
+          var isModifier = e.ctrlKey || e.metaKey;
+          // Chặn Ctrl/Cmd + Shift + I/J/C (DevTools Inspect)
+          if (isModifier && e.shiftKey && ['I', 'J', 'C', 'i', 'j', 'c'].indexOf(e.key) !== -1) {
+            e.preventDefault();
+            return false;
+          }
+          // Chặn Ctrl/Cmd + U (View Source) và Ctrl/Cmd + S (Save Page), Ctrl/Cmd + P (Print)
+          if (isModifier && ['u', 'U', 's', 'S', 'p', 'P'].indexOf(e.key) !== -1) {
+            e.preventDefault();
+            return false;
+          }
+        }, false);
+
+        // 3. Chống kéo thả ảnh (Drag & Drop save)
+        document.addEventListener('dragstart', function (e) {
+          if (e.target && e.target.nodeName === 'IMG') {
+            e.preventDefault();
+          }
+        }, false);
+
+        // 4. CSS chống bôi đen chữ và kéo thả ảnh
+        var style = document.createElement('style');
+        style.type = 'text/css';
+        style.innerHTML = [
+          'body {',
+          '  -webkit-user-select: none !important;',
+          '  -moz-user-select: none !important;',
+          '  -ms-user-select: none !important;',
+          '  user-select: none !important;',
+          '}',
+          'img {',
+          '  -webkit-user-drag: none !important;',
+          '  user-drag: none !important;',
+          '}'
+        ].join('\n');
+        document.head.appendChild(style);
+      }
     })();
   </script>
 </body>

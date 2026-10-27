@@ -32,10 +32,10 @@
     radiusZ: 275,
     planeSize: 104,          // Kích thước chiều cao thẻ trên desktop (rõ nét, đúng tỷ lệ)
     aspect: 0.72,            // Tỷ lệ thẻ 3:4 portrait
-    dragSpeed: 0.0015,       // Độ nhạy khi kéo chuột xoay
-    wheelSpeed: 0.00075,     // Tốc độ xoay trái/phải khi lăn chuột
-    friction: 0.94,          // Ma sát quán tính mượt mà
-    smoothing: 0.12,         // Làm mượt chuyển động
+    dragSpeed: 0.0012,       // Độ nhạy khi kéo chuột xoay
+    wheelSpeed: 0.00020,     // TASK-02: Tốc độ xoay trái/phải khi lăn chuột (đã làm chậm và êm)
+    friction: 0.955,         // Ma sát quán tính mượt mà
+    smoothing: 0.08,         // Làm mượt chuyển động lerp
     autoSpeed: 0.00085,      // Tốc độ tự xoay nhẹ quanh trục nghiêng khi rảnh tay
     spinTilt: 23,            // Trục nghiêng 23 độ thẩm mỹ
     spinTiltDir: 0,
@@ -73,57 +73,13 @@
     "02.Project/01_ha-tu_261025/mh.jpg"
   ];
 
-  // Hệ thống âm thanh tương tác xúc giác nhẹ nhàng Web Audio API
-  var AudioFX = (function () {
-    var ctx = null;
-    function getCtx() {
-      if (!ctx && (window.AudioContext || window.webkitAudioContext)) {
-        try {
-          ctx = new (window.AudioContext || window.webkitAudioContext)();
-        } catch (e) {}
-      }
-      if (ctx && ctx.state === "suspended") {
-        ctx.resume().catch(function () {});
-      }
-      return ctx;
-    }
-    return {
-      tick: function (rate) {
-        try {
-          var c = getCtx();
-          if (!c) return;
-          var osc = c.createOscillator();
-          var gain = c.createGain();
-          osc.type = "sine";
-          osc.frequency.setValueAtTime(1200 * (rate || 1), c.currentTime);
-          osc.frequency.exponentialRampToValueAtTime(320, c.currentTime + 0.016);
-          gain.gain.setValueAtTime(0.03, c.currentTime);
-          gain.gain.exponentialRampToValueAtTime(0.001, c.currentTime + 0.016);
-          osc.connect(gain);
-          gain.connect(c.destination);
-          osc.start();
-          osc.stop(c.currentTime + 0.018);
-        } catch (e) {}
-      },
-      click: function () {
-        try {
-          var c = getCtx();
-          if (!c) return;
-          var osc = c.createOscillator();
-          var gain = c.createGain();
-          osc.type = "triangle";
-          osc.frequency.setValueAtTime(440, c.currentTime);
-          osc.frequency.exponentialRampToValueAtTime(140, c.currentTime + 0.03);
-          gain.gain.setValueAtTime(0.05, c.currentTime);
-          gain.gain.exponentialRampToValueAtTime(0.001, c.currentTime + 0.03);
-          osc.connect(gain);
-          gain.connect(c.destination);
-          osc.start();
-          osc.stop(c.currentTime + 0.035);
-        } catch (e) {}
-      }
-    };
-  })();
+  // TASK-01: Mute All Sound Effects / Silent Interaction
+  // Loại bỏ hoàn toàn AudioContext và các hiệu ứng âm thanh tương tác
+  var AudioFX = {
+    init: function () {},
+    tick: function () {},
+    click: function () {}
+  };
 
   // Hệ thống Easing độc lập (hỗ trợ GSAP hoặc ticker tự động)
   var Easing = {
@@ -198,6 +154,48 @@
       tex.offset.set(0, (1 - ry) / 2);
     }
     tex.needsUpdate = true;
+  }
+
+  /**
+   * TASK-06: Tạo Texture Glassmorphism trong suốt mờ cho Empty Slot
+   * Hoàn toàn KHÔNG chứa văn bản hay nội dung nào
+   * Nền: rgba(255,255,255,0.25), viền sắc nét 1px solid rgba(255,255,255,0.35)
+   */
+  function createGlassmorphicEmptyTexture() {
+    var canvas = document.createElement("canvas");
+    canvas.width = 512;
+    canvas.height = 710;
+    var ctx = canvas.getContext("2d");
+
+    // Xóa nền
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    // Lớp nền Glassmorphism mờ trắng
+    ctx.fillStyle = "rgba(255, 255, 255, 0.22)";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    // Ánh sáng khúc xạ xiên góc tạo cảm giác kính thực tế
+    var grad = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
+    grad.addColorStop(0, "rgba(255, 255, 255, 0.38)");
+    grad.addColorStop(0.35, "rgba(255, 255, 255, 0.12)");
+    grad.addColorStop(0.7, "rgba(255, 255, 255, 0.04)");
+    grad.addColorStop(1, "rgba(255, 255, 255, 0.22)");
+    ctx.fillStyle = grad;
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    // Viền sắc cạnh không bo góc (Sharp 1px outer hairline)
+    ctx.strokeStyle = "rgba(255, 255, 255, 0.45)";
+    ctx.lineWidth = 2.0;
+    ctx.strokeRect(1, 1, canvas.width - 2, canvas.height - 2);
+
+    // Viền mỏng phụ bên trong
+    ctx.strokeStyle = "rgba(255, 255, 255, 0.18)";
+    ctx.lineWidth = 1.0;
+    ctx.strokeRect(6, 6, canvas.width - 12, canvas.height - 12);
+
+    var tex = new THREE.CanvasTexture(canvas);
+    tex.colorSpace = THREE.SRGBColorSpace;
+    return tex;
   }
 
   /**
@@ -371,28 +369,28 @@
     return texture;
   }
 
-  // Khởi tạo Lớp Engine
-  function GNSphereEngine() {
-    this.canvas = document.getElementById("gnSphereCanvas");
+  // Khởi tạo Lớp Engine BaroSphereEngine
+  function BaroSphereEngine() {
+    this.canvas = document.getElementById("gnSphereCanvas") || document.getElementById("baroSphereCanvas");
     if (!this.canvas) return;
 
-    this.cursorPill = document.getElementById("gnCursorPill");
-    this.cursorText = document.getElementById("gnPillText");
-    this.introOverlay = document.getElementById("gnIntroOverlay");
-    this.introCounter = document.getElementById("gnIntroCounter");
-    this.projectSheet = document.getElementById("gnProjectSheet");
-    this.sheetPreview = document.getElementById("gnSheetPreview");
-    this.previewCat = document.getElementById("gnPreviewCat");
-    this.previewTitle = document.getElementById("gnPreviewTitle");
+    this.cursorPill = document.getElementById("gnCursorPill") || document.getElementById("baroCursorPill");
+    this.cursorText = document.getElementById("gnPillText") || document.getElementById("baroPillText");
+    this.introOverlay = document.getElementById("gnIntroOverlay") || document.getElementById("baroIntroOverlay");
+    this.introCounter = document.getElementById("gnIntroCounter") || document.getElementById("baroIntroCounter");
+    this.projectSheet = document.getElementById("gnProjectSheet") || document.getElementById("baroProjectSheet");
+    this.sheetPreview = document.getElementById("gnSheetPreview") || document.getElementById("baroSheetPreview");
+    this.previewCat = document.getElementById("gnPreviewCat") || document.getElementById("baroPreviewCat");
+    this.previewTitle = document.getElementById("gnPreviewTitle") || document.getElementById("baroPreviewTitle");
 
-    this.sheetExpanded = document.getElementById("gnSheetExpanded");
-    this.expandedBadge = document.getElementById("gnExpandedBadge");
-    this.expandedYear = document.getElementById("gnExpandedYear");
-    this.expandedTitle = document.getElementById("gnExpandedTitle");
-    this.expandedOrg = document.getElementById("gnExpandedOrg");
-    this.expandedDesc = document.getElementById("gnExpandedDesc");
-    this.btnOpenMonograph = document.getElementById("gnBtnOpenMonograph");
-    this.btnCloseHero = document.getElementById("gnBtnCloseHero");
+    this.sheetExpanded = document.getElementById("gnSheetExpanded") || document.getElementById("baroSheetExpanded");
+    this.expandedBadge = document.getElementById("gnExpandedBadge") || document.getElementById("baroExpandedBadge");
+    this.expandedYear = document.getElementById("gnExpandedYear") || document.getElementById("baroExpandedYear");
+    this.expandedTitle = document.getElementById("gnExpandedTitle") || document.getElementById("baroExpandedTitle");
+    this.expandedOrg = document.getElementById("gnExpandedOrg") || document.getElementById("baroExpandedOrg");
+    this.expandedDesc = document.getElementById("gnExpandedDesc") || document.getElementById("baroExpandedDesc");
+    this.btnOpenMonograph = document.getElementById("gnBtnOpenMonograph") || document.getElementById("baroBtnOpenMonograph");
+    this.btnCloseHero = document.getElementById("gnBtnCloseHero") || document.getElementById("baroBtnCloseHero");
 
     this.scene = null;
     this.camera = null;
@@ -419,6 +417,8 @@
     this.rotY = 0;
     this.te = 0;
     this.tt = 0;
+    this.targetWheelDelta = 0; // TASK-02: Damping target cho wheel xoay mượt mà
+    this.currentWheelDelta = 0;
     this.isDragging = false;
     this.downX = 0;
     this.downY = 0;
@@ -448,6 +448,9 @@
     this.boundTick = this.render.bind(this);
     this.init();
   }
+
+  // Tương thích ngược cả 2 tên gọi BaroSphereEngine và GNSphereEngine
+  var GNSphereEngine = BaroSphereEngine;
 
   // Tìm nạp dữ liệu an toàn dưới mọi điều kiện tải
   function getSafeRecords(records) {
@@ -644,12 +647,28 @@
       var ringSlot = isRingItem ? i : -1;
       var isOrange = /orange/i.test((rec.category || rec.cat || "") + " " + (rec.title || ""));
 
-      // Texture trắng đen kiến trúc sang trọng làm mặc định
-      var plateTex = createMonochromePlateTexture(rec, i, N, isOrange);
+      // TASK-06: Xác định Empty Slot hay Active Slot
+      var isEmptySlot = rec.isSynthetic || (!rec.image && i >= VERIFIED_LOCAL_IMAGES.length);
+      var imageSrc = null;
+      if (!isEmptySlot) {
+        if (rec.image && !rec.isSynthetic) {
+          if (rec.image.indexOf("project-") !== -1) {
+            imageSrc = VERIFIED_LOCAL_IMAGES[i % VERIFIED_LOCAL_IMAGES.length];
+          } else {
+            imageSrc = rec.image;
+          }
+        } else if (!rec.isSynthetic && i < VERIFIED_LOCAL_IMAGES.length) {
+          imageSrc = VERIFIED_LOCAL_IMAGES[i];
+        }
+      }
+
+      // TASK-06: Slot chưa có dự án (Empty Slot) hiển thị dạng Glassmorphism trắng trong suốt mờ, không văn bản
+      var defaultTex = isEmptySlot ? createGlassmorphicEmptyTexture() : createMonochromePlateTexture(rec, i, N, isOrange);
 
       var mat = new THREE.MeshBasicMaterial({
-        map: plateTex,
+        map: defaultTex,
         transparent: true,
+        opacity: isEmptySlot ? 0.72 : 1.0,
         side: THREE.DoubleSide,
         depthWrite: false
       });
@@ -672,37 +691,62 @@
       mesh.scale.copy(item.baseScale);
       mesh.position.copy(item.basePos);
 
-      // Tải hình ảnh thực tế nếu có đường dẫn hợp lệ
-      var imageSrc = null;
-      if (rec.image && !rec.isSynthetic) {
-        // Nếu ảnh chỉ là đường dẫn tượng trưng project-01.jpg, ánh xạ sang ảnh thực có sẵn
-        if (rec.image.indexOf("project-") !== -1) {
-          imageSrc = VERIFIED_LOCAL_IMAGES[i % VERIFIED_LOCAL_IMAGES.length];
-        } else {
-          imageSrc = rec.image;
-        }
-      } else if (!rec.isSynthetic && i < VERIFIED_LOCAL_IMAGES.length) {
-        imageSrc = VERIFIED_LOCAL_IMAGES[i];
-      }
-
-      if (imageSrc) {
-        (function (tItem, tMat, src) {
-          texLoader.load(
-            src,
-            function (tex) {
-              tex.colorSpace = THREE.SRGBColorSpace;
-              tMat.map = tex;
-              tMat.needsUpdate = true;
-              if (tex.image && tex.image.width && tex.image.height) {
-                applyCoverTexture(tex, tex.image.width, tex.image.height, tItem.aspect);
+      // TASK-06 & Video/GIF/Image: Tải media hỗ trợ ảnh tĩnh (.jpg, .png), ảnh động (.gif), video (.mp4, .webm autoplay muted không tiếng)
+      var mediaSrc = (rec && rec.video) ? rec.video : imageSrc;
+      if (mediaSrc) {
+        var isVideo = /\.(mp4|webm|ogg|mov)(\?.*)?$/i.test(mediaSrc) || (rec && rec.video);
+        if (isVideo) {
+          try {
+            var video = document.createElement("video");
+            video.src = mediaSrc;
+            video.crossOrigin = "anonymous";
+            video.loop = true;
+            video.muted = true;
+            video.defaultMuted = true;
+            video.volume = 0;
+            video.playsInline = true;
+            video.setAttribute("playsinline", "");
+            video.setAttribute("webkit-playsinline", "");
+            video.autoplay = true;
+            video.play().catch(function () {});
+            var vTex = new THREE.VideoTexture(video);
+            vTex.colorSpace = THREE.SRGBColorSpace;
+            vTex.minFilter = THREE.LinearFilter;
+            vTex.magFilter = THREE.LinearFilter;
+            mat.map = vTex;
+            mat.opacity = 1.0;
+            mat.needsUpdate = true;
+            video.addEventListener("loadedmetadata", function () {
+              if (video.videoWidth && video.videoHeight) {
+                applyCoverTexture(vTex, video.videoWidth, video.videoHeight, item.aspect);
               }
-            },
-            undefined,
-            function () {
-              // Khi ảnh tải lỗi, texture trắng đen tinh tế vẫn được giữ nguyên không bao giờ bị trắng trơn!
-            }
-          );
-        })(item, mat, imageSrc);
+            });
+          } catch (e) {
+            console.warn("Video texture fallback", e);
+          }
+        } else {
+          (function (tItem, tMat, src) {
+            texLoader.load(
+              src,
+              function (tex) {
+                tex.colorSpace = THREE.SRGBColorSpace;
+                tMat.map = tex;
+                tMat.opacity = 1.0;
+                tMat.needsUpdate = true;
+                if (tex.image && tex.image.width && tex.image.height) {
+                  applyCoverTexture(tex, tex.image.width, tex.image.height, tItem.aspect);
+                }
+              },
+              undefined,
+              function () {
+                // Fallback nếu ảnh không tồn tại: Glassmorphic slot mờ
+                tMat.map = createGlassmorphicEmptyTexture();
+                tMat.opacity = 0.72;
+                tMat.needsUpdate = true;
+              }
+            );
+          })(item, mat, mediaSrc);
+        }
       }
 
       this.sphereGroup.add(mesh);
@@ -1024,9 +1068,8 @@
         if (self.activeMode !== "sphere") return;
         e.preventDefault();
         if (self.expandedIdx === -1 && !self.isIntro) {
-          // e.deltaY > 0 (lăn xuống) -> xoay sang phải
-          // e.deltaY < 0 (lăn lên) -> xoay sang trái
-          self.te += e.deltaY * CONFIG.wheelSpeed;
+          // TASK-02: Damped mousewheel - nạp gia tốc xoay với hệ số giảm chấn êm dịu
+          self.targetWheelDelta += e.deltaY * CONFIG.wheelSpeed;
         }
       },
       { passive: false }
@@ -1070,6 +1113,16 @@
 
     // 1. Quán tính vật lý khi xoay (từ kéo chuột hoặc lăn chuột)
     if (!this.isDragging && this.expandedIdx === -1 && !this.isIntro) {
+      // TASK-02: Damped smooth interpolation cho wheel rotation (êm dịu, không giật)
+      if (Math.abs(this.targetWheelDelta) > 0.000005) {
+        var wStep = this.targetWheelDelta * 0.038;
+        this.te += wStep;
+        this.targetWheelDelta -= wStep;
+        this.targetWheelDelta *= 0.94;
+      } else {
+        this.targetWheelDelta = 0;
+      }
+
       this.rotX += this.te;
       this.rotY += this.tt;
       this.te *= CONFIG.friction;
@@ -1230,14 +1283,16 @@
   };
 
   function initEngine() {
-    if (window.gnSphereEngine) return;
+    if (window.baroSphereEngine || window.gnSphereEngine) return;
     if (typeof THREE === "undefined") {
       setTimeout(initEngine, 40);
       return;
     }
-    window.gnSphereEngine = new GNSphereEngine();
+    var engine = new BaroSphereEngine();
+    window.baroSphereEngine = engine;
+    window.gnSphereEngine = engine; // Alias tương thích ngược
     if (document.body && document.body.classList.contains("revealed")) {
-      window.gnSphereEngine.startIntro();
+      engine.startIntro();
     }
   }
 
