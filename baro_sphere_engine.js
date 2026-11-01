@@ -51,26 +51,30 @@
     targetSphereCount: 28    // Quả cầu 3D: 28 thẻ Fibonacci
   };
 
-  // Danh mục ảnh dự án thật có sẵn trong kho lưu trữ
+  // Danh mục ảnh dự án thật có sẵn trong kho lưu trữ (tương thích 100% Linux/Vercel)
   var VERIFIED_LOCAL_IMAGES = [
-    "02.Project/02_/Screenshot 2025-03-24 175306.jpg",
-    "02.Project/02_/Screenshot 2025-03-24 175343.jpg",
-    "02.Project/02_/Screenshot 2025-03-24 175420.jpg",
-    "02.Project/02_/Screenshot 2025-03-24 180357.jpg",
-    "02.Project/02_/Screenshot 2025-03-24 180427.jpg",
-    "02.Project/02_/Screenshot 2025-03-24 180450.jpg",
-    "02.Project/02_/Screenshot 2025-03-24 180517.jpg",
-    "02.Project/02_/Screenshot 2025-03-24 180550.jpg",
-    "02.Project/02_/Screenshot 2025-03-24 180618.jpg",
-    "02.Project/02_/Screenshot 2025-03-24 180645.jpg",
-    "02.Project/02_/Screenshot 2025-03-24 180706.jpg",
-    "02.Project/02_/Screenshot 2025-03-24 180908.jpg",
-    "02.Project/02_/Screenshot 2025-03-24 181045.jpg",
-    "02.Project/02_/Screenshot 2025-04-22 010726.jpg",
-    "02.Project/02_/Screenshot 2025-04-22 010756.jpg",
-    "02.Project/01_ha-tu_261025/1.jpg",
-    "02.Project/01_ha-tu_261025/Baro Portfolio25.jpg",
-    "02.Project/01_ha-tu_261025/mh.jpg"
+    "02.Project/02_Baropholio brand_240401/Baropholio brand (1).jpg",
+    "02.Project/01_Windy Hill/Baro Portfolio25.jpg",
+    "02.Project/01_Windy Hill/1-1793085295855_convert_com_vn.webp",
+    "02.Project/01_Windy Hill/mh-1793085300964_convert_com_vn.webp",
+    "02.Project/07_Park/2-1793088026015_convert_com_vn.webp",
+    "02.Project/04_Thanh Da Market/11.jpg",
+    "02.Project/05_Thuy Dai/386047287_3683376851949091_162864876726435184_n.jpg",
+    "02.Project/06_Scomeco/baro-du-duk_01-1793087556464_convert_com_vn.webp",
+    "02.Project/07_Park/ssss.jpg",
+    "02.Project/08_Rocras/b2d7ff64eb506b0e3241.jpg",
+    "02.Project/02_Baropholio brand_240401/Baropholio brand (2).jpg",
+    "02.Project/02_Baropholio brand_240401/Baropholio brand (3).jpg",
+    "02.Project/02_Baropholio brand_240401/Baropholio brand (4).jpg",
+    "02.Project/02_Baropholio brand_240401/Baropholio brand (5).jpg",
+    "02.Project/02_Baropholio brand_240401/Baropholio brand (6).jpg",
+    "02.Project/03_120H/Screenshot 2024-09-30 212638.jpg",
+    "02.Project/03_120H/Screenshot 2024-09-30 212701.jpg",
+    "02.Project/03_120H/Screenshot 2024-09-30 212907.jpg",
+    "02.Project/04_Thanh Da Market/12.jpg",
+    "02.Project/06_Scomeco/baro-du-duk_02-1793087557317_convert_com_vn.webp",
+    "02.Project/02_Baropholio brand_240401/Baropholio brand (7).jpg",
+    "02.Project/02_Baropholio brand_240401/Baropholio brand (8).jpg"
   ];
 
   // TASK-01: Mute All Sound Effects / Silent Interaction
@@ -790,7 +794,7 @@
       var imageSrc = null;
       if (!isEmptySlot) {
         if (rec.image && !rec.isSynthetic) {
-          if (rec.image.indexOf("project-") !== -1) {
+          if (rec.image.indexOf("02_/") !== -1 || rec.image.indexOf("01_ha-tu_261025") !== -1 || rec.image.indexOf("project-") !== -1) {
             imageSrc = VERIFIED_LOCAL_IMAGES[i % VERIFIED_LOCAL_IMAGES.length];
           } else {
             imageSrc = rec.image;
@@ -841,8 +845,9 @@
           playGifOnMesh(mediaSrc, mesh, mat, item);
         } else {
           (function (tItem, tMat, src) {
+            var safeUrl = encodeURI(decodeURI(src));
             texLoader.load(
-              src,
+              safeUrl,
               function (tex) {
                 tex.colorSpace = THREE.SRGBColorSpace;
                 tMat.map = tex;
