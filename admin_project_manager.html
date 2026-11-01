@@ -652,6 +652,10 @@
       background: rgba(15, 23, 42, 0.85);
     }
 
+    /* 🎬 Multimedia type badges */
+    .media-type-badge.type-gif { background: rgba(99, 102, 241, 0.85); }
+    .media-type-badge.type-pdf { background: rgba(239, 68, 68, 0.85); }
+
     /* Media Drop Zone */
     .drop-zone {
       border: 2px dashed #cbd5e1;
@@ -1012,6 +1016,69 @@
     .toast-pill.show {
       transform: translateX(-50%) translateY(0);
       opacity: 1;
+    }
+
+    /* White-Gray-Black-Orange Palette & Collection Badges */
+    .palette-swatches-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 8px;
+      margin-top: 8px;
+    }
+    .swatch-btn {
+      width: 100%;
+      height: 32px;
+      border-radius: 6px;
+      border: 2px solid transparent;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.15s ease, border-color 0.15s ease;
+    }
+    .swatch-btn:hover {
+      transform: scale(1.05);
+    }
+    .swatch-btn.selected {
+      border-color: #000;
+      box-shadow: 0 0 0 2px #fff inset;
+    }
+    .collection-color-dot {
+      display: inline-block;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      flex-shrink: 0;
+      border: 1px solid rgba(0,0,0,0.15);
+      margin-right: 6px;
+    }
+    .collection-pin-icon {
+      font-size: 11px;
+      margin-left: 4px;
+      opacity: 0.85;
+      cursor: default;
+    }
+    .manual-media-path-bar {
+      display: flex;
+      gap: 8px;
+      margin-top: 12px;
+      padding: 10px 14px;
+      background: #f8fafc;
+      border: 1px dashed var(--border);
+      border-radius: var(--radius-md);
+      align-items: center;
+    }
+    .manual-media-path-bar input {
+      flex: 1;
+      padding: 7px 12px;
+      font-size: 13px;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      outline: none;
+      background: #ffffff;
+    }
+    .manual-media-path-bar input:focus {
+      border-color: var(--wix-blue);
     }
   
     /* ==========================================================================
@@ -1655,7 +1722,7 @@
   <div id="modalContainer"></div>
 
   <!-- HIDDEN INPUTS FOR FILE IMPORTS -->
-  <input type="file" id="mediaFileInput" multiple accept="image/*,video/*,audio/*,.mp3,.ogg,.wav,.aac" style="display:none;">
+  <input type="file" id="mediaFileInput" multiple accept="image/*,video/*,audio/*,.mp3,.ogg,.wav,.aac,.pdf,image/gif,application/pdf" style="display:none;">
   <input type="file" id="importJsonInput" accept=".json" style="display:none;">
 
   <!-- TOAST -->
@@ -1668,6 +1735,100 @@
        BAROPHOLIO ADMIN ~ COMPLETE WIX PORTFOLIO CMS LOGIC
        ========================================================================== */
     const STORAGE_KEY = 'baropholio_wix_portfolio_v5';
+    const IDB_NAME = 'BaropholioCMS_DB';
+    const IDB_STORE = 'cms_store';
+    const IDB_KEY = 'state';
+
+    // Strict White - Gray - Black - Orange Palette (10 swatches)
+    const PALETTE_WHITE_BLACK_ORANGE = [
+      '#ffffff', // Pure White
+      '#d1d5db', // Light Silver Gray
+      '#6b7280', // Slate Gray
+      '#374151', // Dark Charcoal
+      '#111827', // Obsidian Black
+      '#fed7aa', // Light Peach Orange
+      '#fb923c', // Warm Amber Orange
+      '#ea580c', // Vivid Baro Orange
+      '#c2410c', // Rust Terracotta
+      '#7c2d12'  // Deep Burnt Orange
+    ];
+
+    function getIDB() {
+      return new Promise((resolve) => {
+        if (!window.indexedDB) return resolve(null);
+        try {
+          const req = indexedDB.open(IDB_NAME, 1);
+          req.onupgradeneeded = (e) => {
+            const db = e.target.result;
+            if (!db.objectStoreNames.contains(IDB_STORE)) {
+              db.createObjectStore(IDB_STORE);
+            }
+          };
+          req.onsuccess = (e) => resolve(e.target.result);
+          req.onerror = () => resolve(null);
+        } catch(e) { resolve(null); }
+      });
+    }
+
+    async function idbGetState() {
+      try {
+        const db = await getIDB();
+        if (!db) return null;
+        return new Promise((resolve) => {
+          const tx = db.transaction(IDB_STORE, 'readonly');
+          const st = tx.objectStore(IDB_STORE);
+          const req = st.get(IDB_KEY);
+          req.onsuccess = () => resolve(req.result || null);
+          req.onerror = () => resolve(null);
+        });
+      } catch(e) { return null; }
+    }
+
+    async function idbSetState(val) {
+      try {
+        const db = await getIDB();
+        if (!db) return false;
+        return new Promise((resolve) => {
+          const tx = db.transaction(IDB_STORE, 'readwrite');
+          const st = tx.objectStore(IDB_STORE);
+          const req = st.put(val, IDB_KEY);
+          req.onsuccess = () => resolve(true);
+          req.onerror = () => resolve(false);
+        });
+      } catch(e) { return false; }
+    }
+
+    function detectMediaTypeFromUrl(url) {
+      const clean = (url || '').split('?')[0].split('#')[0].toLowerCase();
+      if (clean.endsWith('.gif')) return 'gif';
+      if (/\.(mp4|webm|mov|m4v|ogg)$/.test(clean)) return 'video';
+      if (/\.(mp3|wav|ogg|aac|m4a|flac)$/.test(clean)) return 'audio';
+      if (clean.endsWith('.pdf')) return 'pdf';
+      return 'image';
+    }
+
+    function addMediaByPath(path) {
+      if (!path || !state.currentProject) return;
+      const p = state.currentProject;
+      if (!Array.isArray(p.media)) p.media = [];
+      const mType = detectMediaTypeFromUrl(path);
+      const fileName = path.split('/').pop().split('\\').pop() || 'Media Asset';
+      const isFirst = p.media.length === 0;
+      p.media.push({
+        id: generateUUID(),
+        type: mType,
+        dataUrl: path,
+        name: fileName,
+        alt: fileName,
+        isCover: isFirst
+      });
+      if (isFirst) {
+        p.coverImage = path;
+      }
+      renderProjectDetail(p.id);
+      saveState(false);
+      showToast('Added media asset: ' + fileName);
+    }
 
     
     function formatWixDate(dateStr) {
@@ -1862,6 +2023,7 @@
       projects: [],
       trashProjects: [],
       collections: [...DEFAULT_COLLECTIONS],
+      collectionMeta: {}, // { [colName]: { color: string, pinned: boolean } }
       currentProject: null,
       searchQuery: '',
       selectedCollectionFilter: '',
@@ -1934,6 +2096,9 @@ const ICONS = {
             if (Array.isArray(parsed.collections)) {
               state.collections = Array.from(new Set([...DEFAULT_COLLECTIONS, ...parsed.collections]));
             }
+            if (parsed.collectionMeta && typeof parsed.collectionMeta === 'object') {
+              state.collectionMeta = parsed.collectionMeta;
+            }
             return;
           }
         }
@@ -1942,10 +2107,40 @@ const ICONS = {
       }
       state.projects = JSON.parse(JSON.stringify(SEED_PROJECTS));
       state.collections = [...DEFAULT_COLLECTIONS];
+      state.collectionMeta = {};
       saveState(false);
     }
 
-    
+    async function initStorageAndLoad() {
+      loadState();
+      try {
+        const idbData = await idbGetState();
+        if (idbData && Array.isArray(idbData.projects) && idbData.projects.length > 0) {
+          state.projects = idbData.projects;
+          state.trashProjects = Array.isArray(idbData.trashProjects) ? idbData.trashProjects : [];
+          if (Array.isArray(idbData.collections)) {
+            state.collections = Array.from(new Set([...DEFAULT_COLLECTIONS, ...idbData.collections]));
+          }
+          if (idbData.collectionMeta && typeof idbData.collectionMeta === 'object') {
+            state.collectionMeta = idbData.collectionMeta;
+          }
+          render();
+        }
+      } catch(e) {
+        console.warn('[IDB] Initial load error:', e);
+      }
+    }
+
+    function getSortedCollections() {
+      state.collectionMeta = state.collectionMeta || {};
+      return [...state.collections].sort((a, b) => {
+        const pinA = state.collectionMeta[a]?.pinned ? 1 : 0;
+        const pinB = state.collectionMeta[b]?.pinned ? 1 : 0;
+        if (pinA !== pinB) return pinB - pinA; // Pinned first
+        return a.localeCompare(b);
+      });
+    }
+
     function broadcastSync() {
       try {
         const bc = new BroadcastChannel('baropholio_cms_sync');
@@ -1954,22 +2149,34 @@ const ICONS = {
       } catch(e) {}
     }
 
-    function saveState(notify = false) {
+    async function saveState(notify = false) {
+      const payload = {
+        projects: state.projects,
+        trashProjects: state.trashProjects || [],
+        collections: state.collections,
+        collectionMeta: state.collectionMeta || {},
+        updatedAt: new Date().toISOString()
+      };
+
+      // 1. Primary: IndexedDB (handles gigabytes of multimedia safely)
       try {
-        const payload = {
-          projects: state.projects,
-          trashProjects: state.trashProjects || [],
-          collections: state.collections,
-          updatedAt: new Date().toISOString()
-        };
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(payload));
-        localStorage.setItem('baropholio_last_updated', Date.now().toString());
-        broadcastSync();
-        if (notify) showToast('Saved to browser storage');
-      } catch (e) {
-        console.error('Storage quota exceeded:', e);
-        showToast('Storage warning: Consider using local file paths for images');
+        await idbSetState(payload);
+      } catch (idbErr) {
+        console.warn('[IDB] Save error:', idbErr);
       }
+
+      // 2. Fallback: localStorage (gracefully catch quota limit)
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(payload));
+      } catch (e) {
+        console.warn('Storage quota exceeded in localStorage, authoritative state saved in IndexedDB.');
+      }
+      try {
+        localStorage.setItem('baropholio_last_updated', Date.now().toString());
+      } catch(e) {}
+
+      broadcastSync();
+      if (notify) showToast('Saved changes (IndexedDB + Storage)');
     }
 
     /* File System Access API & Dual Export */
@@ -2366,8 +2573,9 @@ const ICONS = {
         collections: p.collections || [],
         seo: p.seo || {},
         media: (p.media || []).map((m, mi) => {
-          const type = m.type || (m.dataUrl && m.dataUrl.startsWith('data:video') ? 'video' : (m.dataUrl && m.dataUrl.startsWith('data:audio') ? 'audio' : 'image'));
-          const ext = type === 'video' ? 'mp4' : (type === 'audio' ? 'mp3' : 'webp');
+          const type = m.type || (m.dataUrl && m.dataUrl.startsWith('data:video') ? 'video' : (m.dataUrl && m.dataUrl.startsWith('data:audio') ? 'audio' : (m.dataUrl && m.dataUrl.startsWith('data:application/pdf') ? 'pdf' : 'image')));
+          const extMap = { video: 'mp4', audio: 'mp3', pdf: 'pdf', gif: 'gif' };
+          const ext = extMap[type] || 'webp';
           const fileNum = String(mi + 1).padStart(2, '0');
           const filename = m.isCover ? slug + '-cover.' + ext : slug + '-' + fileNum + '.' + ext;
           const rec = {
@@ -2376,8 +2584,9 @@ const ICONS = {
             isCover: !!m.isCover,
             caption: m.caption || m.title || m.alt || ''
           };
-          if (type === 'image') {
-            const thumbFilename = m.isCover ? slug + '-cover-thumb.webp' : slug + '-' + fileNum + '-thumb.webp';
+          if (type === 'image' || type === 'gif') {
+            const thumbExt = type === 'gif' ? 'gif' : 'webp';
+            const thumbFilename = m.isCover ? slug + '-cover-thumb.' + thumbExt : slug + '-' + fileNum + '-thumb.' + thumbExt;
             rec.thumb = folderPath + '/' + thumbFilename;
           }
           return rec;
@@ -3422,12 +3631,35 @@ const ICONS = {
 
         <div class="drop-zone" id="mediaDropZone">
           <div class="drop-zone-icon">${ICONS.cloudUpload}</div>
-          <div class="drop-zone-title">Drop images here or click to upload</div>
-          <div class="drop-zone-subtitle">JPG, PNG, WebP supported. First image automatically becomes Cover.</div>
+          <div class="drop-zone-title">Drop media here or click to upload</div>
+          <div class="drop-zone-subtitle">Images (JPG, PNG, WebP, GIF), Video (MP4, WebM), Audio (MP3, WAV), PDF — viewable on frontend. First image becomes Cover.</div>
+        </div>
+
+        <div class="manual-media-path-bar">
+          <span style="font-size:12px; font-weight:600; color:var(--text-muted); white-space:nowrap;">Relative Path / URL:</span>
+          <input type="text" id="inpManualMediaPath" placeholder="e.g. 02.Project/PR-23/video.mp4 or https://..." title="Enter relative local path or URL">
+          <button type="button" class="btn btn-outline-pill btn-sm" id="btnApplyManualPath" style="white-space:nowrap;">+ Add Asset</button>
         </div>
       `;
 
       mediaCard.querySelector('#btnManageMediaModal').onclick = () => openManageMediaModal(0);
+      const btnApplyPath = mediaCard.querySelector('#btnApplyManualPath');
+      const inpManualPath = mediaCard.querySelector('#inpManualMediaPath');
+      if (btnApplyPath && inpManualPath) {
+        btnApplyPath.onclick = () => {
+          const val = inpManualPath.value.trim();
+          if (val) {
+            addMediaByPath(val);
+            inpManualPath.value = '';
+          }
+        };
+        inpManualPath.onkeydown = (e) => {
+          if (e.key === 'Enter') {
+            e.preventDefault();
+            btnApplyPath.click();
+          }
+        };
+      }
       const dropZone = mediaCard.querySelector('#mediaDropZone');
       dropZone.onclick = () => document.getElementById('mediaFileInput').click();
       dropZone.ondragover = (e) => { e.preventDefault(); dropZone.classList.add('dragover'); };
@@ -3649,14 +3881,18 @@ const ICONS = {
       visible.forEach((item, idx) => {
         const box = document.createElement('div');
         box.className = 'wix-thumb-box';
-        const type = item.type || (item.dataUrl && item.dataUrl.startsWith('data:video') ? 'video' : (item.dataUrl && item.dataUrl.startsWith('data:audio') ? 'audio' : 'image'));
+        const type = item.type || (item.dataUrl && item.dataUrl.startsWith('data:video') ? 'video' : (item.dataUrl && item.dataUrl.startsWith('data:audio') ? 'audio' : (item.dataUrl && item.dataUrl.startsWith('data:application/pdf') ? 'pdf' : 'image')));
         let thumbHtml = '';
         if (type === 'image') {
           thumbHtml = `<img class="wix-thumb-img" src="${escapeHtml(item.dataUrl)}" alt="${escapeHtml(item.alt || '')}" loading="lazy">`;
+        } else if (type === 'gif') {
+          thumbHtml = `<img class="wix-thumb-img" src="${escapeHtml(item.dataUrl)}" alt="${escapeHtml(item.alt || '')}" style="image-rendering:auto;" loading="lazy">`;
         } else if (type === 'video') {
           thumbHtml = `<div style="width:100%;height:100%;background:#1a1a1a;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff;font-size:22px;gap:4px;"><span>▶</span><span style="font-size:10px;opacity:0.7;max-width:90px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${escapeHtml(item.name || 'video')}</span></div>`;
-        } else {
+        } else if (type === 'audio') {
           thumbHtml = `<div style="width:100%;height:100%;background:#0d0c0b;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#e67e22;font-size:20px;gap:4px;"><span>♪</span><span style="font-size:10px;color:#aaa;max-width:90px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${escapeHtml(item.name || 'audio')}</span></div>`;
+        } else if (type === 'pdf') {
+          thumbHtml = `<div style="width:100%;height:100%;background:#fff1f2;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#ef4444;font-size:22px;gap:4px;"><span>📄</span><span style="font-size:10px;color:#888;max-width:90px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${escapeHtml(item.name || 'PDF')}</span></div>`;
         }
         box.innerHTML = `
           ${thumbHtml}
@@ -3677,6 +3913,7 @@ const ICONS = {
       const p = state.currentProject;
       if (!Array.isArray(p.collections)) p.collections = [];
 
+      state.collectionMeta = state.collectionMeta || {};
       const countMap = {};
       state.collections.forEach(c => { countMap[c] = 0; });
       state.projects.forEach(proj => {
@@ -3685,9 +3922,13 @@ const ICONS = {
         }
       });
 
-      state.collections.forEach(col => {
+      const sortedList = getSortedCollections();
+
+      sortedList.forEach(col => {
         const isChecked = p.collections.includes(col);
         const count = countMap[col] || 0;
+        const meta = state.collectionMeta[col] || { color: '#ea580c', pinned: false };
+        const dotColor = meta.color || '#ea580c';
 
         const row = document.createElement('div');
         row.className = 'collection-row';
@@ -3695,7 +3936,9 @@ const ICONS = {
           <label class="collection-item-left">
             <input type="checkbox" value="${escapeHtml(col)}" ${isChecked ? 'checked' : ''}>
             <div class="custom-checkbox">${isChecked ? ICONS.check : ''}</div>
+            <span class="collection-color-dot" style="background:${dotColor};"></span>
             <span class="collection-name-label">${escapeHtml(col)}</span>
+            ${meta.pinned ? '<span class="collection-pin-icon" title="Pinned to top">📌</span>' : ''}
             <span class="collection-count-num">(${count})</span>
           </label>
           <span class="collection-manage-link" data-col="${escapeHtml(col)}">Manage</span>
@@ -3756,15 +3999,17 @@ const ICONS = {
 
       for (let i = 0; i < files.length; i++) {
         const file = files[i];
-        const isImage = file.type.startsWith('image/');
+        const isImage = file.type.startsWith('image/') && file.type !== 'image/gif';
+        const isGif   = file.type === 'image/gif';
         const isVideo = file.type.startsWith('video/');
         const isAudio = file.type.startsWith('audio/') || /\.(mp3|ogg|wav|aac)$/i.test(file.name);
-        if (!isImage && !isVideo && !isAudio) continue;
+        const isPdf   = file.type === 'application/pdf' || /\.pdf$/i.test(file.name);
+        if (!isImage && !isGif && !isVideo && !isAudio && !isPdf) continue;
 
         try {
           const dataUrl = await optimizeImageToDataUrl(file);
           const isFirst = p.media.length === 0;
-          const type = isImage ? 'image' : (isVideo ? 'video' : 'audio');
+          const type = isImage ? 'image' : isGif ? 'gif' : isVideo ? 'video' : isAudio ? 'audio' : 'pdf';
           p.media.push({
             id: generateUUID(),
             type,
@@ -3787,7 +4032,15 @@ const ICONS = {
       return new Promise((resolve) => {
         const reader = new FileReader();
         reader.onload = (e) => {
-          if (!file.type.startsWith('image/')) return resolve(e.target.result);
+          // GIF: preserve as-is (no canvas — would lose animation)
+          // Audio, Video, PDF: return raw base64 data URL
+          if (file.type === 'image/gif' ||
+              file.type.startsWith('audio/') || /\.(mp3|ogg|wav|aac)$/i.test(file.name) ||
+              file.type.startsWith('video/') ||
+              file.type === 'application/pdf' || /\.pdf$/i.test(file.name)) {
+            return resolve(e.target.result);
+          }
+          // Static images: resize to max 1200px, compress
           const img = new Image();
           img.onload = () => {
             const canvas = document.createElement('canvas');
@@ -3830,10 +4083,11 @@ const ICONS = {
             <div class="modal-header">
               <div>
                 <h3 style="font-size:18px;">Manage Media</h3>
-                <div style="font-size:12.5px; color:var(--text-muted);">Organize gallery images, assign cover, and edit alt text</div>
+                <div style="font-size:12.5px; color:var(--text-muted);">Organize multimedia files — images, GIFs, videos, audio, PDFs. Assign cover and edit alt text.</div>
               </div>
               <div style="display:flex; align-items:center; gap:10px;">
-                <button class="btn btn-wix-primary btn-sm" id="btnModalAddMedia">+ Add Media</button>
+                <button class="btn btn-outline-pill btn-sm" id="btnModalAddPath">+ Add by Path / URL</button>
+                <button class="btn btn-wix-primary btn-sm" id="btnModalAddMedia">+ Upload Media</button>
                 <button class="btn-cancel btn-sm" id="btnModalClose">${ICONS.close}</button>
               </div>
             </div>
@@ -3877,13 +4131,17 @@ const ICONS = {
           thumb.style.position = 'relative';
           thumb.style.cursor = 'pointer';
           thumb.style.border = idx === selectedIndex ? '3px solid var(--wix-blue)' : '1px solid var(--border)';
-          const mType = item.type || (item.dataUrl && item.dataUrl.startsWith('data:video') ? 'video' : (item.dataUrl && item.dataUrl.startsWith('data:audio') ? 'audio' : 'image'));
+          const mType = item.type || (item.dataUrl && item.dataUrl.startsWith('data:video') ? 'video' : (item.dataUrl && item.dataUrl.startsWith('data:audio') ? 'audio' : (item.dataUrl && item.dataUrl.startsWith('data:application/pdf') ? 'pdf' : 'image')));
           if (mType === 'image') {
+            thumb.innerHTML = `<img src="${escapeHtml(item.dataUrl)}" style="width:100%; height:100%; object-fit:cover; display:block;">${item.isCover ? '<div class="cover-badge-pill" style="top:4px; left:4px; font-size:10px;">COVER</div>' : ''}`;
+          } else if (mType === 'gif') {
             thumb.innerHTML = `<img src="${escapeHtml(item.dataUrl)}" style="width:100%; height:100%; object-fit:cover; display:block;">${item.isCover ? '<div class="cover-badge-pill" style="top:4px; left:4px; font-size:10px;">COVER</div>' : ''}`;
           } else if (mType === 'video') {
             thumb.innerHTML = `<div style="width:100%;height:100%;background:#1a1a1a;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff;font-size:20px;gap:4px;"><span>▶</span><span style="font-size:9px;opacity:0.7;max-width:100px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${escapeHtml(item.name||'video')}</span></div>`;
-          } else {
+          } else if (mType === 'audio') {
             thumb.innerHTML = `<div style="width:100%;height:100%;background:#0d0c0b;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#e67e22;font-size:20px;gap:4px;"><span>♪</span><span style="font-size:9px;color:#aaa;max-width:100px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${escapeHtml(item.name||'audio')}</span></div>`;
+          } else if (mType === 'pdf') {
+            thumb.innerHTML = `<div style="width:100%;height:100%;background:#fff1f2;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#ef4444;font-size:20px;gap:4px;"><span>📄</span><span style="font-size:9px;color:#888;max-width:100px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${escapeHtml(item.name||'PDF')}</span></div>`;
           }
           thumb.onclick = () => {
             selectedIndex = idx;
@@ -3892,20 +4150,24 @@ const ICONS = {
           gal.appendChild(thumb);
         });
 
-        const detType = currentItem.type || (currentItem.dataUrl && currentItem.dataUrl.startsWith('data:video') ? 'video' : (currentItem.dataUrl && currentItem.dataUrl.startsWith('data:audio') ? 'audio' : 'image'));
+        const detType = currentItem.type || (currentItem.dataUrl && currentItem.dataUrl.startsWith('data:video') ? 'video' : (currentItem.dataUrl && currentItem.dataUrl.startsWith('data:audio') ? 'audio' : (currentItem.dataUrl && currentItem.dataUrl.startsWith('data:application/pdf') ? 'pdf' : 'image')));
         let detPreview = '';
         if (detType === 'image') {
           detPreview = `<div style="aspect-ratio:16/9; background:#e2e8f0; border-radius:8px; overflow:hidden;"><img src="${escapeHtml(currentItem.dataUrl)}" style="width:100%; height:100%; object-fit:cover;"></div>`;
+        } else if (detType === 'gif') {
+          detPreview = `<div style="aspect-ratio:16/9; background:#e2e8f0; border-radius:8px; overflow:hidden;"><img src="${escapeHtml(currentItem.dataUrl)}" style="width:100%; height:100%; object-fit:contain;"></div>`;
         } else if (detType === 'video') {
           detPreview = `<div style="aspect-ratio:16/9; background:#111; border-radius:8px; overflow:hidden;"><video src="${escapeHtml(currentItem.dataUrl)}" controls style="width:100%;height:100%;object-fit:contain;"></video></div>`;
-        } else {
+        } else if (detType === 'audio') {
           detPreview = `<div style="aspect-ratio:16/9; background:#0d0c0b; border-radius:8px; display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;"><span style="font-size:36px;color:#e67e22;">♪</span><span style="color:#aaa;font-size:12px;text-align:center;max-width:220px;word-break:break-all;">${escapeHtml(currentItem.name||'audio file')}</span><audio src="${escapeHtml(currentItem.dataUrl)}" controls style="width:90%;margin-top:8px;"></audio></div>`;
+        } else if (detType === 'pdf') {
+          detPreview = `<div style="aspect-ratio:16/9; background:#fff1f2; border-radius:8px; display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;"><span style="font-size:36px;">📄</span><span style="color:#666;font-size:12px;text-align:center;max-width:220px;word-break:break-all;">${escapeHtml(currentItem.name||'PDF file')}</span><a href="${escapeHtml(currentItem.dataUrl)}" target="_blank" style="font-size:12px;color:#ef4444;text-decoration:underline;margin-top:4px;">Open PDF ↗</a></div>`;
         }
         det.innerHTML = `
           ${detPreview}
 
           <label style="display:flex; align-items:center; gap:8px; font-size:13.5px; font-weight:600; cursor:pointer;">
-            <input type="checkbox" id="checkSetCover" ${currentItem.isCover ? 'checked' : ''} ${detType !== 'image' ? 'disabled title="Only images can be cover"' : ''}>
+            <input type="checkbox" id="checkSetCover" ${currentItem.isCover ? 'checked' : ''} ${(detType !== 'image' && detType !== 'gif') ? 'disabled title="Only images/GIFs can be cover"' : ''}>
             <span>Set as Cover Image</span>
           </label>
 
@@ -3917,6 +4179,14 @@ const ICONS = {
           <div class="form-group" style="margin-bottom:10px;">
             <label class="form-label" style="font-size:12px;">Alt Text (SEO & Accessibility)</label>
             <input type="text" id="detailAltInp" value="${escapeHtml(currentItem.alt || '')}" placeholder="Describe image...">
+          </div>
+
+          <div class="form-group" style="margin-bottom:10px;">
+            <label class="form-label" style="font-size:12px;">Source Path / Direct URL</label>
+            <div style="display:flex; gap:6px;">
+              <input type="text" id="detailItemPathInp" value="${escapeHtml(currentItem.dataUrl || '')}" style="font-size:11.5px; font-family:monospace; padding:6px 8px;">
+              <button type="button" class="btn btn-outline-pill btn-sm" id="btnUpdateItemPath" style="white-space:nowrap;">Update</button>
+            </div>
           </div>
 
           <div style="margin-top:auto; display:flex; gap:8px;">
@@ -3961,6 +4231,27 @@ const ICONS = {
           if (p.media.length > 0 && !p.media.some(m => m.isCover)) p.media[0].isCover = true;
           refreshGallery();
         };
+
+        const btnUpdatePath = det.querySelector('#btnUpdateItemPath');
+        const inpDetailPath = det.querySelector('#detailItemPathInp');
+        if (btnUpdatePath && inpDetailPath) {
+          btnUpdatePath.onclick = () => {
+            const val = inpDetailPath.value.trim();
+            if (val) {
+              currentItem.dataUrl = val;
+              currentItem.type = detectMediaTypeFromUrl(val);
+              if (currentItem.isCover) p.coverImage = val;
+              refreshGallery();
+              showToast('Updated asset source');
+            }
+          };
+          inpDetailPath.onkeydown = (e) => {
+            if (e.key === 'Enter') {
+              e.preventDefault();
+              btnUpdatePath.click();
+            }
+          };
+        }
       };
 
       refreshGallery();
@@ -3979,6 +4270,18 @@ const ICONS = {
       modalContainer.querySelector('#btnModalAddMedia').onclick = () => {
         document.getElementById('mediaFileInput').click();
       };
+
+      const btnAddPath = modalContainer.querySelector('#btnModalAddPath');
+      if (btnAddPath) {
+        btnAddPath.onclick = () => {
+          const val = prompt('Enter relative file path or direct URL:\n(e.g. 02.Project/PR-23/video.mp4)');
+          if (val && val.trim()) {
+            addMediaByPath(val.trim());
+            selectedIndex = (p.media || []).length - 1;
+            refreshGallery();
+          }
+        };
+      }
     }
 
     /* 4. AI GENERATOR MODAL */
@@ -4213,13 +4516,21 @@ const ICONS = {
     }
 
     function openManageCollectionModal(colName) {
+      state.collectionMeta = state.collectionMeta || {};
+      const currentMeta = state.collectionMeta[colName] || { color: '#ea580c', pinned: false };
+      let selectedColor = currentMeta.color || '#ea580c';
+      let isPinned = !!currentMeta.pinned;
+
       const projectsWithCol = state.projects.filter(p => Array.isArray(p.collections) && p.collections.includes(colName));
       const modalContainer = document.getElementById('modalContainer');
       modalContainer.innerHTML = `
         <div class="modal-backdrop active" id="colModalBackdrop">
           <div class="modal-card" style="max-width:480px;">
             <div class="modal-header">
-              <h3 style="font-size:18px;">Manage Collection: "${escapeHtml(colName)}"</h3>
+              <h3 style="font-size:18px; display:flex; align-items:center; gap:8px;">
+                <span class="collection-color-dot" id="modalColHeaderDot" style="background:${selectedColor}; width:13px; height:13px;"></span>
+                Manage: "${escapeHtml(colName)}"
+              </h3>
               <button class="btn-cancel btn-sm" id="btnCloseColModal">${ICONS.close}</button>
             </div>
             <div class="modal-body">
@@ -4228,8 +4539,23 @@ const ICONS = {
                 <input type="text" id="renameColInp" value="${escapeHtml(colName)}">
               </div>
 
-              <div class="form-label">Projects in this collection (${projectsWithCol.length})</div>
-              <div style="max-height:160px; overflow-y:auto; border:1px solid var(--border); border-radius:8px; padding:8px 12px; background:#f8fafc;">
+              <div class="form-group" style="margin-top:14px;">
+                <label class="form-label" style="display:flex; justify-content:space-between; align-items:center;">
+                  <span>Badge Color (White — Gray — Black — Orange)</span>
+                  <span id="currentColorLabel" style="font-family:monospace; font-size:12px; color:${selectedColor === '#ffffff' ? '#333' : selectedColor}; font-weight:700;">${selectedColor}</span>
+                </label>
+                <div class="palette-swatches-grid" id="paletteSwatches"></div>
+              </div>
+
+              <div class="form-group" style="margin-top:14px;">
+                <label style="display:flex; align-items:center; gap:8px; cursor:pointer; font-size:13.5px; font-weight:500;">
+                  <input type="checkbox" id="chkPinCollection" ${isPinned ? 'checked' : ''} style="width:16px; height:16px; accent-color:#ea580c;">
+                  <span>📌 Pin to top of list &amp; frontend filter</span>
+                </label>
+              </div>
+
+              <div class="form-label" style="margin-top:16px;">Projects in this collection (${projectsWithCol.length})</div>
+              <div style="max-height:140px; overflow-y:auto; border:1px solid var(--border); border-radius:8px; padding:8px 12px; background:#f8fafc;">
                 ${projectsWithCol.map(pr => `<div style="font-size:13px; padding:4px 0;">• ${escapeHtml(pr.title)}</div>`).join('') || '<div style="font-size:13px; color:#94a3b8;">No projects currently assigned.</div>'}
               </div>
             </div>
@@ -4244,6 +4570,25 @@ const ICONS = {
         </div>
       `;
 
+      const swatchesBox = modalContainer.querySelector('#paletteSwatches');
+      PALETTE_WHITE_BLACK_ORANGE.forEach(c => {
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'swatch-btn' + (c.toLowerCase() === selectedColor.toLowerCase() ? ' selected' : '');
+        btn.style.backgroundColor = c;
+        btn.title = c;
+        if (c === '#ffffff') btn.style.border = '1px solid #ccc';
+        btn.onclick = () => {
+          selectedColor = c;
+          swatchesBox.querySelectorAll('.swatch-btn').forEach(b => b.classList.remove('selected'));
+          btn.classList.add('selected');
+          modalContainer.querySelector('#currentColorLabel').textContent = c;
+          modalContainer.querySelector('#currentColorLabel').style.color = c === '#ffffff' ? '#333' : c;
+          modalContainer.querySelector('#modalColHeaderDot').style.background = c;
+        };
+        swatchesBox.appendChild(btn);
+      });
+
       const close = () => { modalContainer.innerHTML = ''; };
       modalContainer.querySelector('#btnCloseColModal').onclick = close;
       modalContainer.querySelector('#btnCancelCol').onclick = close;
@@ -4253,6 +4598,9 @@ const ICONS = {
 
       modalContainer.querySelector('#btnSaveColRename').onclick = () => {
         const newName = modalContainer.querySelector('#renameColInp').value.trim();
+        const pinChecked = modalContainer.querySelector('#chkPinCollection').checked;
+        const targetName = newName || colName;
+
         if (newName && newName !== colName) {
           const idx = state.collections.indexOf(colName);
           if (idx >= 0) state.collections[idx] = newName;
@@ -4261,16 +4609,24 @@ const ICONS = {
               pr.collections = pr.collections.map(c => c === colName ? newName : c);
             }
           });
-          saveState(false);
-          render();
-          showToast('Renamed collection to: ' + newName);
+          delete state.collectionMeta[colName];
         }
+
+        state.collectionMeta[targetName] = {
+          color: selectedColor,
+          pinned: pinChecked
+        };
+
+        saveState(false);
+        render();
+        showToast('Saved collection: ' + targetName);
         close();
       };
 
       modalContainer.querySelector('#btnDeleteCol').onclick = () => {
         if (confirm(`Delete collection "${colName}"? Projects will remain untouched.`)) {
           state.collections = state.collections.filter(c => c !== colName);
+          delete state.collectionMeta[colName];
           state.projects.forEach(pr => {
             if (Array.isArray(pr.collections)) {
               pr.collections = pr.collections.filter(c => c !== colName);
@@ -4460,7 +4816,7 @@ const ICONS = {
         }
       };
 
-      loadState();
+      initStorageAndLoad();
       state.view = 'list';
       state.currentProject = null;
       render();

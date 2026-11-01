@@ -10,12 +10,12 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   
-  <!-- Google Fonts: Space Grotesk (Harvard GSD Gothic equivalent) + Epilogue + Newsreader -->
+  <!-- Google Fonts: Space Grotesk (Baro Architectural Gothic) + Epilogue + Newsreader -->
   <link href="https://fonts.googleapis.com/css2?family=Epilogue:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@300;400;500;600;700&display=swap&subset=vietnamese,latin-ext" rel="stylesheet">
 
   <style>
     /* ==========================================================================
-       DESIGN TOKENS & PALETTE (HARVARD GSD TYPOGRAPHY & CAST & RENDER PALETTE)
+       DESIGN TOKENS & PALETTE (BARO TYPOGRAPHY & CAST & RENDER PALETTE)
        ========================================================================== */
     :root {
       --bg: #f2f0ec;
@@ -457,6 +457,181 @@
     .about-close-btn svg,
     .menu-close-btn svg {
       pointer-events: none;
+    }
+
+    /* ── Collection Filter Button (half-orange) ── */
+    .grid-collection-filter-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 36px;
+      height: 36px;
+      border-radius: 0px;
+      background: rgba(255,255,255,0.35);
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      border: 1px solid rgba(255,255,255,0.45);
+      box-shadow: 0 4px 16px rgba(13,12,11,0.08);
+      color: #0d0c0b;
+      cursor: pointer;
+      transition: background .25s ease, border-color .25s ease, transform .25s ease, color .25s ease;
+      flex-shrink: 0;
+    }
+    .grid-collection-filter-btn:hover,
+    .grid-collection-filter-btn.active-filter {
+      background: #0d0c0b !important;
+      color: #e67e22 !important;
+      border-color: #0d0c0b !important;
+    }
+    .grid-collection-filter-btn svg { pointer-events: none; }
+
+    /* Collection Dropdown */
+    .grid-collection-dropdown {
+      position: absolute;
+      top: calc(100% + 6px);
+      right: 0;
+      min-width: 200px;
+      background: rgba(13,12,11,0.45);
+      backdrop-filter: blur(28px) saturate(160%);
+      -webkit-backdrop-filter: blur(28px) saturate(160%);
+      border: none;
+      border-radius: 0;
+      padding: 6px 0;
+      z-index: 9999;
+      display: none;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+    }
+    .grid-collection-dropdown.open { display: block; }
+    .grid-coll-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 9px 18px;
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      color: rgba(242,240,236,0.7);
+      cursor: pointer;
+      transition: color .18s, background .18s;
+      white-space: nowrap;
+      text-transform: uppercase;
+    }
+    .grid-coll-item:hover { color: #f2f0ec; background: rgba(255,255,255,0.07); }
+    .grid-coll-item.active { color: #e67e22; font-weight: 700; }
+    .grid-coll-count {
+      font-size: 10px;
+      opacity: 0.65;
+      font-weight: 400;
+      letter-spacing: 0.02em;
+      margin-left: auto;
+    }
+    .grid-empty-state {
+      grid-column: 1 / -1;
+      width: 100%;
+      min-height: 45vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 90px 20px;
+      text-align: center;
+      pointer-events: none;
+    }
+
+    /* ── COLLECTION MODE: CARO CHECKERBOARD ON WHITE BACKGROUND ── */
+    #grid.collection-caro-mode {
+      background: #ffffff !important;
+      transition: background .4s cubic-bezier(.22,.61,.36,1);
+    }
+    /* CSS Grid layout: spacer + card đặt đúng thứ tự DOM → checkerboard tự nhiên */
+    #grid.collection-caro-mode .grid-rows {
+      display: grid !important;
+      grid-template-columns: repeat(var(--caro-cols, 3), 1fr) !important;
+      gap: 0 !important;   /* spacer IS the gap */
+    }
+    #grid.collection-caro-mode .grid-rows .grid-card,
+    #grid.collection-caro-mode .grid-rows .grid-card-spacer {
+      width: 100% !important;
+      max-width: 100% !important;
+    }
+    #grid.collection-caro-mode .grid-collection-filter-btn {
+      background: #ffffff;
+      border: 1px solid rgba(13,12,11,0.18);
+      color: #0d0c0b;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    }
+    #grid.collection-caro-mode .grid-collection-filter-btn.active-filter {
+      background: #0d0c0b !important;
+      color: #e67e22 !important;
+      border-color: #0d0c0b !important;
+    }
+    #grid.collection-caro-mode .grid-close-btn {
+      background: #ffffff;
+      border: 1px solid rgba(13,12,11,0.18);
+      color: #0d0c0b;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    }
+    #grid.collection-caro-mode .grid-close-btn:hover {
+      background: #0d0c0b !important;
+      color: #ffffff !important;
+      border-color: #0d0c0b !important;
+    }
+    /* Khoảng trắng background đúng bằng 1 dự án để tạo hiệu ứng caro xen kẽ */
+    .grid-card-spacer {
+      aspect-ratio: 1 / 1;
+      width: 100%;
+      border-radius: 6px;
+      visibility: hidden;
+      pointer-events: none;
+    }
+    .grid-caro-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-family: var(--sans);
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #0d0c0b;
+      background: rgba(13,12,11,0.04);
+      border: 1px solid rgba(13,12,11,0.1);
+      padding: 6px 14px;
+      border-radius: 999px;
+    }
+    .grid-caro-badge-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #e67e22;
+      display: inline-block;
+      flex-shrink: 0;
+    }
+    .grid-caro-badge-name {
+      font-weight: 600;
+      color: #0d0c0b;
+    }
+    .grid-caro-badge-reset {
+      margin-left: 6px;
+      color: rgba(13,12,11,0.5);
+      cursor: pointer;
+      font-size: 10px;
+      padding: 2px 6px;
+      border-radius: 999px;
+      background: rgba(13,12,11,0.06);
+      transition: background .2s, color .2s;
+    }
+    .grid-caro-badge-reset:hover {
+      background: #0d0c0b;
+      color: #ffffff;
+    }
+    .grid-empty-text {
+      font-family: var(--sans);
+      font-size: 12.5px;
+      font-weight: 300;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: rgba(13, 12, 11, 0.45);
     }
 
     .menu-btn {
@@ -970,7 +1145,8 @@
     }
     body.reel-mode .gn-project-sheet,
     body.gridview .gn-project-sheet,
-    body.book-open .gn-project-sheet {
+    body.book-open .gn-project-sheet,
+    body.baro-deck-open .gn-project-sheet {
       opacity: 0 !important;
       pointer-events: none !important;
     }
@@ -1216,9 +1392,10 @@
     }
     body.gridview .bottom-mode-pill,
     body.lit .bottom-mode-pill,
-    body.about-open .bottom-mode-pill {
-      opacity: 0;
-      pointer-events: none;
+    body.about-open .bottom-mode-pill,
+    body.gridview .bottom-mode-pill.orange-toggle-btn {
+      opacity: 0 !important;
+      pointer-events: none !important;
     }
     .orange-icon-wrap {
       position: relative;
@@ -1546,6 +1723,158 @@
       border-left: 1px solid rgba(13, 12, 11, 0.15);
     }
     /* book-close-btn styles handled by unified close icon system above */
+    .book-project-btn {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      border: 1px solid rgba(13, 12, 11, 0.12);
+      background: rgba(255, 255, 255, 0.6);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 8px;
+      padding: 0;
+      transition: all .2s ease;
+      opacity: 0.7;
+    }
+    .book-project-btn:hover {
+      opacity: 1;
+      background: #0d0c0b;
+      border-color: #0d0c0b;
+    }
+    .book-project-btn:hover img {
+      filter: invert(1);
+    }
+    .book-project-btn img {
+      width: 14px;
+      height: 14px;
+      object-fit: contain;
+      transition: filter .2s ease;
+    }
+
+    /* McLane-inspired Glassmorphism Overlay at bottom of image card */
+    .book-glass-overlay {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      z-index: 20;
+      background: rgba(243, 243, 243, 0.85);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      padding: 12px 16px 14px;
+      border-top: 1px solid rgba(13, 12, 11, 0.08);
+      pointer-events: auto;
+    }
+    .glass-overlay-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 6px;
+    }
+    .glass-overlay-index {
+      font-family: var(--sans);
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #f36c21;
+    }
+    .glass-overlay-title {
+      font-family: var(--sans);
+      font-size: 14px;
+      font-weight: 500;
+      line-height: 1.2;
+      color: #0d0c0b;
+      margin: 0 0 2px;
+    }
+    .glass-overlay-subtitle {
+      font-family: var(--sans);
+      font-size: 12px;
+      font-weight: 400;
+      color: rgba(13, 12, 11, 0.6);
+      margin: 0 0 6px;
+    }
+    .glass-overlay-desc {
+      font-family: var(--sans);
+      font-size: 12px;
+      font-weight: 400;
+      line-height: 1.4;
+      color: rgba(13, 12, 11, 0.72);
+      margin: 0 0 8px;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    .glass-overlay-actions {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+    .glass-action-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-family: var(--sans);
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #0d0c0b;
+      background: none;
+      border: 1px solid rgba(13, 12, 11, 0.15);
+      padding: 4px 10px;
+      cursor: pointer;
+      transition: all .2s ease;
+      opacity: 0.9;
+    }
+    .glass-action-btn:hover {
+      opacity: 1;
+      transform: scale(1.02);
+      background: #0d0c0b;
+      color: #ffffff;
+      border-color: #0d0c0b;
+    }
+    .glass-action-btn:active {
+      transform: scale(0.98);
+    }
+    .glass-close-btn {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      border: 1px solid rgba(13, 12, 11, 0.12);
+      background: rgba(255, 255, 255, 0.6);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0;
+      transition: all .2s ease;
+      opacity: 0.9;
+    }
+    .glass-close-btn:hover {
+      opacity: 1;
+      transform: scale(1.02);
+      background: #0d0c0b;
+      border-color: #0d0c0b;
+    }
+    .glass-close-btn:hover svg {
+      stroke: #ffffff;
+    }
+    .glass-close-btn:active {
+      transform: scale(0.98);
+    }
+    .glass-close-btn svg {
+      width: 12px;
+      height: 12px;
+      stroke: #0d0c0b;
+      transition: stroke .2s ease;
+    }
 
     /* TASK-07: Sharp Glassmorphic Side Nav Turn Arrows */
     .book-turn-arrow {
@@ -2945,6 +3274,19 @@
       :root { --hw: min(84vw, 360px); --pad: clamp(14px, 3.8vw, 20px); }
       .cue.chrome { display: none; }
     }
+
+    /* ── No-download protection for all portfolio media ── */
+    .baro-plate-item img,
+    .baro-full-stream-item img,
+    .baro-lb-image,
+    #baroLbImage,
+    .grid-card-thumb,
+    .card-bg-img {
+      -webkit-user-drag: none;
+      user-drag: none;
+      pointer-events: auto;
+    }
+    video[controlslist="nodownload"]::-internal-media-controls-download-button { display: none !important; }
   </style>
 </head>
 <body class="locked">
@@ -3018,7 +3360,7 @@
     <div id="world">
       <div id="orb"></div>
       
-      <!-- Headline Centered on Origin (Harvard GSD Typography: Orange Tree Quote) -->
+      <!-- Headline Centered on Origin (Baro Typography: Orange Tree Quote) -->
       <h1 id="headline">
         <span class="inner">
           <span class="quote-badge" style="letter-spacing: 0.28em; font-size: 10.5px;">AXIOM &bull; 2026 ARCHIVE</span>
@@ -3079,7 +3421,22 @@
   <!-- Flat Grid View -->
   <div id="grid">
     <div class="grid-container">
-      <div class="grid-header" style="justify-content: flex-end; border-bottom: none; margin-bottom: 12px; padding-bottom: 0;">
+      <div class="grid-header" style="justify-content: flex-end; border-bottom: none; margin-bottom: 12px; padding-bottom: 0; display:flex; align-items:center; gap:8px;">
+        <!-- Collection Title Badge (visible when filtering collection) -->
+        <div id="gridHeaderMeta" style="display:none; align-items:center; gap:10px; margin-right:auto;"></div>
+        <!-- Collection Filter Button -->
+        <div style="position:relative;" id="collFilterWrap">
+          <button class="grid-collection-filter-btn" id="gridCollFilterBtn" aria-label="Filter by collection" title="Filter by collection">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <!-- Half-orange icon: left half filled, right half outline -->
+              <path d="M12 3C7.03 3 3 7.03 3 12s4.03 9 9 9" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/>
+              <path d="M12 3C16.97 3 21 7.03 21 12s-4.03 9-9 9" fill="currentColor" stroke="none"/>
+            </svg>
+          </button>
+          <div class="grid-collection-dropdown" id="gridCollDropdown">
+            <div class="grid-coll-item active" data-col="">All Works</div>
+          </div>
+        </div>
         <button class="grid-close-btn" onclick="toggleGrid(false)" aria-label="Close grid">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
         </button>
@@ -3098,6 +3455,9 @@
         <span class="book-index-counter" id="bookIndexCounter">PROJECT 01 OF 21</span>
       </div>
       <div class="book-bar-right">
+        <button class="book-project-btn" id="bookProjectBtn" aria-label="View project gallery" title="See more">
+          <img src="05.Elements/project button.webp" alt="Project" width="16" height="16" />
+        </button>
         <button class="book-close-btn" id="bookCloseBtn" aria-label="Close book spread"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
       </div>
     </header>
@@ -3158,7 +3518,7 @@
               </div>
             </div>
 
-            <!-- Editorial Description (Prose, Harvard GSD Voice) -->
+            <!-- Editorial Description (Prose, Baro Voice) -->
             <div class="page-editorial-text" id="bookDesc">
               A spatial investigation synthesizing natural riparian hydrology with ecological human settlement patterns. Reclaiming ecological floodways and balancing sustainable residential typologies with long-term climate resilience.
             </div>
@@ -3193,6 +3553,25 @@
           <div class="page-visual-wrapper" id="bookVisualWrap">
             <img src="" alt="" class="book-full-image" id="bookImage" />
             <video id="bookVideo" class="book-full-video" playsinline preload="auto"></video>
+
+            <!-- McLane-inspired Glassmorphism Overlay -->
+            <div class="book-glass-overlay" id="bookGlassOverlay">
+              <div class="glass-overlay-header">
+                <span class="glass-overlay-index" id="glassOverlayIndex">PROJECT 01 / 21</span>
+              </div>
+              <h3 class="glass-overlay-title" id="glassOverlayTitle">Project Title</h3>
+              <p class="glass-overlay-subtitle" id="glassOverlaySubtitle">Baropholio</p>
+              <p class="glass-overlay-desc" id="glassOverlayDesc">Project description goes here.</p>
+              <div class="glass-overlay-actions">
+                <button class="glass-action-btn" id="glassProjectBtn">
+                  <img src="05. Elements/project button.webp" alt="" width="12" height="12" />
+                  VIEW FULL MONOGRAPH
+                </button>
+                <button class="glass-close-btn" id="glassCloseBtn" aria-label="Close">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                </button>
+              </div>
+            </div>
 
             <!-- Sharp Glassmorphic Video Controls (Only appears when viewing video inside project) -->
             <div class="book-video-controls" id="bookVideoControls">
@@ -3754,6 +4133,12 @@
   <!-- Baro Nguyen 3D WebGL Sphere Engine -->
   <script src="baro_sphere_engine.js"></script>
 
+  <!-- Baro Nguyen Project Deck (McLane Cloned Scroll & Flip Effect) -->
+  <script src="baro_project_deck.js"></script>
+
+  <!-- Baro Nguyen Project Full Showcase (HW-6890 + Hanbury Design Cloned Full View) -->
+  <script src="baro_project_showcase.js"></script>
+
   <!-- ==========================================================================
        MAIN JAVASCRIPT
        ========================================================================== -->
@@ -3959,76 +4344,230 @@
       // ======================================================================
       // 1B. REAL-TIME SYNCHRONIZATION WITH CMS ADMIN (LOCALSTORAGE & BROADCAST)
       // ======================================================================
+
+      // --- Utility helpers ---
+      function safeArray(v) { return Array.isArray(v) ? v : []; }
+      function safeStr(v) { return (typeof v === 'string' && v.trim()) ? v.trim() : ''; }
+
+      // --- Meta field extractor: supports both basicInfo[].label AND metadata[].key ---
+      function _metaGet(p, keyTests) {
+        // Admin v5 format: basicInfo[{label, value}]
+        var bi = safeArray(p.basicInfo);
+        if (bi.length > 0) {
+          var found = bi.find(function(b) {
+            var lbl = safeStr(b.label).toLowerCase();
+            return keyTests.some(function(t) { return lbl.includes(t); });
+          });
+          if (found) return safeStr(found.value);
+        }
+        // projects_master.json format: metadata[{key, value}]
+        var mt = safeArray(p.metadata);
+        if (mt.length > 0) {
+          var found2 = mt.find(function(m) {
+            var k = safeStr(m.key).toLowerCase();
+            return keyTests.some(function(t) { return k.includes(t); });
+          });
+          if (found2) return safeStr(found2.value);
+        }
+        return '';
+      }
+
+      // --- CMS Project → RECORD converter (handles both Admin localStorage & JSON file schemas) ---
       function convertCmsProjectToRecord(p, idx) {
-        var dateVal = (p.basicInfo && p.basicInfo.find(function(b) { return b.label && b.label.toLowerCase() === "date"; }))
-          ? p.basicInfo.find(function(b) { return b.label && b.label.toLowerCase() === "date"; }).value
-          : (p.createdAt ? new Date(p.createdAt).getFullYear().toString() : (p.dateAdded || "2025"));
+        // Date: try meta first, then dateAdded, then createdAt
+        var dateVal = _metaGet(p, ['date'])
+          || safeStr(p.dateAdded)
+          || (p.createdAt ? new Date(p.createdAt).getFullYear().toString() : '2025');
 
-        var orgVal = (p.basicInfo && p.basicInfo.find(function(b) { return b.label && b.label.toLowerCase().includes("org"); }))
-          ? p.basicInfo.find(function(b) { return b.label && b.label.toLowerCase().includes("org"); }).value
-          : "Baropholio";
+        // Organizer / organization
+        var orgVal = _metaGet(p, ['organiz', 'org', 'client', 'studio']) || 'Baropholio';
 
-        var awardVal = (p.basicInfo && p.basicInfo.find(function(b) { return b.label && (b.label.toLowerCase().includes("award") || b.label.toLowerCase().includes("role")) && !b.label.toLowerCase().includes("org"); }))
-          ? p.basicInfo.find(function(b) { return b.label && (b.label.toLowerCase().includes("award") || b.label.toLowerCase().includes("role")) && !b.label.toLowerCase().includes("org"); }).value
-          : (p.subtitle || "");
+        // Award / role / project type
+        var awardVal = _metaGet(p, ['award', 'role', 'project type', 'type'])
+          || safeStr(p.subtitle);
 
-        var linkVal = (p.basicInfo && p.basicInfo.find(function(b) { return b.label && b.label.toLowerCase() === "link"; }))
-          ? p.basicInfo.find(function(b) { return b.label && b.label.toLowerCase() === "link"; }).value
-          : "";
+        // External link
+        var linkVal = _metaGet(p, ['link', 'url', 'website']);
 
-        var coverItem = p.media && p.media.find(function(m) { return m.isCover; });
-        var imgVal = (coverItem && (coverItem.dataUrl || coverItem.src)) 
-          || (p.media && p.media[0] ? (p.media[0].dataUrl || p.media[0].src) : "") 
-          || p.image || "";
+        // Cover media — video takes priority over image
+        // Supports: dataUrl (base64 from Admin upload), src (file path from JSON)
+        var coverMedia = null, videoVal = '', imgVal = '';
+        var mediaArr = safeArray(p.media);
 
-        var galleryVals = (p.media || []).map(function(m) { return m.dataUrl || m.src; }).filter(Boolean);
-        if (galleryVals.length === 0 && imgVal) galleryVals = [imgVal];
+        // 1. Explicit isCover flag
+        coverMedia = mediaArr.find(function(m) { return m && m.isCover; });
+        // 2. First video in media list
+        if (!coverMedia) coverMedia = mediaArr.find(function(m) { return m && (m.type === 'video' || /\.(mp4|webm|ogg|mov)(\?.*)?$/i.test(m.src || m.dataUrl || '')); });
+        // 3. First media item
+        if (!coverMedia && mediaArr.length > 0) coverMedia = mediaArr[0];
 
-        var primaryCat = (p.collections && p.collections[0]) || "ARCHIVE";
+        if (coverMedia) {
+          var coverSrc = safeStr(coverMedia.dataUrl) || safeStr(coverMedia.src);
+          var isVideo = coverMedia.type === 'video' || /\.(mp4|webm|ogg|mov)(\?.*)?$/i.test(coverSrc);
+          if (isVideo) { videoVal = coverSrc; }
+          else { imgVal = coverSrc; }
+        }
+        // Fallback to top-level image/video fields (legacy records)
+        if (!videoVal) videoVal = safeStr(p.video);
+        if (!imgVal) imgVal = safeStr(p.image);
+
+        // Gallery: all media items (prefer dataUrl, fallback to src)
+        var galleryVals = mediaArr.map(function(m) {
+          return safeStr(m.dataUrl) || safeStr(m.src);
+        }).filter(Boolean);
+        if (galleryVals.length === 0 && (imgVal || videoVal)) galleryVals = [imgVal || videoVal];
+
+        // Primary collection / category
+        var primaryCat = safeStr((p.collections && p.collections[0])) || 'ARCHIVE';
 
         return {
           id: idx + 1,
-          title: p.title || "Untitled",
-          category: primaryCat,
-          cat: primaryCat,
-          year: dateVal,
-          date: dateVal,
-          organization: orgVal,
-          org: orgVal,
+          title: safeStr(p.title) || 'Untitled',
+          category: primaryCat, cat: primaryCat,
+          year: dateVal, date: dateVal,
+          organization: orgVal, org: orgVal,
           award: awardVal,
-          description: p.description || "",
-          desc: p.description || "",
+          description: safeStr(p.description), desc: safeStr(p.description),
           image: imgVal,
+          video: videoVal,
           link: linkVal,
-          gallery: galleryVals
+          gallery: galleryVals,
+          collections: safeArray(p.collections),
+          basicInfo: safeArray(p.basicInfo).length > 0 ? safeArray(p.basicInfo) : safeArray(p.metadata),
+          // Preserve source slug for deep-link support
+          slug: safeStr(p.slug) || safeStr(p.id)
         };
       }
 
+      // --- isPublished: handles both Admin (published bool) and JSON (status string) schemas ---
+      function isPublished(p) {
+        if (!p || typeof p !== 'object') return false;
+        if (p.deleted === true) return false;
+        // status field: "published" (JSON) or absent (treat as published)
+        if (p.status && p.status !== 'published') return false;
+        // published field: explicit false means hidden
+        if (p.published === false) return false;
+        return true;
+      }
+
+      // --- Normalize a single record into canonical RECORD shape ---
+      function normalizeRecord(raw, idx) {
+        if (!raw || typeof raw !== 'object') return null;
+        var title = safeStr(raw.title) || 'Untitled Project';
+        var cat   = safeStr(raw.category) || safeStr(raw.cat) || 'ARCHIVE';
+        var year  = safeStr(raw.year) || safeStr(raw.date) || '2026';
+        var org   = safeStr(raw.organization) || safeStr(raw.org) || 'Baropholio';
+        var desc  = safeStr(raw.description) || safeStr(raw.desc) || '';
+        var link  = safeStr(raw.link) || '';
+        var image = safeStr(raw.image) || '';
+        var video = safeStr(raw.video) || '';
+        var gallery = safeArray(raw.gallery).map(function(m){ return safeStr(m); }).filter(Boolean);
+        if (gallery.length === 0 && (image || video)) gallery = [image || video];
+        return {
+          id: (raw.id != null ? raw.id : idx + 1),
+          title: title, category: cat, cat: cat,
+          year: year, date: year,
+          organization: org, org: org,
+          award: safeStr(raw.award),
+          description: desc, desc: desc,
+          image: image, video: video, link: link,
+          gallery: gallery,
+          collections: safeArray(raw.collections),
+          basicInfo: safeArray(raw.basicInfo).length > 0 ? safeArray(raw.basicInfo) : safeArray(raw.metadata),
+          slug: safeStr(raw.slug)
+        };
+      }
+
+      function normalizeRecords(arr) {
+        var out = [];
+        safeArray(arr).forEach(function(r, i) {
+          var rec = normalizeRecord(r, i);
+          if (rec) out.push(rec);
+        });
+        return out;
+      }
+
+      function isUsable(records) {
+        return Array.isArray(records) && records.length > 0 && records.every(function(r) {
+          return r && typeof r === 'object' && safeStr(r.title);
+        });
+      }
+
+      // --- Simple fingerprint to avoid unnecessary re-renders ---
+      function recordsHash(recs) {
+        try {
+          return recs.map(function(r) {
+            return r.title + '|' + r.image + '|' + r.video + '|' + r.category;
+          }).join(';');
+        } catch(e) { return ''; }
+      }
+      var _lastRecordsHash = '';
+
+      // ─── PRIMARY DATA LOADER ────────────────────────────────────────────────
+      // Priority: localStorage (live Admin data) → window.BAROPHOLIO_PROJECTS → DEFAULT_RECORDS
+      // JSON fallback (projects_master.json) is handled async after page load.
       function loadLiveRecords() {
-        // Priority 1: Check localStorage from CMS admin (v5 -> v4 -> v3 -> general)
-        var storageKeys = ["baropholio_wix_portfolio_v5", "baropholio_wix_portfolio_v4", "baropholio_wix_portfolio_v3", "baropholio_cms_state"];
-        for (var k = 0; k < storageKeys.length; k++) {
+        var STORAGE_KEYS = [
+          'baropholio_wix_portfolio_v5',  // Admin CMS primary key
+          'baropholio_wix_portfolio_v4',
+          'baropholio_wix_portfolio_v3',
+          'baropholio_cms_state',
+          'baropholio_projects',
+          'baropholio_portfolio'
+        ];
+
+        // 1. Scan localStorage keys in priority order
+        for (var k = 0; k < STORAGE_KEYS.length; k++) {
           try {
-            var raw = localStorage.getItem(storageKeys[k]);
-            if (raw) {
-              var parsed = JSON.parse(raw);
-              if (parsed && Array.isArray(parsed.projects) && parsed.projects.length > 0) {
-                // Filter only published projects (ignore hidden or soft-deleted)
-                var active = parsed.projects.filter(function(p) { return p.published !== false; });
-                if (active.length > 0) {
-                  return active.map(convertCmsProjectToRecord);
-                }
-              } 
+            var raw = localStorage.getItem(STORAGE_KEYS[k]);
+            if (!raw) continue;
+            var parsed = JSON.parse(raw);
+            if (!parsed) continue;
+
+            // Payload may be: array | {projects:[]} | {records:[]} | {items:[]}
+            var source = Array.isArray(parsed)
+              ? parsed
+              : (parsed.projects || parsed.records || parsed.items || []);
+
+            var active = safeArray(source).filter(isPublished);
+            if (active.length === 0) continue;
+
+            var mapped     = active.map(convertCmsProjectToRecord);
+            var normalized = normalizeRecords(mapped);
+            if (isUsable(normalized)) {
+              console.log('[Baro Sync] Loaded ' + normalized.length + ' projects from localStorage key: ' + STORAGE_KEYS[k]);
+              return normalized;
             }
-          } catch(e) {}
+          } catch (e) { /* try next key */ }
         }
 
-        // Priority 2: Use window.BAROPHOLIO_PROJECTS from 02.Project/projects_data.js
-        if (window.BAROPHOLIO_PROJECTS && Array.isArray(window.BAROPHOLIO_PROJECTS) && window.BAROPHOLIO_PROJECTS.length > 0) {
-          return window.BAROPHOLIO_PROJECTS;
-        }
+        // 2. Static JS bundle (projects_data.js injects window.BAROPHOLIO_PROJECTS)
+        try {
+          if (window.BAROPHOLIO_PROJECTS) {
+            var fromJs = normalizeRecords(window.BAROPHOLIO_PROJECTS);
+            if (isUsable(fromJs)) {
+              console.log('[Baro Sync] Loaded ' + fromJs.length + ' projects from window.BAROPHOLIO_PROJECTS');
+              return fromJs;
+            }
+          }
+        } catch (e) { /* continue */ }
 
-        // Priority 3: Fallback default
+        // 3. Legacy baropholio_projects_data key
+        try {
+          var legacy = localStorage.getItem('baropholio_projects_data');
+          if (legacy) {
+            var lp = JSON.parse(legacy);
+            var la = Array.isArray(lp) ? lp : (lp && lp.projects);
+            var ln = normalizeRecords(la);
+            if (isUsable(ln)) {
+              console.log('[Baro Sync] Loaded ' + ln.length + ' projects from legacy key');
+              return ln;
+            }
+          }
+        } catch (e) { /* continue */ }
+
+        // 4. Absolute last resort: DEFAULT_RECORDS (hardcoded fallback)
+        console.warn('[Baro Sync] No live data found — using DEFAULT_RECORDS.');
         return DEFAULT_RECORDS;
       }
 
@@ -4108,12 +4647,14 @@
           var shortOrg = orgName ? orgName.split("(")[0].trim().slice(0, 24) : "ARCHIVE";
 
           var mediaCover = rec.video || rec.image || "";
-          var isCoverVideo = /\.(mp4|webm|ogg|mov)(\?.*)?$/i.test(mediaCover);
+          var isCoverVideo = /\.(mp4|webm|ogg|mov)(\?.*)?$/i.test(mediaCover) || mediaCover.startsWith('data:video');
+          var isCoverGif   = /\.gif(\?.*)?$/i.test(mediaCover) || mediaCover.startsWith('data:image/gif');
 
           var imgHtml = "";
           if (isCoverVideo) {
             imgHtml = '<video src="' + mediaCover + '" autoplay loop muted playsinline disablepictureinpicture preload="metadata" class="card-bg-img" style="object-fit:cover;pointer-events:none;width:100%;height:100%;"></video>';
           } else if (mediaCover) {
+            // includes GIF — <img> renders animated GIF natively
             imgHtml = '<img src="' + mediaCover + '" alt="' + rec.title + '" class="card-bg-img" onerror="this.style.display=\'none\';">';
           } else {
             imgHtml = '<div class="grid-card-placeholder" style="position:absolute;inset:0;"><span class="ph-cat" style="opacity:1;">' + catName + '</span></div>';
@@ -4174,6 +4715,7 @@
                 '<span class="card-index">NO. ' + (i < 9 ? "0"+(i+1) : (i+1)) + '</span>' +
               '</div>';
           } else if (mediaCover) {
+            // img handles both static images AND animated GIFs natively
             gCard.innerHTML =
               '<div class="grid-card-thumb-wrap">' +
                 '<img src="' + mediaCover + '" alt="' + rec.title + '" class="grid-card-thumb" loading="lazy" onerror="this.parentElement.className=\'grid-card-placeholder\';this.remove();">' +
@@ -4207,51 +4749,356 @@
         activeEngine.rebuild(RECORDS);
       }
 
-      // Real-time Auto-Sync Handler across tabs
-      function autoSyncProjects() {
-        var updated = loadLiveRecords();
-        if (updated && updated.length > 0) {
-          RECORDS = updated;
-          window.RECORDS = updated;
-          buildSphereAndGrid();
-          calcDimensions();
-          var eng = window.baroSphereEngine || window.gnSphereEngine;
-          if (eng) {
-            eng.rebuild(RECORDS);
-          }
-          console.log("🔄 [Auto-Sync] Portfolio updated with " + RECORDS.length + " projects!");
+      // ─── COLLECTION FILTER ENGINE ────────────────────────────────────────────
+      (function initCollectionFilter() {
+        var filterBtn = document.getElementById('gridCollFilterBtn');
+        var dropdown  = document.getElementById('gridCollDropdown');
+        if (!filterBtn || !dropdown) return;
+
+        var activeCol = ''; // '' = all
+
+        function norm(s) {
+          return String(s || '').trim().toLowerCase();
         }
+
+        function matchesCollection(rec, col) {
+          if (!col) return true;
+          var target = norm(col);
+          if (norm(rec.category) === target || norm(rec.cat) === target) return true;
+          var cols = safeArray(rec.collections);
+          for (var c = 0; c < cols.length; c++) {
+            if (norm(cols[c]) === target) return true;
+          }
+          return false;
+        }
+
+        function countProjectsInCollection(col) {
+          if (!col) return RECORDS.length;
+          var count = 0;
+          for (var i = 0; i < RECORDS.length; i++) {
+            if (matchesCollection(RECORDS[i], col)) count++;
+          }
+          return count;
+        }
+
+        function getCollections() {
+          var cols = [];
+          var meta = window._BAROPHOLIO_COLLECTION_META || {};
+          // 1. From localStorage CMS state (preserves admin collection list & order)
+          try {
+            var STORAGE_KEYS = ['baropholio_wix_portfolio_v5','baropholio_wix_portfolio_v4','baropholio_wix_portfolio_v3'];
+            for (var k = 0; k < STORAGE_KEYS.length; k++) {
+              var raw = localStorage.getItem(STORAGE_KEYS[k]);
+              if (!raw) continue;
+              var parsed = JSON.parse(raw);
+              if (parsed && typeof parsed.collectionMeta === 'object' && !window._BAROPHOLIO_COLLECTION_META) {
+                meta = window._BAROPHOLIO_COLLECTION_META = parsed.collectionMeta;
+              }
+              if (parsed && Array.isArray(parsed.collections)) {
+                parsed.collections.forEach(function(c) {
+                  if (c && cols.indexOf(c) === -1) cols.push(c);
+                });
+                break;
+              }
+            }
+          } catch(e) {}
+
+          // 2. Also harvest any collections tagged on RECORDS
+          RECORDS.forEach(function(r) {
+            safeArray(r.collections).forEach(function(c) {
+              if (c && cols.indexOf(c) === -1) cols.push(c);
+            });
+            if (r.category && cols.indexOf(r.category) === -1) {
+              cols.push(r.category);
+            }
+          });
+
+          // 3. Sort pinned collections first
+          cols.sort(function(a, b) {
+            var pinA = (meta[a] && meta[a].pinned) ? 1 : 0;
+            var pinB = (meta[b] && meta[b].pinned) ? 1 : 0;
+            if (pinA !== pinB) return pinB - pinA;
+            return 0; // maintain admin order
+          });
+
+          return cols;
+        }
+
+        function buildDropdown() {
+          dropdown.innerHTML = '';
+          var meta = window._BAROPHOLIO_COLLECTION_META || {};
+          var allCount = RECORDS.length;
+          var allItem = document.createElement('div');
+          allItem.className = 'grid-coll-item' + (activeCol === '' ? ' active' : '');
+          allItem.dataset.col = '';
+          allItem.innerHTML = '<span style="display:flex; align-items:center;"><span style="width:7px; height:7px; border-radius:50%; background:#888; display:inline-block; margin-right:8px;"></span>All Works</span><span class="grid-coll-count">(' + allCount + ')</span>';
+          allItem.onclick = function() { applyFilter(''); };
+          dropdown.appendChild(allItem);
+
+          var colList = getCollections();
+          colList.forEach(function(col) {
+            var count = countProjectsInCollection(col);
+            var colMeta = meta[col] || {};
+            var dotColor = colMeta.color || '#ea580c';
+            var pinIcon = colMeta.pinned ? '<span style="font-size:10px; margin-left:4px; opacity:0.85;" title="Pinned">📌</span>' : '';
+
+            var item = document.createElement('div');
+            item.className = 'grid-coll-item' + (activeCol === col ? ' active' : '');
+            item.dataset.col = col;
+            item.innerHTML = '<span style="display:flex; align-items:center;"><span style="width:7px; height:7px; border-radius:50%; background:' + dotColor + '; display:inline-block; margin-right:8px; flex-shrink:0; border:1px solid rgba(255,255,255,0.25);"></span>' + col + pinIcon + '</span><span class="grid-coll-count">(' + count + ')</span>';
+            // Clickable even when count is 0
+            item.onclick = function() { applyFilter(col); };
+            dropdown.appendChild(item);
+          });
+        }
+        window._rebuildCollectionDropdown = buildDropdown;
+
+        function removeSpacers() {
+          var spacers = gridRows.querySelectorAll('.grid-card-spacer');
+          for (var s = 0; s < spacers.length; s++) spacers[s].remove();
+        }
+
+        // Tính số cột checkerboard: luôn dùng số lẻ (3 hoặc 5) để caro luôn đối xứng
+        function getCaroCols() {
+          var w = window.innerWidth || 800;
+          if (w >= 1200) return 5;
+          if (w >= 800)  return 5;
+          if (w >= 640)  return 3;
+          return 1;
+        }
+
+        function renderFilter() {
+          removeSpacers();
+          // Restore inline styles về All Works (xóa mọi caro override)
+          var gridEl = document.getElementById('grid');
+          if (gridEl) { gridEl.style.background = ''; gridEl.classList.remove('collection-caro-mode'); }
+          gridRows.style.display = '';
+          gridRows.style.gridTemplateColumns = '';
+          gridRows.style.gap = '';
+
+          var allCards = gridRows.querySelectorAll('.grid-card');
+          allCards.forEach(function(card) {
+            var idx = parseInt(card.getAttribute('data-idx'), 10);
+            var rec = RECORDS[idx];
+            var show = !activeCol || matchesCollection(rec, activeCol);
+            card.style.display = show ? '' : 'none';
+          });
+          return Array.from(allCards).filter(function(c){ return c.style.display !== 'none'; }).length;
+        }
+
+        function applyFilter(col) {
+          activeCol = col;
+          dropdown.classList.remove('open');
+          filterBtn.classList.toggle('active-filter', col !== '');
+
+          var badgeEl = document.getElementById('gridHeaderMeta');
+          if (badgeEl) {
+            if (col) {
+              var count = countProjectsInCollection(col);
+              var colMeta = (window._BAROPHOLIO_COLLECTION_META && window._BAROPHOLIO_COLLECTION_META[col]) ? window._BAROPHOLIO_COLLECTION_META[col] : {};
+              var dotColor = colMeta.color || '#ea580c';
+              badgeEl.innerHTML = '<span class="grid-caro-badge"><span class="grid-caro-badge-dot" style="background:' + dotColor + ';"></span><span class="grid-caro-badge-name">' + col + '</span> (' + count + ')<span class="grid-caro-badge-reset" id="gridBadgeResetAll" title="Return to All Works">✕ All Works</span></span>';
+              badgeEl.style.display = 'inline-flex';
+              var resetBtn = document.getElementById('gridBadgeResetAll');
+              if (resetBtn) {
+                resetBtn.onclick = function(e) { e.stopPropagation(); applyFilter(''); };
+              }
+            } else {
+              badgeEl.style.display = 'none';
+              badgeEl.innerHTML = '';
+            }
+          }
+
+          var visibleCount = renderFilter();
+
+          var emptyStateEl = document.getElementById('gridEmptyState');
+          if (visibleCount === 0) {
+            if (!emptyStateEl) {
+              emptyStateEl = document.createElement('div');
+              emptyStateEl.id = 'gridEmptyState';
+              emptyStateEl.className = 'grid-empty-state';
+              emptyStateEl.innerHTML = '<span class="grid-empty-text">No oranges harvested yet</span>';
+              gridRows.appendChild(emptyStateEl);
+            }
+            emptyStateEl.style.display = 'flex';
+          } else if (emptyStateEl) {
+            emptyStateEl.style.display = 'none';
+          }
+
+          buildDropdown();
+        }
+
+        // Re-apply filter on window resize (no-op for simple filter)
+        window.addEventListener('resize', function() {
+          if (activeCol) renderFilter();
+        });
+
+        // Toggle dropdown
+        filterBtn.addEventListener('click', function(e) {
+          e.stopPropagation();
+          buildDropdown();
+          dropdown.classList.toggle('open');
+        });
+
+        // Close on outside click
+        document.addEventListener('click', function(e) {
+          var wrap = document.getElementById('collFilterWrap');
+          if (wrap && !wrap.contains(e.target)) {
+            dropdown.classList.remove('open');
+          }
+        });
+
+        // Re-apply filter when grid is rebuilt (after sync)
+        var _origBuild = buildSphereAndGrid;
+        buildSphereAndGrid = function() {
+          _origBuild();
+          if (activeCol) applyFilter(activeCol);
+        };
+      })();
+
+      // ─── REAL-TIME AUTO-SYNC ENGINE ──────────────────────────────────────────
+      // Applies updated RECORDS to the sphere + grid + any external engine.
+      // Hash-check prevents redundant re-renders when data hasn't changed.
+      var _syncDebounceTimer = null;
+
+      function _applyRecords(updated, source) {
+        if (!isUsable(updated)) return false;
+        var newHash = recordsHash(updated);
+        if (newHash && newHash === _lastRecordsHash) {
+          console.log('[Baro Sync] Data unchanged (' + source + '), skip re-render.');
+          return false;
+        }
+        _lastRecordsHash = newHash;
+        RECORDS = updated;
+        window.RECORDS = updated;
+        try { buildSphereAndGrid(); } catch(e) { console.warn('[Baro Sync] buildSphereAndGrid error:', e); }
+        try { calcDimensions(); }    catch(e) { console.warn('[Baro Sync] calcDimensions error:', e); }
+        var eng = window.baroSphereEngine || window.gnSphereEngine;
+        if (eng && typeof eng.rebuild === 'function') {
+          try { eng.rebuild(RECORDS); } catch(e) { console.warn('[Baro Sync] engine.rebuild error:', e); }
+        }
+        console.log('🔄 [Baro Sync] ' + source + ' → ' + RECORDS.length + ' projects rendered.');
+        return true;
       }
 
-      window.addEventListener("storage", function(e) {
-        if (!e.key || e.key.indexOf("baropholio") !== -1) {
+      // ─── INDEXEDDB DATA PROVIDER (Handles large multimedia without 5MB quota) ─
+      var IDB_NAME = 'BaropholioCMS_DB';
+      var IDB_STORE = 'cms_store';
+      var IDB_KEY = 'state';
+
+      function idbGetLiveState(cb) {
+        if (!window.indexedDB) return cb(null);
+        try {
+          var req = indexedDB.open(IDB_NAME, 1);
+          req.onupgradeneeded = function(e) {
+            var db = e.target.result;
+            if (!db.objectStoreNames.contains(IDB_STORE)) {
+              db.createObjectStore(IDB_STORE);
+            }
+          };
+          req.onsuccess = function(e) {
+            try {
+              var db = e.target.result;
+              var tx = db.transaction(IDB_STORE, 'readonly');
+              var store = tx.objectStore(IDB_STORE);
+              var getReq = store.get(IDB_KEY);
+              getReq.onsuccess = function() { cb(getReq.result || null); };
+              getReq.onerror = function() { cb(null); };
+            } catch(err) { cb(null); }
+          };
+          req.onerror = function() { cb(null); };
+        } catch(e) { cb(null); }
+      }
+
+      function autoSyncProjects() {
+        if (_syncDebounceTimer) clearTimeout(_syncDebounceTimer);
+        _syncDebounceTimer = setTimeout(function() {
+          _syncDebounceTimer = null;
+          // 1. Try IndexedDB first (primary CMS storage with gigabytes capacity)
+          idbGetLiveState(function(idbState) {
+            if (idbState && Array.isArray(idbState.projects) && idbState.projects.length > 0) {
+              if (idbState.collectionMeta) window._BAROPHOLIO_COLLECTION_META = idbState.collectionMeta;
+              var active = safeArray(idbState.projects).filter(isPublished);
+              var normalized = normalizeRecords(active.map(convertCmsProjectToRecord));
+              if (isUsable(normalized)) {
+                _applyRecords(normalized, 'IndexedDB');
+                if (window._rebuildCollectionDropdown) window._rebuildCollectionDropdown();
+                return;
+              }
+            }
+            // 2. Fallback to localStorage
+            try {
+              _applyRecords(loadLiveRecords(), 'localStorage');
+              if (window._rebuildCollectionDropdown) window._rebuildCollectionDropdown();
+            } catch(e) {
+              console.error('[Baro Sync] autoSyncProjects error:', e);
+            }
+          });
+        }, 200);  // 200 ms debounce — fast enough, avoids rapid-fire storms
+      }
+
+      // Check IndexedDB immediately on startup
+      idbGetLiveState(function(idbState) {
+        if (idbState && Array.isArray(idbState.projects) && idbState.projects.length > 0) {
+          if (idbState.collectionMeta) window._BAROPHOLIO_COLLECTION_META = idbState.collectionMeta;
+          var active = safeArray(idbState.projects).filter(isPublished);
+          var normalized = normalizeRecords(active.map(convertCmsProjectToRecord));
+          if (isUsable(normalized)) {
+            _applyRecords(normalized, 'IndexedDB');
+            if (window._rebuildCollectionDropdown) window._rebuildCollectionDropdown();
+          }
+        }
+      });
+
+      // ── Cross-tab storage event (fires in OTHER tabs when Admin writes) ──────
+      window.addEventListener('storage', function(e) {
+        // e.key is null on localStorage.clear(); treat that as a sync trigger too
+        if (!e.key || e.key.indexOf('baropholio') !== -1) {
           autoSyncProjects();
         }
       });
 
-      try {
-        var bc = new BroadcastChannel("baropholio_cms_sync");
-        bc.onmessage = function() {
-          autoSyncProjects();
-        };
-      } catch(e) {}
+      // ── BroadcastChannel (fires in SAME browser — same + other tabs) ─────────
+      (function() {
+        try {
+          var bc = new BroadcastChannel('baropholio_cms_sync');
+          bc.onmessage = function() { autoSyncProjects(); };
+          // expose so Admin can also reuse the channel reference
+          window._baroBroadcastChannel = bc;
+        } catch(e) { /* BroadcastChannel not supported — storage event is enough */ }
+      })();
 
-      // Async fetch for projects_master.json if served over HTTP
-      try {
-        fetch("./02.Project/projects_master.json?t=" + Date.now())
-          .then(function(res) { if (res.ok) return res.json(); })
+      // ── JSON Fallback: projects_master.json (served over HTTP, not file://) ──
+      // Only used as SEED data if localStorage has nothing yet (offline authoring).
+      // Admin changes to localStorage always take priority (see loadLiveRecords).
+      (function() {
+        if (typeof fetch === 'undefined') return;
+        // Skip JSON fetch if we already have live localStorage data
+        var hasLiveData = (function() {
+          try {
+            return !!(
+              localStorage.getItem('baropholio_wix_portfolio_v5') ||
+              localStorage.getItem('baropholio_wix_portfolio_v4') ||
+              localStorage.getItem('baropholio_cms_state')
+            );
+          } catch(e) { return false; }
+        })();
+        if (hasLiveData) {
+          console.log('[Baro Sync] Live localStorage data present — skipping JSON seed fetch.');
+          return;
+        }
+        fetch('./02.Project/projects_master.json?t=' + Date.now())
+          .then(function(res) { return res.ok ? res.json() : null; })
           .then(function(data) {
-            if (data && Array.isArray(data.projects) && data.projects.length > 0) {
-              var active = data.projects.filter(function(p) { return p.status !== "hidden"; });
-              if (active.length > 0) {
-                RECORDS = active.map(convertCmsProjectToRecord);
-                buildSphereAndGrid();
-                calcDimensions();
-              }
-            }
+            if (!data) return;
+            var source = Array.isArray(data) ? data : (data.projects || data.records || data.items || []);
+            var active = safeArray(source).filter(isPublished);
+            if (active.length === 0) return;
+            var normalized = normalizeRecords(active.map(convertCmsProjectToRecord));
+            _applyRecords(normalized, 'projects_master.json');
           })
-          .catch(function() {});
-      } catch(e) {}
+          .catch(function(err) { console.info('[Baro Sync] JSON fetch skipped (file:// or offline):', err.message); });
+      })();
 
       /* ======================================================================
          3. DUAL-VIEW ENGINE: 3D SPHERE <-> HORIZONTAL REEL MORPH
@@ -4432,6 +5279,15 @@
          4. POINTER & TOUCH GESTURES (DUAL MODE AWARE)
          ====================================================================== */
       var startTarget = null;
+
+      // Wheel → scroll reel left/right (tốc độ nhẹ nhàng, chậm rãi và mượt mà)
+      stage.addEventListener("wheel", function(e) {
+        if (viewMode !== "reel" || focusedIdx !== -1) return;
+        e.preventDefault();
+        var delta = e.deltaY || e.deltaX;
+        reelOffset -= delta * 0.32;
+        reelVel = -delta * 0.22;
+      }, { passive: false });
 
       stage.addEventListener("pointerdown", function (e) {
         if (viewMode === "sphere" || focusedIdx !== -1 || document.body.classList.contains("about-open")) return;
@@ -4650,31 +5506,45 @@
       var bookFlipIndicator = document.getElementById("bookFlipIndicator");
       var flipCountText = document.getElementById("flipCountText");
 
-      function updateRightPageImage(imgSrc, animate) {
-        if (!bookImage) return;
-        if (animate) {
-          bookImage.classList.add("flipping");
-          setTimeout(function() {
-            bookImage.src = imgSrc;
-            bookImage.classList.remove("flipping");
-          }, 220);
-        } else {
-          bookImage.src = imgSrc;
+      function updateRightPageImage(mediaSrc, animate) {
+        var isVid = /\.(mp4|webm|ogg|mov)(\?.*)?$/i.test(mediaSrc) || (typeof mediaSrc === 'string' && mediaSrc.indexOf('data:video') === 0);
+        if (isVid && bookVideo) {
+          if (bookImage) bookImage.style.display = "none";
+          bookVideo.src = mediaSrc;
+          bookVideo.muted = true;
+          bookVideo.defaultMuted = true;
+          bookVideo.volume = 0;
+          bookVideo.loop = true;
+          bookVideo.autoplay = true;
+          bookVideo.setAttribute("muted", "");
+          bookVideo.setAttribute("autoplay", "");
+          bookVideo.setAttribute("loop", "");
+          bookVideo.setAttribute("playsinline", "");
+          bookVideo.setAttribute("webkit-playsinline", "");
+          bookVideo.style.display = "block";
+          if (bookVideoControls) bookVideoControls.style.display = "none";
+          bookVideo.load();
+          bookVideo.play().catch(function(){});
+        } else if (bookImage) {
+          if (bookVideo) { bookVideo.pause(); bookVideo.style.display = "none"; }
+          bookImage.style.display = "block";
+          if (animate) {
+            bookImage.classList.add("flipping");
+            setTimeout(function() {
+              bookImage.src = mediaSrc;
+              bookImage.classList.remove("flipping");
+            }, 220);
+          } else {
+            bookImage.src = mediaSrc;
+          }
         }
 
         if (flipCountText && currentProjectImages.length > 0) {
-          flipCountText.textContent = "PLATE " + (currentProjectImgIdx + 1) + " / " + currentProjectImages.length + " â€¢ TAP TO FLIP";
+          flipCountText.textContent = "PLATE " + (currentProjectImgIdx + 1) + " / " + currentProjectImages.length + " • TAP TO FLIP";
         }
       }
 
       function flipProjectImage() {
-        // If viewing video, clicking right page toggles play/pause instead of flipping
-        if (bookVideo && bookVideo.style.display !== "none") {
-          if (bookVideo.paused) bookVideo.play().catch(function(){});
-          else bookVideo.pause();
-          updateVideoUI();
-          return;
-        }
         if (!currentProjectImages || currentProjectImages.length <= 1) return;
         currentProjectImgIdx = (currentProjectImgIdx + 1) % currentProjectImages.length;
         updateRightPageImage(currentProjectImages[currentProjectImgIdx], true);
@@ -4714,6 +5584,16 @@
           bookIndexCounter.textContent = "PROJECT " + (currentBookIdx < 9 ? "0" + (currentBookIdx + 1) : (currentBookIdx + 1)) + " OF " + (RECORDS.length < 10 ? "0" + RECORDS.length : RECORDS.length);
         }
 
+        // Glass overlay content update
+        var glassOverlayIndex = document.getElementById("glassOverlayIndex");
+        var glassOverlayTitle = document.getElementById("glassOverlayTitle");
+        var glassOverlaySubtitle = document.getElementById("glassOverlaySubtitle");
+        var glassOverlayDesc = document.getElementById("glassOverlayDesc");
+        if (glassOverlayIndex) glassOverlayIndex.textContent = "PROJECT " + (currentBookIdx < 9 ? "0" + (currentBookIdx + 1) : (currentBookIdx + 1)) + " / " + (RECORDS.length < 10 ? "0" + RECORDS.length : RECORDS.length);
+        if (glassOverlayTitle) glassOverlayTitle.textContent = rec.title || "Untitled Project";
+        if (glassOverlaySubtitle) glassOverlaySubtitle.textContent = rec.organization || rec.org || "Baropholio";
+        if (glassOverlayDesc) glassOverlayDesc.textContent = rec.description || rec.desc || "A spatial investigation synthesizing riparian ecological systems with resilient community infrastructure.";
+
         // Left Page: Strictly Text Information
         if (bookCategoryTag) bookCategoryTag.textContent = rec.category || rec.cat || "SPATIAL ARCHIVE";
         if (bookYearTag) bookYearTag.textContent = rec.year || rec.date || "2024";
@@ -4741,7 +5621,7 @@
         if (bookPlateCaption) bookPlateCaption.textContent = "PLATE // " + (rec.category || rec.cat || "VISUAL ARCHIVE");
 
         var activeCover = (rec.video) ? rec.video : (currentProjectImages[0] || "");
-        var isActiveCoverVideo = /\.(mp4|webm|ogg|mov)(\?.*)?$/i.test(activeCover) || !!rec.video;
+        var isActiveCoverVideo = /\.(mp4|webm|ogg|mov)(\?.*)?$/i.test(activeCover) || (typeof activeCover === 'string' && activeCover.indexOf('data:video') === 0) || !!rec.video;
 
         // Hide all first
         if (bookImage) bookImage.style.display = "none";
@@ -4750,12 +5630,20 @@
         if (bookDrawingPlate) bookDrawingPlate.style.display = "flex";
 
         if (isActiveCoverVideo && activeCover && bookVideo) {
-          // Show video player with interactive controls
+          // Auto-play video seamlessly without audio and loop infinitely
           bookVideo.src = activeCover;
           bookVideo.muted = true;
+          bookVideo.defaultMuted = true;
+          bookVideo.volume = 0;
           bookVideo.loop = true;
+          bookVideo.autoplay = true;
+          bookVideo.setAttribute("muted", "");
+          bookVideo.setAttribute("autoplay", "");
+          bookVideo.setAttribute("loop", "");
+          bookVideo.setAttribute("playsinline", "");
+          bookVideo.setAttribute("webkit-playsinline", "");
           bookVideo.style.display = "block";
-          if (bookVideoControls) bookVideoControls.style.display = "flex";
+          if (bookVideoControls) bookVideoControls.style.display = "none";
           if (bookDrawingPlate) bookDrawingPlate.style.display = "none";
           bookVideo.load();
           bookVideo.play().catch(function(){});
@@ -4802,12 +5690,19 @@
         closeAbout();
         closeMenu();
         if (document.body.classList.contains("gridview")) window.toggleGrid(false);
+        if (window.BaroProjectShowcase && typeof window.BaroProjectShowcase.open === "function") {
+          window.BaroProjectShowcase.open(idx);
+          return;
+        }
         loadBookSpread(idx);
         document.body.classList.add("book-open");
       }
       window.openBook = openBook;
 
       function closeBook() {
+        if (window.BaroProjectShowcase && typeof window.BaroProjectShowcase.close === "function") {
+          window.BaroProjectShowcase.close();
+        }
         document.body.classList.remove("book-open");
         // Stop and mute video when closing
         if (bookVideo) {
@@ -4824,8 +5719,36 @@
       window.openLightbox = openBook;
       window.closeLightbox = closeBook;
 
+      var bookProjectBtn = document.getElementById("bookProjectBtn");
+      if (bookProjectBtn) {
+        bookProjectBtn.addEventListener("click", function(e) {
+          e.stopPropagation();
+          // Trigger flip to next image
+          if (typeof flipProjectImage === 'function') {
+            flipProjectImage();
+          }
+        });
+      }
       if (bookCloseBtn) bookCloseBtn.addEventListener("click", closeBook);
       if (bookScrim) bookScrim.addEventListener("click", closeBook);
+
+      // Glass overlay buttons
+      var glassProjectBtn = document.getElementById("glassProjectBtn");
+      if (glassProjectBtn) {
+        glassProjectBtn.addEventListener("click", function(e) {
+          e.stopPropagation();
+          if (typeof flipProjectImage === 'function') {
+            flipProjectImage();
+          }
+        });
+      }
+      var glassCloseBtn = document.getElementById("glassCloseBtn");
+      if (glassCloseBtn) {
+        glassCloseBtn.addEventListener("click", function(e) {
+          e.stopPropagation();
+          closeBook();
+        });
+      }
 
       if (bookPrevBtn) {
         bookPrevBtn.addEventListener("click", function(e) {
@@ -4897,6 +5820,22 @@
           closeBook();
         }
       };
+
+      // ── No-download: block contextmenu & drag on all grid/card images ──
+      document.addEventListener('contextmenu', function(e) {
+        var t = e.target;
+        if (t.tagName === 'IMG' || t.tagName === 'VIDEO') {
+          if (t.closest('#grid, .baro-plate-item, .baro-full-stream-item, #baroLightbox')) {
+            e.preventDefault();
+          }
+        }
+      });
+      document.addEventListener('dragstart', function(e) {
+        var t = e.target;
+        if (t.tagName === 'IMG' && t.closest('#grid, .baro-plate-item, .baro-full-stream-item')) {
+          e.preventDefault();
+        }
+      });
 
       gridBtn.addEventListener("click", function () { window.toggleGrid(); });
       navGrid.addEventListener("click", function (e) { e.preventDefault(); window.toggleGrid(true); });

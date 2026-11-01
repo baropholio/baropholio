@@ -398,6 +398,7 @@
     this.sphereGroup = null;
     this.cardMeshes = [];
     this.cardItems = [];
+    this.animatedGifs = [];
     this.planeGeom = null;
 
     this.activeMode = "sphere"; // "sphere" hoặc "reel"
@@ -446,6 +447,7 @@
     this.lastScrubTick = 0;
 
     this.boundTick = this.render.bind(this);
+    this.animatedGifs = [];
     this.init();
   }
 
@@ -599,6 +601,128 @@
     };
   };
 
+  function playVideoOnMesh(src, mesh, mat, item) {
+    try {
+      var video = document.createElement("video");
+      video.src = src;
+      video.crossOrigin = "anonymous";
+      video.loop = true;
+      video.muted = true;
+      video.defaultMuted = true;
+      video.volume = 0;
+      video.playsInline = true;
+      video.setAttribute("playsinline", "");
+      video.setAttribute("webkit-playsinline", "");
+      video.setAttribute("muted", "");
+      video.setAttribute("autoplay", "");
+      video.setAttribute("loop", "");
+      video.autoplay = true;
+      video.play().catch(function () {});
+      var vTex = new THREE.VideoTexture(video);
+      vTex.colorSpace = THREE.SRGBColorSpace;
+      vTex.minFilter = THREE.LinearFilter;
+      vTex.magFilter = THREE.LinearFilter;
+      mat.map = vTex;
+      mat.opacity = 1.0;
+      mat.needsUpdate = true;
+      video.addEventListener("loadedmetadata", function () {
+        if (video.videoWidth && video.videoHeight) {
+          applyCoverTexture(vTex, video.videoWidth, video.videoHeight, item.aspect);
+        }
+      });
+    } catch (e) {
+      console.warn("Video texture error", e);
+    }
+  }
+
+  function playGifOnMesh(src, mesh, mat, item) {
+    // 1. Try ImageDecoder API (Native in modern Chrome, Edge, Safari)
+    if (typeof window.ImageDecoder === "function") {
+      function startDecoder(arrayBuffer) {
+        try {
+          var decoder = new window.ImageDecoder({ data: arrayBuffer, type: "image/gif" });
+          var canvas = document.createElement("canvas");
+          var ctx = canvas.getContext("2d");
+          var tex = new THREE.CanvasTexture(canvas);
+          tex.colorSpace = THREE.SRGBColorSpace;
+          tex.minFilter = THREE.LinearFilter;
+          tex.magFilter = THREE.LinearFilter;
+
+          decoder.tracks.ready.then(function () {
+            var track = decoder.tracks.selectedTrack;
+            var count = track && track.frameCount ? track.frameCount : 1;
+            var curFrame = 0;
+            var initialized = false;
+
+            function step() {
+              decoder.decode({ frameIndex: curFrame }).then(function (result) {
+                if (!initialized) {
+                  canvas.width = result.image.displayWidth;
+                  canvas.height = result.image.displayHeight;
+                  applyCoverTexture(tex, canvas.width, canvas.height, item.aspect);
+                  mat.map = tex;
+                  mat.opacity = 1.0;
+                  mat.needsUpdate = true;
+                  initialized = true;
+                }
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                ctx.drawImage(result.image, 0, 0, canvas.width, canvas.height);
+                tex.needsUpdate = true;
+                var durMs = (result.duration || 100000) / 1000;
+                result.image.close();
+                curFrame = (curFrame + 1) % count;
+                setTimeout(step, Math.max(25, durMs));
+              }).catch(function (e) {
+                console.warn("GIF frame decode err:", e);
+              });
+            }
+            step();
+          }).catch(function (err) {
+            console.warn("GIF track ready err:", err);
+          });
+        } catch (e) {
+          console.warn("ImageDecoder init err:", e);
+        }
+      }
+
+      if (src.indexOf("data:") === 0) {
+        try {
+          var base64 = src.split(",")[1];
+          var bin = atob(base64);
+          var u8 = new Uint8Array(bin.length);
+          for (var bi = 0; bi < bin.length; bi++) u8[bi] = bin.charCodeAt(bi);
+          startDecoder(u8.buffer);
+          return;
+        } catch (e) {
+          console.warn("GIF base64 decode err:", e);
+        }
+      } else {
+        var xhr = new XMLHttpRequest();
+        xhr.open("GET", src, true);
+        xhr.responseType = "arraybuffer";
+        xhr.onload = function () {
+          if (xhr.status === 200 || xhr.status === 0) {
+            startDecoder(xhr.response);
+          }
+        };
+        xhr.onerror = function () {
+          var mp4 = src.replace(/\.gif(\?.*)?$/i, ".mp4$1");
+          if (mp4 !== src) {
+            playVideoOnMesh(mp4, mesh, mat, item);
+          }
+        };
+        xhr.send();
+        return;
+      }
+    }
+
+    // 2. Fallback: check if .mp4 exists for .gif (like pt.gif -> pt.mp4)
+    if (/\.gif(\?.*)?$/i.test(src)) {
+      var mp4Src = src.replace(/\.gif(\?.*)?$/i, ".mp4$1");
+      playVideoOnMesh(mp4Src, mesh, mat, item);
+    }
+  }
+
   GNSphereEngine.prototype.rebuild = function (records) {
     var data = this.prepareRecordsList(records);
     var allList = data.all;
@@ -615,6 +739,20 @@
     }
     this.cardMeshes = [];
     this.cardItems = [];
+
+    // Cleanup previous animated GIF DOM elements & textures
+    if (this.animatedGifs && this.animatedGifs.length > 0) {
+      for (var agi = 0; agi < this.animatedGifs.length; agi++) {
+        var oldAg = this.animatedGifs[agi];
+        if (oldAg && oldAg.img && oldAg.img.parentNode) {
+          oldAg.img.parentNode.removeChild(oldAg.img);
+        }
+        if (oldAg && oldAg.tex) {
+          oldAg.tex.dispose();
+        }
+      }
+    }
+    this.animatedGifs = [];
 
     var N = allList.length;
     var w = this.canvas.clientWidth || window.innerWidth;
@@ -694,36 +832,13 @@
       // TASK-06 & Video/GIF/Image: Tải media hỗ trợ ảnh tĩnh (.jpg, .png), ảnh động (.gif), video (.mp4, .webm autoplay muted không tiếng)
       var mediaSrc = (rec && rec.video) ? rec.video : imageSrc;
       if (mediaSrc) {
-        var isVideo = /\.(mp4|webm|ogg|mov)(\?.*)?$/i.test(mediaSrc) || (rec && rec.video);
+        var isVideo = /\.(mp4|webm|ogg|mov)(\?.*)?$/i.test(mediaSrc) || (typeof mediaSrc === "string" && mediaSrc.indexOf("data:video") === 0) || (rec && rec.video);
+        var isGif = /\.gif(\?.*)?$/i.test(mediaSrc) || (typeof mediaSrc === "string" && mediaSrc.indexOf("data:image/gif") === 0);
+
         if (isVideo) {
-          try {
-            var video = document.createElement("video");
-            video.src = mediaSrc;
-            video.crossOrigin = "anonymous";
-            video.loop = true;
-            video.muted = true;
-            video.defaultMuted = true;
-            video.volume = 0;
-            video.playsInline = true;
-            video.setAttribute("playsinline", "");
-            video.setAttribute("webkit-playsinline", "");
-            video.autoplay = true;
-            video.play().catch(function () {});
-            var vTex = new THREE.VideoTexture(video);
-            vTex.colorSpace = THREE.SRGBColorSpace;
-            vTex.minFilter = THREE.LinearFilter;
-            vTex.magFilter = THREE.LinearFilter;
-            mat.map = vTex;
-            mat.opacity = 1.0;
-            mat.needsUpdate = true;
-            video.addEventListener("loadedmetadata", function () {
-              if (video.videoWidth && video.videoHeight) {
-                applyCoverTexture(vTex, video.videoWidth, video.videoHeight, item.aspect);
-              }
-            });
-          } catch (e) {
-            console.warn("Video texture fallback", e);
-          }
+          playVideoOnMesh(mediaSrc, mesh, mat, item);
+        } else if (isGif) {
+          playGifOnMesh(mediaSrc, mesh, mat, item);
         } else {
           (function (tItem, tMat, src) {
             texLoader.load(
@@ -853,17 +968,23 @@
     }
   };
 
-  // Phóng to Hero Card khi click
+  // Phóng to Hero Card khi click -> Thay bằng Baro Project Deck (McLane cloned scroll & flip effect)
   GNSphereEngine.prototype.expandCard = function (index) {
     if (index < 0 || index >= this.cardItems.length) return;
     this.expandedIdx = index;
-    document.body.classList.add("has-expanded-card");
     AudioFX.click();
 
+    if (this.sheetPreview) this.sheetPreview.classList.remove("show");
+
+    // Thay thế sheet expanded cũ bằng Baro Project Deck clone chuẩn hiệu ứng lật thẻ
+    if (typeof window.openBaroProjectDeck === "function") {
+      window.openBaroProjectDeck(index);
+      return;
+    }
+
+    document.body.classList.add("has-expanded-card");
     var item = this.cardItems[index];
     tweenProp(item, "expand", 1, CONFIG.expandDuration, "power4.out");
-
-    if (this.sheetPreview) this.sheetPreview.classList.remove("show");
 
     var rec = item.record;
     var cat = rec.category || rec.cat || "ARCHIVE PROJECT";
