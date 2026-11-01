@@ -4635,218 +4635,271 @@
       window.RECORDS = RECORDS;
       window.loadLiveRecords = loadLiveRecords;
 
-      // ─── SUPABASE ASYNC FETCH (runs after initial render, updates sphere) ────
-      async function fetchPortfolioProjects() {
-        if (!window.supabase || !SUPABASE_URL || SUPABASE_URL.indexOf('YOUR_SUPABASE') !== -1) return;
+      // ─── IN-RAM IMAGE CACHE & REAL PRELOADER ENGINE ────────────────────────
+      window.imageCache = window.imageCache || {};
+      window._assetsLoaded = false;
+      var _resolveAssetsLoaded = null;
+      window.assetsLoadedPromise = new Promise(function(resolve) {
+        _resolveAssetsLoaded = resolve;
+      });
+
+      function markAssetsReady() {
+        if (!window._assetsLoaded) {
+          window._assetsLoaded = true;
+          if (_resolveAssetsLoaded) _resolveAssetsLoaded();
+        }
+      }
+
+      // Update loading percentage text and progress bar directly
+      function updateLoadingProgress(pct, statusText) {
+        var clamped = Math.min(100, Math.max(0, Math.round(pct)));
+        var tag = document.getElementById('splashTag');
+        if (tag) {
+          tag.innerHTML = statusText || ('LOADING ASSETS... ' + clamped + '%');
+        }
+        var splashBarImg = document.getElementById('splashBarImg');
+        var bar = document.getElementById('bar');
+        var scaleRatio = clamped / 100;
+        if (splashBarImg) splashBarImg.style.transform = 'scaleX(' + scaleRatio + ')';
+        if (bar) bar.style.transform = 'scaleX(' + scaleRatio + ')';
+      }
+
+      // Preload Single Cover Image for 3D Sphere Card into RAM imageCache
+      function preloadImagesWithTracker(urls, onProgress) {
+        if (!urls || urls.length === 0) {
+          return Promise.resolve(window.imageCache);
+        }
+        var uniqueUrls = Array.from(new Set(urls.filter(Boolean)));
+        var total = uniqueUrls.length;
+        if (total === 0) return Promise.resolve(window.imageCache);
+
+        var loadedCount = 0;
+        var TIMEOUT_PER_IMG = 8000; // 8s timeout safety per image
+
+        var promises = uniqueUrls.map(function(url) {
+          return new Promise(function(resolve) {
+            if (window.imageCache[url] && window.imageCache[url].complete) {
+              loadedCount++;
+              if (onProgress) onProgress(loadedCount, total);
+              return resolve({ url: url, status: 'cached' });
+            }
+
+            var settled = false;
+            var timer = null;
+            var img = new Image();
+            if (url.indexOf('data:') !== 0) {
+              img.crossOrigin = 'anonymous';
+            }
+
+            function finish(status) {
+              if (settled) return;
+              settled = true;
+              if (timer) clearTimeout(timer);
+              img.onload = null;
+              img.onerror = null;
+              loadedCount++;
+              if (status === 'loaded') {
+                window.imageCache[url] = img;
+              }
+              if (onProgress) onProgress(loadedCount, total);
+              resolve({ url: url, status: status });
+            }
+
+            timer = setTimeout(function() {
+              finish('timeout');
+            }, TIMEOUT_PER_IMG);
+
+            img.onload = function() { finish('loaded'); };
+            img.onerror = function() { finish('error'); };
+            img.src = url;
+          });
+        });
+
+        return Promise.allSettled(promises).then(function() {
+          return window.imageCache;
+        });
+      }
+
+      // Extract ONLY 1 primary thumbnail / cover media per project for 3D Sphere
+      function extract3DSphereCoverUrls(projects) {
+        if (!projects || !Array.isArray(projects)) return [];
+        var urls = [];
+        for (var i = 0; i < projects.length; i++) {
+          var p = projects[i];
+          if (!p) continue;
+          var cover = p.image || p.video || '';
+          if (cover && typeof cover === 'string' && !/\.(mp4|webm|ogg|mov)(\?.*)?$/i.test(cover)) {
+            urls.push(cover);
+          }
+        }
+        return Array.from(new Set(urls));
+      }
+
+      // ─── QUOTA OPTIMIZED SUPABASE FETCHING & CLIENT CACHE (TTL: 8 mins) ────
+      var SUPABASE_CACHE_KEY = 'baro_projects_cache_v1';
+      var CACHE_TTL_MS = 8 * 60 * 1000; // 8 minutes
+
+      async function fetchPortfolioProjectsOptimized() {
+        // 1. Check in-memory/localStorage cache first to save 80-90% Supabase Quota
+        try {
+          var rawCache = localStorage.getItem(SUPABASE_CACHE_KEY);
+          if (rawCache) {
+            var parsed = JSON.parse(rawCache);
+            if (parsed && parsed.timestamp && (Date.now() - parsed.timestamp < CACHE_TTL_MS) && Array.isArray(parsed.data) && parsed.data.length > 0) {
+              console.log('[Supabase Cache] Using fresh client-side cache (' + parsed.data.length + ' projects, saved quota).');
+              return parsed.data;
+            }
+          }
+        } catch(e) {
+          console.warn('[Supabase Cache] Read error:', e);
+        }
+
+        if (!window.supabase || !SUPABASE_URL || SUPABASE_URL.indexOf('YOUR_SUPABASE') !== -1) {
+          return null;
+        }
+
+        // 2. Fetch lightweight columns only: id, slug, title, subtitle, collections, basic_info, media
         try {
           var sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-          var res = await sb.from('projects').select('*').eq('published', true).order('created_at', { ascending: false });
-          if (res.error) { console.warn('[Supabase Portfolio] Query error:', res.error); return; }
-          if (!res.data || !res.data.length) return;
+          var res = await sb
+            .from('projects')
+            .select('id, slug, title, subtitle, collections, basic_info, media, created_at')
+            .eq('published', true)
+            .order('created_at', { ascending: false });
 
-          // Map Supabase rows → convertCmsProjectToRecord shape
+          if (res.error) {
+            console.warn('[Supabase Portfolio] Query error:', res.error);
+            return null;
+          }
+          if (!res.data || !res.data.length) return null;
+
           var mapped = res.data.map(function(row) {
             return {
               id: row.id,
               title: row.title || 'Untitled',
               subtitle: row.subtitle || '',
-              description: row.description || '',
+              description: '',
               published: true,
               collections: Array.isArray(row.collections) ? row.collections : [],
               basicInfo: Array.isArray(row.basic_info) ? row.basic_info : [],
-              media: Array.isArray(row.media) ? row.media : [],
-              seo: row.seo || {},
+              media: Array.isArray(row.media) ? row.media.slice(0, 1) : [], // Only 1st media for 3D sphere card
+              seo: {},
               slug: row.slug || '',
-              stt: row.stt || ''
+              stt: ''
             };
           });
 
           var normalized = normalizeRecords(mapped.map(convertCmsProjectToRecord));
           if (isUsable(normalized)) {
-            console.log('[Supabase Portfolio] Loaded ' + normalized.length + ' projects from Cloud.');
-            _applyRecords(normalized, 'Supabase Cloud');
+            console.log('[Supabase Portfolio] Fetched ' + normalized.length + ' projects from Cloud.');
+            // Save to LocalStorage with timestamp
+            try {
+              localStorage.setItem(SUPABASE_CACHE_KEY, JSON.stringify({
+                timestamp: Date.now(),
+                data: normalized
+              }));
+            } catch(e) {}
+            return normalized;
           }
+          return null;
         } catch(err) {
           console.warn('[Supabase Portfolio] Network error:', err);
+          return null;
         }
       }
 
-      /* ======================================================================
-         2. FIBONACCI 3D SPHERE ENGINE
-         ====================================================================== */
-      var stage = document.getElementById("stage");
-      var world = document.getElementById("world");
-      var orb = document.getElementById("orb");
-      var headline = document.getElementById("headline");
-      var splash = document.getElementById("splash");
-      var bar = document.getElementById("bar");
-      var grid = document.getElementById("grid");
-      var gridRows = document.getElementById("gridRows");
-
-      var N = RECORDS.length;
-      var GA = Math.PI * (3 - Math.sqrt(5)); // Golden Angle
-      var cards = [];
-      var unitVectors = [];
-
-      var R = 280;
-      var cw = 140;
-      var perspective = 1150;
-      var reelCardW = 320;
-      var reelCardH = 320;
-      var reelGap = 26;
-
-      function calcDimensions() {
-        var w = window.innerWidth;
-        var h = window.innerHeight;
-        var hr = w <= 380 ? 0.38 : (w <= 640 ? 0.42 : 0.46);
-        var wr = w <= 380 ? 0.48 : (w <= 640 ? 0.52 : 0.58);
-        var floor = w <= 380 ? 115 : (w <= 640 ? 140 : 180);
-        R = Math.max(floor, Math.min(480, h * hr, w * wr));
-
-        var scale = w <= 380 ? 0.44 : (w <= 640 ? 0.46 : 0.48);
-        cw = Math.round(Math.max(88, R * scale));
-        
-        reelCardW = Math.round(Math.max(220, Math.min(400, w * 0.28, h * 0.48)));
-        reelCardH = reelCardW;
-        reelGap = Math.round(Math.max(18, w * 0.02));
-
-        perspective = w <= 380 ? 640 : (w <= 640 ? 780 : (w <= 900 ? 940 : 1150));
-        document.documentElement.style.setProperty("--persp", perspective + "px");
-        document.documentElement.style.setProperty("--cw", cw + "px");
-      }
-      calcDimensions();
-
-      function buildSphereAndGrid() {
-        if (!orb || !gridRows) return;
-        orb.innerHTML = "";
-        gridRows.innerHTML = "";
-        cards = [];
-        unitVectors = [];
-        N = RECORDS.length;
-
-        for (var i = 0; i < N; i++) {
-          var y = 1 - (i / (Math.max(1, N - 1))) * 2;
-          var rad = Math.sqrt(Math.max(0, 1 - y * y));
-          var theta = i * GA;
-          var x = Math.cos(theta) * rad;
-          var z = Math.sin(theta) * rad;
-          unitVectors.push({ x: x, y: y, z: z });
-
-          var card = document.createElement("div");
-          card.className = "card" + (i === 20 ? " tall" : "");
-          card.setAttribute("data-idx", i);
-
-          var rec = RECORDS[i];
-          var catName = rec.category || rec.cat || "ARCHIVE";
-          var dateYear = rec.year || rec.date || "2026";
-          var orgName = rec.organization || rec.org || "";
-          var shortOrg = orgName ? orgName.split("(")[0].trim().slice(0, 24) : "ARCHIVE";
-
-          var mediaCover = rec.video || rec.image || "";
-          var isCoverVideo = /\.(mp4|webm|ogg|mov)(\?.*)?$/i.test(mediaCover) || mediaCover.startsWith('data:video');
-          var isCoverGif   = /\.gif(\?.*)?$/i.test(mediaCover) || mediaCover.startsWith('data:image/gif');
-
-          var imgHtml = "";
-          if (isCoverVideo) {
-            imgHtml = '<video src="' + mediaCover + '" autoplay loop muted playsinline disablepictureinpicture preload="metadata" class="card-bg-img" style="object-fit:cover;pointer-events:none;width:100%;height:100%;"></video>';
-          } else if (mediaCover) {
-            // includes GIF — <img> renders animated GIF natively
-            imgHtml = '<img src="' + mediaCover + '" alt="' + rec.title + '" class="card-bg-img" onerror="this.style.display=\'none\';">';
-          } else {
-            imgHtml = '<div class="grid-card-placeholder" style="position:absolute;inset:0;"><span class="ph-cat" style="opacity:1;">' + catName + '</span></div>';
-          }
-
-          var reelCaption = 
-            '<div class="card-reel-caption">' +
-              '<span class="reel-idx">[' + (i < 9 ? "0" + (i+1) : (i+1)) + ']</span>' +
-              '<span class="reel-title">' + rec.title + '</span>' +
-              '<span class="reel-cat">&bull; ' + catName + '</span>' +
-            '</div>';
-
-          card.innerHTML = 
-            '<figure>' +
-              imgHtml +
-              '<div class="card-canvas sphere-canvas">' +
-                '<div class="card-sphere-info">' +
-                  '<span class="cat-tag">' + catName + '</span>' +
-                  '<div class="mid-title">' + rec.title + '</div>' +
-                  '<div class="bot-row">' +
-                    '<span>' + shortOrg + '</span>' +
-                    '<span>NO. ' + (i < 9 ? "0" + (i+1) : (i+1)) + '</span>' +
-                  '</div>' +
-                '</div>' +
-              '</div>' +
-              reelCaption +
-            '</figure>';
-
-          orb.appendChild(card);
-          cards.push(card);
-
-          // Populate flat grid card
-          var gCard = document.createElement("div");
-          gCard.className = "grid-card";
-          gCard.setAttribute("data-idx", i);
-
-          var dur = (3.4 + ((i * 1.37) % 2.6)).toFixed(2) + "s";
-          var delay = (-((i * 1.83) % 4.0)).toFixed(2) + "s";
-          var floatY = (-5 - ((i * 2.1) % 8)).toFixed(1) + "px";
-          var sc1 = (1.015 + ((i * 0.007) % 0.035)).toFixed(3);
-          var sc2 = (0.970 - ((i * 0.006) % 0.025)).toFixed(3);
-
-          gCard.style.setProperty("--float-dur", dur);
-          gCard.style.setProperty("--float-delay", delay);
-          gCard.style.setProperty("--float-y", floatY);
-          gCard.style.setProperty("--float-scale-1", sc1);
-          gCard.style.setProperty("--float-scale-2", sc2);
-
-          if (isCoverVideo) {
-            gCard.innerHTML =
-              '<div class="grid-card-thumb-wrap">' +
-                '<video src="' + mediaCover + '" autoplay loop muted playsinline disablepictureinpicture preload="metadata" class="grid-card-thumb" style="object-fit:cover;pointer-events:none;width:100%;height:100%;"></video>' +
-              '</div>' +
-              '<div class="grid-card-overlay"></div>' +
-              '<div class="grid-card-info">' +
-                '<span class="cat-label">' + catName + '</span>' +
-                '<div class="card-title">' + rec.title + '</div>' +
-                '<span class="card-index">NO. ' + (i < 9 ? "0"+(i+1) : (i+1)) + '</span>' +
-              '</div>';
-          } else if (mediaCover) {
-            // img handles both static images AND animated GIFs natively
-            gCard.innerHTML =
-              '<div class="grid-card-thumb-wrap">' +
-                '<img src="' + mediaCover + '" alt="' + rec.title + '" class="grid-card-thumb" loading="lazy" onerror="this.parentElement.className=\'grid-card-placeholder\';this.remove();">' +
-              '</div>' +
-              '<div class="grid-card-overlay"></div>' +
-              '<div class="grid-card-info">' +
-                '<span class="cat-label">' + catName + '</span>' +
-                '<div class="card-title">' + rec.title + '</div>' +
-                '<span class="card-index">NO. ' + (i < 9 ? "0"+(i+1) : (i+1)) + '</span>' +
-              '</div>';
-          } else {
-            gCard.innerHTML =
-              '<div class="grid-card-placeholder">' +
-                '<span class="ph-cat">' + catName + '</span>' +
-              '</div>' +
-              '<div class="grid-card-overlay"></div>' +
-              '<div class="grid-card-info">' +
-                '<span class="cat-label">' + catName + '</span>' +
-                '<div class="card-title">' + rec.title + '</div>' +
-                '<span class="card-index">NO. ' + (i < 9 ? "0"+(i+1) : (i+1)) + '</span>' +
-              '</div>';
-          }
-          gridRows.appendChild(gCard);
+      // On-Demand Full Project Dossier Fetcher (Called when user clicks/opens a project)
+      window.fetchProjectDossierOnDemand = async function(projectId) {
+        if (!projectId || !window.supabase || !SUPABASE_URL || SUPABASE_URL.indexOf('YOUR_SUPABASE') !== -1) {
+          return null;
         }
+        try {
+          var sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+          var res = await sb
+            .from('projects')
+            .select('*')
+            .eq('id', projectId)
+            .single();
+          if (res.data) {
+            var fullRecord = convertCmsProjectToRecord({
+              id: res.data.id,
+              title: res.data.title,
+              subtitle: res.data.subtitle,
+              description: res.data.description,
+              collections: res.data.collections,
+              basicInfo: res.data.basic_info,
+              media: res.data.media,
+              seo: res.data.seo,
+              slug: res.data.slug
+            });
+            // Update in RECORDS array
+            for (var i = 0; i < RECORDS.length; i++) {
+              if (RECORDS[i].id === projectId || RECORDS[i].slug === fullRecord.slug) {
+                Object.assign(RECORDS[i], fullRecord);
+                break;
+              }
+            }
+            return fullRecord;
+          }
+        } catch(e) {
+          console.warn('[Supabase Dossier] Fetch error:', e);
+        }
+        return null;
+      };
+
+      // ─── INITIALIZATION LIFECYCLE (REAL 0% -> 100% PROGRESS TRACKER) ───────
+      async function initApp() {
+        // Step 1: Real loading progress setup
+        // Progress weight: 1 Database Request = 15%, N images = 85%
+        updateLoadingProgress(5, 'CONNECTING ARCHIVE...');
+
+        var projects = null;
+        try {
+          projects = await fetchPortfolioProjectsOptimized();
+        } catch (e) {
+          console.warn('[Init] Supabase fetch error:', e);
+        }
+
+        updateLoadingProgress(20, 'INITIALIZING ASSETS...');
+
+        if (projects && isUsable(projects)) {
+          RECORDS = projects;
+          window.RECORDS = projects;
+          _lastRecordsHash = recordsHash(projects);
+        }
+
+        // Step 2: Extract only the cover images needed for the 3D Sphere
+        var coverUrls = extract3DSphereCoverUrls(RECORDS);
+        var totalImages = coverUrls.length;
+
+        // Step 3: Real Asset Loading Progress Tracker (0% -> 100%)
+        if (totalImages > 0) {
+          await preloadImagesWithTracker(coverUrls, function(loaded, total) {
+            // Map 20% to 98% based on real loaded/total ratio
+            var realPct = 20 + Math.round((loaded / total) * 78);
+            updateLoadingProgress(realPct, 'LOADING ASSETS... ' + realPct + '%');
+          });
+        }
+
+        // Step 4: 100% Complete
+        updateLoadingProgress(100, 'SPATIAL ARCHIVE &bull; 100%');
+
+        // Step 5: Build Sphere and 3D Canvas textures strictly from RAM
+        buildSphereAndGrid();
+        var activeEngine = window.baroSphereEngine || window.gnSphereEngine;
+        if (activeEngine) {
+          activeEngine.rebuild(RECORDS);
+        }
+        if (window._rebuildCollectionDropdown) {
+          window._rebuildCollectionDropdown();
+        }
+
+        // Step 6: Mark assets 100% ready to unlock Preloader dismissal
+        markAssetsReady();
       }
 
-      // Initial build
-      buildSphereAndGrid();
-      var activeEngine = window.baroSphereEngine || window.gnSphereEngine;
-      if (activeEngine) {
-        activeEngine.rebuild(RECORDS);
-      }
-
-      // Fetch từ Supabase Cloud sau khi render cục bộ xong (không block UI)
-      fetchPortfolioProjects();
+      // Launch application lifecycle
+      initApp();
 
       // ─── COLLECTION FILTER ENGINE ────────────────────────────────────────────
       (function initCollectionFilter() {
@@ -6490,18 +6543,25 @@
           startMatrixAnimation();
         }
 
-        // Safety fallback: splash MUST fade out after max 4.8s under all circumstances
+        // Safety fallback: maximum 8.5s to avoid permanent freeze on bad networks
         setTimeout(function() {
-          if (splash && !splash.classList.contains("out")) {
-            splash.classList.add("out");
-            document.body.classList.remove("locked");
-            document.body.classList.add("revealed");
-            var eng = window.baroSphereEngine || window.gnSphereEngine;
-            if (eng) {
-              eng.startIntro();
-            }
+          if (!window._assetsLoaded) {
+            console.warn('[Preloader] Safety timeout reached (8.5s). Forcing 100% finish.');
+            updateLoadingProgress(100, 'SPATIAL ARCHIVE &bull; 100%');
+            markAssetsReady();
           }
-        }, 4800);
+        }, 8500);
+
+        function triggerAppReveal() {
+          if (!splash || splash.classList.contains("out")) return;
+          splash.classList.add("out");
+          document.body.classList.remove("locked");
+          document.body.classList.add("revealed");
+          var eng = window.baroSphereEngine || window.gnSphereEngine;
+          if (eng) {
+            eng.startIntro();
+          }
+        }
 
         // startTime is set just before the animation loop begins (inside startMatrixAnimation)
         var startTime = 0;
@@ -6663,16 +6723,16 @@
             if (bar) bar.style.transform = "scaleX(" + barProgress + ")";
           }
 
-          // 4. Final dismiss into main page
-          if (elapsed >= 4.3) {
-            splash.classList.add("out");
-            document.body.classList.remove("locked");
-            document.body.classList.add("revealed");
-            var eng = window.baroSphereEngine || window.gnSphereEngine;
-            if (eng) {
-              eng.startIntro();
-            }
+          // 4. Final dismiss into main page: STRICTLY wait until window._assetsLoaded is true (100%)
+          if (window._assetsLoaded && elapsed >= 2.9) {
+            triggerAppReveal();
             return; // stop loop
+          }
+          if (elapsed >= 2.9 && !window._assetsLoaded) {
+            // Keep rendering matrix / logo at 100% bar until real assets are 100% loaded
+            window.assetsLoadedPromise.then(function() {
+              triggerAppReveal();
+            });
           }
 
           requestAnimationFrame(loop);

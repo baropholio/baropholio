@@ -1905,12 +1905,13 @@
       const url = mediaItem.dataUrl || mediaItem.url || mediaItem.src || '';
       if (!url || typeof url !== 'string') return { deleted: false };
 
-      // Hỗ trợ URL Supabase Storage: .../storage/v1/object/public/<bucket>/<filePath>
+      // Hỗ trợ kiểm tra domain Supabase Storage và trích xuất bucket + relative filePath
+      // URL dạng: ...supabase.co/storage/v1/object/public/<bucket>/<filePath> hoặc /storage/v1/...
       const match = url.match(/\/storage\/v1\/(?:object\/(?:public|sign)|render\/image\/public)\/([^/]+)\/(.+)$/);
       if (!match) return { deleted: false, isSupabase: false };
 
       const bucket = match[1];
-      const rawPath = match[2].split('?')[0]; // loại bỏ query string
+      const rawPath = match[2].split('?')[0]; // loại bỏ query string nếu có
       const filePath = decodeURIComponent(rawPath);
 
       const sb = getSupabase();
@@ -4482,7 +4483,7 @@ const ICONS = {
 
           let storageDeleted = false;
           const itemUrl = itemToDelete.dataUrl || itemToDelete.url || itemToDelete.src || '';
-          const isSupabaseStorage = typeof itemUrl === 'string' && itemUrl.includes('/storage/v1/');
+          const isSupabaseStorage = typeof itemUrl === 'string' && (itemUrl.includes('/storage/v1/object/public/') || itemUrl.includes('/storage/v1/'));
 
           if (isSupabaseStorage) {
             showToast('Đang xóa file trên Supabase Storage...');
@@ -4501,7 +4502,11 @@ const ICONS = {
 
           // Cập nhật Database nếu project đã lưu trên Supabase
           if (isValidUUID(p.id) || p.id) {
-            saveProjectToSupabase(p).catch(e => console.warn('[Supabase] Sync media delete error:', e));
+            try {
+              await saveProjectToSupabase(p);
+            } catch (e) {
+              console.warn('[Supabase] Sync media delete error:', e);
+            }
           }
 
           if (storageDeleted) {

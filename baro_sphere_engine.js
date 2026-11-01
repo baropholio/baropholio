@@ -161,7 +161,9 @@
    * Hoàn toàn KHÔNG chứa văn bản hay nội dung nào
    * Nền: rgba(255,255,255,0.25), viền sắc nét 1px solid rgba(255,255,255,0.35)
    */
+  var _cachedGlassTexture = null;
   function createGlassmorphicEmptyTexture() {
+    if (_cachedGlassTexture) return _cachedGlassTexture;
     var canvas = document.createElement("canvas");
     canvas.width = 512;
     canvas.height = 710;
@@ -195,6 +197,7 @@
 
     var tex = new THREE.CanvasTexture(canvas);
     tex.colorSpace = THREE.SRGBColorSpace;
+    _cachedGlassTexture = tex;
     return tex;
   }
 
@@ -433,6 +436,8 @@
     this.mouseTiltQuat = new THREE.Quaternion();
     this.axisY = new THREE.Vector3(0, 1, 0);
     this.axisX = new THREE.Vector3(1, 0, 0);
+    this.mouseTiltEuler = new THREE.Euler(0, 0, 0, "YXZ");
+    this.heroCenterVec = new THREE.Vector3(0, 0, 0);
 
     // Chuột di chuyển hướng theo (Mouse Parallax Tilt)
     this.targetMouseTiltX = 0;
@@ -841,6 +846,20 @@
           playGifOnMesh(mediaSrc, mesh, mat, item);
         } else {
           (function (tItem, tMat, src) {
+            // Check in-RAM imageCache first (populated by preloadImages)
+            if (window.imageCache && window.imageCache[src] && window.imageCache[src].complete) {
+              var cachedImg = window.imageCache[src];
+              var tex = new THREE.CanvasTexture(cachedImg);
+              tex.colorSpace = THREE.SRGBColorSpace;
+              tMat.map = tex;
+              tMat.opacity = 1.0;
+              tMat.needsUpdate = true;
+              if (cachedImg.width && cachedImg.height) {
+                applyCoverTexture(tex, cachedImg.width, cachedImg.height, tItem.aspect);
+              }
+              return;
+            }
+
             texLoader.load(
               src,
               function (tex) {
@@ -1287,10 +1306,11 @@
       this.sphereQuat.normalize();
     }
 
-    // 2. Parallax: Quả cầu uốn lượn hướng theo con trỏ chuột
+    // 2. Parallax: Quả cầu uốn lượn hướng theo con trỏ chuột (tối ưu zero-allocation GC)
     this.curMouseTiltX += (this.targetMouseTiltX - this.curMouseTiltX) * 0.055;
     this.curMouseTiltY += (this.targetMouseTiltY - this.curMouseTiltY) * 0.055;
-    this.mouseTiltQuat.setFromEuler(new THREE.Euler(this.curMouseTiltX, this.curMouseTiltY, 0, "YXZ"));
+    this.mouseTiltEuler.set(this.curMouseTiltX, this.curMouseTiltY, 0, "YXZ");
+    this.mouseTiltQuat.setFromEuler(this.mouseTiltEuler);
 
     // Kết hợp xoay quả cầu + nghiêng theo chuột
     this.sphereGroup.quaternion.copy(this.sphereQuat).premultiply(this.mouseTiltQuat);
@@ -1371,7 +1391,7 @@
     var vFovRad = (this.camera.fov * Math.PI) / 360;
     var frustumH = 2 * this.camera.position.z * Math.tan(vFovRad);
     var heroH = (CONFIG.expandHeightVh / 100) * frustumH;
-    var heroCenter = new THREE.Vector3(0, 0, 0).applyQuaternion(this.invGroupQuat);
+    var heroCenter = this.heroCenterVec.set(0, 0, 0).applyQuaternion(this.invGroupQuat);
 
     for (var j = 0; j < this.cardItems.length; j++) {
       var item = this.cardItems[j];
