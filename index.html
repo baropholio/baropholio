@@ -1127,6 +1127,27 @@
       font-weight: 500;
       color: var(--fg-soft);
     }
+    @media (max-width: 768px) {
+      .gn-intro-overlay {
+        flex-direction: column;
+        justify-content: center;
+        gap: 12px;
+        text-align: center;
+        padding: 0 20px;
+      }
+      .gn-intro-center-wrap {
+        position: static;
+        transform: none;
+      }
+      .gn-intro-side {
+        font-size: 11px;
+        letter-spacing: 0.16em;
+      }
+      .gn-intro-monogram {
+        font-size: 16px;
+        letter-spacing: 0.28em;
+      }
+    }
 
     /* Baro Nguyen Bottom Project Sheet & Hover Bar */
     .gn-project-sheet {
@@ -3379,7 +3400,7 @@
 
   <!-- Baro Nguyen Center Intro Monogram, Side Titles & Counter -->
   <div id="gnIntroOverlay" class="gn-intro-overlay">
-    <span class="gn-intro-side left">Orange Havest</span>
+    <span class="gn-intro-side left">Orange Harvest</span>
     <div class="gn-intro-center-wrap">
       <div class="gn-intro-monogram">Baro.N~</div>
     </div>
