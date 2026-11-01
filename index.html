@@ -3615,7 +3615,7 @@
               <p class="glass-overlay-desc" id="glassOverlayDesc">Project description goes here.</p>
               <div class="glass-overlay-actions">
                 <button class="glass-action-btn" id="glassProjectBtn">
-                  <img src="05.Elements/project button.webp" alt="" width="12" height="12" />
+                  <img src="05. Elements/project button.webp" alt="" width="12" height="12" />
                   VIEW FULL MONOGRAPH
                 </button>
                 <button class="glass-close-btn" id="glassCloseBtn" aria-label="Close">
@@ -4122,7 +4122,7 @@
     <div class="menu-top-bar">
       <button id="menuCloseBtn" class="menu-close-btn" aria-label="Close navigation menu"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
       <div class="menu-logo-wrap">
-        <img src="01.Logo/Baropholio%20logo2-01.png" alt="Baropholio Brand Mark" class="menu-brand-logo" />
+        <img src="01.Logo/Baropholio logo2-01.png" alt="Baropholio Brand Mark" class="menu-brand-logo" />
       </div>
     </div>
 
@@ -5129,14 +5129,13 @@
       // Admin changes to localStorage always take priority (see loadLiveRecords).
       (function() {
         if (typeof fetch === 'undefined') return;
-        // Skip JSON fetch if we already have live localStorage data OR static bundle
+        // Skip JSON fetch if we already have live localStorage data
         var hasLiveData = (function() {
           try {
             return !!(
               localStorage.getItem('baropholio_wix_portfolio_v5') ||
               localStorage.getItem('baropholio_wix_portfolio_v4') ||
-              localStorage.getItem('baropholio_cms_state') ||
-              (window.BAROPHOLIO_PROJECTS && window.BAROPHOLIO_PROJECTS.length > 0)
+              localStorage.getItem('baropholio_cms_state')
             );
           } catch(e) { return false; }
         })();
