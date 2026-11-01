@@ -6560,6 +6560,12 @@
           var eng = window.baroSphereEngine || window.gnSphereEngine;
           if (eng) {
             eng.startIntro();
+          } else {
+            // Engine may still be loading THREE.js — retry once after 150ms
+            setTimeout(function() {
+              var eng2 = window.baroSphereEngine || window.gnSphereEngine;
+              if (eng2) eng2.startIntro();
+            }, 150);
           }
         }
 
@@ -6716,23 +6722,22 @@
             splashBarWrap.classList.add("show");
           }
 
-          // Progress palette bar
-          if (elapsed >= 2.7 && splashBarImg) {
-            var barProgress = Math.min(1, (elapsed - 2.7) / 1.1);
-            splashBarImg.style.transform = "scaleX(" + barProgress + ")";
-            if (bar) bar.style.transform = "scaleX(" + barProgress + ")";
-          }
+          // Progress palette bar — driven by real asset loading via updateLoadingProgress()
+          // (time-based override removed to avoid conflict with initApp progress tracker)
 
-          // 4. Final dismiss into main page: STRICTLY wait until window._assetsLoaded is true (100%)
-          if (window._assetsLoaded && elapsed >= 2.9) {
-            triggerAppReveal();
-            return; // stop loop
-          }
-          if (elapsed >= 2.9 && !window._assetsLoaded) {
-            // Keep rendering matrix / logo at 100% bar until real assets are 100% loaded
-            window.assetsLoadedPromise.then(function() {
+          // 4. Final dismiss: STRICTLY wait until _assetsLoaded = true (100%)
+          if (elapsed >= 2.9) {
+            if (window._assetsLoaded) {
               triggerAppReveal();
-            });
+              return; // stop loop
+            }
+            // Attach listener ONCE only — avoid stacking .then() every frame
+            if (!window._revealListenerAttached) {
+              window._revealListenerAttached = true;
+              window.assetsLoadedPromise.then(function() {
+                triggerAppReveal();
+              });
+            }
           }
 
           requestAnimationFrame(loop);
