@@ -4643,6 +4643,46 @@
         _resolveAssetsLoaded = resolve;
       });
 
+      // ─── SPHERE SCENE STATE (DOM refs & physics vars) ─────────────────────────
+      var world     = document.getElementById("world");
+      var orb       = document.getElementById("orb");
+      var headline  = document.getElementById("headline");
+      var grid      = document.getElementById("grid");
+      var gridRows  = document.getElementById("gridRows");
+
+      var N           = 0;
+      var GA          = Math.PI * (3 - Math.sqrt(5)); // Golden Angle
+      var cards       = [];
+      var unitVectors = [];
+
+      var R           = 280;
+      var cw          = 140;
+      var perspective = 1150;
+      var reelCardW   = 320;
+      var reelCardH   = 320;
+      var reelGap     = 26;
+
+      function calcDimensions() {
+        var w = window.innerWidth;
+        var h = window.innerHeight;
+        var hr = w <= 380 ? 0.38 : (w <= 640 ? 0.42 : 0.46);
+        var wr = w <= 380 ? 0.48 : (w <= 640 ? 0.52 : 0.58);
+        var floor = w <= 380 ? 115 : (w <= 640 ? 140 : 180);
+        R = Math.max(floor, Math.min(480, h * hr, w * wr));
+
+        var scale = w <= 380 ? 0.44 : (w <= 640 ? 0.46 : 0.48);
+        cw = Math.round(Math.max(88, R * scale));
+
+        reelCardW = Math.round(Math.max(220, Math.min(400, w * 0.28, h * 0.48)));
+        reelCardH = reelCardW;
+        reelGap = Math.round(Math.max(18, w * 0.02));
+
+        perspective = w <= 380 ? 640 : (w <= 640 ? 780 : (w <= 900 ? 940 : 1150));
+        document.documentElement.style.setProperty("--persp", perspective + "px");
+        document.documentElement.style.setProperty("--cw", cw + "px");
+      }
+      calcDimensions();
+
       function markAssetsReady() {
         if (!window._assetsLoaded) {
           window._assetsLoaded = true;
@@ -4848,6 +4888,129 @@
       };
 
       // ─── INITIALIZATION LIFECYCLE (REAL 0% -> 100% PROGRESS TRACKER) ───────
+      // ─── SPHERE & GRID BUILDER ───────────────────────────────────────────────
+      function buildSphereAndGrid() {
+        if (!orb || !gridRows) return;
+        orb.innerHTML = "";
+        gridRows.innerHTML = "";
+        cards = [];
+        unitVectors = [];
+        N = RECORDS.length;
+
+        for (var i = 0; i < N; i++) {
+          var y = 1 - (i / (Math.max(1, N - 1))) * 2;
+          var rad = Math.sqrt(Math.max(0, 1 - y * y));
+          var theta = i * GA;
+          var x = Math.cos(theta) * rad;
+          var z = Math.sin(theta) * rad;
+          unitVectors.push({ x: x, y: y, z: z });
+
+          var card = document.createElement("div");
+          card.className = "card" + (i === 20 ? " tall" : "");
+          card.setAttribute("data-idx", i);
+
+          var rec = RECORDS[i];
+          var catName = rec.category || rec.cat || "ARCHIVE";
+          var dateYear = rec.year || rec.date || "2026";
+          var orgName = rec.organization || rec.org || "";
+          var shortOrg = orgName ? orgName.split("(")[0].trim().slice(0, 24) : "ARCHIVE";
+
+          var mediaCover = rec.video || rec.image || "";
+          var isCoverVideo = /\.(mp4|webm|ogg|mov)(\?.*)?$/i.test(mediaCover) || mediaCover.startsWith('data:video');
+          var isCoverGif   = /\.gif(\?.*)?$/i.test(mediaCover) || mediaCover.startsWith('data:image/gif');
+
+          var imgHtml = "";
+          if (isCoverVideo) {
+            imgHtml = '<video src="' + mediaCover + '" autoplay loop muted playsinline disablepictureinpicture preload="metadata" class="card-bg-img" style="object-fit:cover;pointer-events:none;width:100%;height:100%;"></video>';
+          } else if (mediaCover) {
+            // includes GIF — <img> renders animated GIF natively
+            imgHtml = '<img src="' + mediaCover + '" alt="' + rec.title + '" class="card-bg-img" onerror="this.style.display=\'none\';">';
+          } else {
+            imgHtml = '<div class="grid-card-placeholder" style="position:absolute;inset:0;"><span class="ph-cat" style="opacity:1;">' + catName + '</span></div>';
+          }
+
+          var reelCaption = 
+            '<div class="card-reel-caption">' +
+              '<span class="reel-idx">[' + (i < 9 ? "0" + (i+1) : (i+1)) + ']</span>' +
+              '<span class="reel-title">' + rec.title + '</span>' +
+              '<span class="reel-cat">&bull; ' + catName + '</span>' +
+            '</div>';
+
+          card.innerHTML = 
+            '<figure>' +
+              imgHtml +
+              '<div class="card-canvas sphere-canvas">' +
+                '<div class="card-sphere-info">' +
+                  '<span class="cat-tag">' + catName + '</span>' +
+                  '<div class="mid-title">' + rec.title + '</div>' +
+                  '<div class="bot-row">' +
+                    '<span>' + shortOrg + '</span>' +
+                    '<span>NO. ' + (i < 9 ? "0" + (i+1) : (i+1)) + '</span>' +
+                  '</div>' +
+                '</div>' +
+              '</div>' +
+              reelCaption +
+            '</figure>';
+
+          orb.appendChild(card);
+          cards.push(card);
+
+          // Populate flat grid card
+          var gCard = document.createElement("div");
+          gCard.className = "grid-card";
+          gCard.setAttribute("data-idx", i);
+
+          var dur = (3.4 + ((i * 1.37) % 2.6)).toFixed(2) + "s";
+          var delay = (-((i * 1.83) % 4.0)).toFixed(2) + "s";
+          var floatY = (-5 - ((i * 2.1) % 8)).toFixed(1) + "px";
+          var sc1 = (1.015 + ((i * 0.007) % 0.035)).toFixed(3);
+          var sc2 = (0.970 - ((i * 0.006) % 0.025)).toFixed(3);
+
+          gCard.style.setProperty("--float-dur", dur);
+          gCard.style.setProperty("--float-delay", delay);
+          gCard.style.setProperty("--float-y", floatY);
+          gCard.style.setProperty("--float-scale-1", sc1);
+          gCard.style.setProperty("--float-scale-2", sc2);
+
+          if (isCoverVideo) {
+            gCard.innerHTML =
+              '<div class="grid-card-thumb-wrap">' +
+                '<video src="' + mediaCover + '" autoplay loop muted playsinline disablepictureinpicture preload="metadata" class="grid-card-thumb" style="object-fit:cover;pointer-events:none;width:100%;height:100%;"></video>' +
+              '</div>' +
+              '<div class="grid-card-overlay"></div>' +
+              '<div class="grid-card-info">' +
+                '<span class="cat-label">' + catName + '</span>' +
+                '<div class="card-title">' + rec.title + '</div>' +
+                '<span class="card-index">NO. ' + (i < 9 ? "0"+(i+1) : (i+1)) + '</span>' +
+              '</div>';
+          } else if (mediaCover) {
+            // img handles both static images AND animated GIFs natively
+            gCard.innerHTML =
+              '<div class="grid-card-thumb-wrap">' +
+                '<img src="' + mediaCover + '" alt="' + rec.title + '" class="grid-card-thumb" loading="lazy" onerror="this.parentElement.className=\'grid-card-placeholder\';this.remove();">' +
+              '</div>' +
+              '<div class="grid-card-overlay"></div>' +
+              '<div class="grid-card-info">' +
+                '<span class="cat-label">' + catName + '</span>' +
+                '<div class="card-title">' + rec.title + '</div>' +
+                '<span class="card-index">NO. ' + (i < 9 ? "0"+(i+1) : (i+1)) + '</span>' +
+              '</div>';
+          } else {
+            gCard.innerHTML =
+              '<div class="grid-card-placeholder">' +
+                '<span class="ph-cat">' + catName + '</span>' +
+              '</div>' +
+              '<div class="grid-card-overlay"></div>' +
+              '<div class="grid-card-info">' +
+                '<span class="cat-label">' + catName + '</span>' +
+                '<div class="card-title">' + rec.title + '</div>' +
+                '<span class="card-index">NO. ' + (i < 9 ? "0"+(i+1) : (i+1)) + '</span>' +
+              '</div>';
+          }
+          gridRows.appendChild(gCard);
+        }
+      }
+
       async function initApp() {
         // Step 1: Real loading progress setup
         // Progress weight: 1 Database Request = 15%, N images = 85%
