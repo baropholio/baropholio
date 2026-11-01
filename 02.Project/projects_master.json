@@ -34,10 +34,10 @@
       },
       "media": [
         {
-          "type": "video",
-          "src": "./02.Project/01_me_261027/me-cover.mp4",
+          "type": "image",
+          "src": "02.Project/02_Baropholio brand_240401/Baropholio brand (1).jpg",
           "isCover": true,
-          "caption": "pt"
+          "caption": "Me"
         }
       ]
     },
@@ -84,38 +84,9 @@
       "media": [
         {
           "type": "image",
-          "src": "./02.Project/02_the-veil-national-art-museum-of-andorra_261027/the-veil-national-art-museum-of-andorra-cover.webp",
+          "src": "02.Project/01_Windy Hill/Baro Portfolio25.jpg",
           "isCover": true,
-          "caption": "Screenshot 2024-09-30 212638",
-          "thumb": "./02.Project/02_the-veil-national-art-museum-of-andorra_261027/the-veil-national-art-museum-of-andorra-cover-thumb.webp"
-        },
-        {
-          "type": "image",
-          "src": "./02.Project/02_the-veil-national-art-museum-of-andorra_261027/the-veil-national-art-museum-of-andorra-02.webp",
-          "isCover": false,
-          "caption": "Screenshot 2024-09-30 212701",
-          "thumb": "./02.Project/02_the-veil-national-art-museum-of-andorra_261027/the-veil-national-art-museum-of-andorra-02-thumb.webp"
-        },
-        {
-          "type": "image",
-          "src": "./02.Project/02_the-veil-national-art-museum-of-andorra_261027/the-veil-national-art-museum-of-andorra-03.webp",
-          "isCover": false,
-          "caption": "Screenshot 2024-09-30 212907",
-          "thumb": "./02.Project/02_the-veil-national-art-museum-of-andorra_261027/the-veil-national-art-museum-of-andorra-03-thumb.webp"
-        },
-        {
-          "type": "image",
-          "src": "./02.Project/02_the-veil-national-art-museum-of-andorra_261027/the-veil-national-art-museum-of-andorra-04.webp",
-          "isCover": false,
-          "caption": "Screenshot 2024-09-30 212932",
-          "thumb": "./02.Project/02_the-veil-national-art-museum-of-andorra_261027/the-veil-national-art-museum-of-andorra-04-thumb.webp"
-        },
-        {
-          "type": "image",
-          "src": "./02.Project/02_the-veil-national-art-museum-of-andorra_261027/the-veil-national-art-museum-of-andorra-05.webp",
-          "isCover": false,
-          "caption": "Screenshot 2024-09-30 212958",
-          "thumb": "./02.Project/02_the-veil-national-art-museum-of-andorra_261027/the-veil-national-art-museum-of-andorra-05-thumb.webp"
+          "caption": "The Veil - National Art Museum of Andorra"
         }
       ]
     },
@@ -163,7 +134,14 @@
         "metaDescription": "",
         "slug": "rocras-reborn-of-coalmine-restoration-and-sustainability"
       },
-      "media": []
+      "media": [
+        {
+          "type": "image",
+          "src": "02.Project/01_Windy Hill/1-1793085295855_convert_com_vn.webp",
+          "isCover": true,
+          "caption": "ROCRAS - Reborn of Coalmine Restoration and Sustainability"
+        }
+      ]
     },
     {
       "id": "04_saigon-in-sight-van-don-area-urban-design-guidelines_261027",
@@ -209,7 +187,14 @@
         "metaDescription": "",
         "slug": "saigon-in-sight-van-don-area-urban-design-guidelines"
       },
-      "media": []
+      "media": [
+        {
+          "type": "image",
+          "src": "02.Project/01_Windy Hill/mh-1793085300964_convert_com_vn.webp",
+          "isCover": true,
+          "caption": "Saigon in Sight - Van Don Area Urban Design Guidelines"
+        }
+      ]
     },
     {
       "id": "05_sun-of-love-will-to-live-center_261027",
@@ -247,7 +232,14 @@
         "metaDescription": "",
         "slug": "sun-of-love-will-to-live-center"
       },
-      "media": []
+      "media": [
+        {
+          "type": "image",
+          "src": "02.Project/07_Park/2-1793088026015_convert_com_vn.webp",
+          "isCover": true,
+          "caption": "Sun of Love - \"Will to Live\" Center"
+        }
+      ]
     },
     {
       "id": "06_the-reborn-of-water-reservoirs-thuy-dai_261027",
@@ -288,24 +280,9 @@
       "media": [
         {
           "type": "image",
-          "src": "./02.Project/06_the-reborn-of-water-reservoirs-thuy-dai_261027/the-reborn-of-water-reservoirs-thuy-dai-cover.webp",
+          "src": "02.Project/04_Thanh Da Market/11.jpg",
           "isCover": true,
-          "caption": "386047287_3683376851949091_162864876726435184_n",
-          "thumb": "./02.Project/06_the-reborn-of-water-reservoirs-thuy-dai_261027/the-reborn-of-water-reservoirs-thuy-dai-cover-thumb.webp"
-        },
-        {
-          "type": "image",
-          "src": "./02.Project/06_the-reborn-of-water-reservoirs-thuy-dai_261027/the-reborn-of-water-reservoirs-thuy-dai-02.webp",
-          "isCover": false,
-          "caption": "386155132_3683376858615757_4751522486607492302_n",
-          "thumb": "./02.Project/06_the-reborn-of-water-reservoirs-thuy-dai_261027/the-reborn-of-water-reservoirs-thuy-dai-02-thumb.webp"
-        },
-        {
-          "type": "image",
-          "src": "./02.Project/06_the-reborn-of-water-reservoirs-thuy-dai_261027/the-reborn-of-water-reservoirs-thuy-dai-03.webp",
-          "isCover": false,
-          "caption": "386154707_3683376901949086_4561552392266495583_n",
-          "thumb": "./02.Project/06_the-reborn-of-water-reservoirs-thuy-dai_261027/the-reborn-of-water-reservoirs-thuy-dai-03-thumb.webp"
+          "caption": "The Reborn of Water Reservoirs (Thuy Dai)"
         }
       ]
     },
@@ -348,38 +325,9 @@
       "media": [
         {
           "type": "image",
-          "src": "./02.Project/07_cu-xa-scomeco-smart-community-and-eco-housing_261027/cu-xa-scomeco-smart-community-and-eco-housing-cover.webp",
+          "src": "02.Project/05_Thuy Dai/386047287_3683376851949091_162864876726435184_n.jpg",
           "isCover": true,
-          "caption": "baro-du-duk_01-1793087556464_convert_com_vn",
-          "thumb": "./02.Project/07_cu-xa-scomeco-smart-community-and-eco-housing_261027/cu-xa-scomeco-smart-community-and-eco-housing-cover-thumb.webp"
-        },
-        {
-          "type": "image",
-          "src": "./02.Project/07_cu-xa-scomeco-smart-community-and-eco-housing_261027/cu-xa-scomeco-smart-community-and-eco-housing-02.webp",
-          "isCover": false,
-          "caption": "baro-du-duk_02-1793087557317_convert_com_vn",
-          "thumb": "./02.Project/07_cu-xa-scomeco-smart-community-and-eco-housing_261027/cu-xa-scomeco-smart-community-and-eco-housing-02-thumb.webp"
-        },
-        {
-          "type": "image",
-          "src": "./02.Project/07_cu-xa-scomeco-smart-community-and-eco-housing_261027/cu-xa-scomeco-smart-community-and-eco-housing-03.webp",
-          "isCover": false,
-          "caption": "baro-du-duk_03-1793087558447_convert_com_vn",
-          "thumb": "./02.Project/07_cu-xa-scomeco-smart-community-and-eco-housing_261027/cu-xa-scomeco-smart-community-and-eco-housing-03-thumb.webp"
-        },
-        {
-          "type": "image",
-          "src": "./02.Project/07_cu-xa-scomeco-smart-community-and-eco-housing_261027/cu-xa-scomeco-smart-community-and-eco-housing-04.webp",
-          "isCover": false,
-          "caption": "baro-du-duk_04-1793087554583_convert_com_vn",
-          "thumb": "./02.Project/07_cu-xa-scomeco-smart-community-and-eco-housing_261027/cu-xa-scomeco-smart-community-and-eco-housing-04-thumb.webp"
-        },
-        {
-          "type": "image",
-          "src": "./02.Project/07_cu-xa-scomeco-smart-community-and-eco-housing_261027/cu-xa-scomeco-smart-community-and-eco-housing-05.webp",
-          "isCover": false,
-          "caption": "baro-du-duk_05-1793087555740_convert_com_vn",
-          "thumb": "./02.Project/07_cu-xa-scomeco-smart-community-and-eco-housing_261027/cu-xa-scomeco-smart-community-and-eco-housing-05-thumb.webp"
+          "caption": "Cư Xá (S.COMECO) - Smart, Community and Eco Housing"
         }
       ]
     },
@@ -430,59 +378,9 @@
       "media": [
         {
           "type": "image",
-          "src": "./02.Project/08_central-lake-eco-park_261027/central-lake-eco-park-cover.webp",
+          "src": "02.Project/06_Scomeco/baro-du-duk_01-1793087556464_convert_com_vn.webp",
           "isCover": true,
-          "caption": "NGUYA1BB84NC3C220BA1BAA2O_M8394C3C220(1)-1793088070119_convert_com_vn",
-          "thumb": "./02.Project/08_central-lake-eco-park_261027/central-lake-eco-park-cover-thumb.webp"
-        },
-        {
-          "type": "image",
-          "src": "./02.Project/08_central-lake-eco-park_261027/central-lake-eco-park-02.webp",
-          "isCover": false,
-          "caption": "ssss",
-          "thumb": "./02.Project/08_central-lake-eco-park_261027/central-lake-eco-park-02-thumb.webp"
-        },
-        {
-          "type": "image",
-          "src": "./02.Project/08_central-lake-eco-park_261027/central-lake-eco-park-03.webp",
-          "isCover": false,
-          "caption": "NGUYA1BB84NC3C220BA1BAA2O_M8394C3C220(2)-1793088075569_convert_com_vn",
-          "thumb": "./02.Project/08_central-lake-eco-park_261027/central-lake-eco-park-03-thumb.webp"
-        },
-        {
-          "type": "image",
-          "src": "./02.Project/08_central-lake-eco-park_261027/central-lake-eco-park-04.webp",
-          "isCover": false,
-          "caption": "NGUYA1BB84NC3C220BA1BAA2O_M8394C3C220(3)-1793088081903_convert_com_vn",
-          "thumb": "./02.Project/08_central-lake-eco-park_261027/central-lake-eco-park-04-thumb.webp"
-        },
-        {
-          "type": "image",
-          "src": "./02.Project/08_central-lake-eco-park_261027/central-lake-eco-park-05.webp",
-          "isCover": false,
-          "caption": "NGUYA1BB84NC3C220BA1BAA2O_M8394C3C220(5)-1793088216174_convert_com_vn",
-          "thumb": "./02.Project/08_central-lake-eco-park_261027/central-lake-eco-park-05-thumb.webp"
-        },
-        {
-          "type": "image",
-          "src": "./02.Project/08_central-lake-eco-park_261027/central-lake-eco-park-06.webp",
-          "isCover": false,
-          "caption": "NGUYA1BB84NC3C220BA1BAA2O_M8394C3C220(9)-1793088185635_convert_com_vn",
-          "thumb": "./02.Project/08_central-lake-eco-park_261027/central-lake-eco-park-06-thumb.webp"
-        },
-        {
-          "type": "image",
-          "src": "./02.Project/08_central-lake-eco-park_261027/central-lake-eco-park-07.webp",
-          "isCover": false,
-          "caption": "NGUYA1BB84NC3C220BA1BAA2O_M8394C3C220(11)-1793088191872_convert_com_vn",
-          "thumb": "./02.Project/08_central-lake-eco-park_261027/central-lake-eco-park-07-thumb.webp"
-        },
-        {
-          "type": "image",
-          "src": "./02.Project/08_central-lake-eco-park_261027/central-lake-eco-park-08.webp",
-          "isCover": false,
-          "caption": "NGUYA1BB84NC3C220BA1BAA2O_M8394C3C220(12)-1793088197750_convert_com_vn",
-          "thumb": "./02.Project/08_central-lake-eco-park_261027/central-lake-eco-park-08-thumb.webp"
+          "caption": "Central Lake Eco Park"
         }
       ]
     },
@@ -534,31 +432,9 @@
       "media": [
         {
           "type": "image",
-          "src": "./02.Project/09_windy-hill-neighborhood_261025/windy-hill-neighborhood-01.webp",
-          "isCover": false,
-          "caption": "370206031_233749272725049_8156576336194971843_n",
-          "thumb": "./02.Project/09_windy-hill-neighborhood_261025/windy-hill-neighborhood-01-thumb.webp"
-        },
-        {
-          "type": "image",
-          "src": "./02.Project/09_windy-hill-neighborhood_261025/windy-hill-neighborhood-cover.webp",
+          "src": "02.Project/07_Park/ssss.jpg",
           "isCover": true,
-          "caption": "Baro Portfolio25",
-          "thumb": "./02.Project/09_windy-hill-neighborhood_261025/windy-hill-neighborhood-cover-thumb.webp"
-        },
-        {
-          "type": "image",
-          "src": "./02.Project/09_windy-hill-neighborhood_261025/windy-hill-neighborhood-03.webp",
-          "isCover": false,
-          "caption": "1-1793085295855_convert_com_vn",
-          "thumb": "./02.Project/09_windy-hill-neighborhood_261025/windy-hill-neighborhood-03-thumb.webp"
-        },
-        {
-          "type": "image",
-          "src": "./02.Project/09_windy-hill-neighborhood_261025/windy-hill-neighborhood-04.webp",
-          "isCover": false,
-          "caption": "mh-1793085300964_convert_com_vn",
-          "thumb": "./02.Project/09_windy-hill-neighborhood_261025/windy-hill-neighborhood-04-thumb.webp"
+          "caption": "Windy Hill Neighborhood"
         }
       ]
     },
@@ -598,24 +474,9 @@
       "media": [
         {
           "type": "image",
-          "src": "./02.Project/10_fish-and-orchard_250402/fish-and-orchard-cover.webp",
+          "src": "02.Project/08_Rocras/b2d7ff64eb506b0e3241.jpg",
           "isCover": true,
-          "caption": "Baropholio brand (2)",
-          "thumb": "./02.Project/10_fish-and-orchard_250402/fish-and-orchard-cover-thumb.webp"
-        },
-        {
-          "type": "image",
-          "src": "./02.Project/10_fish-and-orchard_250402/fish-and-orchard-02.webp",
-          "isCover": false,
-          "caption": "Baropholio brand (1)",
-          "thumb": "./02.Project/10_fish-and-orchard_250402/fish-and-orchard-02-thumb.webp"
-        },
-        {
-          "type": "image",
-          "src": "./02.Project/10_fish-and-orchard_250402/fish-and-orchard-03.webp",
-          "isCover": false,
-          "caption": "Screenshot 2025-03-24 175306",
-          "thumb": "./02.Project/10_fish-and-orchard_250402/fish-and-orchard-03-thumb.webp"
+          "caption": " Fish and Orchard"
         }
       ]
     }

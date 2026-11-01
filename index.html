@@ -5129,13 +5129,14 @@
       // Admin changes to localStorage always take priority (see loadLiveRecords).
       (function() {
         if (typeof fetch === 'undefined') return;
-        // Skip JSON fetch if we already have live localStorage data
+        // Skip JSON fetch if we already have live localStorage data OR static bundle
         var hasLiveData = (function() {
           try {
             return !!(
               localStorage.getItem('baropholio_wix_portfolio_v5') ||
               localStorage.getItem('baropholio_wix_portfolio_v4') ||
-              localStorage.getItem('baropholio_cms_state')
+              localStorage.getItem('baropholio_cms_state') ||
+              (window.BAROPHOLIO_PROJECTS && window.BAROPHOLIO_PROJECTS.length > 0)
             );
           } catch(e) { return false; }
         })();
