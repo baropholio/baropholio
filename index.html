@@ -4177,6 +4177,9 @@
   <!-- Projects Database Script (External File for Easy Management) -->
   <script src="02.Project/projects_data.js"></script>
 
+  <!-- Supabase JS Client v2 CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
   <!-- Three.js 3D Engine (Local library) -->
   <script src="three.min.js"></script>
 
@@ -4455,7 +4458,7 @@
         if (!coverMedia && mediaArr.length > 0) coverMedia = mediaArr[0];
 
         if (coverMedia) {
-          var coverSrc = safeStr(coverMedia.dataUrl) || safeStr(coverMedia.src);
+          var coverSrc = safeStr(coverMedia.dataUrl) || safeStr(coverMedia.src) || safeStr(coverMedia.url);
           var isVideo = coverMedia.type === 'video' || /\.(mp4|webm|ogg|mov)(\?.*)?$/i.test(coverSrc);
           if (isVideo) { videoVal = coverSrc; }
           else { imgVal = coverSrc; }
@@ -4464,9 +4467,9 @@
         if (!videoVal) videoVal = safeStr(p.video);
         if (!imgVal) imgVal = safeStr(p.image);
 
-        // Gallery: all media items (prefer dataUrl, fallback to src)
+        // Gallery: all media items (prefer dataUrl/src/url)
         var galleryVals = mediaArr.map(function(m) {
-          return safeStr(m.dataUrl) || safeStr(m.src);
+          return safeStr(m.dataUrl) || safeStr(m.src) || safeStr(m.url);
         }).filter(Boolean);
         if (galleryVals.length === 0 && (imgVal || videoVal)) galleryVals = [imgVal || videoVal];
 
@@ -4556,6 +4559,10 @@
       }
       var _lastRecordsHash = '';
 
+      // ─── SUPABASE CONFIGURATION ──────────────────────────────────────────────
+      var SUPABASE_URL = 'https://fgbnfujztuwvxmbzuhmn.supabase.co';
+      var SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZnYm5mdWp6dHV3dnhtYnp1aG1uIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTM1MTcyOTEsImV4cCI6MjEwOTA5MzI5MX0.uetQ4iYWvIROWBpXjQMgKjkoX2loZpxEYTR1_w6YEBM';
+
       // ─── PRIMARY DATA LOADER ────────────────────────────────────────────────
       // Priority: localStorage (live Admin data) → window.BAROPHOLIO_PROJECTS → DEFAULT_RECORDS
       // JSON fallback (projects_master.json) is handled async after page load.
@@ -4627,6 +4634,42 @@
       var RECORDS = loadLiveRecords();
       window.RECORDS = RECORDS;
       window.loadLiveRecords = loadLiveRecords;
+
+      // ─── SUPABASE ASYNC FETCH (runs after initial render, updates sphere) ────
+      async function fetchPortfolioProjects() {
+        if (!window.supabase || !SUPABASE_URL || SUPABASE_URL.indexOf('YOUR_SUPABASE') !== -1) return;
+        try {
+          var sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+          var res = await sb.from('projects').select('*').eq('published', true).order('created_at', { ascending: false });
+          if (res.error) { console.warn('[Supabase Portfolio] Query error:', res.error); return; }
+          if (!res.data || !res.data.length) return;
+
+          // Map Supabase rows → convertCmsProjectToRecord shape
+          var mapped = res.data.map(function(row) {
+            return {
+              id: row.id,
+              title: row.title || 'Untitled',
+              subtitle: row.subtitle || '',
+              description: row.description || '',
+              published: true,
+              collections: Array.isArray(row.collections) ? row.collections : [],
+              basicInfo: Array.isArray(row.basic_info) ? row.basic_info : [],
+              media: Array.isArray(row.media) ? row.media : [],
+              seo: row.seo || {},
+              slug: row.slug || '',
+              stt: row.stt || ''
+            };
+          });
+
+          var normalized = normalizeRecords(mapped.map(convertCmsProjectToRecord));
+          if (isUsable(normalized)) {
+            console.log('[Supabase Portfolio] Loaded ' + normalized.length + ' projects from Cloud.');
+            _applyRecords(normalized, 'Supabase Cloud');
+          }
+        } catch(err) {
+          console.warn('[Supabase Portfolio] Network error:', err);
+        }
+      }
 
       /* ======================================================================
          2. FIBONACCI 3D SPHERE ENGINE
@@ -4801,6 +4844,9 @@
       if (activeEngine) {
         activeEngine.rebuild(RECORDS);
       }
+
+      // Fetch từ Supabase Cloud sau khi render cục bộ xong (không block UI)
+      fetchPortfolioProjects();
 
       // ─── COLLECTION FILTER ENGINE ────────────────────────────────────────────
       (function initCollectionFilter() {

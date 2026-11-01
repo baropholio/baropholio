@@ -1,3 +1,9 @@
 
 # REA reverse engineering tool - not part of project
 rea/
+node_modules/
+.env
+.env.local
+
+
+.vscode/

@@ -10,6 +10,9 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
 
+  <!-- Supabase JS Client v2 CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
   <style>
     /* ==========================================================================
        BAROPHOLIO CMS - EXACT WIX PORTFOLIO STUDIO FIDELITY THEME
@@ -1732,6 +1735,206 @@
 
   <script>
     /* ==========================================================================
+       SUPABASE CONFIGURATION & CLIENT
+       ========================================================================== */
+    const SUPABASE_URL = 'https://fgbnfujztuwvxmbzuhmn.supabase.co'; // Điền Supabase Project URL của bạn
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZnYm5mdWp6dHV3dnhtYnp1aG1uIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTM1MTcyOTEsImV4cCI6MjEwOTA5MzI5MX0.uetQ4iYWvIROWBpXjQMgKjkoX2loZpxEYTR1_w6YEBM'; // Điền Supabase Anon Public Key của bạn
+
+    let _supabaseClient = null;
+    function getSupabase() {
+      if (!_supabaseClient && window.supabase && SUPABASE_URL && SUPABASE_ANON_KEY && !SUPABASE_URL.includes('YOUR_SUPABASE')) {
+        try {
+          _supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+        } catch (e) {
+          console.error('[Supabase] Khởi tạo client thất bại:', e);
+        }
+      }
+      return _supabaseClient;
+    }
+
+    function isValidUUID(str) {
+      return typeof str === 'string' && /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(str);
+    }
+
+    /* Mappers giữa Supabase Postgres Schema và Admin Local State */
+    function mapSupabaseToLocal(row) {
+      return {
+        id: row.id,
+        stt: row.stt || '',
+        slug: row.slug || '',
+        title: row.title || 'Untitled',
+        subtitle: row.subtitle || '',
+        description: row.description || '',
+        published: row.published !== false,
+        collections: Array.isArray(row.collections) ? row.collections : [],
+        basicInfo: Array.isArray(row.basic_info) ? row.basic_info : [],
+        media: Array.isArray(row.media) ? row.media.map(m => (typeof m === 'object' && m ? { ...m, dataUrl: m.dataUrl || m.url || m.src || '' } : m)) : [],
+        seo: row.seo && typeof row.seo === 'object' ? row.seo : {
+          metaTitle: row.title || '',
+          metaDescription: row.description || '',
+          slug: row.slug || ''
+        },
+        createdAt: row.created_at || new Date().toISOString(),
+        updatedAt: row.updated_at || new Date().toISOString()
+      };
+    }
+
+    function mapLocalToSupabase(p) {
+      const payload = {
+        slug: p.slug || generateSlug(p.title) || ('project-' + Date.now()),
+        title: p.title || 'Untitled',
+        subtitle: p.subtitle || '',
+        description: p.description || '',
+        published: p.published !== false,
+        stt: p.stt || '',
+        collections: Array.isArray(p.collections) ? p.collections : [],
+        basic_info: Array.isArray(p.basicInfo) ? p.basicInfo : (Array.isArray(p.basic_info) ? p.basic_info : []),
+        media: Array.isArray(p.media) ? p.media : [],
+        seo: p.seo && typeof p.seo === 'object' ? p.seo : {},
+        updated_at: new Date().toISOString()
+      };
+      if (isValidUUID(p.id)) {
+        payload.id = p.id;
+      }
+      if (p.createdAt) {
+        payload.created_at = p.createdAt;
+      }
+      return payload;
+    }
+
+    /* Supabase Database Operations */
+    async function loadProjectsFromSupabase() {
+      const sb = getSupabase();
+      if (!sb) {
+        console.warn('[Supabase] Client chưa được cấu hình. Sử dụng bộ nhớ cục bộ.');
+        return false;
+      }
+      try {
+        console.log('[Supabase] Đang tải danh sách dự án...');
+        const { data, error } = await sb
+          .from('projects')
+          .select('*')
+          .order('created_at', { ascending: false });
+
+        if (error) {
+          console.error('[Supabase] Lỗi truy vấn bảng projects:', error);
+          showToast('Supabase load error: ' + error.message);
+          return false;
+        }
+
+        if (data && Array.isArray(data)) {
+          console.log(`[Supabase] Tải thành công ${data.length} dự án từ Cloud.`);
+          const mapped = data.map(mapSupabaseToLocal);
+          state.projects = mapped;
+
+          // Hợp nhất collections từ Supabase projects
+          mapped.forEach(p => {
+            if (Array.isArray(p.collections)) {
+              p.collections.forEach(c => {
+                if (c && !state.collections.includes(c)) state.collections.push(c);
+              });
+            }
+          });
+
+          render();
+          return true;
+        }
+      } catch (err) {
+        console.warn('[Supabase] Lỗi kết nối mạng khi tải dữ liệu:', err);
+      }
+      return false;
+    }
+
+    async function saveProjectToSupabase(p) {
+      const sb = getSupabase();
+      if (!sb) {
+        console.warn('[Supabase] Client chưa cấu hình, chỉ lưu bộ nhớ cục bộ.');
+        return null;
+      }
+      try {
+        if (!p.slug) p.slug = generateSlug(p.title);
+        const payload = mapLocalToSupabase(p);
+
+        const { data, error } = await sb
+          .from('projects')
+          .upsert(payload, { onConflict: 'slug' })
+          .select()
+          .single();
+
+        if (error) {
+          console.error('[Supabase] Upsert error:', error);
+          showToast('Lỗi Supabase: ' + (error.message || 'Không thể lưu'));
+          throw error;
+        }
+
+        if (data && data.id) {
+          p.id = data.id; // Cập nhật UUID chính thức từ Supabase
+        }
+        console.log('[Supabase] Đã lưu dự án thành công:', p.slug);
+        return data;
+      } catch (err) {
+        console.error('[Supabase] Ngoại lệ khi lưu dự án:', err);
+        showToast('Lỗi lưu Supabase: ' + (err.message || 'Lỗi mạng'));
+        throw err;
+      }
+    }
+
+    async function deleteProjectFromSupabase(projId) {
+      const sb = getSupabase();
+      if (!sb || !projId) return;
+      try {
+        const { error } = await sb
+          .from('projects')
+          .delete()
+          .eq('id', projId);
+
+        if (error) {
+          console.error('[Supabase] Lỗi xóa dự án:', error);
+          showToast('Lỗi xóa trên Supabase: ' + error.message);
+        } else {
+          console.log('[Supabase] Đã xóa dự án khỏi Supabase:', projId);
+        }
+      } catch (err) {
+        console.error('[Supabase] Ngoại lệ khi xóa dự án:', err);
+      }
+    }
+
+    /* Tự động dọn dẹp xóa file vật lý trên Supabase Storage khi xóa Media */
+    async function deleteMediaFromSupabaseStorage(mediaItem) {
+      if (!mediaItem) return { deleted: false };
+      const url = mediaItem.dataUrl || mediaItem.url || mediaItem.src || '';
+      if (!url || typeof url !== 'string') return { deleted: false };
+
+      // Hỗ trợ URL Supabase Storage: .../storage/v1/object/public/<bucket>/<filePath>
+      const match = url.match(/\/storage\/v1\/(?:object\/(?:public|sign)|render\/image\/public)\/([^/]+)\/(.+)$/);
+      if (!match) return { deleted: false, isSupabase: false };
+
+      const bucket = match[1];
+      const rawPath = match[2].split('?')[0]; // loại bỏ query string
+      const filePath = decodeURIComponent(rawPath);
+
+      const sb = getSupabase();
+      if (!sb) {
+        console.warn('[Supabase Storage] Client chưa khởi tạo.');
+        return { deleted: false, error: 'Supabase client chưa khởi tạo' };
+      }
+
+      try {
+        console.log(`[Supabase Storage] Đang xóa file bucket="${bucket}" path="${filePath}"...`);
+        const { data, error } = await sb.storage.from(bucket).remove([filePath]);
+        if (error) {
+          console.error('[Supabase Storage] Lỗi xóa file:', error);
+          return { deleted: false, error: error.message };
+        }
+        console.log('[Supabase Storage] Đã xóa vĩnh viễn file vật lý:', filePath);
+        return { deleted: true, isSupabase: true, bucket, filePath };
+      } catch (err) {
+        console.error('[Supabase Storage] Ngoại lệ xóa file Storage:', err);
+        return { deleted: false, error: err.message };
+      }
+    }
+
+    /* ==========================================================================
        BAROPHOLIO ADMIN ~ COMPLETE WIX PORTFOLIO CMS LOGIC
        ========================================================================== */
     const STORAGE_KEY = 'baropholio_wix_portfolio_v5';
@@ -2112,22 +2315,30 @@ const ICONS = {
     }
 
     async function initStorageAndLoad() {
+      // 1. Tải cache cục bộ tức thì để giao diện không bị giật/trắng
       loadState();
-      try {
-        const idbData = await idbGetState();
-        if (idbData && Array.isArray(idbData.projects) && idbData.projects.length > 0) {
-          state.projects = idbData.projects;
-          state.trashProjects = Array.isArray(idbData.trashProjects) ? idbData.trashProjects : [];
-          if (Array.isArray(idbData.collections)) {
-            state.collections = Array.from(new Set([...DEFAULT_COLLECTIONS, ...idbData.collections]));
+
+      // 2. Thử truy vấn dữ liệu từ Supabase Cloud
+      const sbSuccess = await loadProjectsFromSupabase();
+
+      // 3. Nếu Supabase chưa cấu hình hoặc offline, dùng cache IndexedDB
+      if (!sbSuccess) {
+        try {
+          const idbData = await idbGetState();
+          if (idbData && Array.isArray(idbData.projects) && idbData.projects.length > 0) {
+            state.projects = idbData.projects;
+            state.trashProjects = Array.isArray(idbData.trashProjects) ? idbData.trashProjects : [];
+            if (Array.isArray(idbData.collections)) {
+              state.collections = Array.from(new Set([...DEFAULT_COLLECTIONS, ...idbData.collections]));
+            }
+            if (idbData.collectionMeta && typeof idbData.collectionMeta === 'object') {
+              state.collectionMeta = idbData.collectionMeta;
+            }
+            render();
           }
-          if (idbData.collectionMeta && typeof idbData.collectionMeta === 'object') {
-            state.collectionMeta = idbData.collectionMeta;
-          }
-          render();
+        } catch(e) {
+          console.warn('[IDB] Initial load error:', e);
         }
-      } catch(e) {
-        console.warn('[IDB] Initial load error:', e);
       }
     }
 
@@ -2342,6 +2553,11 @@ const ICONS = {
 
       saveState(false);
 
+      // Xóa trên Supabase nếu đã được lưu (có UUID hợp lệ)
+      if (isValidUUID(proj.id)) {
+        deleteProjectFromSupabase(proj.id).catch(e => console.warn('[Supabase] softDelete sync error:', e));
+      }
+
       if (state.dirHandle) {
         await syncToProjectDirectory();
       }
@@ -2395,6 +2611,11 @@ const ICONS = {
 
       if (state.dirHandle) {
         await syncToProjectDirectory();
+      }
+
+      // Xóa hẳn trên Supabase nếu có UUID hợp lệ
+      if (isValidUUID(proj.id)) {
+        deleteProjectFromSupabase(proj.id).catch(e => console.warn('[Supabase] permanentDelete sync error:', e));
       }
 
       render();
@@ -3259,6 +3480,7 @@ const ICONS = {
         state.projects.unshift(dup);
         saveState(true);
         render();
+        saveProjectToSupabase(dup).catch(e => console.warn('[Supabase] duplicate sync error:', e));
         showToast('Duplicated project!');
       };
       menu.querySelector('[data-action="toggle-pub"]').onclick = () => {
@@ -3266,6 +3488,7 @@ const ICONS = {
         project.published = !project.published;
         saveState(true);
         render();
+        saveProjectToSupabase(project).catch(e => console.warn('[Supabase] toggle-pub sync error:', e));
         showToast(project.published ? 'Project published!' : 'Project hidden.');
       };
       menu.querySelector('[data-action="soft-delete"]').onclick = () => {
@@ -4226,10 +4449,39 @@ const ICONS = {
           }
         };
 
-        det.querySelector('#btnDeleteMedia').onclick = () => {
+        det.querySelector('#btnDeleteMedia').onclick = async () => {
+          const itemToDelete = p.media[selectedIndex];
+          if (!itemToDelete) return;
+
+          let storageDeleted = false;
+          const itemUrl = itemToDelete.dataUrl || itemToDelete.url || itemToDelete.src || '';
+          const isSupabaseStorage = typeof itemUrl === 'string' && itemUrl.includes('/storage/v1/');
+
+          if (isSupabaseStorage) {
+            showToast('Đang xóa file trên Supabase Storage...');
+            const res = await deleteMediaFromSupabaseStorage(itemToDelete);
+            if (res.deleted) {
+              storageDeleted = true;
+            } else if (res.error) {
+              showToast('Lỗi xóa file Storage: ' + res.error);
+            }
+          }
+
           p.media.splice(selectedIndex, 1);
           if (p.media.length > 0 && !p.media.some(m => m.isCover)) p.media[0].isCover = true;
+          saveState(false);
           refreshGallery();
+
+          // Cập nhật Database nếu project đã lưu trên Supabase
+          if (isValidUUID(p.id) || p.id) {
+            saveProjectToSupabase(p).catch(e => console.warn('[Supabase] Sync media delete error:', e));
+          }
+
+          if (storageDeleted) {
+            showToast('Đã xóa vĩnh viễn file gốc trên Supabase Storage & Cập nhật Database thành công!');
+          } else {
+            showToast('Đã xóa media khỏi dự án');
+          }
         };
 
         const btnUpdatePath = det.querySelector('#btnUpdateItemPath');
@@ -4764,6 +5016,7 @@ const ICONS = {
         state.projects.unshift(p);
       }
 
+      // Lưu local trước (offline-first)
       saveState(false);
 
       if (state.dirHandle) {
@@ -4773,7 +5026,14 @@ const ICONS = {
       state.view = 'list';
       state.currentProject = null;
       render();
-      showToast(`Saved project "${p.title}" successfully!`);
+
+      // Đồng bộ lên Supabase Cloud (async, không block UI)
+      try {
+        await saveProjectToSupabase(p);
+        showToast(`☁️ Đã lưu "${p.title}" lên Supabase!`);
+      } catch(e) {
+        showToast(`Đã lưu cục bộ. Supabase: ${e.message || 'lỗi kết nối'}`);
+      }
     }
 
     function confirmLeaveEdit() {
@@ -4816,7 +5076,24 @@ const ICONS = {
         }
       };
 
-      initStorageAndLoad();
+      initStorageAndLoad().then(() => {
+        // Supabase Realtime — lắng nghe mọi thay đổi trên bảng projects
+        const sb = getSupabase();
+        if (sb) {
+          sb.channel('admin-projects-realtime')
+            .on(
+              'postgres_changes',
+              { event: '*', schema: 'public', table: 'projects' },
+              (payload) => {
+                console.log('[Supabase Realtime] Có thay đổi dữ liệu:', payload.eventType, payload);
+                loadProjectsFromSupabase();
+              }
+            )
+            .subscribe((status) => {
+              console.log('[Supabase Realtime] Channel status:', status);
+            });
+        }
+      });
       state.view = 'list';
       state.currentProject = null;
       render();

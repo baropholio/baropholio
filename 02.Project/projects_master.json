@@ -1,623 +1,652 @@
-{
-  "exportedAt": "2026-10-27T16:52:36.817Z",
-  "collections": [
-    "Orange~",
-    "Urban- Architecture- Landscape",
-    "Photography",
-    "Sketch",
-    "Model",
-    "Blog",
-    "Graphic Design",
-    "Branding",
-    "Sustainable Strategy Consulting",
-    "Mapping",
-    "Practice Art"
-  ],
-  "projects": [
-    {
-      "id": "01_me_261027",
-      "stt": "01",
-      "slug": "me",
-      "title": "Me",
-      "subtitle": "",
-      "description": "",
-      "status": "published",
-      "dateAdded": "2026-10-27",
-      "metadata": [],
-      "collections": [
-        "Orange~"
-      ],
-      "seo": {
-        "metaTitle": "",
-        "metaDescription": "",
-        "slug": "me"
-      },
-      "media": [
-        {
-          "type": "video",
-          "src": "./02.Project/01_me_261027/me-cover.mp4",
-          "isCover": true,
-          "caption": "pt"
-        }
-      ]
-    },
-    {
-      "id": "02_the-veil-national-art-museum-of-andorra_261027",
-      "stt": "02",
-      "slug": "the-veil-national-art-museum-of-andorra",
-      "title": "The Veil - National Art Museum of Andorra",
-      "subtitle": "",
-      "description": "Designed for the 120 Hours 2024 International Competition - reinterpreting the Pritzker-exclusive prompt for the National Art Museum of Andorra - The Veil addresses economic stagnation and cultural identity in the heart of the Pyrenees. Positioned as a catalyst for economic revitalization and spatial transformation, the museum balances global architectural appeal with local authenticity.   The project conceptualizes a \"tree-like\" structure made of vertical steel poles that release water vapor to form a cloud-like canopy and reflecting layer, echoing the surrounding pine forests, mountain mist, and cascading waterfalls. By blurring the boundaries between historical heritage, natural landscape, and contemporary art, The Veil stands as a timeless sanctuary reflecting the spirit of Andorra.",
-      "status": "published",
-      "dateAdded": "2026-10-27",
-      "metadata": [
-        {
-          "key": "Date",
-          "value": "04.2024"
-        },
-        {
-          "key": "Location",
-          "value": "Andorra (Pyrenees)"
-        },
-        {
-          "key": "Organizer",
-          "value": "120 Hours International Student Architecture Competition (in collaboration with The Competition documentary team)"
-        },
-        {
-          "key": "Project type",
-          "value": "International Competition. Cultural Architecture & Landscape"
-        },
-        {
-          "key": "Team",
-          "value": "Baro Nguyen, Huỳnh Thanh Thiên Phúc"
-        }
-      ],
-      "collections": [
-        "Orange~",
-        "Urban- Architecture- Landscape"
-      ],
-      "seo": {
-        "metaTitle": "",
-        "metaDescription": "",
-        "slug": "the-veil-national-art-museum-of-andorra"
-      },
-      "media": [
-        {
-          "type": "image",
-          "src": "./02.Project/02_the-veil-national-art-museum-of-andorra_261027/the-veil-national-art-museum-of-andorra-cover.webp",
-          "isCover": true,
-          "caption": "Screenshot 2024-09-30 212638",
-          "thumb": "./02.Project/02_the-veil-national-art-museum-of-andorra_261027/the-veil-national-art-museum-of-andorra-cover-thumb.webp"
-        },
-        {
-          "type": "image",
-          "src": "./02.Project/02_the-veil-national-art-museum-of-andorra_261027/the-veil-national-art-museum-of-andorra-02.webp",
-          "isCover": false,
-          "caption": "Screenshot 2024-09-30 212701",
-          "thumb": "./02.Project/02_the-veil-national-art-museum-of-andorra_261027/the-veil-national-art-museum-of-andorra-02-thumb.webp"
-        },
-        {
-          "type": "image",
-          "src": "./02.Project/02_the-veil-national-art-museum-of-andorra_261027/the-veil-national-art-museum-of-andorra-03.webp",
-          "isCover": false,
-          "caption": "Screenshot 2024-09-30 212907",
-          "thumb": "./02.Project/02_the-veil-national-art-museum-of-andorra_261027/the-veil-national-art-museum-of-andorra-03-thumb.webp"
-        },
-        {
-          "type": "image",
-          "src": "./02.Project/02_the-veil-national-art-museum-of-andorra_261027/the-veil-national-art-museum-of-andorra-04.webp",
-          "isCover": false,
-          "caption": "Screenshot 2024-09-30 212932",
-          "thumb": "./02.Project/02_the-veil-national-art-museum-of-andorra_261027/the-veil-national-art-museum-of-andorra-04-thumb.webp"
-        },
-        {
-          "type": "image",
-          "src": "./02.Project/02_the-veil-national-art-museum-of-andorra_261027/the-veil-national-art-museum-of-andorra-05.webp",
-          "isCover": false,
-          "caption": "Screenshot 2024-09-30 212958",
-          "thumb": "./02.Project/02_the-veil-national-art-museum-of-andorra_261027/the-veil-national-art-museum-of-andorra-05-thumb.webp"
-        }
-      ]
-    },
-    {
-      "id": "03_rocras-reborn-of-coalmine-restoration-and-sustainability_261027",
-      "stt": "03",
-      "slug": "rocras-reborn-of-coalmine-restoration-and-sustainability",
-      "title": "ROCRAS - Reborn of Coalmine Restoration and Sustainability",
-      "subtitle": "",
-      "description": "A 1/5000 scale zoning plan for the Nui Beo open-pit coal mine and its surrounding urban areas. Inspired by the philosophy of Kintsugi (celebrating imperfection), the project aims to heal landscape scars by transforming a degraded post-mining area into a resilient, vibrant, and sustainable urban ecosystem. The master plan balances ecological restoration, industrial heritage preservation, and long-term socio-economic livelihoods.",
-      "status": "published",
-      "dateAdded": "2026-10-27",
-      "metadata": [
-        {
-          "key": "Date",
-          "value": "06.2023"
-        },
-        {
-          "key": "Location",
-          "value": " Ha Long. Quang Ninh. Vietnam"
-        },
-        {
-          "key": "Role",
-          "value": "Lead Spatial Designer & Planner. Author"
-        },
-        {
-          "key": "Project type",
-          "value": "Highlight Project. Graduation Project / Urban & Zoning Plan"
-        },
-        {
-          "key": "Area",
-          "value": "578.22 ha"
-        },
-        {
-          "key": "Instructor",
-          "value": "Dr.Arch. Anh Mai Tran"
-        }
-      ],
-      "collections": [
-        "Orange~",
-        "Urban- Architecture- Landscape"
-      ],
-      "seo": {
-        "metaTitle": "",
-        "metaDescription": "",
-        "slug": "rocras-reborn-of-coalmine-restoration-and-sustainability"
-      },
-      "media": []
-    },
-    {
-      "id": "04_saigon-in-sight-van-don-area-urban-design-guidelines_261027",
-      "stt": "04",
-      "slug": "saigon-in-sight-van-don-area-urban-design-guidelines",
-      "title": "Saigon in Sight - Van Don Area Urban Design Guidelines",
-      "subtitle": "",
-      "description": "Comprehensive urban design guidelines established for neighborhood commercial, downtown, and mixed-use districts in District 4. The project proposes structured spatial frameworks, public realm interventions, active street frontage controls, and scenic waterfront pedestrian pathways along the Ben Nghe Canal to enhance urban connectivity and vitality.",
-      "status": "published",
-      "dateAdded": "2026-10-27",
-      "metadata": [
-        {
-          "key": "Date",
-          "value": "11.2021"
-        },
-        {
-          "key": "Location",
-          "value": "Ho Chi Minh City"
-        },
-        {
-          "key": "Team",
-          "value": "Baro Nguyen, Anh Bich Tram Nguyen"
-        },
-        {
-          "key": "Project type",
-          "value": "Academic. Urban Design & Public Realm Guidelines"
-        },
-        {
-          "key": "Area",
-          "value": "20.90 ha"
-        },
-        {
-          "key": "Instructor",
-          "value": "Arch. Ngoc Thi Bich Le"
-        }
-      ],
-      "collections": [
-        "Orange~",
-        "Urban- Architecture- Landscape"
-      ],
-      "seo": {
-        "metaTitle": "",
-        "metaDescription": "",
-        "slug": "saigon-in-sight-van-don-area-urban-design-guidelines"
-      },
-      "media": []
-    },
-    {
-      "id": "05_sun-of-love-will-to-live-center_261027",
-      "stt": "05",
-      "slug": "sun-of-love-will-to-live-center",
-      "title": "Sun of Love - \"Will to Live\" Center",
-      "subtitle": "",
-      "description": "A specialized support center designed for individuals with disabilities, integrating vocational training, education, and accessible living spaces. Inspired by traditional Central Vietnamese roof structures, the project fuses climate-responsive passive strategies with barrier-free, universal design principles and tactile material orientation to empower vulnerable communities.",
-      "status": "published",
-      "dateAdded": "2026-10-27",
-      "metadata": [
-        {
-          "key": "Date",
-          "value": "11.2022"
-        },
-        {
-          "key": "Location",
-          "value": "Hoi An. Vietnam"
-        },
-        {
-          "key": "Team",
-          "value": "Baro Nguyen, Hoai Pham, Bao Van, Nguyet Nguyen"
-        },
-        {
-          "key": "Project type",
-          "value": "Inclusive Architectural & Landscape Design"
-        }
-      ],
-      "collections": [
-        "Orange~",
-        "Urban- Architecture- Landscape"
-      ],
-      "seo": {
-        "metaTitle": "",
-        "metaDescription": "",
-        "slug": "sun-of-love-will-to-live-center"
-      },
-      "media": []
-    },
-    {
-      "id": "06_the-reborn-of-water-reservoirs-thuy-dai_261027",
-      "stt": "06",
-      "slug": "the-reborn-of-water-reservoirs-thuy-dai",
-      "title": "The Reborn of Water Reservoirs (Thuy Dai)",
-      "subtitle": "",
-      "description": "An adaptive reuse initiative aimed at revitalizing Ho Chi Minh City’s historic water towers (Thuy Dai)-abandoned industrial landmarks-into an interconnected network of public art spaces, cultural hubs, and tourism spots. The design breathes new life into neglected urban voids while celebrating civic history and modern community programs.",
-      "status": "published",
-      "dateAdded": "2026-10-27",
-      "metadata": [
-        {
-          "key": "Date",
-          "value": "2026"
-        },
-        {
-          "key": "Location",
-          "value": "HCMC. Vietnam"
-        },
-        {
-          "key": "Team",
-          "value": "Baro Nguyen, Du Tran, An Nguyen"
-        },
-        {
-          "key": "Project type",
-          "value": "Adaptive Reuse & Urban Tourism"
-        }
-      ],
-      "collections": [
-        "Orange~",
-        "Urban- Architecture- Landscape"
-      ],
-      "seo": {
-        "metaTitle": "",
-        "metaDescription": "",
-        "slug": "the-reborn-of-water-reservoirs-thuy-dai"
-      },
-      "media": [
-        {
-          "type": "image",
-          "src": "./02.Project/06_the-reborn-of-water-reservoirs-thuy-dai_261027/the-reborn-of-water-reservoirs-thuy-dai-cover.webp",
-          "isCover": true,
-          "caption": "386047287_3683376851949091_162864876726435184_n",
-          "thumb": "./02.Project/06_the-reborn-of-water-reservoirs-thuy-dai_261027/the-reborn-of-water-reservoirs-thuy-dai-cover-thumb.webp"
-        },
-        {
-          "type": "image",
-          "src": "./02.Project/06_the-reborn-of-water-reservoirs-thuy-dai_261027/the-reborn-of-water-reservoirs-thuy-dai-02.webp",
-          "isCover": false,
-          "caption": "386155132_3683376858615757_4751522486607492302_n",
-          "thumb": "./02.Project/06_the-reborn-of-water-reservoirs-thuy-dai_261027/the-reborn-of-water-reservoirs-thuy-dai-02-thumb.webp"
-        },
-        {
-          "type": "image",
-          "src": "./02.Project/06_the-reborn-of-water-reservoirs-thuy-dai_261027/the-reborn-of-water-reservoirs-thuy-dai-03.webp",
-          "isCover": false,
-          "caption": "386154707_3683376901949086_4561552392266495583_n",
-          "thumb": "./02.Project/06_the-reborn-of-water-reservoirs-thuy-dai_261027/the-reborn-of-water-reservoirs-thuy-dai-03-thumb.webp"
-        }
-      ]
-    },
-    {
-      "id": "07_cu-xa-scomeco-smart-community-and-eco-housing_261027",
-      "stt": "07",
-      "slug": "cu-xa-scomeco-smart-community-and-eco-housing",
-      "title": "Cư Xá (S.COMECO) - Smart, Community and Eco Housing",
-      "subtitle": "",
-      "description": "Reimagining the traditional \"Cư Xá\" (historic housing complex) typologies in Thanh Da following the COVID-19 lockdowns. The project introduces prototype \"healing residential buildings\" equipped with flexible public spaces, micro-economic street markets, green facades, and passive ventilation to foster social resilience and community well-being.",
-      "status": "published",
-      "dateAdded": "2026-10-27",
-      "metadata": [
-        {
-          "key": "Date",
-          "value": "08.2021"
-        },
-        {
-          "key": "Location",
-          "value": "Thanh Da, Binh Thanh District, HCMC, Vietnam"
-        },
-        {
-          "key": "Team",
-          "value": "Baro Nguyen, Du Tran, Duc Vu"
-        },
-        {
-          "key": "Project type",
-          "value": "Post-Pandemic Housing & Community Regeneration"
-        }
-      ],
-      "collections": [
-        "Orange~",
-        "Urban- Architecture- Landscape"
-      ],
-      "seo": {
-        "metaTitle": "",
-        "metaDescription": "",
-        "slug": "cu-xa-scomeco-smart-community-and-eco-housing"
-      },
-      "media": [
-        {
-          "type": "image",
-          "src": "./02.Project/07_cu-xa-scomeco-smart-community-and-eco-housing_261027/cu-xa-scomeco-smart-community-and-eco-housing-cover.webp",
-          "isCover": true,
-          "caption": "baro-du-duk_01-1793087556464_convert_com_vn",
-          "thumb": "./02.Project/07_cu-xa-scomeco-smart-community-and-eco-housing_261027/cu-xa-scomeco-smart-community-and-eco-housing-cover-thumb.webp"
-        },
-        {
-          "type": "image",
-          "src": "./02.Project/07_cu-xa-scomeco-smart-community-and-eco-housing_261027/cu-xa-scomeco-smart-community-and-eco-housing-02.webp",
-          "isCover": false,
-          "caption": "baro-du-duk_02-1793087557317_convert_com_vn",
-          "thumb": "./02.Project/07_cu-xa-scomeco-smart-community-and-eco-housing_261027/cu-xa-scomeco-smart-community-and-eco-housing-02-thumb.webp"
-        },
-        {
-          "type": "image",
-          "src": "./02.Project/07_cu-xa-scomeco-smart-community-and-eco-housing_261027/cu-xa-scomeco-smart-community-and-eco-housing-03.webp",
-          "isCover": false,
-          "caption": "baro-du-duk_03-1793087558447_convert_com_vn",
-          "thumb": "./02.Project/07_cu-xa-scomeco-smart-community-and-eco-housing_261027/cu-xa-scomeco-smart-community-and-eco-housing-03-thumb.webp"
-        },
-        {
-          "type": "image",
-          "src": "./02.Project/07_cu-xa-scomeco-smart-community-and-eco-housing_261027/cu-xa-scomeco-smart-community-and-eco-housing-04.webp",
-          "isCover": false,
-          "caption": "baro-du-duk_04-1793087554583_convert_com_vn",
-          "thumb": "./02.Project/07_cu-xa-scomeco-smart-community-and-eco-housing_261027/cu-xa-scomeco-smart-community-and-eco-housing-04-thumb.webp"
-        },
-        {
-          "type": "image",
-          "src": "./02.Project/07_cu-xa-scomeco-smart-community-and-eco-housing_261027/cu-xa-scomeco-smart-community-and-eco-housing-05.webp",
-          "isCover": false,
-          "caption": "baro-du-duk_05-1793087555740_convert_com_vn",
-          "thumb": "./02.Project/07_cu-xa-scomeco-smart-community-and-eco-housing_261027/cu-xa-scomeco-smart-community-and-eco-housing-05-thumb.webp"
-        }
-      ]
-    },
-    {
-      "id": "08_central-lake-eco-park_261027",
-      "stt": "08",
-      "slug": "central-lake-eco-park",
-      "title": "Central Lake Eco Park",
-      "subtitle": "",
-      "description": "An urban landscape design rooted in Sponge City principles and wetland restoration. By aligning with natural hydrological cycles and existing marshland topographies, the project establishes a multi-tiered detention basin system, eco-cultural habitats, and public recreational corridors for the emerging central core of District 2.",
-      "status": "published",
-      "dateAdded": "2026-10-27",
-      "metadata": [
-        {
-          "key": "Date",
-          "value": "2021"
-        },
-        {
-          "key": "Location",
-          "value": "D2.HCMC.Vietnam"
-        },
-        {
-          "key": "Role",
-          "value": "Landscape Designer"
-        },
-        {
-          "key": "Project type",
-          "value": "Academic. Ecological Landscape & Waterfront Design"
-        },
-        {
-          "key": "Area",
-          "value": "12.89 ha"
-        },
-        {
-          "key": "Instructor",
-          "value": "Arch. Tieng Duy Pham"
-        }
-      ],
-      "collections": [
-        "Orange~",
-        "Urban- Architecture- Landscape"
-      ],
-      "seo": {
-        "metaTitle": "",
-        "metaDescription": "",
-        "slug": "central-lake-eco-park"
-      },
-      "media": [
-        {
-          "type": "image",
-          "src": "./02.Project/08_central-lake-eco-park_261027/central-lake-eco-park-cover.webp",
-          "isCover": true,
-          "caption": "NGUYA1BB84NC3C220BA1BAA2O_M8394C3C220(1)-1793088070119_convert_com_vn",
-          "thumb": "./02.Project/08_central-lake-eco-park_261027/central-lake-eco-park-cover-thumb.webp"
-        },
-        {
-          "type": "image",
-          "src": "./02.Project/08_central-lake-eco-park_261027/central-lake-eco-park-02.webp",
-          "isCover": false,
-          "caption": "ssss",
-          "thumb": "./02.Project/08_central-lake-eco-park_261027/central-lake-eco-park-02-thumb.webp"
-        },
-        {
-          "type": "image",
-          "src": "./02.Project/08_central-lake-eco-park_261027/central-lake-eco-park-03.webp",
-          "isCover": false,
-          "caption": "NGUYA1BB84NC3C220BA1BAA2O_M8394C3C220(2)-1793088075569_convert_com_vn",
-          "thumb": "./02.Project/08_central-lake-eco-park_261027/central-lake-eco-park-03-thumb.webp"
-        },
-        {
-          "type": "image",
-          "src": "./02.Project/08_central-lake-eco-park_261027/central-lake-eco-park-04.webp",
-          "isCover": false,
-          "caption": "NGUYA1BB84NC3C220BA1BAA2O_M8394C3C220(3)-1793088081903_convert_com_vn",
-          "thumb": "./02.Project/08_central-lake-eco-park_261027/central-lake-eco-park-04-thumb.webp"
-        },
-        {
-          "type": "image",
-          "src": "./02.Project/08_central-lake-eco-park_261027/central-lake-eco-park-05.webp",
-          "isCover": false,
-          "caption": "NGUYA1BB84NC3C220BA1BAA2O_M8394C3C220(5)-1793088216174_convert_com_vn",
-          "thumb": "./02.Project/08_central-lake-eco-park_261027/central-lake-eco-park-05-thumb.webp"
-        },
-        {
-          "type": "image",
-          "src": "./02.Project/08_central-lake-eco-park_261027/central-lake-eco-park-06.webp",
-          "isCover": false,
-          "caption": "NGUYA1BB84NC3C220BA1BAA2O_M8394C3C220(9)-1793088185635_convert_com_vn",
-          "thumb": "./02.Project/08_central-lake-eco-park_261027/central-lake-eco-park-06-thumb.webp"
-        },
-        {
-          "type": "image",
-          "src": "./02.Project/08_central-lake-eco-park_261027/central-lake-eco-park-07.webp",
-          "isCover": false,
-          "caption": "NGUYA1BB84NC3C220BA1BAA2O_M8394C3C220(11)-1793088191872_convert_com_vn",
-          "thumb": "./02.Project/08_central-lake-eco-park_261027/central-lake-eco-park-07-thumb.webp"
-        },
-        {
-          "type": "image",
-          "src": "./02.Project/08_central-lake-eco-park_261027/central-lake-eco-park-08.webp",
-          "isCover": false,
-          "caption": "NGUYA1BB84NC3C220BA1BAA2O_M8394C3C220(12)-1793088197750_convert_com_vn",
-          "thumb": "./02.Project/08_central-lake-eco-park_261027/central-lake-eco-park-08-thumb.webp"
-        }
-      ]
-    },
-    {
-      "id": "09_windy-hill-neighborhood_261025",
-      "stt": "09",
-      "slug": "windy-hill-neighborhood",
-      "title": "Windy Hill Neighborhood",
-      "subtitle": "",
-      "description": "~The residential design project in Bao Loc’s mountainous region is dedicated to embracing the natural and topographic essence of the area. This endeavor revolves around crafting housing solutions that seamlessly integrate with the unique mountainous environment. Emphasis is placed on low-rise apartments and single houses, each complemented by garden spaces and permeable surfaces to facilitate natural drainage and reduce environmental impact. The road network is thoughtfully planned, meticulously tracing the contours of the land to minimize disruption. Furthermore, public facilities and amenities are strategically positioned for easy access on foot, ensuring that essential services are within reach. This holistic approach endeavors to create a harmonious coexistence between human habitation and the natural beauty of the Bao Loc mountainous area, fostering sustainable and resilient living spaces that honor the region’s unique character.~",
-      "status": "published",
-      "dateAdded": "2026-10-25",
-      "metadata": [
-        {
-          "key": "Date",
-          "value": "12.2020"
-        },
-        {
-          "key": "Location",
-          "value": "Lam Dong.VN"
-        },
-        {
-          "key": "Role",
-          "value": "Urban Planner"
-        },
-        {
-          "key": "Project type",
-          "value": "Academic.Neighbourhood.Urban Planning"
-        },
-        {
-          "key": "Area",
-          "value": "29.97 ha"
-        },
-        {
-          "key": "Instructor",
-          "value": "Dr. Arch. Lan Ngoc Hoang"
-        }
-      ],
-      "collections": [
-        "Orange~",
-        "Model",
-        "Urban- Architecture- Landscape"
-      ],
-      "seo": {
-        "metaTitle": "",
-        "metaDescription": "",
-        "slug": "windy-hill-neighborhood"
-      },
-      "media": [
-        {
-          "type": "image",
-          "src": "./02.Project/09_windy-hill-neighborhood_261025/windy-hill-neighborhood-01.webp",
-          "isCover": false,
-          "caption": "370206031_233749272725049_8156576336194971843_n",
-          "thumb": "./02.Project/09_windy-hill-neighborhood_261025/windy-hill-neighborhood-01-thumb.webp"
-        },
-        {
-          "type": "image",
-          "src": "./02.Project/09_windy-hill-neighborhood_261025/windy-hill-neighborhood-cover.webp",
-          "isCover": true,
-          "caption": "Baro Portfolio25",
-          "thumb": "./02.Project/09_windy-hill-neighborhood_261025/windy-hill-neighborhood-cover-thumb.webp"
-        },
-        {
-          "type": "image",
-          "src": "./02.Project/09_windy-hill-neighborhood_261025/windy-hill-neighborhood-03.webp",
-          "isCover": false,
-          "caption": "1-1793085295855_convert_com_vn",
-          "thumb": "./02.Project/09_windy-hill-neighborhood_261025/windy-hill-neighborhood-03-thumb.webp"
-        },
-        {
-          "type": "image",
-          "src": "./02.Project/09_windy-hill-neighborhood_261025/windy-hill-neighborhood-04.webp",
-          "isCover": false,
-          "caption": "mh-1793085300964_convert_com_vn",
-          "thumb": "./02.Project/09_windy-hill-neighborhood_261025/windy-hill-neighborhood-04-thumb.webp"
-        }
-      ]
-    },
-    {
-      "id": "10_fish-and-orchard_250402",
-      "stt": "10",
-      "slug": "fish-and-orchard",
-      "title": " Fish and Orchard",
-      "subtitle": "Eco-Industrial Regeneration • Ha Tu Urban Area",
-      "description": "Every journey begins with a shape.\n\nLike the first brick laid upon the foundation, this marks the beginning of an unwritten story. These sharp lines are more than just geometry—they are the imprint of thought, a balance between structure and creativity, between order and freedom.\n\nIt resembles a house in the making, but it could also be an unfinished structure, an idea taking form, a journey just beginning. The slanted edges are not instability, but momentum—movement, the first step forward.\n\nI don’t know where the future will take me. But I know 2025 is a milestone. At 27, or maybe just the 25-year-old full of fire, gathering every effort, every ounce of dedication to create something meaningful.\n\nI started with the idea of sustainability, learning to see cities like a doctor sees a patient—diagnosing before prescribing. I don’t want to simply create and let things fade away. I want to tell their stories, to document my path, in case one day I forget who I was, what I started with, what I dreamed of, and why I had to keep going.\n\nThe red is fire, energy, a heartbeat pulsing within calculated edges. The black is a foundation, a challenge, the things I must face. The white—empty yet full of potential—is the space for possibilities, for questions waiting to be answered.\n\nI call my creations oranges. I am the one who plants them. A small fish planting oranges—an odd image, perhaps. But someday, someone will cherish the fruits I grow.\n\nI am a dreamer. I break the expectations placed upon me. I am not perfect. I fear judgment. But I still do, I still write, I still create.\n\nAnd so, this is the story of this place.\n\n“The best time to plant an orange tree was ten years ago. The second-best time is now.”",
-      "status": "published",
-      "dateAdded": "2025-04-02",
-      "metadata": [
-        {
-          "key": "Date",
-          "value": "01.04.2025"
-        },
-        {
-          "key": "Location",
-          "value": "HCMC"
-        },
-        {
-          "key": "Project type",
-          "value": "Graphic Design"
-        }
-      ],
-      "collections": [
-        "Orange~",
-        "Graphic Design",
-        "Branding"
-      ],
-      "seo": {
-        "metaTitle": "Ha Tu Eco-Industrial Urban Area",
-        "metaDescription": "1/5000 scale zoning masterplan in Ha Long City.",
-        "slug": "fish-and-orchard"
-      },
-      "media": [
-        {
-          "type": "image",
-          "src": "./02.Project/10_fish-and-orchard_250402/fish-and-orchard-cover.webp",
-          "isCover": true,
-          "caption": "Baropholio brand (2)",
-          "thumb": "./02.Project/10_fish-and-orchard_250402/fish-and-orchard-cover-thumb.webp"
-        },
-        {
-          "type": "image",
-          "src": "./02.Project/10_fish-and-orchard_250402/fish-and-orchard-02.webp",
-          "isCover": false,
-          "caption": "Baropholio brand (1)",
-          "thumb": "./02.Project/10_fish-and-orchard_250402/fish-and-orchard-02-thumb.webp"
-        },
-        {
-          "type": "image",
-          "src": "./02.Project/10_fish-and-orchard_250402/fish-and-orchard-03.webp",
-          "isCover": false,
-          "caption": "Screenshot 2025-03-24 175306",
-          "thumb": "./02.Project/10_fish-and-orchard_250402/fish-and-orchard-03-thumb.webp"
-        }
-      ]
-    }
-  ]
+﻿{
+    "projects":  [
+                     {
+                         "published":  true,
+                         "slug":  "me",
+                         "description":  "Archive of spatial design, architectural curation, and urban research by Baro Nguyen.",
+                         "updated_at":  "2026-11-01T12:05:01.599Z",
+                         "subtitle":  "Spatial Practice \u0026 Architecture Portfolio",
+                         "basic_info":  [
+                                            {
+                                                "value":  "Orange~",
+                                                "label":  "Category"
+                                            },
+                                            {
+                                                "value":  "2024 - 2026",
+                                                "label":  "Year"
+                                            },
+                                            {
+                                                "value":  "Baro Nguyen",
+                                                "label":  "Author"
+                                            }
+                                        ],
+                         "stt":  "01",
+                         "seo":  {
+                                     "metaDescription":  "Archive of spatial design, architectural curation, and urban research by Baro Nguyen.",
+                                     "slug":  "me",
+                                     "metaTitle":  "Me | Baropholio"
+                                 },
+                         "title":  "Me",
+                         "media":  [
+                                       {
+                                           "id":  "m-me-1",
+                                           "dataUrl":  "https://fgbnfujztuwvxmbzuhmn.supabase.co/storage/v1/object/public/project-media/me/me-01.jpg",
+                                           "url":  "https://fgbnfujztuwvxmbzuhmn.supabase.co/storage/v1/object/public/project-media/me/me-01.jpg",
+                                           "type":  "image",
+                                           "alt":  "Me - Baro Nguyen",
+                                           "src":  "https://fgbnfujztuwvxmbzuhmn.supabase.co/storage/v1/object/public/project-media/me/me-01.jpg",
+                                           "caption":  "Me - Baro Nguyen",
+                                           "isCover":  true
+                                       }
+                                   ],
+                         "collections":  [
+                                             "Orange~",
+                                             "Photography",
+                                             "Practice Art"
+                                         ]
+                     },
+                     {
+                         "published":  true,
+                         "slug":  "the-veil-national-art-museum-of-andorra",
+                         "description":  "A contextual veil mediating historical stone topography with contemporary museum volumes.",
+                         "updated_at":  "2026-11-01T12:05:02.620Z",
+                         "subtitle":  "International Architecture Competition",
+                         "basic_info":  [
+                                            {
+                                                "value":  "Urban- Architecture- Landscape",
+                                                "label":  "Category"
+                                            },
+                                            {
+                                                "value":  "2024 - 2026",
+                                                "label":  "Year"
+                                            },
+                                            {
+                                                "value":  "Baro Nguyen",
+                                                "label":  "Author"
+                                            }
+                                        ],
+                         "stt":  "02",
+                         "seo":  {
+                                     "metaDescription":  "A contextual veil mediating historical stone topography with contemporary museum volumes.",
+                                     "slug":  "the-veil-national-art-museum-of-andorra",
+                                     "metaTitle":  "The Veil - National Art Museum of Andorra | Baropholio"
+                                 },
+                         "title":  "The Veil - National Art Museum of Andorra",
+                         "media":  [
+                                       {
+                                           "id":  "m-the-veil-national-art-museum-of-andorra-1",
+                                           "dataUrl":  "https://fgbnfujztuwvxmbzuhmn.supabase.co/storage/v1/object/public/project-media/the-veil-national-art-museum-of-andorra/the-veil-national-art-museum-of-andorra-01.jpg",
+                                           "url":  "https://fgbnfujztuwvxmbzuhmn.supabase.co/storage/v1/object/public/project-media/the-veil-national-art-museum-of-andorra/the-veil-national-art-museum-of-andorra-01.jpg",
+                                           "type":  "image",
+                                           "alt":  "Museum Elevation \u0026 Perspective",
+                                           "src":  "https://fgbnfujztuwvxmbzuhmn.supabase.co/storage/v1/object/public/project-media/the-veil-national-art-museum-of-andorra/the-veil-national-art-museum-of-andorra-01.jpg",
+                                           "caption":  "Museum Elevation \u0026 Perspective",
+                                           "isCover":  true
+                                       },
+                                       {
+                                           "id":  "m-the-veil-national-art-museum-of-andorra-2",
+                                           "dataUrl":  "https://fgbnfujztuwvxmbzuhmn.supabase.co/storage/v1/object/public/project-media/the-veil-national-art-museum-of-andorra/the-veil-national-art-museum-of-andorra-02.jpg",
+                                           "url":  "https://fgbnfujztuwvxmbzuhmn.supabase.co/storage/v1/object/public/project-media/the-veil-national-art-museum-of-andorra/the-veil-national-art-museum-of-andorra-02.jpg",
+                                           "type":  "image",
+                                           "alt":  "Spatial Section Detail",
+                                           "src":  "https://fgbnfujztuwvxmbzuhmn.supabase.co/storage/v1/object/public/project-media/the-veil-national-art-museum-of-andorra/the-veil-national-art-museum-of-andorra-02.jpg",
+                                           "caption":  "Spatial Section Detail",
+                                           "isCover":  false
+                                       },
+                                       {
+                                           "id":  "m-the-veil-national-art-museum-of-andorra-3",
+                                           "dataUrl":  "https://fgbnfujztuwvxmbzuhmn.supabase.co/storage/v1/object/public/project-media/the-veil-national-art-museum-of-andorra/the-veil-national-art-museum-of-andorra-03.jpg",
+                                           "url":  "https://fgbnfujztuwvxmbzuhmn.supabase.co/storage/v1/object/public/project-media/the-veil-national-art-museum-of-andorra/the-veil-national-art-museum-of-andorra-03.jpg",
+                                           "type":  "image",
+                                           "alt":  "Structural Framework",
+                                           "src":  "https://fgbnfujztuwvxmbzuhmn.supabase.co/storage/v1/object/public/project-media/the-veil-national-art-museum-of-andorra/the-veil-national-art-museum-of-andorra-03.jpg",
+                                           "caption":  "Structural Framework",
+                                           "isCover":  false
+                                       },
+                                       {
+                                           "id":  "m-the-veil-national-art-museum-of-andorra-4",
+                                           "dataUrl":  "https://fgbnfujztuwvxmbzuhmn.supabase.co/storage/v1/object/public/project-media/the-veil-national-art-museum-of-andorra/the-veil-national-art-museum-of-andorra-04.jpg",
+                                           "url":  "https://fgbnfujztuwvxmbzuhmn.supabase.co/storage/v1/object/public/project-media/the-veil-national-art-museum-of-andorra/the-veil-national-art-museum-of-andorra-04.jpg",
+                                           "type":  "image",
+                                           "alt":  "Gallery Interior Flow",
+                                           "src":  "https://fgbnfujztuwvxmbzuhmn.supabase.co/storage/v1/object/public/project-media/the-veil-national-art-museum-of-andorra/the-veil-national-art-museum-of-andorra-04.jpg",
+                                           "caption":  "Gallery Interior Flow",
+                                           "isCover":  false
+                                       },
+                                       {
+                                           "id":  "m-the-veil-national-art-museum-of-andorra-5",
+                                           "dataUrl":  "https://fgbnfujztuwvxmbzuhmn.supabase.co/storage/v1/object/public/project-media/the-veil-national-art-museum-of-andorra/the-veil-national-art-museum-of-andorra-05.jpg",
+                                           "url":  "https://fgbnfujztuwvxmbzuhmn.supabase.co/storage/v1/object/public/project-media/the-veil-national-art-museum-of-andorra/the-veil-national-art-museum-of-andorra-05.jpg",
+                                           "type":  "image",
+                                           "alt":  "Site Plan Context",
+                                           "src":  "https://fgbnfujztuwvxmbzuhmn.supabase.co/storage/v1/object/public/project-media/the-veil-national-art-museum-of-andorra/the-veil-national-art-museum-of-andorra-05.jpg",
+                                           "caption":  "Site Plan Context",
+                                           "isCover":  false
+                                       }
+                                   ],
+                         "collections":  [
+                                             "Urban- Architecture- Landscape",
+                                             "Model",
+                                             "Sketch"
+                                         ]
+                     },
+                     {
+                         "published":  true,
+                         "slug":  "rocras-reborn-of-coalmine-restoration-and-sustainability",
+                         "description":  "Transforming post-extraction mining voids into self-sustaining ecological wetland networks.",
+                         "updated_at":  "2026-11-01T12:05:03.948Z",
+                         "subtitle":  "Ecological Mine Rejuvenation \u0026 Coastal Civic Basin",
+                         "basic_info":  [
+                                            {
+                                                "value":  "Urban- Architecture- Landscape",
+                                                "label":  "Category"
+                                            },
+                                            {
+                                                "value":  "2024 - 2026",
+                                                "label":  "Year"
+                                            },
+                                            {
+                                                "value":  "Baro Nguyen",
+                                                "label":  "Author"
+                                            }
+                                        ],
+                         "stt":  "03",
+                         "seo":  {
+                                     "metaDescription":  "Transforming post-extraction mining voids into self-sustaining ecological wetland networks.",
+                                     "slug":  "rocras-reborn-of-coalmine-restoration-and-sustainability",
+                                     "metaTitle":  "ROCRAS - Reborn of Coalmine Restoration and Sustainability | Baropholio"
+                                 },
+                         "title":  "ROCRAS - Reborn of Coalmine Restoration and Sustainability",
+                         "media":  [
+                                       {
+                                           "id":  "m-rocras-reborn-of-coalmine-restoration-and-sustainability-1",
+                                           "dataUrl":  "https://fgbnfujztuwvxmbzuhmn.supabase.co/storage/v1/object/public/project-media/rocras-reborn-of-coalmine-restoration-and-sustainability/rocras-reborn-of-coalmine-restoration-and-sustainability-01.jpg",
+                                           "url":  "https://fgbnfujztuwvxmbzuhmn.supabase.co/storage/v1/object/public/project-media/rocras-reborn-of-coalmine-restoration-and-sustainability/rocras-reborn-of-coalmine-restoration-and-sustainability-01.jpg",
+                                           "type":  "image",
+                                           "alt":  "ROCRAS Masterplan Vision",
+                                           "src":  "https://fgbnfujztuwvxmbzuhmn.supabase.co/storage/v1/object/public/project-media/rocras-reborn-of-coalmine-restoration-and-sustainability/rocras-reborn-of-coalmine-restoration-and-sustainability-01.jpg",
+                                           "caption":  "ROCRAS Masterplan Vision",
+                                           "isCover":  true
+                                       }
+                                   ],
+                         "collections":  [
+                                             "Urban- Architecture- Landscape",
+                                             "Sustainable Strategy Consulting"
+                                         ]
+                     },
+                     {
+                         "published":  true,
+                         "slug":  "saigon-in-sight-van-don-area-urban-design-guidelines",
+                         "description":  "Regeneration framework for Saigon waterfront nodes, balancing commercial density and public access.",
+                         "updated_at":  "2026-11-01T12:05:04.647Z",
+                         "subtitle":  "Urban Design \u0026 Waterfront Framework",
+                         "basic_info":  [
+                                            {
+                                                "value":  "Urban- Architecture- Landscape",
+                                                "label":  "Category"
+                                            },
+                                            {
+                                                "value":  "2024 - 2026",
+                                                "label":  "Year"
+                                            },
+                                            {
+                                                "value":  "Baro Nguyen",
+                                                "label":  "Author"
+                                            }
+                                        ],
+                         "stt":  "04",
+                         "seo":  {
+                                     "metaDescription":  "Regeneration framework for Saigon waterfront nodes, balancing commercial density and public access.",
+                                     "slug":  "saigon-in-sight-van-don-area-urban-design-guidelines",
+                                     "metaTitle":  "Saigon in Sight - Van Don Area Urban Design Guidelines | Baropholio"
+                                 },
+                         "title":  "Saigon in Sight - Van Don Area Urban Design Guidelines",
+                         "media":  [
+                                       {
+                                           "id":  "m-saigon-in-sight-van-don-area-urban-design-guidelines-1",
+                                           "dataUrl":  "https://fgbnfujztuwvxmbzuhmn.supabase.co/storage/v1/object/public/project-media/saigon-in-sight-van-don-area-urban-design-guidelines/saigon-in-sight-van-don-area-urban-design-guidelines-01.jpg",
+                                           "url":  "https://fgbnfujztuwvxmbzuhmn.supabase.co/storage/v1/object/public/project-media/saigon-in-sight-van-don-area-urban-design-guidelines/saigon-in-sight-van-don-area-urban-design-guidelines-01.jpg",
+                                           "type":  "image",
+                                           "alt":  "Van Don Urban Corridor Analysis",
+                                           "src":  "https://fgbnfujztuwvxmbzuhmn.supabase.co/storage/v1/object/public/project-media/saigon-in-sight-van-don-area-urban-design-guidelines/saigon-in-sight-van-don-area-urban-design-guidelines-01.jpg",
+                                           "caption":  "Van Don Urban Corridor Analysis",
+                                           "isCover":  true
+                                       },
+                                       {
+                                           "id":  "m-saigon-in-sight-van-don-area-urban-design-guidelines-2",
+                                           "dataUrl":  "https://fgbnfujztuwvxmbzuhmn.supabase.co/storage/v1/object/public/project-media/saigon-in-sight-van-don-area-urban-design-guidelines/saigon-in-sight-van-don-area-urban-design-guidelines-02.jpg",
+                                           "url":  "https://fgbnfujztuwvxmbzuhmn.supabase.co/storage/v1/object/public/project-media/saigon-in-sight-van-don-area-urban-design-guidelines/saigon-in-sight-van-don-area-urban-design-guidelines-02.jpg",
+                                           "type":  "image",
+                                           "alt":  "Street Elevation Study",
+                                           "src":  "https://fgbnfujztuwvxmbzuhmn.supabase.co/storage/v1/object/public/project-media/saigon-in-sight-van-don-area-urban-design-guidelines/saigon-in-sight-van-don-area-urban-design-guidelines-02.jpg",
+                                           "caption":  "Street Elevation Study",
+                                           "isCover":  false
+                                       },
+                                       {
+                                           "id":  "m-saigon-in-sight-van-don-area-urban-design-guidelines-3",
+                                           "dataUrl":  "https://fgbnfujztuwvxmbzuhmn.supabase.co/storage/v1/object/public/project-media/saigon-in-sight-van-don-area-urban-design-guidelines/saigon-in-sight-van-don-area-urban-design-guidelines-03.jpg",
+                                           "url":  "https://fgbnfujztuwvxmbzuhmn.supabase.co/storage/v1/object/public/project-media/saigon-in-sight-van-don-area-urban-design-guidelines/saigon-in-sight-van-don-area-urban-design-guidelines-03.jpg",
+                                           "type":  "image",
+                                           "alt":  "Public Realm Network",
+                                           "src":  "https://fgbnfujztuwvxmbzuhmn.supabase.co/storage/v1/object/public/project-media/saigon-in-sight-van-don-area-urban-design-guidelines/saigon-in-sight-van-don-area-urban-design-guidelines-03.jpg",
+                                           "caption":  "Public Realm Network",
+                                           "isCover":  false
+                                       }
+                                   ],
+                         "collections":  [
+                                             "Urban- Architecture- Landscape",
+                                             "Mapping"
+                                         ]
+                     },
+                     {
+                         "published":  true,
+                         "slug":  "sun-of-love-will-to-live-center",
+                         "description":  "Barrier-free vocational center designed for youth with physical disabilities, embedding light as therapy.",
+                         "updated_at":  "2026-11-01T12:05:04.944Z",
+                         "subtitle":  "Universal Inclusive Design \u0026 Healing Architecture",
+                         "basic_info":  [
+                                            {
+                                                "value":  "Orange~",
+                                                "label":  "Category"
+                                            },
+                                            {
+                                                "value":  "2024 - 2026",
+                                                "label":  "Year"
+                                            },
+                                            {
+                                                "value":  "Baro Nguyen",
+                                                "label":  "Author"
+                                            }
+                                        ],
+                         "stt":  "05",
+                         "seo":  {
+                                     "metaDescription":  "Barrier-free vocational center designed for youth with physical disabilities, embedding light as therapy.",
+                                     "slug":  "sun-of-love-will-to-live-center",
+                                     "metaTitle":  "Sun of Love - \"Will to Live\" Center | Baropholio"
+                                 },
+                         "title":  "Sun of Love - \"Will to Live\" Center",
+                         "media":  [
+                                       {
+                                           "id":  "m-sun-of-love-will-to-live-center-1",
+                                           "dataUrl":  "https://fgbnfujztuwvxmbzuhmn.supabase.co/storage/v1/object/public/project-media/sun-of-love-will-to-live-center/sun-of-love-will-to-live-center-01.webp",
+                                           "url":  "https://fgbnfujztuwvxmbzuhmn.supabase.co/storage/v1/object/public/project-media/sun-of-love-will-to-live-center/sun-of-love-will-to-live-center-01.webp",
+                                           "type":  "image",
+                                           "alt":  "Center Courtyard Perspective",
+                                           "src":  "https://fgbnfujztuwvxmbzuhmn.supabase.co/storage/v1/object/public/project-media/sun-of-love-will-to-live-center/sun-of-love-will-to-live-center-01.webp",
+                                           "caption":  "Center Courtyard Perspective",
+                                           "isCover":  true
+                                       }
+                                   ],
+                         "collections":  [
+                                             "Orange~",
+                                             "Urban- Architecture- Landscape",
+                                             "Photography"
+                                         ]
+                     },
+                     {
+                         "published":  true,
+                         "slug":  "the-reborn-of-water-reservoirs-thuy-dai",
+                         "description":  "Repurposing colonial-era water reservoirs into public community cistern-parks and gathering hubs.",
+                         "updated_at":  "2026-11-01T12:05:05.258Z",
+                         "subtitle":  "Adaptive Reuse of Heritage Water Towers",
+                         "basic_info":  [
+                                            {
+                                                "value":  "Urban- Architecture- Landscape",
+                                                "label":  "Category"
+                                            },
+                                            {
+                                                "value":  "2024 - 2026",
+                                                "label":  "Year"
+                                            },
+                                            {
+                                                "value":  "Baro Nguyen",
+                                                "label":  "Author"
+                                            }
+                                        ],
+                         "stt":  "06",
+                         "seo":  {
+                                     "metaDescription":  "Repurposing colonial-era water reservoirs into public community cistern-parks and gathering hubs.",
+                                     "slug":  "the-reborn-of-water-reservoirs-thuy-dai",
+                                     "metaTitle":  "The Reborn of Water Reservoirs (Thuy Dai) | Baropholio"
+                                 },
+                         "title":  "The Reborn of Water Reservoirs (Thuy Dai)",
+                         "media":  [
+                                       {
+                                           "id":  "m-the-reborn-of-water-reservoirs-thuy-dai-1",
+                                           "dataUrl":  "https://fgbnfujztuwvxmbzuhmn.supabase.co/storage/v1/object/public/project-media/the-reborn-of-water-reservoirs-thuy-dai/the-reborn-of-water-reservoirs-thuy-dai-01.jpg",
+                                           "url":  "https://fgbnfujztuwvxmbzuhmn.supabase.co/storage/v1/object/public/project-media/the-reborn-of-water-reservoirs-thuy-dai/the-reborn-of-water-reservoirs-thuy-dai-01.jpg",
+                                           "type":  "image",
+                                           "alt":  "Thuy Dai Axonometric",
+                                           "src":  "https://fgbnfujztuwvxmbzuhmn.supabase.co/storage/v1/object/public/project-media/the-reborn-of-water-reservoirs-thuy-dai/the-reborn-of-water-reservoirs-thuy-dai-01.jpg",
+                                           "caption":  "Thuy Dai Axonometric",
+                                           "isCover":  true
+                                       },
+                                       {
+                                           "id":  "m-the-reborn-of-water-reservoirs-thuy-dai-2",
+                                           "dataUrl":  "https://fgbnfujztuwvxmbzuhmn.supabase.co/storage/v1/object/public/project-media/the-reborn-of-water-reservoirs-thuy-dai/the-reborn-of-water-reservoirs-thuy-dai-02.jpg",
+                                           "url":  "https://fgbnfujztuwvxmbzuhmn.supabase.co/storage/v1/object/public/project-media/the-reborn-of-water-reservoirs-thuy-dai/the-reborn-of-water-reservoirs-thuy-dai-02.jpg",
+                                           "type":  "image",
+                                           "alt":  "Structure Cross-Section",
+                                           "src":  "https://fgbnfujztuwvxmbzuhmn.supabase.co/storage/v1/object/public/project-media/the-reborn-of-water-reservoirs-thuy-dai/the-reborn-of-water-reservoirs-thuy-dai-02.jpg",
+                                           "caption":  "Structure Cross-Section",
+                                           "isCover":  false
+                                       },
+                                       {
+                                           "id":  "m-the-reborn-of-water-reservoirs-thuy-dai-3",
+                                           "dataUrl":  "https://fgbnfujztuwvxmbzuhmn.supabase.co/storage/v1/object/public/project-media/the-reborn-of-water-reservoirs-thuy-dai/the-reborn-of-water-reservoirs-thuy-dai-03.jpg",
+                                           "url":  "https://fgbnfujztuwvxmbzuhmn.supabase.co/storage/v1/object/public/project-media/the-reborn-of-water-reservoirs-thuy-dai/the-reborn-of-water-reservoirs-thuy-dai-03.jpg",
+                                           "type":  "image",
+                                           "alt":  "Public Floor Plan",
+                                           "src":  "https://fgbnfujztuwvxmbzuhmn.supabase.co/storage/v1/object/public/project-media/the-reborn-of-water-reservoirs-thuy-dai/the-reborn-of-water-reservoirs-thuy-dai-03.jpg",
+                                           "caption":  "Public Floor Plan",
+                                           "isCover":  false
+                                       }
+                                   ],
+                         "collections":  [
+                                             "Urban- Architecture- Landscape",
+                                             "Sketch",
+                                             "Model"
+                                         ]
+                     },
+                     {
+                         "published":  true,
+                         "slug":  "cu-xa-scomeco-smart-community-and-eco-housing",
+                         "description":  "Affordable modular living units prioritizing natural cross-ventilation and communal courtyard interactions.",
+                         "updated_at":  "2026-11-01T12:05:06.090Z",
+                         "subtitle":  "Sustainable Social Housing Typology",
+                         "basic_info":  [
+                                            {
+                                                "value":  "Urban- Architecture- Landscape",
+                                                "label":  "Category"
+                                            },
+                                            {
+                                                "value":  "2024 - 2026",
+                                                "label":  "Year"
+                                            },
+                                            {
+                                                "value":  "Baro Nguyen",
+                                                "label":  "Author"
+                                            }
+                                        ],
+                         "stt":  "07",
+                         "seo":  {
+                                     "metaDescription":  "Affordable modular living units prioritizing natural cross-ventilation and communal courtyard interactions.",
+                                     "slug":  "cu-xa-scomeco-smart-community-and-eco-housing",
+                                     "metaTitle":  "CÆ° XÃ¡ (S.COMECO) - Smart, Community and Eco Housing | Baropholio"
+                                 },
+                         "title":  "CÆ° XÃ¡ (S.COMECO) - Smart, Community and Eco Housing",
+                         "media":  [
+                                       {
+                                           "id":  "m-cu-xa-scomeco-smart-community-and-eco-housing-1",
+                                           "dataUrl":  "https://fgbnfujztuwvxmbzuhmn.supabase.co/storage/v1/object/public/project-media/cu-xa-scomeco-smart-community-and-eco-housing/cu-xa-scomeco-smart-community-and-eco-housing-01.webp",
+                                           "url":  "https://fgbnfujztuwvxmbzuhmn.supabase.co/storage/v1/object/public/project-media/cu-xa-scomeco-smart-community-and-eco-housing/cu-xa-scomeco-smart-community-and-eco-housing-01.webp",
+                                           "type":  "image",
+                                           "alt":  "CÆ° XÃ¡ Housing Facade",
+                                           "src":  "https://fgbnfujztuwvxmbzuhmn.supabase.co/storage/v1/object/public/project-media/cu-xa-scomeco-smart-community-and-eco-housing/cu-xa-scomeco-smart-community-and-eco-housing-01.webp",
+                                           "caption":  "CÆ° XÃ¡ Housing Facade",
+                                           "isCover":  true
+                                       },
+                                       {
+                                           "id":  "m-cu-xa-scomeco-smart-community-and-eco-housing-2",
+                                           "dataUrl":  "https://fgbnfujztuwvxmbzuhmn.supabase.co/storage/v1/object/public/project-media/cu-xa-scomeco-smart-community-and-eco-housing/cu-xa-scomeco-smart-community-and-eco-housing-02.webp",
+                                           "url":  "https://fgbnfujztuwvxmbzuhmn.supabase.co/storage/v1/object/public/project-media/cu-xa-scomeco-smart-community-and-eco-housing/cu-xa-scomeco-smart-community-and-eco-housing-02.webp",
+                                           "type":  "image",
+                                           "alt":  "Apartment Floor Plan",
+                                           "src":  "https://fgbnfujztuwvxmbzuhmn.supabase.co/storage/v1/object/public/project-media/cu-xa-scomeco-smart-community-and-eco-housing/cu-xa-scomeco-smart-community-and-eco-housing-02.webp",
+                                           "caption":  "Apartment Floor Plan",
+                                           "isCover":  false
+                                       },
+                                       {
+                                           "id":  "m-cu-xa-scomeco-smart-community-and-eco-housing-3",
+                                           "dataUrl":  "https://fgbnfujztuwvxmbzuhmn.supabase.co/storage/v1/object/public/project-media/cu-xa-scomeco-smart-community-and-eco-housing/cu-xa-scomeco-smart-community-and-eco-housing-03.webp",
+                                           "url":  "https://fgbnfujztuwvxmbzuhmn.supabase.co/storage/v1/object/public/project-media/cu-xa-scomeco-smart-community-and-eco-housing/cu-xa-scomeco-smart-community-and-eco-housing-03.webp",
+                                           "type":  "image",
+                                           "alt":  "Courtyard Ventilation Diagram",
+                                           "src":  "https://fgbnfujztuwvxmbzuhmn.supabase.co/storage/v1/object/public/project-media/cu-xa-scomeco-smart-community-and-eco-housing/cu-xa-scomeco-smart-community-and-eco-housing-03.webp",
+                                           "caption":  "Courtyard Ventilation Diagram",
+                                           "isCover":  false
+                                       },
+                                       {
+                                           "id":  "m-cu-xa-scomeco-smart-community-and-eco-housing-4",
+                                           "dataUrl":  "https://fgbnfujztuwvxmbzuhmn.supabase.co/storage/v1/object/public/project-media/cu-xa-scomeco-smart-community-and-eco-housing/cu-xa-scomeco-smart-community-and-eco-housing-04.webp",
+                                           "url":  "https://fgbnfujztuwvxmbzuhmn.supabase.co/storage/v1/object/public/project-media/cu-xa-scomeco-smart-community-and-eco-housing/cu-xa-scomeco-smart-community-and-eco-housing-04.webp",
+                                           "type":  "image",
+                                           "alt":  "Community Rooftop Garden",
+                                           "src":  "https://fgbnfujztuwvxmbzuhmn.supabase.co/storage/v1/object/public/project-media/cu-xa-scomeco-smart-community-and-eco-housing/cu-xa-scomeco-smart-community-and-eco-housing-04.webp",
+                                           "caption":  "Community Rooftop Garden",
+                                           "isCover":  false
+                                       },
+                                       {
+                                           "id":  "m-cu-xa-scomeco-smart-community-and-eco-housing-5",
+                                           "dataUrl":  "https://fgbnfujztuwvxmbzuhmn.supabase.co/storage/v1/object/public/project-media/cu-xa-scomeco-smart-community-and-eco-housing/cu-xa-scomeco-smart-community-and-eco-housing-05.webp",
+                                           "url":  "https://fgbnfujztuwvxmbzuhmn.supabase.co/storage/v1/object/public/project-media/cu-xa-scomeco-smart-community-and-eco-housing/cu-xa-scomeco-smart-community-and-eco-housing-05.webp",
+                                           "type":  "image",
+                                           "alt":  "Construction Detail",
+                                           "src":  "https://fgbnfujztuwvxmbzuhmn.supabase.co/storage/v1/object/public/project-media/cu-xa-scomeco-smart-community-and-eco-housing/cu-xa-scomeco-smart-community-and-eco-housing-05.webp",
+                                           "caption":  "Construction Detail",
+                                           "isCover":  false
+                                       }
+                                   ],
+                         "collections":  [
+                                             "Urban- Architecture- Landscape",
+                                             "Sustainable Strategy Consulting"
+                                         ]
+                     },
+                     {
+                         "published":  true,
+                         "slug":  "central-lake-eco-park",
+                         "description":  "Integrating urban stormwater catchment systems into a sprawling public bio-filtration park.",
+                         "updated_at":  "2026-11-01T12:05:06.788Z",
+                         "subtitle":  "Urban Hydrology \u0026 Wetland Park Masterplan",
+                         "basic_info":  [
+                                            {
+                                                "value":  "Urban- Architecture- Landscape",
+                                                "label":  "Category"
+                                            },
+                                            {
+                                                "value":  "2024 - 2026",
+                                                "label":  "Year"
+                                            },
+                                            {
+                                                "value":  "Baro Nguyen",
+                                                "label":  "Author"
+                                            }
+                                        ],
+                         "stt":  "08",
+                         "seo":  {
+                                     "metaDescription":  "Integrating urban stormwater catchment systems into a sprawling public bio-filtration park.",
+                                     "slug":  "central-lake-eco-park",
+                                     "metaTitle":  "Central Lake Eco Park | Baropholio"
+                                 },
+                         "title":  "Central Lake Eco Park",
+                         "media":  [
+                                       {
+                                           "id":  "m-central-lake-eco-park-1",
+                                           "dataUrl":  "https://fgbnfujztuwvxmbzuhmn.supabase.co/storage/v1/object/public/project-media/central-lake-eco-park/central-lake-eco-park-01.webp",
+                                           "url":  "https://fgbnfujztuwvxmbzuhmn.supabase.co/storage/v1/object/public/project-media/central-lake-eco-park/central-lake-eco-park-01.webp",
+                                           "type":  "image",
+                                           "alt":  "Eco Park Masterplan",
+                                           "src":  "https://fgbnfujztuwvxmbzuhmn.supabase.co/storage/v1/object/public/project-media/central-lake-eco-park/central-lake-eco-park-01.webp",
+                                           "caption":  "Eco Park Masterplan",
+                                           "isCover":  true
+                                       },
+                                       {
+                                           "id":  "m-central-lake-eco-park-2",
+                                           "dataUrl":  "https://fgbnfujztuwvxmbzuhmn.supabase.co/storage/v1/object/public/project-media/central-lake-eco-park/central-lake-eco-park-02.jpg",
+                                           "url":  "https://fgbnfujztuwvxmbzuhmn.supabase.co/storage/v1/object/public/project-media/central-lake-eco-park/central-lake-eco-park-02.jpg",
+                                           "type":  "image",
+                                           "alt":  "Wetland Boardwalk Perspective",
+                                           "src":  "https://fgbnfujztuwvxmbzuhmn.supabase.co/storage/v1/object/public/project-media/central-lake-eco-park/central-lake-eco-park-02.jpg",
+                                           "caption":  "Wetland Boardwalk Perspective",
+                                           "isCover":  false
+                                       },
+                                       {
+                                           "id":  "m-central-lake-eco-park-3",
+                                           "dataUrl":  "https://fgbnfujztuwvxmbzuhmn.supabase.co/storage/v1/object/public/project-media/central-lake-eco-park/central-lake-eco-park-03.webp",
+                                           "url":  "https://fgbnfujztuwvxmbzuhmn.supabase.co/storage/v1/object/public/project-media/central-lake-eco-park/central-lake-eco-park-03.webp",
+                                           "type":  "image",
+                                           "alt":  "Riparian Edge Detail",
+                                           "src":  "https://fgbnfujztuwvxmbzuhmn.supabase.co/storage/v1/object/public/project-media/central-lake-eco-park/central-lake-eco-park-03.webp",
+                                           "caption":  "Riparian Edge Detail",
+                                           "isCover":  false
+                                       },
+                                       {
+                                           "id":  "m-central-lake-eco-park-4",
+                                           "dataUrl":  "https://fgbnfujztuwvxmbzuhmn.supabase.co/storage/v1/object/public/project-media/central-lake-eco-park/central-lake-eco-park-04.webp",
+                                           "url":  "https://fgbnfujztuwvxmbzuhmn.supabase.co/storage/v1/object/public/project-media/central-lake-eco-park/central-lake-eco-park-04.webp",
+                                           "type":  "image",
+                                           "alt":  "Water Purification Flow",
+                                           "src":  "https://fgbnfujztuwvxmbzuhmn.supabase.co/storage/v1/object/public/project-media/central-lake-eco-park/central-lake-eco-park-04.webp",
+                                           "caption":  "Water Purification Flow",
+                                           "isCover":  false
+                                       }
+                                   ],
+                         "collections":  [
+                                             "Urban- Architecture- Landscape",
+                                             "Mapping",
+                                             "Sustainable Strategy Consulting"
+                                         ]
+                     },
+                     {
+                         "published":  true,
+                         "slug":  "windy-hill-neighborhood",
+                         "description":  "Terrain-sensitive low-impact residential clustering designed to capture prevailing hillside wind corridors.",
+                         "updated_at":  "2026-11-01T12:05:08.914Z",
+                         "subtitle":  "Microclimate \u0026 Hillside Urbanism",
+                         "basic_info":  [
+                                            {
+                                                "value":  "Urban- Architecture- Landscape",
+                                                "label":  "Category"
+                                            },
+                                            {
+                                                "value":  "2024 - 2026",
+                                                "label":  "Year"
+                                            },
+                                            {
+                                                "value":  "Baro Nguyen",
+                                                "label":  "Author"
+                                            }
+                                        ],
+                         "stt":  "09",
+                         "seo":  {
+                                     "metaDescription":  "Terrain-sensitive low-impact residential clustering designed to capture prevailing hillside wind corridors.",
+                                     "slug":  "windy-hill-neighborhood",
+                                     "metaTitle":  "Windy Hill Neighborhood | Baropholio"
+                                 },
+                         "title":  "Windy Hill Neighborhood",
+                         "media":  [
+                                       {
+                                           "id":  "m-windy-hill-neighborhood-1",
+                                           "dataUrl":  "https://fgbnfujztuwvxmbzuhmn.supabase.co/storage/v1/object/public/project-media/windy-hill-neighborhood/windy-hill-neighborhood-01.jpg",
+                                           "url":  "https://fgbnfujztuwvxmbzuhmn.supabase.co/storage/v1/object/public/project-media/windy-hill-neighborhood/windy-hill-neighborhood-01.jpg",
+                                           "type":  "image",
+                                           "alt":  "Windy Hill Master Plan",
+                                           "src":  "https://fgbnfujztuwvxmbzuhmn.supabase.co/storage/v1/object/public/project-media/windy-hill-neighborhood/windy-hill-neighborhood-01.jpg",
+                                           "caption":  "Windy Hill Master Plan",
+                                           "isCover":  true
+                                       },
+                                       {
+                                           "id":  "m-windy-hill-neighborhood-2",
+                                           "dataUrl":  "https://fgbnfujztuwvxmbzuhmn.supabase.co/storage/v1/object/public/project-media/windy-hill-neighborhood/windy-hill-neighborhood-02.jpg",
+                                           "url":  "https://fgbnfujztuwvxmbzuhmn.supabase.co/storage/v1/object/public/project-media/windy-hill-neighborhood/windy-hill-neighborhood-02.jpg",
+                                           "type":  "image",
+                                           "alt":  "Hillside Cluster Section",
+                                           "src":  "https://fgbnfujztuwvxmbzuhmn.supabase.co/storage/v1/object/public/project-media/windy-hill-neighborhood/windy-hill-neighborhood-02.jpg",
+                                           "caption":  "Hillside Cluster Section",
+                                           "isCover":  false
+                                       },
+                                       {
+                                           "id":  "m-windy-hill-neighborhood-3",
+                                           "dataUrl":  "https://fgbnfujztuwvxmbzuhmn.supabase.co/storage/v1/object/public/project-media/windy-hill-neighborhood/windy-hill-neighborhood-03.webp",
+                                           "url":  "https://fgbnfujztuwvxmbzuhmn.supabase.co/storage/v1/object/public/project-media/windy-hill-neighborhood/windy-hill-neighborhood-03.webp",
+                                           "type":  "image",
+                                           "alt":  "Topographic Contours Study",
+                                           "src":  "https://fgbnfujztuwvxmbzuhmn.supabase.co/storage/v1/object/public/project-media/windy-hill-neighborhood/windy-hill-neighborhood-03.webp",
+                                           "caption":  "Topographic Contours Study",
+                                           "isCover":  false
+                                       },
+                                       {
+                                           "id":  "m-windy-hill-neighborhood-4",
+                                           "dataUrl":  "https://fgbnfujztuwvxmbzuhmn.supabase.co/storage/v1/object/public/project-media/windy-hill-neighborhood/windy-hill-neighborhood-04.webp",
+                                           "url":  "https://fgbnfujztuwvxmbzuhmn.supabase.co/storage/v1/object/public/project-media/windy-hill-neighborhood/windy-hill-neighborhood-04.webp",
+                                           "type":  "image",
+                                           "alt":  "Wind Flow Simulation",
+                                           "src":  "https://fgbnfujztuwvxmbzuhmn.supabase.co/storage/v1/object/public/project-media/windy-hill-neighborhood/windy-hill-neighborhood-04.webp",
+                                           "caption":  "Wind Flow Simulation",
+                                           "isCover":  false
+                                       }
+                                   ],
+                         "collections":  [
+                                             "Urban- Architecture- Landscape",
+                                             "Model"
+                                         ]
+                     },
+                     {
+                         "published":  true,
+                         "slug":  "fish-and-orchard",
+                         "description":  "An architectural identity system balancing geometric structure with organic branding freedom.",
+                         "updated_at":  "2026-11-01T12:05:18.692Z",
+                         "subtitle":  "Spatial Design \u0026 Brand Identity System",
+                         "basic_info":  [
+                                            {
+                                                "value":  "Orange~",
+                                                "label":  "Category"
+                                            },
+                                            {
+                                                "value":  "2024 - 2026",
+                                                "label":  "Year"
+                                            },
+                                            {
+                                                "value":  "Baro Nguyen",
+                                                "label":  "Author"
+                                            }
+                                        ],
+                         "stt":  "10",
+                         "seo":  {
+                                     "metaDescription":  "An architectural identity system balancing geometric structure with organic branding freedom.",
+                                     "slug":  "fish-and-orchard",
+                                     "metaTitle":  "Fish and Orchard | Baropholio"
+                                 },
+                         "title":  "Fish and Orchard",
+                         "media":  [
+                                       {
+                                           "id":  "m-fish-and-orchard-1",
+                                           "dataUrl":  "https://fgbnfujztuwvxmbzuhmn.supabase.co/storage/v1/object/public/project-media/fish-and-orchard/fish-and-orchard-01.jpg",
+                                           "url":  "https://fgbnfujztuwvxmbzuhmn.supabase.co/storage/v1/object/public/project-media/fish-and-orchard/fish-and-orchard-01.jpg",
+                                           "type":  "image",
+                                           "alt":  "Brand Identity Cover",
+                                           "src":  "https://fgbnfujztuwvxmbzuhmn.supabase.co/storage/v1/object/public/project-media/fish-and-orchard/fish-and-orchard-01.jpg",
+                                           "caption":  "Brand Identity Cover",
+                                           "isCover":  true
+                                       },
+                                       {
+                                           "id":  "m-fish-and-orchard-2",
+                                           "dataUrl":  "https://fgbnfujztuwvxmbzuhmn.supabase.co/storage/v1/object/public/project-media/fish-and-orchard/fish-and-orchard-02.jpg",
+                                           "url":  "https://fgbnfujztuwvxmbzuhmn.supabase.co/storage/v1/object/public/project-media/fish-and-orchard/fish-and-orchard-02.jpg",
+                                           "type":  "image",
+                                           "alt":  "Emblem Morphology",
+                                           "src":  "https://fgbnfujztuwvxmbzuhmn.supabase.co/storage/v1/object/public/project-media/fish-and-orchard/fish-and-orchard-02.jpg",
+                                           "caption":  "Emblem Morphology",
+                                           "isCover":  false
+                                       },
+                                       {
+                                           "id":  "m-fish-and-orchard-3",
+                                           "dataUrl":  "https://fgbnfujztuwvxmbzuhmn.supabase.co/storage/v1/object/public/project-media/fish-and-orchard/fish-and-orchard-03.jpg",
+                                           "url":  "https://fgbnfujztuwvxmbzuhmn.supabase.co/storage/v1/object/public/project-media/fish-and-orchard/fish-and-orchard-03.jpg",
+                                           "type":  "image",
+                                           "alt":  "Packaging System",
+                                           "src":  "https://fgbnfujztuwvxmbzuhmn.supabase.co/storage/v1/object/public/project-media/fish-and-orchard/fish-and-orchard-03.jpg",
+                                           "caption":  "Packaging System",
+                                           "isCover":  false
+                                       }
+                                   ],
+                         "collections":  [
+                                             "Orange~",
+                                             "Graphic Design",
+                                             "Branding"
+                                         ]
+                     }
+                 ],
+    "last_synced":  "2026-11-01T12:05:19.398Z",
+    "_canonical":  "Authoritative 10 Core Projects of Baropholio"
 }
