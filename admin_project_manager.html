@@ -4220,6 +4220,12 @@ const ICONS = {
       const p = state.currentProject;
       if (!Array.isArray(p.media)) p.media = [];
 
+      // Tạo slug nếu chưa có (dùng làm tên thư mục Storage)
+      if (!p.slug && p.title) p.slug = p.title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+
+      const sb = typeof supabaseClient !== 'undefined' ? supabaseClient : null;
+      let uploadedCount = 0;
+
       for (let i = 0; i < files.length; i++) {
         const file = files[i];
         const isImage = file.type.startsWith('image/') && file.type !== 'image/gif';
@@ -4229,26 +4235,47 @@ const ICONS = {
         const isPdf   = file.type === 'application/pdf' || /\.pdf$/i.test(file.name);
         if (!isImage && !isGif && !isVideo && !isAudio && !isPdf) continue;
 
+        const type = isImage ? 'image' : isGif ? 'gif' : isVideo ? 'video' : isAudio ? 'audio' : 'pdf';
+        const isFirst = p.media.length === 0;
+        const mediaId = generateUUID();
+        const ext = file.name.split('.').pop().toLowerCase();
+        const storagePath = p.slug ? `${p.slug}/${mediaId}.${ext}` : `uploads/${mediaId}.${ext}`;
+
         try {
-          const dataUrl = await optimizeImageToDataUrl(file);
-          const isFirst = p.media.length === 0;
-          const type = isImage ? 'image' : isGif ? 'gif' : isVideo ? 'video' : isAudio ? 'audio' : 'pdf';
+          // Thử upload lên Supabase Storage trước
+          let publicUrl = null;
+          if (sb && p.slug) {
+            const { error: upErr } = await sb.storage.from('project-media').upload(storagePath, file, { upsert: true, contentType: file.type });
+            if (!upErr) {
+              const { data: urlData } = sb.storage.from('project-media').getPublicUrl(storagePath);
+              publicUrl = urlData?.publicUrl || null;
+            } else {
+              console.warn('[Storage] Upload lỗi, fallback dataUrl:', upErr.message);
+            }
+          }
+
+          // Fallback: dataUrl nếu Storage thất bại hoặc chưa có slug
+          const dataUrl = publicUrl ? null : await optimizeImageToDataUrl(file);
+
           p.media.push({
-            id: generateUUID(),
+            id: mediaId,
             type,
             name: file.name,
-            dataUrl,
+            url: publicUrl,          // Cloud URL (ưu tiên)
+            dataUrl: dataUrl,        // Base64 fallback
             isCover: isFirst && isImage,
             alt: file.name.replace(/\.[^/.]+$/, '').replace(/[-_]/g, ' '),
             title: file.name.replace(/\.[^/.]+$/, ''),
             caption: ''
           });
+          uploadedCount++;
         } catch (e) {
           console.warn('Upload error:', e);
         }
       }
       renderWixMediaGrid();
-      showToast('Uploaded ' + files.length + ' media file(s)');
+      const toCloud = p.slug && sb ? ` → Supabase Storage (${p.slug}/)` : ' (local preview)';
+      showToast(`Đã upload ${uploadedCount} file${toCloud}`);
     }
 
     function optimizeImageToDataUrl(file) {
