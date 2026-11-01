@@ -20,7 +20,7 @@ Baropholio web/
 │   ├── du-an-02.png
 │   └── ...
 │
-└── baropholio_baro_nguyen_portfolio.html   <-- Trang web chính
+└── index.html   <-- Trang web chính
 ```
 
 ---
