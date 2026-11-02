@@ -1,0 +1,10 @@
+{
+  "cleanUrls": true,
+  "rewrites": [
+    { "source": "/work/:slug", "destination": "/project.html?slug=:slug" },
+    { "source": "/work", "destination": "/work.html" },
+    { "source": "/project/:slug", "destination": "/project.html?slug=:slug" },
+    { "source": "/admin", "destination": "/admin_project_manager.html" },
+    { "source": "/(.*)", "destination": "/index.html" }
+  ]
+}

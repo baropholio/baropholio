@@ -517,10 +517,10 @@
         e.stopPropagation();
         var idx = currentProjectIdx;
         closeDeck();
-        if (typeof window.openBaroProjectShowcase === "function") {
-          window.openBaroProjectShowcase(idx);
-        } else if (typeof window.openBook === "function") {
+        if (typeof window.openBook === "function") {
           window.openBook(idx);
+        } else if (typeof window.openBaroProjectShowcase === "function") {
+          window.openBaroProjectShowcase(idx);
         }
       });
     }
@@ -842,6 +842,16 @@
           }
         });
       }
+    }
+
+    var vpBtn = summaryCard.querySelector(".bpd-view-proj-action");
+    if (vpBtn) {
+      vpBtn.addEventListener("click", function(e) {
+        e.stopPropagation();
+        var pIdx = currentProjectIdx;
+        closeDeck();
+        if (typeof window.openBook === "function") window.openBook(pIdx);
+      });
     }
 
     // Set scroll boundaries

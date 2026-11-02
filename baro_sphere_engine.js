@@ -996,7 +996,10 @@
     if (this.sheetPreview) this.sheetPreview.classList.remove("show");
 
     // Thay thế sheet expanded cũ bằng Baro Project Deck clone chuẩn hiệu ứng lật thẻ
-    // openBaroProjectDeck: disabled - user clicks 2nd time for showcase
+    if (typeof window.openBaroProjectDeck === "function") {
+      window.openBaroProjectDeck(index);
+      return;
+    }
 
     document.body.classList.add("has-expanded-card");
     var item = this.cardItems[index];
@@ -1181,15 +1184,7 @@
             return it.mesh === hitMesh;
           });
           if (hitItem) {
-            if (self.expandedIdx === hitItem.index) {
-              // Second click on already-expanded card → open showcase overlay
-              if (typeof window.openBook === 'function') {
-                window.openBook(hitItem.index);
-              }
-            } else {
-              // First click → expand card (plate animation)
-              self.expandCard(hitItem.index);
-            }
+            self.expandCard(hitItem.index);
           }
         }
       }
