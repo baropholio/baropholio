@@ -519,8 +519,6 @@
         closeDeck();
         if (typeof window.openBook === "function") {
           window.openBook(idx);
-        } else if (typeof window.openBaroProjectShowcase === "function") {
-          window.openBaroProjectShowcase(idx);
         }
       });
     }
@@ -747,6 +745,12 @@
     }
     if (rec.video && images.indexOf(rec.video) === -1) {
       images.unshift(rec.video);
+    }
+    if (images.length === 0 && rec.media && Array.isArray(rec.media) && rec.media.length > 0) {
+      images = rec.media.map(function(m) { if (!m) return ""; if (typeof m === "string") return m; return m.url || m.src || (m.dataUrl && !m.dataUrl.startsWith("data:") ? m.dataUrl : ""); }).filter(Boolean);
+    }
+    if (images.length === 0) {
+      images = ["02.Project/02_Baropholio brand_240401/Baropholio brand (1).jpg", "02.Project/02_Baropholio brand_240401/Baropholio brand (3).jpg"];
     }
 
     // Fallback supplementary architectural plates if only 1 image exists

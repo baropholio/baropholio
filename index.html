@@ -4196,8 +4196,6 @@
   <!-- Baro Nguyen Project Deck (McLane Cloned Scroll & Flip Effect) -->
   <script src="baro_project_deck.js"></script>
 
-  <!-- Baro Nguyen Project Full Showcase (HW-6890 + Hanbury Design Cloned Full View) -->
-  <script src="baro_project_showcase.js"></script>
 
   <!-- ==========================================================================
        MAIN JAVASCRIPT
@@ -4521,7 +4519,14 @@
         var link  = safeStr(raw.link) || '';
         var image = safeStr(raw.image) || '';
         var video = safeStr(raw.video) || '';
+        if (!image && Array.isArray(raw.media) && raw.media.length > 0) {
+          var cov = raw.media.find(function(m){ return m && m.isCover; }) || raw.media[0];
+          if (cov) image = safeStr(cov.url || cov.src || cov.dataUrl);
+        }
         var gallery = safeArray(raw.gallery).map(function(m){ return safeStr(m); }).filter(Boolean);
+        if (gallery.length === 0 && Array.isArray(raw.media) && raw.media.length > 0) {
+          gallery = raw.media.map(function(m){ return safeStr(m.url || m.src || (m.dataUrl && !m.dataUrl.startsWith("data:") ? m.dataUrl : "")); }).filter(Boolean);
+        }
         if (gallery.length === 0 && (image || video)) gallery = [image || video];
         return {
           id: (raw.id != null ? raw.id : idx + 1),
