@@ -53,24 +53,16 @@
 
   // Danh mục ảnh dự án thật có sẵn trong kho lưu trữ
   var VERIFIED_LOCAL_IMAGES = [
-    "02.Project/02_/Screenshot 2025-03-24 175306.jpg",
-    "02.Project/02_/Screenshot 2025-03-24 175343.jpg",
-    "02.Project/02_/Screenshot 2025-03-24 175420.jpg",
-    "02.Project/02_/Screenshot 2025-03-24 180357.jpg",
-    "02.Project/02_/Screenshot 2025-03-24 180427.jpg",
-    "02.Project/02_/Screenshot 2025-03-24 180450.jpg",
-    "02.Project/02_/Screenshot 2025-03-24 180517.jpg",
-    "02.Project/02_/Screenshot 2025-03-24 180550.jpg",
-    "02.Project/02_/Screenshot 2025-03-24 180618.jpg",
-    "02.Project/02_/Screenshot 2025-03-24 180645.jpg",
-    "02.Project/02_/Screenshot 2025-03-24 180706.jpg",
-    "02.Project/02_/Screenshot 2025-03-24 180908.jpg",
-    "02.Project/02_/Screenshot 2025-03-24 181045.jpg",
-    "02.Project/02_/Screenshot 2025-04-22 010726.jpg",
-    "02.Project/02_/Screenshot 2025-04-22 010756.jpg",
-    "02.Project/01_ha-tu_261025/1.jpg",
-    "02.Project/01_ha-tu_261025/Baro Portfolio25.jpg",
-    "02.Project/01_ha-tu_261025/mh.jpg"
+    "02.Project/02_Baropholio brand_240401/Baropholio brand (1).jpg",
+    "02.Project/01_Windy Hill/Baro Portfolio25.jpg",
+    "02.Project/07_Park/NGUYA1BB84NC3C220BA1BAA2O_M8394C3C220(1)-1793088070119_convert_com_vn.webp",
+    "02.Project/06_Scomeco/baro-du-duk_01-1793087556464_convert_com_vn.webp",
+    "02.Project/05_Thuy Dai/386047287_3683376851949091_162864876726435184_n.jpg",
+    "02.Project/07_Park/2-1793088026015_convert_com_vn.webp",
+    "02.Project/04_Thanh Da Market/11.jpg",
+    "02.Project/08_Rocras/b2d7ff64eb506b0e3241.jpg",
+    "02.Project/03_120H/Screenshot 2024-09-30 212638.jpg",
+    "02.Project/02_Baropholio brand_240401/Baropholio brand (3).jpg"
   ];
 
   // TASK-01: Mute All Sound Effects / Silent Interaction
@@ -791,21 +783,29 @@
       var isOrange = /orange/i.test((rec.category || rec.cat || "") + " " + (rec.title || ""));
 
       // TASK-06: Xác định Empty Slot hay Active Slot
-      var isEmptySlot = rec.isSynthetic || (!rec.image && i >= VERIFIED_LOCAL_IMAGES.length);
+      var isEmptySlot = !!rec.isSynthetic;
       var imageSrc = null;
       if (!isEmptySlot) {
         if (rec.image && !rec.isSynthetic) {
-          if (rec.image.indexOf("project-") !== -1) {
-            imageSrc = VERIFIED_LOCAL_IMAGES[i % VERIFIED_LOCAL_IMAGES.length];
-          } else {
-            imageSrc = rec.image;
-          }
-        } else if (!rec.isSynthetic && i < VERIFIED_LOCAL_IMAGES.length) {
+          imageSrc = rec.image;
+        } else if (rec.media && Array.isArray(rec.media) && rec.media.length > 0) {
+          var cov = rec.media.find(function(m){ return m && m.isCover; }) || rec.media[0];
+          if (cov) imageSrc = cov.url || cov.src || cov.dataUrl;
+        }
+        if (!imageSrc && i < VERIFIED_LOCAL_IMAGES.length) {
           imageSrc = VERIFIED_LOCAL_IMAGES[i];
         }
       }
 
-      // TASK-06: Slot chưa có dự án (Empty Slot) hiển thị dạng Glassmorphism trắng trong suốt mờ, không văn bản
+      // Đảm bảo dữ liệu của record luôn đồng bộ 100% với ảnh hiển thị trên thẻ
+      if (imageSrc) {
+        if (!rec.image) rec.image = imageSrc;
+        if (!rec.gallery || !Array.isArray(rec.gallery) || rec.gallery.length === 0) {
+          rec.gallery = [imageSrc];
+        }
+      }
+
+      // Slot chưa có dự án (Empty Slot) hiển thị dạng Glassmorphism trắng trong suốt mờ
       var defaultTex = isEmptySlot ? createGlassmorphicEmptyTexture() : createMonochromePlateTexture(rec, i, N, isOrange);
 
       var mat = new THREE.MeshBasicMaterial({
@@ -874,8 +874,8 @@
               undefined,
               function () {
                 // Fallback nếu ảnh không tồn tại: Glassmorphic slot mờ
-                tMat.map = createGlassmorphicEmptyTexture();
-                tMat.opacity = 0.72;
+                tMat.map = createMonochromePlateTexture(rec, i, N, isOrange);
+                tMat.opacity = 1.0;
                 tMat.needsUpdate = true;
               }
             );
@@ -990,16 +990,26 @@
   // Phóng to Hero Card khi click -> Thay bằng Baro Project Deck (McLane cloned scroll & flip effect)
   GNSphereEngine.prototype.expandCard = function (index) {
     if (index < 0 || index >= this.cardItems.length) return;
+    var item = this.cardItems[index];
+    if (!item || !item.record) return;
+    var rec = item.record;
+    // Thẻ synthetic vẫn mở deck review với plates kiến trúc tiêu chuẩn
+
     this.expandedIdx = index;
     AudioFX.click();
 
     if (this.sheetPreview) this.sheetPreview.classList.remove("show");
 
-    // Thay thế sheet expanded cũ bằng Baro Project Deck clone chuẩn hiệu ứng lật thẻ
+    // Mở Flip Card Deck review - KHÔNG navigate sang trang khác
     if (typeof window.openBaroProjectDeck === "function") {
-      window.openBaroProjectDeck(index);
-      return;
+      window.openBaroProjectDeck(rec);
+    } else {
+      var _rec = rec;
+      setTimeout(function() {
+        if (typeof window.openBaroProjectDeck === "function") window.openBaroProjectDeck(_rec);
+      }, 150);
     }
+    return;
 
     document.body.classList.add("has-expanded-card");
     var item = this.cardItems[index];
@@ -1183,7 +1193,7 @@
           var hitItem = self.cardItems.find(function (it) {
             return it.mesh === hitMesh;
           });
-          if (hitItem) {
+          if (hitItem && hitItem.record) {
             self.expandCard(hitItem.index);
           }
         }
@@ -1217,8 +1227,14 @@
     if (this.btnOpenMonograph) {
       this.btnOpenMonograph.addEventListener("click", function (e) {
         e.stopPropagation();
-        if (self.expandedIdx !== -1 && window.openBook) {
-          window.openBook(self.expandedIdx);
+        if (self.expandedIdx !== -1 && self.cardItems[self.expandedIdx]) {
+          var r = self.cardItems[self.expandedIdx].record;
+          if (r && !r.isSynthetic) {
+            if (typeof window.openBaroProjectDeck === 'function') {
+              window.openBaroProjectDeck(r);
+            }
+            // KHÔNG gọi openBook - không navigate trang
+          }
         }
       });
     }

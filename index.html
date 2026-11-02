@@ -4191,10 +4191,10 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 
   <!-- Baro Nguyen 3D WebGL Sphere Engine -->
-  <script src="baro_sphere_engine.js"></script>
+  <script src="baro_sphere_engine.js?v=20261102_sync"></script>
 
   <!-- Baro Nguyen Project Deck (McLane Cloned Scroll & Flip Effect) -->
-  <script src="baro_project_deck.js"></script>
+  <script src="baro_project_deck.js?v=20261102_sync"></script>
 
 
   <!-- ==========================================================================
@@ -5735,8 +5735,8 @@
         if (!isDragging) return;
         isDragging = false;
         var dist = Math.hypot(e.clientX - downX, e.clientY - downY);
-        // Click action: Opens 3D Architectural Monograph Book Spread
-        if (dist < 10) {
+        // Click action: Opens 3D Architectural Monograph Book Spread (Reel mode only)
+        if (dist < 10 && viewMode !== "sphere") {
           var targetCard = (startTarget && startTarget.closest) ? startTarget.closest(".card") : null;
           if (!targetCard) {
             targetCard = document.elementFromPoint(e.clientX, e.clientY);
@@ -6095,18 +6095,70 @@
         }
       }
 
-      function openBook(idx) {
-        var rec = RECORDS && RECORDS[idx];
+      // Navigation thực sự sang trang chi tiết project (chỉ gọi khi user chủ động click nút trong Deck)
+      function navigateToProject(target) {
+        var rec = null;
+        if (typeof target === 'object' && target !== null) {
+          rec = target;
+        } else if (typeof target === 'number') {
+          rec = (window.RECORDS && window.RECORDS[target]) || (RECORDS && RECORDS[target]);
+        } else if (typeof target === 'string') {
+          rec = (window.RECORDS && window.RECORDS.find(function(r){ return r.slug === target || String(r.id) === target; })) ||
+                (RECORDS && RECORDS.find(function(r){ return r.slug === target || String(r.id) === target; }));
+        }
         if (rec) {
-          var targetSlug = rec.slug || (rec.title ? rec.title.toLowerCase().replace(/[àáạảãâầấậẩẫăằắặẳẵ]/g, 'a').replace(/[èéẹẻẽêềếệểễ]/g, 'e').replace(/[ìíịỉĩ]/g, 'i').replace(/[òóọỏõôồốộổỗơờớợởỡ]/g, 'o').replace(/[ùúụủũưừứựửữ]/g, 'u').replace(/[ỳýỵỷỹ]/g, 'y').replace(/đ/g, 'd').replace(/\s+/g, '-').replace(/[^\w\-]+/g, '') : '') || ('project-' + (rec.id || idx));
+          var targetSlug = rec.slug || (rec.title ? rec.title.toLowerCase().replace(/[àáạảãâầấậẩẫăằắặẳẵ]/g, 'a').replace(/[èéẹẻẽêềếệểễ]/g, 'e').replace(/[ìíịỉĩ]/g, 'i').replace(/[òóọỏõôồốộổỗơờớợởỡ]/g, 'o').replace(/[ùúụủũưừứựửữ]/g, 'u').replace(/[ỳýỵỷỹ]/g, 'y').replace(/đ/g, 'd').replace(/\s+/g, '-').replace(/[^\w\-]+/g, '') : '') || ('project-' + (rec.id || 0));
           var isFile = window.location.protocol === 'file:';
-          if (isFile) {
+          var isLocalServer = window.location.port !== '' || window.location.pathname.endsWith('.html');
+          if (isFile || isLocalServer) {
             window.location.href = 'project.html?slug=' + encodeURIComponent(targetSlug);
           } else {
             window.location.href = '/work/' + encodeURIComponent(targetSlug);
           }
           return;
+        } else if (typeof target === 'string') {
+          var isFile = window.location.protocol === 'file:';
+          var isLocalServer = window.location.port !== '' || window.location.pathname.endsWith('.html');
+          if (isFile || isLocalServer) {
+            window.location.href = 'project.html?slug=' + encodeURIComponent(target);
+          } else {
+            window.location.href = '/work/' + encodeURIComponent(target);
+          }
         }
+      }
+      window.navigateToProject = navigateToProject;
+
+      // openBook trên index.html: MỞ FLIP CARD REVIEW NHANH TRÊN INDEX - TUYỆT ĐỐI KHÔNG CHUYỂN TRANG
+      function openBook(target) {
+        var rec = null;
+        if (typeof target === 'object' && target !== null) {
+          rec = target;
+        } else if (typeof target === 'number') {
+          rec = (window.RECORDS && window.RECORDS[target]) || (RECORDS && RECORDS[target]);
+        } else if (typeof target === 'string') {
+          rec = (window.RECORDS && window.RECORDS.find(function(r){ return r.slug === target || String(r.id) === target; })) ||
+                (RECORDS && RECORDS.find(function(r){ return r.slug === target || String(r.id) === target; }));
+        }
+        if (!rec && typeof target === 'number') {
+          rec = (window.RECORDS && window.RECORDS[target]) || (RECORDS && RECORDS[target]);
+        }
+
+        closeAbout();
+        closeMenu();
+        if (document.body.classList.contains("gridview")) window.toggleGrid(false);
+
+        // Ưu tiên mở Baro Project Deck (Flip Card Review nhanh)
+        if (typeof window.openBaroProjectDeck === 'function' && rec) {
+          window.openBaroProjectDeck(rec);
+          return;
+        }
+
+        // Fallback: Mở Book modal nội bộ trên trang index (không navigate)
+        var idx = 0;
+        if (typeof target === 'number') idx = target;
+        else if (rec && window.RECORDS) idx = window.RECORDS.indexOf(rec);
+        if (typeof loadBookSpread === 'function') loadBookSpread(idx >= 0 ? idx : 0);
+        document.body.classList.add("book-open");
       }
       window.openBook = openBook;
 

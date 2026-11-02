@@ -510,17 +510,22 @@
     setupEvents();
   }
 
+  // Store current open record for button handlers
+  var currentOpenRec = null;
+
   function setupEvents() {
-    // 1. Black Circle Button -> View Full Project Showcase (HW-6890 + Hanbury clone)
+    // 1. Black Circle Button -> View Full Project Showcase
     if (btnMoreEl) {
-      btnMoreEl.addEventListener("click", function (e) {
+      btnMoreEl.onclick = function (e) {
         e.stopPropagation();
-        var idx = currentProjectIdx;
+        var records = window.RECORDS || window.BAROPHOLIO_PROJECTS || [];
+        // Ưu tiên currentOpenRec (luôn có khi mở từ sphere card)
+        var target = currentOpenRec || (records && records[currentProjectIdx]) || currentProjectIdx;
         closeDeck();
         if (typeof window.openBook === "function") {
-          window.openBook(idx);
+          window.openBook(target);
         }
-      });
+      };
     }
 
     // 2. White Back Button -> Back to 3D Sphere
@@ -724,15 +729,69 @@
   /**
    * OPEN BARO PROJECT DECK
    */
-  function openDeck(projectIndex) {
+  function openDeck(projectRef) {
     initDeckDOM();
 
     var records = window.RECORDS || window.BAROPHOLIO_PROJECTS || [];
-    if (!records || records.length === 0) return;
 
-    currentProjectIdx = (projectIndex + records.length) % records.length;
-    var rec = records[currentProjectIdx];
+    var rec = null;
+    currentProjectIdx = 0;
+
+    // --- Ưu tiên xử lý object trực tiếp (từ sphere card click) ---
+    if (typeof projectRef === "object" && projectRef !== null) {
+      // LUÔN DÙNG TRỰC TIẾP projectRef để đảm bảo khớp 100% dự án của thẻ được click
+      rec = projectRef;
+      currentProjectIdx = 0;
+
+      // Tìm currentProjectIdx chỉ để hiển thị đúng số thứ tự PROJECT 0X / 10
+      if (records.length > 0) {
+        var foundIdx = -1;
+        for (var i = 0; i < records.length; i++) {
+          var r = records[i];
+          if (r === projectRef ||
+              (r.slug && projectRef.slug && r.slug === projectRef.slug) ||
+              (r.title && projectRef.title && r.title.toLowerCase() === projectRef.title.toLowerCase()) ||
+              (r.id != null && projectRef.id != null && String(r.id) === String(projectRef.id))) {
+            foundIdx = i;
+            break;
+          }
+        }
+        if (foundIdx !== -1) {
+          currentProjectIdx = foundIdx;
+          // Merge metadata nếu có thêm thông tin từ master list
+          if (records[foundIdx].gallery && (!rec.gallery || rec.gallery.length <= 1)) {
+            rec.gallery = records[foundIdx].gallery;
+          }
+          if (records[foundIdx].description && !rec.description) {
+            rec.description = records[foundIdx].description;
+          }
+        }
+      }
+    } else if (records.length === 0) {
+      // Không có records và không phải object → không thể mở
+      return;
+    } else if (typeof projectRef === "string") {
+      var sIdx = -1;
+      for (var j = 0; j < records.length; j++) {
+        var rj = records[j];
+        if ((rj.slug && rj.slug === projectRef) ||
+            (String(rj.id) === projectRef) ||
+            (rj.title && rj.title.toLowerCase() === projectRef.toLowerCase())) {
+          sIdx = j;
+          break;
+        }
+      }
+      currentProjectIdx = sIdx !== -1 ? sIdx : 0;
+      rec = records[currentProjectIdx];
+    } else if (typeof projectRef === "number") {
+      currentProjectIdx = (projectRef + records.length) % records.length;
+      rec = records[currentProjectIdx];
+    } else {
+      rec = records[0];
+    }
+
     if (!rec) return;
+    currentOpenRec = rec; // Store for button handlers
 
     // Build project gallery plate list
     var images = [];
@@ -793,10 +852,10 @@
         <div class="bpd-card-tag">Plate ${plateNum} / ${totalPlateNum}</div>
       `;
       var vEl = card.querySelector("video");
-      if (vEl) {
+      if (vEl && typeof vEl.play === "function") {
         vEl.muted = true;
         vEl.defaultMuted = true;
-        vEl.play().catch(function(){});
+        try { vEl.play().catch(function(){}); } catch(e){}
       }
       viewportEl.appendChild(card);
       currentCards.push(card);
@@ -818,6 +877,12 @@
           <span class="bpd-script-text" id="bpdScriptText">${shortDesc}</span>
           ${isLong ? '<button type="button" class="bpd-script-toggle" id="bpdScriptToggle" aria-label="Toggle full description">&lt;</button>' : ''}
         </div>
+      </div>
+      <div class="bpd-summary-action-wrap" style="margin-top:20px;">
+        <button type="button" class="bpd-view-proj-action" style="background:#0d0c0b;color:#f2f0ec;border:none;padding:10px 22px;border-radius:100px;font-family:inherit;font-size:11px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;cursor:pointer;display:inline-flex;align-items:center;gap:8px;">
+          <span>View Project Showcase</span>
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </button>
       </div>
     `;
 
@@ -850,12 +915,14 @@
 
     var vpBtn = summaryCard.querySelector(".bpd-view-proj-action");
     if (vpBtn) {
-      vpBtn.addEventListener("click", function(e) {
+      vpBtn.onclick = function(e) {
         e.stopPropagation();
-        var pIdx = currentProjectIdx;
+        var records = window.RECORDS || window.BAROPHOLIO_PROJECTS || [];
+        var target = currentOpenRec || (records && records[currentProjectIdx]) || currentProjectIdx;
         closeDeck();
-        if (typeof window.openBook === "function") window.openBook(pIdx);
-      });
+        if (typeof window.navigateToProject === "function") window.navigateToProject(target);
+        else if (typeof window.openBook === "function") window.openBook(target);
+      };
     }
 
     // Set scroll boundaries

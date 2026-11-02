@@ -6126,15 +6126,32 @@
         }
       }
 
-      function openBook(idx) {
-        var rec = RECORDS && RECORDS[idx];
+      function openBook(target) {
+        var rec = null;
+        if (typeof target === 'object' && target !== null) {
+          rec = target;
+        } else if (typeof target === 'number') {
+          rec = RECORDS && RECORDS[target];
+        } else if (typeof target === 'string') {
+          rec = RECORDS && RECORDS.find(function(r){ return r.slug === target || String(r.id) === target; });
+        }
         if (rec) {
-          var targetSlug = rec.slug || (rec.title ? rec.title.toLowerCase().replace(/[àáạảãâầấậẩẫăằắặẳẵ]/g, 'a').replace(/[èéẹẻẽêềếệểễ]/g, 'e').replace(/[ìíịỉĩ]/g, 'i').replace(/[òóọỏõôồốộổỗơờớợởỡ]/g, 'o').replace(/[ùúụủũưừứựửữ]/g, 'u').replace(/[ỳýỵỷỹ]/g, 'y').replace(/đ/g, 'd').replace(/\s+/g, '-').replace(/[^\w\-]+/g, '') : '') || ('project-' + (rec.id || idx));
+          var targetSlug = rec.slug || (rec.title ? rec.title.toLowerCase().replace(/[àáạảãâầấậẩẫăằắặẳẵ]/g, 'a').replace(/[èéẹẻẽêềếệểễ]/g, 'e').replace(/[ìíịỉĩ]/g, 'i').replace(/[òóọỏõôồốộổỗơờớợởỡ]/g, 'o').replace(/[ùúụủũưừứựửữ]/g, 'u').replace(/[ỳýỵỷỹ]/g, 'y').replace(/đ/g, 'd').replace(/\s+/g, '-').replace(/[^\w\-]+/g, '') : '') || ('project-' + (rec.id || 0));
           var isFile = window.location.protocol === 'file:';
-          if (isFile) {
+          var isLocalServer = window.location.port !== '' || window.location.pathname.endsWith('.html');
+          if (isFile || isLocalServer) {
             window.location.href = 'project.html?slug=' + encodeURIComponent(targetSlug);
           } else {
             window.location.href = '/work/' + encodeURIComponent(targetSlug);
+          }
+          return;
+        } else if (typeof target === 'string') {
+          var isFile = window.location.protocol === 'file:';
+          var isLocalServer = window.location.port !== '' || window.location.pathname.endsWith('.html');
+          if (isFile || isLocalServer) {
+            window.location.href = 'project.html?slug=' + encodeURIComponent(target);
+          } else {
+            window.location.href = '/work/' + encodeURIComponent(target);
           }
         }
       }

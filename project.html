@@ -6,6 +6,13 @@
   <title>Project &mdash; BAROPHOLIO Spatial Archive</title>
   <meta name="description" content="Spatial design and architectural project dossier by Baropholio.">
 
+  <!-- Base href for rewrite routes like /work/:slug -->
+  <script>
+    if (window.location.protocol !== 'file:') {
+      document.write('<base href="/">');
+    }
+  </script>
+
   <!-- Favicon -->
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <link rel="alternate icon" href="favicon.ico">
@@ -138,22 +145,87 @@
       return 0; // fallback to first
     }
 
+    function normalizeRecord(raw, idx) {
+      if (!raw || typeof raw !== 'object') return null;
+      var title = raw.title || 'Untitled Project';
+      var cat = raw.category || raw.cat ||
+        (Array.isArray(raw.collections) && raw.collections[0]) ||
+        (Array.isArray(raw.metadata) && (raw.metadata.find(function(m){ return m.key === 'Category'; }) || {}).value) ||
+        'ARCHIVE';
+      var year = raw.year || raw.date ||
+        (Array.isArray(raw.metadata) && (raw.metadata.find(function(m){ return m.key === 'Year'; }) || {}).value) ||
+        '2026';
+      var org = raw.organization || raw.org ||
+        (Array.isArray(raw.metadata) && (raw.metadata.find(function(m){ return m.key === 'Author' || m.key === 'Organization'; }) || {}).value) ||
+        'Baropholio';
+      var desc = raw.description || raw.desc || '';
+      var link = raw.link || '';
+      var slug = raw.slug || (raw.seo && raw.seo.slug) || '';
+
+      var image = raw.image || '';
+      var video = raw.video || '';
+      if (!image && Array.isArray(raw.media) && raw.media.length > 0) {
+        var cov = raw.media.find(function(m){ return m && m.isCover; }) || raw.media[0];
+        if (cov) image = cov.url || cov.src || cov.dataUrl || '';
+      }
+      var gallery = Array.isArray(raw.gallery) ? raw.gallery.slice() : [];
+      if (gallery.length === 0 && Array.isArray(raw.media) && raw.media.length > 0) {
+        gallery = raw.media.map(function(m){
+          if (!m) return '';
+          if (typeof m === 'string') return m;
+          return m.url || m.src || (m.dataUrl && !m.dataUrl.startsWith('data:') ? m.dataUrl : '');
+        }).filter(Boolean);
+      }
+      if (gallery.length === 0 && (image || video)) gallery = [image || video];
+
+      return {
+        id: (raw.id != null ? raw.id : idx + 1),
+        stt: raw.stt || (idx + 1 < 10 ? '0' + (idx + 1) : String(idx + 1)),
+        title: title,
+        subtitle: raw.subtitle || '',
+        category: cat,
+        cat: cat,
+        year: year,
+        date: year,
+        organization: org,
+        org: org,
+        award: raw.award || '',
+        description: desc,
+        desc: desc,
+        image: image,
+        video: video,
+        link: link,
+        gallery: gallery,
+        images: gallery,
+        media: raw.media || [],
+        collections: Array.isArray(raw.collections) ? raw.collections : [cat],
+        basicInfo: Array.isArray(raw.basicInfo) && raw.basicInfo.length > 0 ? raw.basicInfo : (raw.basic_info || raw.metadata || []),
+        slug: slug
+      };
+    }
+
     function goBackToWork() {
-      var isFile = window.location.protocol === 'file:';
-      window.location.href = isFile ? 'work.html' : '/work';
+      if (window.history.length > 1) {
+        window.history.back();
+      } else {
+        var isFile = window.location.protocol === 'file:';
+        window.location.href = isFile ? 'work.html' : '/work';
+      }
     }
 
     function launchShowcase(idx) {
       if (!window.BaroProjectShowcase || typeof window.BaroProjectShowcase.open !== 'function') {
-        setTimeout(function() { launchShowcase(idx); }, 80);
+        setTimeout(function() { launchShowcase(idx); }, 40);
         return;
       }
 
       var loader = document.getElementById('loader');
       if (loader) loader.style.display = 'none';
 
+      var targetIdx = Math.max(0, idx);
+
       // Open showcase
-      window.BaroProjectShowcase.open(idx);
+      window.BaroProjectShowcase.open(targetIdx);
 
       // Intercept Close Button and Escape to return to /work
       setTimeout(function() {
@@ -179,7 +251,8 @@
 
       // 1. Check window.BAROPHOLIO_PROJECTS (from 02.Project/projects_data.js)
       if (window.BAROPHOLIO_PROJECTS && window.BAROPHOLIO_PROJECTS.length > 0) {
-        window.RECORDS = window.BAROPHOLIO_PROJECTS;
+        var normalized = window.BAROPHOLIO_PROJECTS.map(normalizeRecord).filter(Boolean);
+        window.RECORDS = normalized;
         var idx = findProjectIndex(window.RECORDS, slug);
         launchShowcase(idx);
         return;
@@ -191,8 +264,9 @@
         if (raw) {
           var parsed = JSON.parse(raw);
           if (parsed && Array.isArray(parsed.data) && parsed.data.length > 0) {
-            window.RECORDS = parsed.data;
-            window.BAROPHOLIO_PROJECTS = parsed.data;
+            var cNorm = parsed.data.map(normalizeRecord).filter(Boolean);
+            window.RECORDS = cNorm;
+            window.BAROPHOLIO_PROJECTS = cNorm;
             var cIdx = findProjectIndex(window.RECORDS, slug);
             launchShowcase(cIdx);
             return;
@@ -210,9 +284,9 @@
             .order('stt', { ascending: true });
 
           if (res.data && res.data.length > 0) {
-            var mapped = res.data.map(function(row) {
+            var mapped = res.data.map(function(row, rIdx) {
               var media = Array.isArray(row.media) ? row.media : (row.media ? [row.media] : []);
-              return {
+              return normalizeRecord({
                 id: row.id,
                 stt: row.stt,
                 slug: row.slug,
@@ -222,11 +296,9 @@
                 category: (Array.isArray(row.collections) && row.collections[0]) || 'ARCHIVE',
                 collections: row.collections,
                 basicInfo: row.basic_info,
-                image: media[0] ? (typeof media[0] === 'string' ? media[0] : (media[0].url || media[0].src || '')) : '',
-                gallery: media.map(function(m) { return typeof m === 'string' ? m : (m.url || m.src || (m.dataUrl && !m.dataUrl.startsWith('data:') ? m.dataUrl : null)); }).filter(Boolean),
                 media: media
-              };
-            });
+              }, rIdx);
+            }).filter(Boolean);
 
             window.RECORDS = mapped;
             window.BAROPHOLIO_PROJECTS = mapped;

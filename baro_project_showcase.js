@@ -1533,12 +1533,46 @@
   }
 
   // Open Showcase
-  function openShowcase(projectIndex) {
+  function openShowcase(projectRef) {
     var recs = getRecords();
     if (!recs || recs.length === 0) return;
 
-    currentProjectIdx = (projectIndex + recs.length) % recs.length;
-    currentRecord = recs[currentProjectIdx];
+    if (typeof projectRef === "object" && projectRef !== null) {
+      var foundIdx = -1;
+      for (var i = 0; i < recs.length; i++) {
+        var r = recs[i];
+        if (r === projectRef ||
+            (r.id != null && projectRef.id != null && String(r.id) === String(projectRef.id)) ||
+            (r.slug && projectRef.slug && r.slug === projectRef.slug) ||
+            (r.title && projectRef.title && r.title.toLowerCase() === projectRef.title.toLowerCase())) {
+          foundIdx = i;
+          break;
+        }
+      }
+      currentProjectIdx = foundIdx !== -1 ? foundIdx : 0;
+      currentRecord = recs[currentProjectIdx] || projectRef;
+    } else if (typeof projectRef === "string") {
+      var sIdx = -1;
+      for (var j = 0; j < recs.length; j++) {
+        var rj = recs[j];
+        if ((rj.slug && rj.slug === projectRef) ||
+            (String(rj.id) === projectRef) ||
+            (rj.title && rj.title.toLowerCase() === projectRef.toLowerCase())) {
+          sIdx = j;
+          break;
+        }
+      }
+      currentProjectIdx = sIdx !== -1 ? sIdx : 0;
+      currentRecord = recs[currentProjectIdx];
+    } else if (typeof projectRef === "number") {
+      currentProjectIdx = (projectRef + recs.length) % recs.length;
+      currentRecord = recs[currentProjectIdx];
+    } else {
+      currentProjectIdx = 0;
+      currentRecord = recs[0];
+    }
+
+    if (!currentRecord) return;
 
     currentImages = [];
     if (currentRecord.gallery && Array.isArray(currentRecord.gallery) && currentRecord.gallery.length > 0) {
@@ -1548,8 +1582,23 @@
     } else if (currentRecord.image) {
       currentImages = [currentRecord.image];
     }
+    if (currentImages.length === 0 && currentRecord.media && Array.isArray(currentRecord.media) && currentRecord.media.length > 0) {
+      currentImages = currentRecord.media.map(function(m) {
+        if (!m) return "";
+        if (typeof m === "string") return m;
+        return m.url || m.src || (m.dataUrl && !m.dataUrl.startsWith("data:") ? m.dataUrl : "");
+      }).filter(Boolean);
+    }
     if (currentRecord.video && currentImages.indexOf(currentRecord.video) === -1) {
       currentImages.unshift(currentRecord.video);
+    }
+
+    // Fallback if images array is still empty
+    if (currentImages.length === 0) {
+      currentImages = [
+        "02.Project/02_Baropholio brand_240401/Baropholio brand (1).jpg",
+        "02.Project/02_Baropholio brand_240401/Baropholio brand (3).jpg"
+      ];
     }
 
     initBaroDOM();
@@ -1592,6 +1641,10 @@
     isOpen = true;
     document.body.classList.add("baro-showcase-open");
     showcaseEl.classList.add("is-active");
+    showcaseEl.style.display = "block";
+    showcaseEl.style.opacity = "1";
+    showcaseEl.style.visibility = "visible";
+    showcaseEl.style.pointerEvents = "auto";
     showcaseEl.scrollTop = 0;
   }
 
@@ -1614,6 +1667,12 @@
     var eng = window.baroSphereEngine || window.gnSphereEngine;
     if (eng && typeof eng.closeHeroCard === "function") {
       eng.closeHeroCard();
+    }
+
+    var isProjectPage = window.location.pathname.indexOf('project.html') !== -1 || window.location.pathname.indexOf('/work/') !== -1;
+    if (isProjectPage && !document.getElementById("gnSphereCanvas")) {
+      var isFile = window.location.protocol === 'file:';
+      window.location.href = isFile ? 'work.html' : '/work';
     }
   }
 
@@ -1645,8 +1704,8 @@
   window.openBaroProjectShowcase = openShowcase;
   window.closeBaroProjectShowcase = closeShowcase;
 
-  window.openBook = openShowcase;
-  window.closeBook = closeShowcase;
+  if (!window.openBook) window.openBook = openShowcase;
+  if (!window.closeBook) window.closeBook = closeShowcase;
   window.openLightbox = openShowcase;
   window.closeLightbox = closeShowcase;
 
