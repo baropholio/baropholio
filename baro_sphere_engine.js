@@ -996,10 +996,7 @@
     if (this.sheetPreview) this.sheetPreview.classList.remove("show");
 
     // Thay thế sheet expanded cũ bằng Baro Project Deck clone chuẩn hiệu ứng lật thẻ
-    if (typeof window.openBaroProjectDeck === "function") {
-      window.openBaroProjectDeck(index);
-      return;
-    }
+    // openBaroProjectDeck: disabled - user clicks 2nd time for showcase
 
     document.body.classList.add("has-expanded-card");
     var item = this.cardItems[index];
