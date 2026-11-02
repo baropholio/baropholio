@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Project &mdash; BAROPHOLIO Spatial Archive</title>
+  <meta name="description" content="Spatial design and architectural project dossier by Baropholio.">
+
+  <!-- Favicon -->
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="alternate icon" href="favicon.ico">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Epilogue:ital,wght@0,300;0,400;0,600;0,700;1,400&family=Newsreader:ital,opsz,wght@0,6..72,400;1,6..72,400&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg: #ffffff;
+      --fg: #0d0c0b;
+      --fg-soft: rgba(13,12,11,0.64);
+      --accent: #c46210;
+      --sans: "Space Grotesk", "Epilogue", -apple-system, sans-serif;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body {
+      width: 100%;
+      height: 100%;
+      background: #ffffff;
+      color: var(--fg);
+      font-family: var(--sans);
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+    #dot {
+      position: fixed; pointer-events: none; z-index: 100005;
+      width: 8px; height: 8px; border-radius: 50%;
+      background: var(--accent);
+      transform: translate(-50%, -50%);
+      transition: width .18s, height .18s, opacity .18s;
+      will-change: transform;
+    }
+    #loader {
+      position: fixed; inset: 0; display: flex; align-items: center; justify-content: center;
+      background: #ffffff; z-index: 99990; font-size: 13px; letter-spacing: 0.12em;
+      color: var(--fg-soft); text-transform: uppercase; font-weight: 600;
+    }
+  </style>
+</head>
+<body class="baro-showcase-open">
+
+<div id="dot"></div>
+<div id="loader">Opening Architectural Dossier...</div>
+
+<!-- Master static data & Showcase Engine -->
+<script src="02.Project/projects_data.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="baro_project_showcase.js"></script>
+
+<script>
+  (function () {
+    "use strict";
+
+    var SUPABASE_URL = 'https://fgbnfujztuwvxmbzuhmn.supabase.co';
+    var SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZnYm5mdWp6dHV3dnhtYnp1aG1uIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTM1MTcyOTEsImV4cCI6MjEwOTA5MzI5MX0.uetQ4iYWvIROWBpXjQMgKjkoX2loZpxEYTR1_w6YEBM';
+    var CACHE_KEY = 'baro_projects_cache_v1';
+    var CACHE_TTL_MS = 24 * 60 * 60 * 1000;
+
+    // Custom cursor
+    var dot = document.getElementById('dot');
+    if (dot && window.matchMedia('(pointer: fine)').matches) {
+      window.addEventListener('mousemove', function(e) {
+        dot.style.transform = 'translate(' + e.clientX + 'px, ' + e.clientY + 'px)';
+      });
+    }
+
+    function slugify(text) {
+      if (!text) return '';
+      return text.toString().toLowerCase()
+        .replace(/[àáạảãâầấậẩẫăằắặẳẵ]/g, 'a').replace(/[èéẹẻẽêềếệểễ]/g, 'e')
+        .replace(/[ìíịỉĩ]/g, 'i').replace(/[òóọỏõôồốộổỗơờớợởỡ]/g, 'o')
+        .replace(/[ùúụủũưừứựửữ]/g, 'u').replace(/[ỳýỵỷỹ]/g, 'y')
+        .replace(/đ/g, 'd').replace(/\s+/g, '-').replace(/[^\w\-]+/g, '')
+        .replace(/\-\-+/g, '-').replace(/^-+/, '').replace(/-+$/, '');
+    }
+
+    function getTargetSlug() {
+      var params = new URLSearchParams(window.location.search);
+      var q = params.get('slug');
+      if (q) return q.trim();
+
+      var path = window.location.pathname;
+      var m = path.match(/\/(?:work|project)\/(.+)$/);
+      if (m && m[1]) return decodeURIComponent(m[1]).replace(/\.html$/, '').trim();
+
+      return '';
+    }
+
+    function findProjectIndex(records, slug) {
+      if (!records || !records.length) return -1;
+      if (!slug) return 0; // default to first project
+
+      var target = slug.toLowerCase().replace(/^[0-9]+[_-]/, ''); // remove leading 08_ if any
+      var targetNum = parseInt(slug.replace(/[^0-9]/g, ''), 10);
+
+      // 1. Exact slug or ID match
+      for (var i = 0; i < records.length; i++) {
+        var r = records[i];
+        var rSlug = (r.slug || '').toLowerCase();
+        var rId = String(r.id || '').toLowerCase();
+        if (rSlug === slug.toLowerCase() || rId === slug.toLowerCase()) return i;
+      }
+
+      // 2. Slugify title match
+      for (var j = 0; j < records.length; j++) {
+        var sTitle = slugify(records[j].title);
+        if (sTitle === slug.toLowerCase() || sTitle === target) return j;
+      }
+
+      // 3. Substring / keyword match (e.g. "rocras" in "rocras-reborn...")
+      for (var k = 0; k < records.length; k++) {
+        var kSlug = (records[k].slug || '').toLowerCase();
+        var kTitle = (records[k].title || '').toLowerCase();
+        if (kSlug.indexOf(target) !== -1 || target.indexOf(kSlug) !== -1 || kTitle.indexOf(target) !== -1) {
+          return k;
+        }
+      }
+
+      // 4. STT / Number match (e.g. "8" or "08")
+      if (!isNaN(targetNum)) {
+        for (var n = 0; n < records.length; n++) {
+          var sttNum = parseInt(records[n].stt || '', 10);
+          if (sttNum === targetNum) return n;
+        }
+      }
+
+      return 0; // fallback to first
+    }
+
+    function goBackToWork() {
+      var isFile = window.location.protocol === 'file:';
+      window.location.href = isFile ? 'work.html' : '/work';
+    }
+
+    function launchShowcase(idx) {
+      if (!window.BaroProjectShowcase || typeof window.BaroProjectShowcase.open !== 'function') {
+        setTimeout(function() { launchShowcase(idx); }, 80);
+        return;
+      }
+
+      var loader = document.getElementById('loader');
+      if (loader) loader.style.display = 'none';
+
+      // Open showcase
+      window.BaroProjectShowcase.open(idx);
+
+      // Intercept Close Button and Escape to return to /work
+      setTimeout(function() {
+        var closeBtn = document.getElementById("baroBtnClose");
+        if (closeBtn) {
+          closeBtn.onclick = function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            goBackToWork();
+          };
+        }
+      }, 50);
+
+      window.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+          goBackToWork();
+        }
+      }, true);
+    }
+
+    async function init() {
+      var slug = getTargetSlug();
+
+      // 1. Check window.BAROPHOLIO_PROJECTS (from 02.Project/projects_data.js)
+      if (window.BAROPHOLIO_PROJECTS && window.BAROPHOLIO_PROJECTS.length > 0) {
+        window.RECORDS = window.BAROPHOLIO_PROJECTS;
+        var idx = findProjectIndex(window.RECORDS, slug);
+        launchShowcase(idx);
+        return;
+      }
+
+      // 2. Check localStorage cache
+      try {
+        var raw = localStorage.getItem(CACHE_KEY);
+        if (raw) {
+          var parsed = JSON.parse(raw);
+          if (parsed && Array.isArray(parsed.data) && parsed.data.length > 0) {
+            window.RECORDS = parsed.data;
+            window.BAROPHOLIO_PROJECTS = parsed.data;
+            var cIdx = findProjectIndex(window.RECORDS, slug);
+            launchShowcase(cIdx);
+            return;
+          }
+        }
+      } catch(e) {}
+
+      // 3. Fallback: Supabase Query
+      if (window.supabase) {
+        try {
+          var sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+          var res = await sb.from('projects')
+            .select('*')
+            .eq('published', true)
+            .order('stt', { ascending: true });
+
+          if (res.data && res.data.length > 0) {
+            var mapped = res.data.map(function(row) {
+              var media = Array.isArray(row.media) ? row.media : (row.media ? [row.media] : []);
+              return {
+                id: row.id,
+                stt: row.stt,
+                slug: row.slug,
+                title: row.title,
+                subtitle: row.subtitle,
+                description: row.description,
+                category: (Array.isArray(row.collections) && row.collections[0]) || 'ARCHIVE',
+                collections: row.collections,
+                basicInfo: row.basic_info,
+                image: media[0] ? (typeof media[0] === 'string' ? media[0] : (media[0].url || media[0].src || '')) : '',
+                gallery: media.map(function(m) { return typeof m === 'string' ? m : (m.url || m.src || (m.dataUrl && !m.dataUrl.startsWith('data:') ? m.dataUrl : null)); }).filter(Boolean),
+                media: media
+              };
+            });
+
+            window.RECORDS = mapped;
+            window.BAROPHOLIO_PROJECTS = mapped;
+            try {
+              localStorage.setItem(CACHE_KEY, JSON.stringify({ timestamp: Date.now(), data: mapped }));
+            } catch(e) {}
+
+            var sIdx = findProjectIndex(window.RECORDS, slug);
+            launchShowcase(sIdx);
+            return;
+          }
+        } catch(err) {
+          console.warn('[Project] Supabase query error:', err);
+        }
+      }
+
+      // If nothing found at all
+      launchShowcase(0);
+    }
+
+    if (document.readyState === 'loading') {
+      window.addEventListener('DOMContentLoaded', init);
+    } else {
+      init();
+    }
+
+  })();
+</script>
+</body>
+</html>

@@ -6,6 +6,10 @@
   <title>BAROPHOLIO &mdash; Spatial Design &amp; Urban Planning Archive</title>
   <meta name="description" content="Spatial design, urban planning archive, and field notes. Listening to spaces, observing human living patterns.">
   
+    <!-- Favicon -->
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="alternate icon" href="/favicon.ico">
+
   <!-- Preconnects -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -4714,7 +4718,7 @@
         if (total === 0) return Promise.resolve(window.imageCache);
 
         var loadedCount = 0;
-        var TIMEOUT_PER_IMG = 8000; // 8s timeout safety per image
+        var TIMEOUT_PER_IMG = 2500; // 8s timeout safety per image
 
         var promises = uniqueUrls.map(function(url) {
           return new Promise(function(resolve) {
@@ -4764,12 +4768,15 @@
       function extract3DSphereCoverUrls(projects) {
         if (!projects || !Array.isArray(projects)) return [];
         var urls = [];
+        var MAX_PRELOAD = 10;
+        var MAX_PRELOAD = 10;
         for (var i = 0; i < projects.length; i++) {
           var p = projects[i];
           if (!p) continue;
-          var cover = p.image || p.video || '';
-          if (cover && typeof cover === 'string' && !/\.(mp4|webm|ogg|mov)(\?.*)?$/i.test(cover)) {
+          var cover = p.image || p.video || "";
+          if (cover && typeof cover === "string" && !/\.(mp4|webm|ogg|mov)(\?.*)?$/i.test(cover)) {
             urls.push(cover);
+            if (urls.length >= MAX_PRELOAD) break;
           }
         }
         return Array.from(new Set(urls));
@@ -4777,7 +4784,7 @@
 
       // ─── QUOTA OPTIMIZED SUPABASE FETCHING & CLIENT CACHE (TTL: 8 mins) ────
       var SUPABASE_CACHE_KEY = 'baro_projects_cache_v1';
-      var CACHE_TTL_MS = 8 * 60 * 1000; // 8 minutes
+      var CACHE_TTL_MS = 24 * 60 * 60 * 1000; // 8 minutes
 
       async function fetchPortfolioProjectsOptimized() {
         // 1. Check in-memory/localStorage cache first to save 80-90% Supabase Quota
@@ -6084,29 +6091,10 @@
       }
 
       function openBook(idx) {
-        closeAbout();
-        closeMenu();
-        if (document.body.classList.contains("gridview")) window.toggleGrid(false);
-        // Push URL state for deep-link & F5 support
-        var rec = RECORDS && RECORDS[idx];
-        if (rec && rec.slug) {
-          _routerPush('/work/' + rec.slug, { type: 'project', slug: rec.slug });
-        }
-        // Non-blocking: fetch full media for plates while user views Deck
-        if (rec && rec.id && typeof window.fetchProjectDossierOnDemand === 'function') {
-          window.fetchProjectDossierOnDemand(rec.id).catch(function(){});
-        }
-        // Deck first (card-flip) → Deck's More button → Showcase (full plates)
-        if (typeof window.openBaroProjectDeck === 'function') {
-          window.openBaroProjectDeck(idx);
-          return;
-        }
-        if (window.BaroProjectShowcase && typeof window.BaroProjectShowcase.open === "function") {
+        // Open showcase overlay within index page (PLATE view)
+        if (window.BaroProjectShowcase && typeof window.BaroProjectShowcase.open === 'function') {
           window.BaroProjectShowcase.open(idx);
-          return;
         }
-        loadBookSpread(idx);
-        document.body.classList.add("book-open");
       }
       window.openBook = openBook;
 
@@ -6259,8 +6247,8 @@
         }
       });
 
-      gridBtn.addEventListener("click", function () { window.toggleGrid(); });
-      navGrid.addEventListener("click", function (e) { e.preventDefault(); window.toggleGrid(true); });
+      gridBtn.addEventListener("click", function () { window.location.href = "/work"; });
+      navGrid.addEventListener("click", function (e) { e.preventDefault(); window.location.href = "/work"; });
 
       // â”€â”€ Scroll-shrink effect on grid cards (shrink to 1/5 = scale 0.2) â”€â”€
       (function() {
@@ -6456,9 +6444,7 @@
       if (menuProjects) {
         menuProjects.addEventListener("click", function (e) {
           e.preventDefault();
-          closeMenu();
-          if (document.body.classList.contains("gridview")) window.toggleGrid(false);
-          if (viewMode !== "reel") window.switchMode("reel");
+          window.location.href = "/work";
         });
       }
 

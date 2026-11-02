@@ -1178,19 +1178,19 @@
         self.raycaster.setFromCamera(self.mouseNdc, self.camera);
         var intersects = self.raycaster.intersectObjects(self.cardMeshes, false);
 
-        if (self.expandedIdx !== -1) {
-          if (intersects.length > 0 && intersects[0].object === self.cardItems[self.expandedIdx].mesh) {
-            if (window.openBook) window.openBook(self.expandedIdx);
-          } else {
-            self.closeHeroCard();
-          }
-        } else {
-          if (intersects.length > 0) {
-            var hitMesh = intersects[0].object;
-            var hitItem = self.cardItems.find(function (it) {
-              return it.mesh === hitMesh;
-            });
-            if (hitItem) {
+        if (intersects.length > 0) {
+          var hitMesh = intersects[0].object;
+          var hitItem = self.cardItems.find(function (it) {
+            return it.mesh === hitMesh;
+          });
+          if (hitItem) {
+            if (self.expandedIdx === hitItem.index) {
+              // Second click on already-expanded card → open showcase overlay
+              if (typeof window.openBook === 'function') {
+                window.openBook(hitItem.index);
+              }
+            } else {
+              // First click → expand card (plate animation)
               self.expandCard(hitItem.index);
             }
           }
