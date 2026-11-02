@@ -1179,69 +1179,253 @@
       flex-wrap: wrap;
     }
 
-    /* Essential Highlights Section */
-    .essential-heading {
-      font-size: 11px;
-      font-weight: 800;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      color: var(--text-subtle);
-      margin-bottom: 12px;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-    .essential-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
-      gap: 20px;
-      margin-bottom: 36px;
-    }
-    .essential-card {
+    /* ==========================================================================
+       SUPABASE CLOUD SYNC & UPLOAD MONITOR DASHBOARD
+       ========================================================================== */
+    .sync-monitor-card {
       background: #ffffff;
-      border: 1px solid rgba(13, 12, 11, 0.09);
+      border: 1px solid rgba(13, 12, 11, 0.1);
       border-radius: 14px;
-      padding: 24px 26px;
+      padding: 20px 24px;
+      margin-bottom: 28px;
+      box-shadow: 0 2px 10px rgba(13, 12, 11, 0.04);
+      position: relative;
+      overflow: hidden;
+    }
+    .sync-monitor-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      box-shadow: 0 2px 8px rgba(13, 12, 11, 0.03);
-      position: relative;
-      overflow: hidden;
-      transition: transform var(--transition), box-shadow var(--transition), border-color var(--transition);
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 16px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid rgba(13, 12, 11, 0.07);
     }
-    .essential-card:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 20px rgba(13, 12, 11, 0.06);
-      border-color: rgba(13, 12, 11, 0.18);
-    }
-    .essential-content {
-      flex: 1;
-      padding-right: 18px;
-    }
-    .essential-card h3 {
-      font-size: 16.5px;
-      font-weight: 700;
-      margin-bottom: 6px;
-      color: var(--text);
-      letter-spacing: -0.015em;
-    }
-    .essential-card p {
-      font-size: 13.5px;
-      color: var(--text-muted);
-      line-height: 1.45;
-      margin-bottom: 18px;
-    }
-    .essential-graphic {
-      width: 96px;
-      height: 84px;
-      flex-shrink: 0;
+    .sync-monitor-title-group {
       display: flex;
       align-items: center;
-      justify-content: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .sync-monitor-title {
+      font-size: 15px;
+      font-weight: 800;
+      letter-spacing: -0.01em;
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .sync-ref-badge {
+      font-family: monospace;
+      font-size: 11px;
+      background: rgba(13, 12, 11, 0.05);
+      color: var(--text-muted);
+      padding: 3px 8px;
+      border-radius: 6px;
+      border: 1px solid rgba(13, 12, 11, 0.08);
+      font-weight: 600;
+    }
+    .sync-status-indicator {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      font-weight: 600;
+      padding: 3px 9px;
+      border-radius: 20px;
+      background: #ecfdf5;
+      color: #059669;
+      border: 1px solid rgba(5, 150, 105, 0.2);
+    }
+    .sync-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #10b981;
+      display: inline-block;
+      box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.2);
+    }
+    .sync-dot.pulse {
+      animation: syncPulse 1.4s infinite;
+      background: #ea580c;
+      box-shadow: 0 0 0 2px rgba(234, 88, 12, 0.3);
+    }
+    @keyframes syncPulse {
+      0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(234, 88, 12, 0.7); }
+      70% { transform: scale(1.1); box-shadow: 0 0 0 6px rgba(234, 88, 12, 0); }
+      100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(234, 88, 12, 0); }
+    }
+    .sync-monitor-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .sync-metrics-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+    .sync-metric-box {
       background: #faf8f5;
+      border: 1px solid rgba(13, 12, 11, 0.07);
+      border-radius: 10px;
+      padding: 12px 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+      transition: border-color var(--transition);
+    }
+    .sync-metric-box:hover {
+      border-color: rgba(13, 12, 11, 0.16);
+    }
+    .sync-metric-lbl {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-subtle);
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .sync-metric-val {
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--text);
+      font-family: 'Space Grotesk', -apple-system, sans-serif;
+      line-height: 1.2;
+    }
+    .sync-metric-sub {
+      font-size: 11.5px;
+      color: var(--text-muted);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .sync-progress-section {
+      background: #ffffff;
+      border: 1px solid rgba(13, 12, 11, 0.07);
+      border-radius: 10px;
+      padding: 12px 14px;
+      margin-bottom: 14px;
+    }
+    .sync-progress-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 6px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+    .sync-progress-bar-wrap {
+      height: 8px;
+      background: #ede8e1;
+      border-radius: 6px;
+      overflow: hidden;
+      position: relative;
+    }
+    .sync-progress-bar-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #ea580c 0%, #f97316 100%);
+      border-radius: 6px;
+      transition: width 0.35s ease;
+    }
+    .sync-progress-caption {
+      margin-top: 6px;
+      font-size: 11.5px;
+      color: var(--text-muted);
+      display: flex;
+      justify-content: space-between;
+    }
+    .sync-table-toggle {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--text);
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 12px;
+      background: #faf8f5;
+      border-radius: 8px;
+      border: 1px solid rgba(13, 12, 11, 0.07);
+      user-select: none;
+      transition: background var(--transition);
+    }
+    .sync-table-toggle:hover {
+      background: #f4efe6;
+    }
+    .sync-table-container {
+      margin-top: 8px;
+      overflow-x: auto;
+      max-height: 270px;
+      overflow-y: auto;
+      border: 1px solid rgba(13, 12, 11, 0.07);
+      border-radius: 8px;
+      background: #ffffff;
+    }
+    .sync-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12px;
+      text-align: left;
+    }
+    .sync-table th {
+      background: #faf8f5;
+      padding: 8px 12px;
+      font-weight: 700;
+      color: var(--text-muted);
+      border-bottom: 1px solid rgba(13, 12, 11, 0.08);
+      position: sticky;
+      top: 0;
+      z-index: 2;
+    }
+    .sync-table td {
+      padding: 8px 12px;
+      border-bottom: 1px solid rgba(13, 12, 11, 0.05);
+      color: var(--text);
+    }
+    .sync-table tr:hover td {
+      background: rgba(234, 88, 12, 0.03);
+    }
+    .sync-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 2px 7px;
       border-radius: 12px;
-      border: 1px solid rgba(13, 12, 11, 0.06);
+    }
+    .sync-badge-done {
+      background: #ecfdf5;
+      color: #059669;
+    }
+    .sync-badge-pending {
+      background: #fffbeb;
+      color: #d97706;
+    }
+    .sync-badge-active {
+      background: #eff6ff;
+      color: #0284c7;
+    }
+    .sync-mini-bar {
+      width: 50px;
+      height: 5px;
+      background: #e5e5e5;
+      border-radius: 3px;
+      overflow: hidden;
+      display: inline-block;
+      vertical-align: middle;
+      margin-right: 5px;
+    }
+    .sync-mini-bar-fill {
+      height: 100%;
+      background: #ea580c;
     }
 
     /* All Projects Table & Filter Area */
@@ -1758,6 +1942,12 @@
 
     /* Mappers giữa Supabase Postgres Schema và Admin Local State */
     function mapSupabaseToLocal(row) {
+      let mediaArr = [];
+      if (Array.isArray(row.media)) {
+        mediaArr = row.media.map(m => (typeof m === 'object' && m ? { ...m, dataUrl: m.dataUrl || m.url || m.src || '' } : m));
+      } else if (row.media && typeof row.media === 'object') {
+        mediaArr = [{ ...row.media, isCover: true, dataUrl: row.media.dataUrl || row.media.url || row.media.src || '' }];
+      }
       return {
         id: row.id,
         stt: row.stt || '',
@@ -1768,7 +1958,7 @@
         published: row.published !== false,
         collections: Array.isArray(row.collections) ? row.collections : [],
         basicInfo: Array.isArray(row.basic_info) ? row.basic_info : [],
-        media: Array.isArray(row.media) ? row.media.map(m => (typeof m === 'object' && m ? { ...m, dataUrl: m.dataUrl || m.url || m.src || '' } : m)) : [],
+        media: mediaArr,
         seo: row.seo && typeof row.seo === 'object' ? row.seo : {
           metaTitle: row.title || '',
           metaDescription: row.description || '',
@@ -1810,10 +2000,10 @@
         return false;
       }
       try {
-        console.log('[Supabase] Đang tải danh sách dự án...');
+        console.log('[Supabase] Đang tải danh sách dự án (tối ưu quota & tốc độ)...');
         const { data, error } = await sb
           .from('projects')
-          .select('*')
+          .select('id, stt, slug, title, subtitle, description, published, collections, basic_info, seo, media->0, created_at, updated_at')
           .order('created_at', { ascending: false });
 
         if (error) {
@@ -1825,6 +2015,17 @@
         if (data && Array.isArray(data)) {
           console.log(`[Supabase] Tải thành công ${data.length} dự án từ Cloud.`);
           const mapped = data.map(mapSupabaseToLocal);
+
+          // Bảo vệ dữ liệu cục bộ: Giữ lại toàn bộ media local/base64 từ bộ nhớ máy tính
+          if (Array.isArray(state.projects) && state.projects.length > 0) {
+            mapped.forEach(pCloud => {
+              const localProj = state.projects.find(lp => lp.slug === pCloud.slug || lp.id === pCloud.id);
+              if (localProj && Array.isArray(localProj.media) && localProj.media.length > 0) {
+                pCloud.media = localProj.media;
+              }
+            });
+          }
+
           state.projects = mapped;
 
           // Hợp nhất collections từ Supabase projects
@@ -1858,7 +2059,7 @@
         const { data, error } = await sb
           .from('projects')
           .upsert(payload, { onConflict: 'slug' })
-          .select()
+          .select('id, slug, updated_at')
           .single();
 
         if (error) {
@@ -1871,6 +2072,8 @@
           p.id = data.id; // Cập nhật UUID chính thức từ Supabase
         }
         console.log('[Supabase] Đã lưu dự án thành công:', p.slug);
+        // Invalidate index.html Supabase cache so next reload reflects latest data
+        try { localStorage.removeItem('baro_projects_cache_v1'); } catch(e) {}
         return data;
       } catch (err) {
         console.error('[Supabase] Ngoại lệ khi lưu dự án:', err);
@@ -1933,6 +2136,506 @@
         console.error('[Supabase Storage] Ngoại lệ xóa file Storage:', err);
         return { deleted: false, error: err.message };
       }
+    }
+
+    /* ==========================================================================
+       SUPABASE CLOUD SYNC & UPLOAD PROGRESS ENGINE
+       ========================================================================== */
+    const SUPABASE_PROJECT_REF = 'fgbnfujztuwvxmbzuhmn';
+
+    window._supabaseSyncMonitor = {
+      lastChecked: null,
+      cloudProjects: {},     // map slug -> { id, slug, cloudMediaCount, localMediaCount, updatedAt }
+      isSyncing: false,
+      currentSyncItem: '',
+      syncProgressPct: 0,
+      totalPendingCount: 0,
+      completedCount: 0,
+      estimatedSecondsRemaining: 0,
+      showTable: true
+    };
+
+    function dataUrlToBlob(dataUrl) {
+      const parts = dataUrl.split(';base64,');
+      const contentType = (parts[0].split(':')[1]) || 'image/jpeg';
+      const raw = window.atob(parts[1]);
+      const rawLength = raw.length;
+      const uInt8Array = new Uint8Array(rawLength);
+      for (let i = 0; i < rawLength; ++i) {
+        uInt8Array[i] = raw.charCodeAt(i);
+      }
+      return new Blob([uInt8Array], { type: contentType });
+    }
+
+    function getSupabaseSyncStats() {
+      const projects = state.projects || [];
+      let totalMedia = 0;
+      let cloudMedia = 0;
+      let pendingMedia = 0;
+      let cloudProjectsCount = 0;
+      let pendingProjectsCount = 0;
+
+      projects.forEach(p => {
+        const mediaList = Array.isArray(p.media) ? p.media : [];
+        let pCloud = 0;
+        let pLocal = 0;
+        mediaList.forEach(m => {
+          totalMedia++;
+          const url = (m && (m.url || (typeof m === 'string' && m))) || '';
+          if (typeof url === 'string' && (url.startsWith('http://') || url.startsWith('https://'))) {
+            cloudMedia++;
+            pCloud++;
+          } else {
+            pendingMedia++;
+            pLocal++;
+          }
+        });
+
+        const isCloudSynced = window._supabaseSyncMonitor.cloudProjects[p.slug] || (p.id && isValidUUID(p.id));
+        if (isCloudSynced && pLocal === 0) {
+          cloudProjectsCount++;
+        } else {
+          pendingProjectsCount++;
+        }
+      });
+
+      const overallPct = totalMedia === 0 ? 100 : Math.min(100, Math.round((cloudMedia / totalMedia) * 100));
+
+      let estTimeText = 'Hoàn tất (0s)';
+      if (window._supabaseSyncMonitor.isSyncing) {
+        estTimeText = `~${window._supabaseSyncMonitor.estimatedSecondsRemaining || 5}s`;
+      } else if (pendingMedia > 0) {
+        const estSec = Math.max(3, pendingMedia * 2);
+        estTimeText = estSec >= 60 ? `~${Math.ceil(estSec / 60)} phút (${pendingMedia} file)` : `~${estSec}s (${pendingMedia} file)`;
+      }
+
+      return {
+        totalProjects: projects.length,
+        cloudProjectsCount,
+        pendingProjectsCount,
+        totalMedia,
+        cloudMedia,
+        pendingMedia,
+        overallPct,
+        estTimeText
+      };
+    }
+
+    function renderSupabaseSyncMonitorHtml() {
+      const stats = getSupabaseSyncStats();
+      const mon = window._supabaseSyncMonitor;
+      const isSyncing = mon.isSyncing;
+
+      let progressCaption = isSyncing
+        ? `Đang tải: ${escapeHtml(mon.currentSyncItem || 'Đang chuẩn bị...')} (${mon.completedCount}/${mon.totalPendingCount} file)`
+        : (stats.pendingMedia === 0
+            ? '✓ Tất cả dự án và hình ảnh đã được đồng bộ 100% trên Supabase Cloud.'
+            : `Còn ${stats.pendingMedia} file media (ảnh/video) ở bộ nhớ local cần tải lên Storage.`);
+
+      let tableRows = '';
+      (state.projects || []).forEach((p, idx) => {
+        const mediaList = Array.isArray(p.media) ? p.media : [];
+        let pCloud = 0;
+        let pLocal = 0;
+        mediaList.forEach(m => {
+          const url = (m && (m.url || (typeof m === 'string' && m))) || '';
+          if (typeof url === 'string' && (url.startsWith('http://') || url.startsWith('https://'))) {
+            pCloud++;
+          } else {
+            pLocal++;
+          }
+        });
+
+        const cloudInfo = mon.cloudProjects[p.slug];
+        const isDbSynced = !!(cloudInfo || (p.id && isValidUUID(p.id)));
+        const totalP = mediaList.length;
+        const pPct = totalP === 0 ? (isDbSynced ? 100 : 0) : Math.round((pCloud / totalP) * 100);
+
+        let statusBadge = '';
+        if (isSyncing && mon.currentSyncItem.includes(p.slug)) {
+          statusBadge = `<span class="sync-badge sync-badge-active">🔄 Đang tải (${mon.syncProgressPct}%)...</span>`;
+        } else if (pPct === 100 && isDbSynced) {
+          statusBadge = `<span class="sync-badge sync-badge-done">✓ Đã đồng bộ</span>`;
+        } else if (pLocal > 0) {
+          statusBadge = `<span class="sync-badge sync-badge-pending">⏳ Chờ tải ${pLocal} file</span>`;
+        } else {
+          statusBadge = `<span class="sync-badge sync-badge-pending">⏳ Chờ lưu DB</span>`;
+        }
+
+        tableRows += `
+          <tr>
+            <td style="font-family:monospace; color:var(--text-muted);">${idx + 1 < 10 ? '0' + (idx + 1) : (idx + 1)}</td>
+            <td>
+              <div style="font-weight:700; max-width:260px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">${escapeHtml(p.title || 'Untitled')}</div>
+              <div style="font-size:10.5px; color:var(--text-muted); font-family:monospace;">${escapeHtml(p.slug || '')}</div>
+            </td>
+            <td>
+              ${isDbSynced ? '<span style="color:#059669; font-weight:600;">✓ Cloud DB</span>' : '<span style="color:#d97706; font-weight:600;">○ Local DB</span>'}
+            </td>
+            <td>
+              <span style="color:#059669; font-weight:600;">${pCloud} cloud</span>
+              ${pLocal > 0 ? `<span style="color:#ea580c; font-weight:600; margin-left:6px;">/ ${pLocal} local</span>` : ''}
+            </td>
+            <td>
+              <div class="sync-mini-bar"><div class="sync-mini-bar-fill" style="width:${pPct}%;"></div></div>
+              <span style="font-weight:700; font-size:11px;">${pPct}%</span>
+            </td>
+            <td>${statusBadge}</td>
+            <td>
+              <div style="display:flex; gap:6px;">
+                <button type="button" class="btn btn-outline-pill btn-xs" onclick="syncSingleProjectToSupabase('${escapeHtml(p.slug || p.id)}')">Đồng bộ</button>
+                <button type="button" class="btn btn-cancel btn-xs" onclick="openEditProject('${escapeHtml(p.id)}')">Sửa</button>
+              </div>
+            </td>
+          </tr>
+        `;
+      });
+
+      return `
+        <div class="sync-monitor-card">
+          <div class="sync-monitor-header">
+            <div class="sync-monitor-title-group">
+              <span class="sync-monitor-title">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#ea580c" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"/>
+                </svg>
+                SUPABASE CLOUD SYNC MONITOR
+              </span>
+              <span class="sync-ref-badge" title="Mã dự án Supabase">${SUPABASE_PROJECT_REF}</span>
+              <span class="sync-status-indicator">
+                <span class="sync-dot ${isSyncing ? 'pulse' : ''}"></span>
+                ${isSyncing ? 'Đang tải lên Supabase...' : 'Cloud Connected'}
+              </span>
+            </div>
+
+            <div class="sync-monitor-actions">
+              <button type="button" class="btn btn-outline-pill btn-sm" id="btnCheckCloudStatus" title="Kiểm tra trạng thái Supabase Cloud (tiết kiệm quota)">
+                🔄 Kiểm tra trạng thái
+              </button>
+              <button type="button" class="btn btn-baro-primary btn-sm" id="btnStartBatchSync" style="background:#ea580c; border-color:#ea580c; color:#ffffff;" title="Đồng bộ các mục chưa tải lên Supabase Storage">
+                ⚡ Bắt đầu Đồng bộ
+              </button>
+              <button type="button" class="btn btn-cancel btn-sm" id="btnEssentialAddProject" style="background:#ffffff; border-color:rgba(13,12,11,0.18); font-weight:600;">
+                + Thêm dự án
+              </button>
+              <button type="button" class="btn btn-cancel btn-sm" id="btnEssentialDomain" style="background:#ffffff; border-color:rgba(13,12,11,0.18); font-weight:600;">
+                🌐 Tên miền
+              </button>
+            </div>
+          </div>
+
+          <!-- 4 Summary Metric Boxes -->
+          <div class="sync-metrics-grid">
+            <div class="sync-metric-box">
+              <div class="sync-metric-lbl">
+                <span style="color:#059669;">●</span> Đã tải lên Cloud
+              </div>
+              <div class="sync-metric-val" style="color:#059669;">${stats.cloudMedia} / ${stats.totalMedia}</div>
+              <div class="sync-metric-sub">${stats.cloudProjectsCount} dự án đồng bộ 100%</div>
+            </div>
+
+            <div class="sync-metric-box">
+              <div class="sync-metric-lbl">
+                <span style="color:#0284c7;">●</span> Đang tải
+              </div>
+              <div class="sync-metric-val" style="color:#0284c7;">${isSyncing ? '1' : '0'}</div>
+              <div class="sync-metric-sub">${isSyncing ? escapeHtml(mon.currentSyncItem || 'Đang xử lý') : 'Hàng chờ rảnh'}</div>
+            </div>
+
+            <div class="sync-metric-box">
+              <div class="sync-metric-lbl">
+                <span style="color:#d97706;">●</span> Chưa tải (Local)
+              </div>
+              <div class="sync-metric-val" style="color:#d97706;">${stats.pendingMedia} file</div>
+              <div class="sync-metric-sub">${stats.pendingProjectsCount} dự án còn media local</div>
+            </div>
+
+            <div class="sync-metric-box">
+              <div class="sync-metric-lbl">
+                <span style="color:#ea580c;">●</span> Tiến độ & Thời gian
+              </div>
+              <div class="sync-metric-val" style="color:#ea580c;">${stats.overallPct}%</div>
+              <div class="sync-metric-sub">Ước tính: ${stats.estTimeText}</div>
+            </div>
+          </div>
+
+          <!-- Overall Progress Bar Section -->
+          <div class="sync-progress-section">
+            <div class="sync-progress-top">
+              <span>Tiến độ đồng bộ tài nguyên RAM & Storage lên Supabase Bucket:</span>
+              <span style="color:#ea580c; font-weight:700;">${stats.overallPct}%</span>
+            </div>
+            <div class="sync-progress-bar-wrap">
+              <div class="sync-progress-bar-fill" style="width:${stats.overallPct}%;"></div>
+            </div>
+            <div class="sync-progress-caption">
+              <span>${progressCaption}</span>
+              <span>Thời gian hoàn tất ước tính: <strong>${stats.estTimeText}</strong></span>
+            </div>
+          </div>
+
+          <!-- Collapsible Table Toggle -->
+          <div class="sync-table-toggle" onclick="toggleSyncTableDetails()">
+            <span>📋 Bảng thông tin chi tiết từng dự án (${state.projects ? state.projects.length : 0} mục)</span>
+            <span id="syncTableToggleIcon">${mon.showTable ? '▲ Thu gọn' : '▼ Mở chi tiết'}</span>
+          </div>
+
+          <!-- Detailed Projects Sync Table -->
+          <div class="sync-table-container" id="syncTableContainer" style="display:${mon.showTable ? 'block' : 'none'};">
+            <table class="sync-table">
+              <thead>
+                <tr>
+                  <th style="width:40px;">#</th>
+                  <th>Dự án / Slug</th>
+                  <th>Database</th>
+                  <th>Media Storage</th>
+                  <th>Tiến độ</th>
+                  <th>Trạng thái</th>
+                  <th style="width:140px;">Hành động</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${tableRows || '<tr><td colspan="7" style="text-align:center; padding:18px; color:var(--text-muted);">Chưa có dự án nào.</td></tr>'}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      `;
+    }
+
+    function toggleSyncTableDetails() {
+      window._supabaseSyncMonitor.showTable = !window._supabaseSyncMonitor.showTable;
+      const container = document.getElementById('syncTableContainer');
+      const icon = document.getElementById('syncTableToggleIcon');
+      if (container) container.style.display = window._supabaseSyncMonitor.showTable ? 'block' : 'none';
+      if (icon) icon.textContent = window._supabaseSyncMonitor.showTable ? '▲ Thu gọn' : '▼ Mở chi tiết';
+    }
+
+    // ── Check Supabase Status (Quota-friendly: 1 read only) ───────────────────
+    async function checkSupabaseStatus(manual = true) {
+      const sb = getSupabase();
+      if (!sb) {
+        if (manual) showToast('Chưa kết nối được Supabase client.');
+        return;
+      }
+      try {
+        if (manual) showToast('🔍 Đang kiểm tra trạng thái Supabase Cloud...');
+        const { data, error } = await sb
+          .from('projects')
+          .select('id, slug, updated_at');
+
+        if (error) {
+          console.warn('[Sync Monitor] Lỗi kiểm tra:', error);
+          if (manual) showToast('Lỗi kiểm tra Supabase: ' + error.message);
+          return;
+        }
+
+        if (data && Array.isArray(data)) {
+          const map = {};
+          data.forEach(row => {
+            const localProj = (state.projects || []).find(p => p.slug === row.slug || p.id === row.id);
+            const mediaList = (localProj && Array.isArray(localProj.media)) ? localProj.media : [];
+            let cloudCount = 0;
+            let localCount = 0;
+            mediaList.forEach(m => {
+              const url = (m && (m.url || (typeof m === 'string' && m))) || '';
+              if (typeof url === 'string' && (url.startsWith('http://') || url.startsWith('https://'))) {
+                cloudCount++;
+              } else {
+                localCount++;
+              }
+            });
+            map[row.slug] = {
+              id: row.id,
+              slug: row.slug,
+              cloudMediaCount: cloudCount,
+              localMediaCount: localCount,
+              updatedAt: row.updated_at
+            };
+          });
+          window._supabaseSyncMonitor.cloudProjects = map;
+          window._supabaseSyncMonitor.lastChecked = Date.now();
+          render();
+          if (manual) showToast(`✓ Đã cập nhật trạng thái: ${data.length} dự án trên Supabase Cloud.`);
+        }
+      } catch (e) {
+        console.warn('[Sync Monitor] Ngoại lệ kiểm tra:', e);
+      }
+    }
+
+    // ── Safe Batch Sync to Supabase Storage & Database ────────────────────────
+    async function startBatchSyncToSupabase() {
+      const mon = window._supabaseSyncMonitor;
+      if (mon.isSyncing) {
+        showToast('Đang trong quá trình đồng bộ, vui lòng đợi...');
+        return;
+      }
+
+      const stats = getSupabaseSyncStats();
+      if (stats.pendingMedia === 0 && stats.pendingProjectsCount === 0) {
+        showToast('✓ Toàn bộ dữ liệu và media đã được đồng bộ 100% trên Supabase Cloud!');
+        return;
+      }
+
+      const confirmMsg = `XÁC NHẬN ĐỒNG BỘ LÊN SUPABASE CLOUD:\n\n` +
+        `• Số file media cục bộ cần tải lên Storage: ${stats.pendingMedia} file\n` +
+        `• Thời gian ước tính: ${stats.estTimeText}\n` +
+        `• Cơ chế an toàn: Chỉ tải các ảnh/video base64 lên bucket "project-media" và cập nhật link Cloud, bảo toàn 100% nội dung chữ đã nhập.\n\n` +
+        `Bạn có muốn bắt đầu đồng bộ ngay bây giờ?`;
+
+      if (!confirm(confirmMsg)) return;
+
+      const sb = getSupabase();
+      if (!sb) {
+        showToast('Lỗi: Không tìm thấy Supabase client.');
+        return;
+      }
+
+      mon.isSyncing = true;
+      mon.totalPendingCount = stats.pendingMedia;
+      mon.completedCount = 0;
+      mon.syncProgressPct = 0;
+      render();
+
+      const startTime = Date.now();
+
+      try {
+        const projects = state.projects || [];
+        for (let pi = 0; pi < projects.length; pi++) {
+          const p = projects[pi];
+          if (!p.slug) p.slug = generateSlug(p.title);
+          const mediaList = Array.isArray(p.media) ? p.media : [];
+          let hasModifiedMedia = false;
+
+          for (let mi = 0; mi < mediaList.length; mi++) {
+            const m = mediaList[mi];
+            const currentUrl = (m && (m.url || (typeof m === 'string' && m))) || '';
+            const isAlreadyCloud = typeof currentUrl === 'string' && (currentUrl.startsWith('http://') || currentUrl.startsWith('https://'));
+
+            if (!isAlreadyCloud) {
+              const dataUrl = m.dataUrl || m.src || (typeof m === 'string' ? m : '');
+              if (dataUrl && dataUrl.startsWith('data:')) {
+                mon.currentSyncItem = `${p.title} - ${m.name || ('Media ' + (mi + 1))}`;
+                mon.syncProgressPct = Math.round((mon.completedCount / Math.max(1, mon.totalPendingCount)) * 100);
+
+                // Ước tính thời gian còn lại
+                const elapsed = Date.now() - startTime;
+                const avgPerItem = mon.completedCount > 0 ? (elapsed / mon.completedCount) : 2200;
+                const remainingItems = mon.totalPendingCount - mon.completedCount;
+                mon.estimatedSecondsRemaining = Math.max(1, Math.ceil((remainingItems * avgPerItem) / 1000));
+
+                render();
+
+                try {
+                  const blob = dataUrlToBlob(dataUrl);
+                  const ext = (m.name && m.name.split('.').pop().toLowerCase()) || (blob.type.includes('png') ? 'png' : blob.type.includes('webp') ? 'webp' : 'jpg');
+                  const mediaId = m.id || generateUUID();
+                  const storagePath = `${p.slug}/${mediaId}.${ext}`;
+
+                  const { error: upErr } = await sb.storage
+                    .from('project-media')
+                    .upload(storagePath, blob, {
+                      cacheControl: '3600',
+                      upsert: true,
+                      contentType: blob.type
+                    });
+
+                  if (!upErr) {
+                    const { data: urlData } = sb.storage.from('project-media').getPublicUrl(storagePath);
+                    if (urlData && urlData.publicUrl) {
+                      m.url = urlData.publicUrl;
+                      hasModifiedMedia = true;
+                    }
+                  } else {
+                    console.warn('[Sync Engine] Upload file lỗi:', upErr);
+                  }
+                } catch (uploadErr) {
+                  console.warn('[Sync Engine] Lỗi xử lý file:', uploadErr);
+                }
+
+                mon.completedCount++;
+              }
+            }
+          }
+
+          // Cập nhật Database Supabase với mảng media mới
+          try {
+            await saveProjectToSupabase(p);
+          } catch (dbErr) {
+            console.warn('[Sync Engine] Lưu database lỗi:', dbErr);
+          }
+
+          // Lưu local state ngay lập tức (offline-first & sync IndexedDB)
+          await saveState(false);
+        }
+
+        showToast('🎉 Đã hoàn tất đồng bộ toàn bộ tài nguyên lên Supabase Cloud!');
+        try { localStorage.removeItem('baro_projects_cache_v1'); } catch(e) {}
+      } catch (err) {
+        console.error('[Sync Engine] Lỗi đồng bộ tổng thể:', err);
+        showToast('Đồng bộ gặp gián đoạn: ' + (err.message || 'Lỗi mạng'));
+      } finally {
+        mon.isSyncing = false;
+        mon.currentSyncItem = '';
+        await checkSupabaseStatus(false);
+      }
+    }
+
+    // ── Sync a single project ─────────────────────────────────────────────────
+    async function syncSingleProjectToSupabase(projSlugOrId) {
+      const p = (state.projects || []).find(x => x.slug === projSlugOrId || x.id === projSlugOrId);
+      if (!p) {
+        showToast('Không tìm thấy dự án.');
+        return;
+      }
+      const sb = getSupabase();
+      if (!sb) {
+        showToast('Chưa kết nối Supabase.');
+        return;
+      }
+
+      showToast(`⚡ Đang đồng bộ "${p.title}" lên Supabase...`);
+      if (!p.slug) p.slug = generateSlug(p.title);
+
+      const mediaList = Array.isArray(p.media) ? p.media : [];
+      let uploadedFiles = 0;
+
+      for (let mi = 0; mi < mediaList.length; mi++) {
+        const m = mediaList[mi];
+        const currentUrl = (m && (m.url || (typeof m === 'string' && m))) || '';
+        const isAlreadyCloud = typeof currentUrl === 'string' && (currentUrl.startsWith('http://') || currentUrl.startsWith('https://'));
+
+        if (!isAlreadyCloud) {
+          const dataUrl = m.dataUrl || m.src || (typeof m === 'string' ? m : '');
+          if (dataUrl && dataUrl.startsWith('data:')) {
+            try {
+              const blob = dataUrlToBlob(dataUrl);
+              const ext = (m.name && m.name.split('.').pop().toLowerCase()) || 'jpg';
+              const mediaId = m.id || generateUUID();
+              const storagePath = `${p.slug}/${mediaId}.${ext}`;
+
+              const { error: upErr } = await sb.storage
+                .from('project-media')
+                .upload(storagePath, blob, { upsert: true, contentType: blob.type });
+
+              if (!upErr) {
+                const { data: urlData } = sb.storage.from('project-media').getPublicUrl(storagePath);
+                if (urlData?.publicUrl) {
+                  m.url = urlData.publicUrl;
+                  uploadedFiles++;
+                }
+              }
+            } catch (e) {
+              console.warn('[Sync Single] Lỗi:', e);
+            }
+          }
+        }
+      }
+
+      await saveProjectToSupabase(p);
+      await saveState(false);
+      await checkSupabaseStatus(false);
+      showToast(`✓ Đã đồng bộ "${p.title}" (${uploadedFiles} file media lên Cloud)!`);
     }
 
     /* ==========================================================================
@@ -2341,6 +3044,9 @@ const ICONS = {
           console.warn('[IDB] Initial load error:', e);
         }
       }
+
+      // 4. Khởi tạo trạng thái Cloud Monitor (chỉ đọc, tiết kiệm quota)
+      await checkSupabaseStatus(false);
     }
 
     function getSortedCollections() {
@@ -2955,46 +3661,7 @@ const ICONS = {
         </div>
 
         ${!isTrashView ? `
-          <!-- 3. Essential Highlights Banner (Visible in All Projects) -->
-          <div class="essential-heading">
-            <span>Essential</span>
-          </div>
-          <section class="essential-grid">
-            <!-- Card 1: Add Project -->
-            <div class="essential-card">
-              <div class="essential-content">
-                <h3>Add a portfolio project</h3>
-                <p>Show off your work and share your skills and expertise.</p>
-                <button class="btn btn-baro-primary btn-sm" id="btnEssentialAddProject">Add Project</button>
-              </div>
-              <div class="essential-graphic">
-                <svg width="68" height="68" viewBox="0 0 80 80" fill="none">
-                  <rect x="8" y="16" width="52" height="42" rx="6" fill="#f4efe6" stroke="#0d0c0b" stroke-width="2.5"/>
-                  <circle cx="34" cy="37" r="14" fill="#ffffff" stroke="#e67e22" stroke-width="2.5"/>
-                  <circle cx="34" cy="37" r="7" fill="#0d0c0b"/>
-                  <rect x="42" y="10" width="14" height="8" rx="2" fill="#e67e22"/>
-                  <path d="M50 48L68 64" stroke="#e67e22" stroke-width="3" stroke-linecap="round"/>
-                </svg>
-              </div>
-            </div>
-
-            <!-- Card 2: Custom Domain -->
-            <div class="essential-card">
-              <div class="essential-content">
-                <h3>Connect a custom domain</h3>
-                <p>Give your portfolio a more professional look with a domain such as baropholio.com.</p>
-                <button class="btn btn-cancel btn-sm" id="btnEssentialDomain" style="background:#ffffff; border-color:rgba(13,12,11,0.18); font-weight:600;">Connect Domain</button>
-              </div>
-              <div class="essential-graphic">
-                <svg width="68" height="68" viewBox="0 0 80 80" fill="none">
-                  <circle cx="40" cy="40" r="30" fill="#f4efe6" stroke="#0d0c0b" stroke-width="2.5"/>
-                  <ellipse cx="40" cy="40" rx="14" ry="30" stroke="#e67e22" stroke-width="2.5"/>
-                  <line x1="10" y1="40" x2="70" y2="40" stroke="#0d0c0b" stroke-width="2.5"/>
-                  <circle cx="58" cy="22" r="5" fill="#e67e22"/>
-                </svg>
-              </div>
-            </div>
-          </section>
+          ${renderSupabaseSyncMonitorHtml()}
 
           <!-- 4. All Projects Block -->
           <section class="projects-block">
@@ -3143,8 +3810,15 @@ const ICONS = {
       };
 
       if (!isTrashView) {
-        wrap.querySelector('#btnEssentialAddProject').onclick = startNewProject;
-        wrap.querySelector('#btnEssentialDomain').onclick = openDomainModal;
+        const btnAdd = wrap.querySelector('#btnEssentialAddProject');
+        if (btnAdd) btnAdd.onclick = startNewProject;
+        const btnDom = wrap.querySelector('#btnEssentialDomain');
+        if (btnDom) btnDom.onclick = openDomainModal;
+
+        const btnCheck = wrap.querySelector('#btnCheckCloudStatus');
+        if (btnCheck) btnCheck.onclick = () => checkSupabaseStatus(true);
+        const btnSync = wrap.querySelector('#btnStartBatchSync');
+        if (btnSync) btnSync.onclick = () => startBatchSyncToSupabase();
 
         const searchInp = wrap.querySelector('#searchInput');
         searchInp.oninput = (e) => {
@@ -4221,49 +4895,115 @@ const ICONS = {
       const p = state.currentProject;
       if (!Array.isArray(p.media)) p.media = [];
 
+      // File size warnings
+      for (let i = 0; i < files.length; i++) {
+        const f = files[i];
+        if (f.type.startsWith('video/') && f.size > 50 * 1024 * 1024) {
+          showToast(`⚠️ Video "${f.name}" vượt 50MB — có thể upload chậm.`);
+        } else if (f.type.startsWith('image/') && f.size > 10 * 1024 * 1024) {
+          showToast(`⚠️ Ảnh "${f.name}" vượt 10MB — sẽ nén trước khi lưu.`);
+        }
+      }
+
       // Tạo slug nếu chưa có (dùng làm tên thư mục Storage)
       if (!p.slug && p.title) p.slug = p.title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
 
-      const sb = typeof supabaseClient !== 'undefined' ? supabaseClient : null;
+      const sb = getSupabase();
+
+      // ── Build upload queue UI ──────────────────────────────────────────────
+      let queueContainer = document.getElementById('uploadQueueContainer');
+      if (!queueContainer) {
+        queueContainer = document.createElement('div');
+        queueContainer.id = 'uploadQueueContainer';
+        queueContainer.style.cssText = 'margin:10px 0; display:flex; flex-direction:column; gap:8px;';
+        const dropZone = document.getElementById('mediaDropZone');
+        if (dropZone && dropZone.parentNode) {
+          dropZone.parentNode.insertBefore(queueContainer, dropZone.nextSibling);
+        }
+      }
+
+      const fileList = Array.from(files).filter(f => {
+        const isImage = f.type.startsWith('image/') && f.type !== 'image/gif';
+        const isGif   = f.type === 'image/gif';
+        const isVideo = f.type.startsWith('video/');
+        const isAudio = f.type.startsWith('audio/') || /\.(mp3|ogg|wav|aac)$/i.test(f.name);
+        const isPdf   = f.type === 'application/pdf' || /\.pdf$/i.test(f.name);
+        return isImage || isGif || isVideo || isAudio || isPdf;
+      });
+
+      if (fileList.length === 0) { showToast('Không có file hợp lệ.'); return; }
+
+      // Render queue rows
+      const rowMap = {};
+      fileList.forEach((file, idx) => {
+        const rowId = 'uq_' + idx + '_' + Date.now();
+        const row = document.createElement('div');
+        row.id = rowId;
+        row.style.cssText = 'background:var(--surface,#f5f5f5); border:1px solid var(--border,#ddd); border-radius:8px; padding:8px 12px; font-size:12px;';
+        row.innerHTML = `
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:5px;">
+            <span style="font-weight:600; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; max-width:70%;">${file.name}</span>
+            <span id="${rowId}_status" style="color:var(--text-muted,#888); font-size:11px;">Đang chờ...</span>
+          </div>
+          <div style="background:#e0e0e0; border-radius:4px; height:5px; overflow:hidden;">
+            <div id="${rowId}_bar" style="height:100%; width:0%; background:#ea580c; transition:width 0.2s ease; border-radius:4px;"></div>
+          </div>`;
+        queueContainer.appendChild(row);
+        rowMap[idx] = { rowId };
+      });
+
       let uploadedCount = 0;
 
-      for (let i = 0; i < files.length; i++) {
-        const file = files[i];
+      for (let i = 0; i < fileList.length; i++) {
+        const file = fileList[i];
+        const { rowId } = rowMap[i];
+        const statusEl = document.getElementById(rowId + '_status');
+        const barEl    = document.getElementById(rowId + '_bar');
+
         const isImage = file.type.startsWith('image/') && file.type !== 'image/gif';
         const isGif   = file.type === 'image/gif';
         const isVideo = file.type.startsWith('video/');
         const isAudio = file.type.startsWith('audio/') || /\.(mp3|ogg|wav|aac)$/i.test(file.name);
         const isPdf   = file.type === 'application/pdf' || /\.pdf$/i.test(file.name);
-        if (!isImage && !isGif && !isVideo && !isAudio && !isPdf) continue;
-
-        const type = isImage ? 'image' : isGif ? 'gif' : isVideo ? 'video' : isAudio ? 'audio' : 'pdf';
+        const type    = isImage ? 'image' : isGif ? 'gif' : isVideo ? 'video' : isAudio ? 'audio' : 'pdf';
         const isFirst = p.media.length === 0;
         const mediaId = generateUUID();
-        const ext = file.name.split('.').pop().toLowerCase();
+        const ext     = file.name.split('.').pop().toLowerCase();
         const storagePath = p.slug ? `${p.slug}/${mediaId}.${ext}` : `uploads/${mediaId}.${ext}`;
 
         try {
-          // Thử upload lên Supabase Storage trước
+          if (statusEl) statusEl.textContent = 'Đang upload...';
+          if (barEl) barEl.style.width = '10%';
+
           let publicUrl = null;
           if (sb && p.slug) {
             const { error: upErr } = await sb.storage.from('project-media').upload(storagePath, file, { upsert: true, contentType: file.type });
             if (!upErr) {
+              if (barEl) barEl.style.width = '80%';
               const { data: urlData } = sb.storage.from('project-media').getPublicUrl(storagePath);
               publicUrl = urlData?.publicUrl || null;
+              if (barEl) barEl.style.width = '100%';
+              if (statusEl) { statusEl.textContent = '✓ Cloud'; statusEl.style.color = '#16a34a'; }
             } else {
               console.warn('[Storage] Upload lỗi, fallback dataUrl:', upErr.message);
+              if (statusEl) statusEl.textContent = 'Cloud lỗi, lưu local...';
             }
           }
 
           // Fallback: dataUrl nếu Storage thất bại hoặc chưa có slug
           const dataUrl = publicUrl ? null : await optimizeImageToDataUrl(file);
+          if (!publicUrl) {
+            if (barEl) barEl.style.width = '100%';
+            if (statusEl) { statusEl.textContent = '✓ Local'; statusEl.style.color = '#ca8a04'; }
+          }
 
+          // MERGE vào mảng media hiện có (không xóa media cũ)
           p.media.push({
             id: mediaId,
             type,
             name: file.name,
-            url: publicUrl,          // Cloud URL (ưu tiên)
-            dataUrl: dataUrl,        // Base64 fallback
+            url: publicUrl,
+            dataUrl: dataUrl,
             isCover: isFirst && isImage,
             alt: file.name.replace(/\.[^/.]+$/, '').replace(/[-_]/g, ' '),
             title: file.name.replace(/\.[^/.]+$/, ''),
@@ -4272,11 +5012,21 @@ const ICONS = {
           uploadedCount++;
         } catch (e) {
           console.warn('Upload error:', e);
+          if (statusEl) { statusEl.textContent = '✗ Lỗi'; statusEl.style.color = '#dc2626'; }
+          if (barEl) { barEl.style.background = '#dc2626'; barEl.style.width = '100%'; }
         }
       }
+
       renderWixMediaGrid();
       const toCloud = p.slug && sb ? ` → Supabase Storage (${p.slug}/)` : ' (local preview)';
-      showToast(`Đã upload ${uploadedCount} file${toCloud}`);
+      showToast(`Đã upload ${uploadedCount}/${fileList.length} file${toCloud}`);
+
+      // Auto-remove queue UI after 4s
+      setTimeout(() => {
+        if (queueContainer && queueContainer.parentNode) {
+          queueContainer.innerHTML = '';
+        }
+      }, 4000);
     }
 
     function optimizeImageToDataUrl(file) {
@@ -5005,7 +5755,33 @@ const ICONS = {
       render();
     }
 
-    function openEditProject(id) {
+    async function openEditProject(id) {
+      // Fetch full project data from Supabase to get complete media array
+      const sb = getSupabase();
+      if (sb) {
+        try {
+          const { data, error } = await sb.from('projects').select('*').eq('id', id).single();
+          if (data && !error) {
+            const fullProj = mapSupabaseToLocal(data);
+            // Preserve local media if richer (base64 not yet synced to Cloud)
+            const localProj = state.projects.find(p => p.id === id);
+            if (localProj && Array.isArray(localProj.media) && localProj.media.length > fullProj.media.length) {
+              fullProj.media = localProj.media;
+            }
+            // Update local state list
+            const idx = state.projects.findIndex(p => p.id === id);
+            if (idx >= 0) state.projects[idx] = fullProj;
+            state.currentProject = JSON.parse(JSON.stringify(fullProj));
+            state.view = 'edit';
+            render();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            return;
+          }
+        } catch(e) {
+          console.warn('[openEditProject] Supabase fetch error:', e);
+        }
+      }
+      // Fallback to local state
       const proj = state.projects.find(p => p.id === id);
       if (!proj) return;
       state.currentProject = JSON.parse(JSON.stringify(proj));

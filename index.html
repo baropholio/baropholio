@@ -4786,8 +4786,12 @@
           if (rawCache) {
             var parsed = JSON.parse(rawCache);
             if (parsed && parsed.timestamp && (Date.now() - parsed.timestamp < CACHE_TTL_MS) && Array.isArray(parsed.data) && parsed.data.length > 0) {
-              console.log('[Supabase Cache] Using fresh client-side cache (' + parsed.data.length + ' projects, saved quota).');
-              return parsed.data;
+              // Also invalidate if Admin saved after cache was written
+              var lastAdminSave = parseInt(localStorage.getItem('baropholio_last_updated') || '0', 10);
+              if (parsed.timestamp >= lastAdminSave) {
+                console.log('[Supabase Cache] Using fresh client-side cache (' + parsed.data.length + ' projects, saved quota).');
+                return parsed.data;
+              }
             }
           }
         } catch(e) {
@@ -4798,12 +4802,12 @@
           return null;
         }
 
-        // 2. Fetch lightweight columns only: id, slug, title, subtitle, collections, basic_info, media
+        // 2. Fetch lightweight columns only — media->0 to avoid full Base64 array timeout
         try {
           var sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
           var res = await sb
             .from('projects')
-            .select('id, slug, title, subtitle, collections, basic_info, media, created_at')
+            .select('id, stt, slug, title, subtitle, collections, basic_info, media->0, created_at')
             .eq('published', true)
             .order('created_at', { ascending: false });
 
@@ -4822,11 +4826,17 @@
               published: true,
               collections: Array.isArray(row.collections) ? row.collections : [],
               basicInfo: Array.isArray(row.basic_info) ? row.basic_info : [],
-              media: Array.isArray(row.media) ? row.media.slice(0, 1) : [], // Only 1st media for 3D sphere card
+              media: row.media ? (Array.isArray(row.media) ? row.media.slice(0,1) : [row.media]) : [], // media->0 returns object
               seo: {},
               slug: row.slug || '',
-              stt: ''
+              stt: row.stt || ''
             };
+          });
+
+          // Sort by stt (admin order) when available, fallback to created_at from DB
+          mapped.sort(function(a, b) {
+            var sA = parseInt(a.stt || '999', 10), sB = parseInt(b.stt || '999', 10);
+            return (isNaN(sA) ? 999 : sA) - (isNaN(sB) ? 999 : sB);
           });
 
           var normalized = normalizeRecords(mapped.map(convertCmsProjectToRecord));
@@ -5062,7 +5072,76 @@
       }
 
       // Launch application lifecycle
-      initApp();
+      initApp().then(function() {
+        // ─── CLIENT-SIDE ROUTING: handle deep-link after assets are 100% ready ─
+        _handleCurrentRoute();
+      });
+
+      // ─── CLIENT-SIDE ROUTER (HTML5 History API) ──────────────────────────────
+      // Supports: / | /home | /work | /work/:slug | /about
+      // vercel.json rewrites all paths → index.html (no 404 on F5)
+
+      function _routerPush(path, stateData) {
+        if (window.location.pathname !== path) {
+          history.pushState(stateData || {}, '', path);
+        }
+      }
+
+      function _findRecordBySlug(slug) {
+        if (!slug || !window.RECORDS) return -1;
+        var s = slug.toLowerCase();
+        for (var i = 0; i < window.RECORDS.length; i++) {
+          var r = window.RECORDS[i];
+          if ((r.slug && r.slug.toLowerCase() === s) || (r.id && String(r.id).toLowerCase() === s)) return i;
+        }
+        return -1;
+      }
+
+      function _handleCurrentRoute() {
+        var path = window.location.pathname;
+        // Strip trailing slash
+        if (path !== '/' && path.endsWith('/')) path = path.slice(0, -1);
+
+        if (path === '/' || path === '' || path === '/home' || path === '/index.html') {
+          // Home — default sphere view, nothing extra needed
+          return;
+        }
+
+        if (path === '/about') {
+          if (typeof openAbout === 'function') openAbout();
+          return;
+        }
+
+        if (path === '/work') {
+          if (typeof window.toggleGrid === 'function') window.toggleGrid(true);
+          return;
+        }
+
+        // /work/:slug
+        var workSlugMatch = path.match(/^\/work\/(.+)$/);
+        if (workSlugMatch) {
+          var slug = decodeURIComponent(workSlugMatch[1]);
+          var idx = _findRecordBySlug(slug);
+          if (idx !== -1) {
+            openBook(idx);
+          } else {
+            console.warn('[Router] Slug not found in RECORDS:', slug);
+            // Fallback: show grid so user can find the project
+            if (typeof window.toggleGrid === 'function') window.toggleGrid(true);
+          }
+          return;
+        }
+      }
+
+      // Listen for browser back/forward
+      window.addEventListener('popstate', function(e) {
+        // Close all overlays first
+        if (typeof closeBook === 'function') closeBook();
+        if (typeof closeAbout === 'function') closeAbout();
+        if (typeof closeMenu === 'function') closeMenu();
+        if (document.body.classList.contains('gridview') && typeof window.toggleGrid === 'function') window.toggleGrid(false);
+        _handleCurrentRoute();
+      });
 
       // ─── COLLECTION FILTER ENGINE ────────────────────────────────────────────
       (function initCollectionFilter() {
@@ -6008,6 +6087,20 @@
         closeAbout();
         closeMenu();
         if (document.body.classList.contains("gridview")) window.toggleGrid(false);
+        // Push URL state for deep-link & F5 support
+        var rec = RECORDS && RECORDS[idx];
+        if (rec && rec.slug) {
+          _routerPush('/work/' + rec.slug, { type: 'project', slug: rec.slug });
+        }
+        // Non-blocking: fetch full media for plates while user views Deck
+        if (rec && rec.id && typeof window.fetchProjectDossierOnDemand === 'function') {
+          window.fetchProjectDossierOnDemand(rec.id).catch(function(){});
+        }
+        // Deck first (card-flip) → Deck's More button → Showcase (full plates)
+        if (typeof window.openBaroProjectDeck === 'function') {
+          window.openBaroProjectDeck(idx);
+          return;
+        }
         if (window.BaroProjectShowcase && typeof window.BaroProjectShowcase.open === "function") {
           window.BaroProjectShowcase.open(idx);
           return;
@@ -6018,10 +6111,15 @@
       window.openBook = openBook;
 
       function closeBook() {
+        if (typeof window.closeBaroProjectDeck === 'function') window.closeBaroProjectDeck();
         if (window.BaroProjectShowcase && typeof window.BaroProjectShowcase.close === "function") {
           window.BaroProjectShowcase.close();
         }
         document.body.classList.remove("book-open");
+        // Restore URL to home when modal closes (only if we're on a /work/slug path)
+        if (window.location.pathname.indexOf('/work/') === 0) {
+          history.pushState({}, '', '/');
+        }
         // Stop and mute video when closing
         if (bookVideo) {
           bookVideo.pause();
@@ -6136,6 +6234,12 @@
           closeAbout();
           closeMenu();
           closeBook();
+          _routerPush('/work', { type: 'grid' });
+        } else {
+          // Only pop back to / if we're on /work
+          if (window.location.pathname === '/work') {
+            history.pushState({}, '', '/');
+          }
         }
       };
 
@@ -6210,6 +6314,7 @@
           if (document.body.classList.contains("gridview")) window.toggleGrid(false);
           if (viewMode !== "sphere") window.switchMode("sphere");
           window.scrollTo({ top: 0, behavior: "smooth" });
+          _routerPush('/', {});
         });
       }
 
@@ -6291,11 +6396,15 @@
           });
         }
         document.body.classList.add("about-open");
+        _routerPush('/about', { type: 'about' });
         setTimeout(updateAboutMistAndTheme, 200);
       }
 
       function closeAbout() {
         document.body.classList.remove("about-open");
+        if (window.location.pathname === '/about') {
+          history.pushState({}, '', '/');
+        }
       }
 
       navAbout.addEventListener("click", function(e){ e.preventDefault(); openAbout(); });
@@ -6333,6 +6442,7 @@
           if (viewMode !== "sphere") window.switchMode("sphere");
           if (document.body.classList.contains("gridview")) window.toggleGrid(false);
           window.scrollTo({ top: 0, behavior: "smooth" });
+          _routerPush('/', {});
         });
       }
 
