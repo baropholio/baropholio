@@ -6138,6 +6138,8 @@
 
         var glyphs = "0123456789ABCDEFBAROPHOLIOXYZ<>/[]{}#*+=_!?:~%$^&";
         var particles = [];
+        var targetParticles = [];
+        var ambientParticles = [];
         var animationStarted = false;
 
         // Build target shape purely via high-fidelity Canvas vector rendering (zero CORS dependency)
@@ -6250,7 +6252,7 @@
             imgData = null;
           }
 
-          var density = 5; // step size in pixels - denser sampling for clearer text shape
+          var density = 6; // step size in pixels - optimized sampling for crystal-clear text shape and 60fps
           var screenW = window.innerWidth;
           var screenH = window.innerHeight;
           var centerX = screenW / 2;
@@ -6263,6 +6265,8 @@
           var offsetY = centerY - (offH * scaleRatio) / 2;
 
           particles = [];
+          targetParticles = [];
+          ambientParticles = [];
 
           if (imgData) {
             for (var py = 0; py < offH; py += density) {
@@ -6284,10 +6288,10 @@
                   var startX = Math.random() * screenW;
                   var startY = Math.random() * screenH;
 
-                  // Initial random colors for the code phase (cam, Ä‘en, tráº¯ng)
+                  // Initial random colors for the code phase (cam, đen, trắng)
                   var initialCol = palette[Math.floor(Math.random() * palette.length)];
 
-                  particles.push({
+                  targetParticles.push({
                     targetX: offsetX + px * scaleRatio,
                     targetY: offsetY + py * scaleRatio,
                     x: startX,
@@ -6295,7 +6299,7 @@
                     vx: (Math.random() - 0.5) * 4,
                     vy: 3 + Math.random() * 6,
                     char: glyphs[Math.floor(Math.random() * glyphs.length)],
-                    size: 11 + Math.random() * 5,
+                    size: 13,
                     color: initialCol,
                     alpha: 0.85 + Math.random() * 0.15,
                     changeRate: Math.floor(3 + Math.random() * 6),
@@ -6309,9 +6313,9 @@
           }
 
           // Ambient code rain particles
-          for (var i = 0; i < 80; i++) {
+          for (var i = 0; i < 60; i++) {
             var colAmb = palette[Math.floor(Math.random() * palette.length)];
-            particles.push({
+            ambientParticles.push({
               targetX: Math.random() * screenW,
               targetY: Math.random() * screenH,
               x: Math.random() * screenW,
@@ -6319,7 +6323,7 @@
               vx: 0,
               vy: 3 + Math.random() * 8,
               char: glyphs[Math.floor(Math.random() * glyphs.length)],
-              size: 10 + Math.random() * 4,
+              size: 13,
               color: colAmb,
               alpha: 0.28,
               changeRate: 4,
@@ -6374,6 +6378,7 @@
         }
 
         function loop(now) {
+          if (!splash || splash.classList.contains("out")) return;
           var elapsed = (now - startTime) / 1000;
           var screenW = window.innerWidth;
           var screenH = window.innerHeight;
@@ -6410,81 +6415,101 @@
             gatherProgress = 1 - Math.pow(1 - gatherProgress, 2.5); // Ease out - fast snap
           }
 
-          // 1. Draw particles
+          var isGathering = (gatherProgress > 0);
+          var lockStrength = isGathering ? (0.12 + gatherProgress * 0.22) : 0;
+          var isSnapped = (gatherProgress >= 0.88);
+
+          // Configure typography once globally — completely eliminates font parsing overhead
           ctx.font = "bold 13px 'Space Grotesk', monospace";
           ctx.textAlign = "center";
           ctx.textBaseline = "middle";
 
-          for (var i = 0; i < particles.length; i++) {
-            var p = particles[i];
-            p.counter++;
-            if (p.counter % p.changeRate === 0) {
-              p.char = glyphs[Math.floor(Math.random() * glyphs.length)];
-            }
-
-            if (p.ambient) {
-              // Floating ambient code
-              p.y += p.vy;
-              if (p.y > screenH + 20) {
-                p.y = -20;
-                p.x = Math.random() * screenW;
+          // 1. Draw ambient floating particles
+          if (ambientParticles && ambientParticles.length > 0) {
+            var ambOrangePhase = (elapsed >= 1.0 && elapsed < 2.2);
+            for (var a = 0; a < ambientParticles.length; a++) {
+              var ap = ambientParticles[a];
+              ap.counter++;
+              if (ap.counter % ap.changeRate === 0) {
+                ap.char = glyphs[Math.floor(Math.random() * glyphs.length)];
+              }
+              ap.y += ap.vy;
+              if (ap.y > screenH + 20) {
+                ap.y = -20;
+                ap.x = Math.random() * screenW;
               }
               if (elapsed >= 2.0) {
-                p.alpha = Math.max(0, p.alpha - 0.03);
+                ap.alpha = Math.max(0, ap.alpha - 0.03);
               }
-              if (p.alpha > 0.01) {
-                ctx.fillStyle = (elapsed >= 1.0 && elapsed < 2.2) ? "#ffffff" : p.color.hex;
-                ctx.globalAlpha = p.alpha;
-                ctx.fillText(p.char, p.x, p.y);
+              if (ap.alpha > 0.01) {
+                ctx.fillStyle = ambOrangePhase ? "#ffffff" : ap.color.hex;
+                ctx.globalAlpha = ap.alpha;
+                ctx.fillText(ap.char, ap.x, ap.y);
               }
-              continue;
             }
+          }
 
-            // Target particles (forming BAROPHOLIO)
-            if (gatherProgress <= 0) {
-              p.y += p.vy;
-              p.x += p.vx;
-              if (p.y > screenH + 30) {
-                p.y = -20;
-                p.x = p.targetX + (Math.random() - 0.5) * 160;
+          // 2. Update physics & render target particles (forming BAROPHOLIO)
+          if (targetParticles && targetParticles.length > 0) {
+            for (var i = 0; i < targetParticles.length; i++) {
+              var p = targetParticles[i];
+              if (!isSnapped) {
+                p.counter++;
+                if (p.counter % p.changeRate === 0) {
+                  p.char = glyphs[Math.floor(Math.random() * glyphs.length)];
+                }
               }
-              p.x += (p.targetX - p.x) * 0.035;
-            } else {
-              // Strongly converge onto target position — larger factor for snappier lock
-              var lockStrength = 0.12 + gatherProgress * 0.22;
-              p.x += (p.targetX - p.x) * lockStrength;
-              p.y += (p.targetY - p.y) * lockStrength;
-            }
 
-            // Particle Color specification:
-            // When gathering on orange background (1.0s - 2.2s):
-            // - Wordmark letters: BLACK (#0d0c0b)
-            // - 3 letters 'O': WHITE (#ffffff)
-            // - Icon: Black & White & deep contrast
-            var drawColor = p.color.hex;
-            if (elapsed >= 1.0) {
-              if (p.isIcon) {
-                drawColor = "#0d0c0b";
-              } else if (p.isLetterO) {
-                drawColor = "#ffffff"; // 3 chá»¯ O mÃ u tráº¯ng
+              if (!isGathering) {
+                p.y += p.vy;
+                p.x += p.vx;
+                if (p.y > screenH + 30) {
+                  p.y = -20;
+                  p.x = p.targetX + (Math.random() - 0.5) * 160;
+                }
+                p.x += (p.targetX - p.x) * 0.035;
               } else {
-                drawColor = "#0d0c0b"; // Táº¥t cáº£ cÃ¡c chá»¯ cÃ²n láº¡i mÃ u Ä‘en
+                p.x += (p.targetX - p.x) * lockStrength;
+                p.y += (p.targetY - p.y) * lockStrength;
               }
             }
 
-            var currentAlpha = p.alpha;
-            // When white ripple expands (elapsed >= 2.2), particles dissolve smoothly
-            if (elapsed >= 2.2) {
-              currentAlpha = Math.max(0, 1 - (elapsed - 2.2) / 0.45);
-            }
+            var globalDissolve = elapsed >= 2.2 ? Math.max(0, 1 - (elapsed - 2.2) / 0.45) : 1;
 
-            if (currentAlpha > 0.01) {
-              ctx.save();
-              ctx.fillStyle = drawColor;
-              ctx.globalAlpha = currentAlpha;
-              ctx.font = "bold " + p.size + "px 'Space Grotesk', monospace";
-              ctx.fillText(p.char, p.x, p.y);
-              ctx.restore();
+            if (globalDissolve > 0.01) {
+              if (elapsed >= 1.0) {
+                // High-performance state-batched draw for the Orange Phase:
+                // Pass A: Draw all Black characters & icon particles with a single fillStyle set
+                ctx.fillStyle = "#0d0c0b";
+                ctx.globalAlpha = globalDissolve;
+                for (var b = 0; b < targetParticles.length; b++) {
+                  var pb = targetParticles[b];
+                  if (!pb.isLetterO) {
+                    ctx.fillText(pb.char, pb.x, pb.y);
+                  }
+                }
+
+                // Pass B: Draw the 3 White 'O' characters with a single fillStyle set
+                ctx.fillStyle = "#ffffff";
+                for (var w = 0; w < targetParticles.length; w++) {
+                  var pw = targetParticles[w];
+                  if (pw.isLetterO) {
+                    ctx.fillText(pw.char, pw.x, pw.y);
+                  }
+                }
+              } else {
+                // Pre-orange code rain phase (< 1.0s):
+                var lastHex = "";
+                for (var k = 0; k < targetParticles.length; k++) {
+                  var pk = targetParticles[k];
+                  if (pk.color.hex !== lastHex) {
+                    ctx.fillStyle = pk.color.hex;
+                    lastHex = pk.color.hex;
+                  }
+                  ctx.globalAlpha = pk.alpha * globalDissolve;
+                  ctx.fillText(pk.char, pk.x, pk.y);
+                }
+              }
             }
           }
 
@@ -6496,12 +6521,11 @@
             var maxR = Math.hypot(screenW, screenH);
             var curR = maxR * rFactor;
 
-            ctx.save();
+            ctx.globalAlpha = 1.0;
+            ctx.fillStyle = "#f2f0ec";
             ctx.beginPath();
             ctx.arc(screenW / 2, screenH / 2, curR, 0, Math.PI * 2);
-            ctx.fillStyle = "#f2f0ec";
             ctx.fill();
-            ctx.restore();
           }
 
           // 3. Reveal clean real logo, name and palette bar
