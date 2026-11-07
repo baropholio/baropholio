@@ -6,8 +6,11 @@
   <title>Baropholio Admin ~ Wix Portfolio Studio</title>
   
   <!-- Favicon -->
-  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
-  <link rel="alternate icon" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+  <link rel="shortcut icon" href="favicon.ico">
   
   <!-- Google Fonts: Inter Tight & Space Grotesk -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -1458,6 +1461,286 @@
       background: #ea580c;
     }
 
+    /* ==========================================================================
+       BAROPHOLIO LIVE WEB (NON-LOCALHOST) SYNC STATUS SECTION
+       ========================================================================== */
+    .live-web-sync-card {
+      background: #ffffff;
+      border: 1px solid rgba(13, 12, 11, 0.12);
+      border-radius: 14px;
+      padding: 22px 24px;
+      margin-bottom: 24px;
+      box-shadow: 0 4px 16px rgba(13, 12, 11, 0.04);
+      position: relative;
+      overflow: hidden;
+    }
+    .live-web-sync-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, #ea580c 0%, #059669 100%);
+    }
+    .live-web-sync-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 14px;
+      margin-bottom: 18px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid rgba(13, 12, 11, 0.07);
+    }
+    .live-web-title-group {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .live-web-title {
+      font-size: 15px;
+      font-weight: 800;
+      letter-spacing: -0.01em;
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .live-web-url-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: #faf8f5;
+      border: 1px solid rgba(13, 12, 11, 0.1);
+      border-radius: 20px;
+      padding: 3px 12px;
+      font-size: 12px;
+      font-family: monospace;
+      color: var(--text);
+      font-weight: 600;
+    }
+    .live-web-url-badge a {
+      color: #ea580c;
+      text-decoration: none;
+    }
+    .live-web-url-badge a:hover {
+      text-decoration: underline;
+    }
+    .live-web-status-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11.5px;
+      font-weight: 700;
+      padding: 3px 11px;
+      border-radius: 20px;
+      letter-spacing: 0.01em;
+    }
+    .live-web-status-pill.status-synced {
+      background: #ecfdf5;
+      color: #059669;
+      border: 1px solid rgba(5, 150, 105, 0.25);
+    }
+    .live-web-status-pill.status-pending {
+      background: #fffbeb;
+      color: #b45309;
+      border: 1px solid rgba(217, 119, 6, 0.25);
+    }
+    .live-web-status-pill.status-offline {
+      background: #fef2f2;
+      color: #dc2626;
+      border: 1px solid rgba(220, 38, 38, 0.25);
+    }
+    .live-web-status-pill.status-checking {
+      background: #eff6ff;
+      color: #0284c7;
+      border: 1px solid rgba(2, 132, 199, 0.25);
+    }
+    .live-web-pulse-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      display: inline-block;
+    }
+    .live-web-pulse-dot.dot-green {
+      background: #10b981;
+      box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.2);
+    }
+    .live-web-pulse-dot.dot-amber {
+      background: #f59e0b;
+      box-shadow: 0 0 0 2px rgba(245, 158, 11, 0.2);
+      animation: syncPulse 1.4s infinite;
+    }
+    .live-web-pulse-dot.dot-red {
+      background: #ef4444;
+      box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.2);
+    }
+    .live-web-pulse-dot.dot-blue {
+      background: #3b82f6;
+      box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
+      animation: syncPulse 1.2s infinite;
+    }
+    .live-web-metrics-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+      margin-bottom: 18px;
+    }
+    @media (max-width: 900px) {
+      .live-web-metrics-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+    @media (max-width: 540px) {
+      .live-web-metrics-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+    .live-web-metric-box {
+      background: #faf8f5;
+      border: 1px solid rgba(13, 12, 11, 0.07);
+      border-radius: 10px;
+      padding: 14px 16px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: transform var(--transition), box-shadow var(--transition);
+    }
+    .live-web-metric-box:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 10px rgba(13, 12, 11, 0.05);
+    }
+    .live-web-metric-lbl {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+    }
+    .live-web-metric-val {
+      font-size: 21px;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      line-height: 1.2;
+    }
+    .live-web-metric-sub {
+      font-size: 11.5px;
+      color: var(--text-muted);
+      margin-top: 5px;
+      line-height: 1.4;
+    }
+    .live-web-alert-banner {
+      border-radius: 10px;
+      padding: 12px 16px;
+      margin-bottom: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+    .live-web-alert-banner.banner-synced {
+      background: #f0fdf4;
+      border: 1px solid #bbf7d0;
+      color: #166534;
+    }
+    .live-web-alert-banner.banner-pending {
+      background: #fffbeb;
+      border: 1px solid #fde68a;
+      color: #92400e;
+    }
+    .live-web-alert-banner.banner-offline {
+      background: #fef2f2;
+      border: 1px solid #fecaca;
+      color: #991b1b;
+    }
+    .live-web-table-wrap {
+      margin-top: 10px;
+    }
+    .live-web-table-toggle {
+      font-size: 12.5px;
+      font-weight: 700;
+      color: var(--text);
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 14px;
+      background: #f5f2eb;
+      border-radius: 8px;
+      border: 1px solid rgba(13, 12, 11, 0.08);
+      user-select: none;
+      transition: background var(--transition);
+    }
+    .live-web-table-toggle:hover {
+      background: #ece7dc;
+    }
+    .live-web-table-container {
+      margin-top: 8px;
+      overflow-x: auto;
+      max-height: 340px;
+      overflow-y: auto;
+      border: 1px solid rgba(13, 12, 11, 0.08);
+      border-radius: 8px;
+      background: #ffffff;
+    }
+    .live-web-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12px;
+      text-align: left;
+    }
+    .live-web-table th {
+      background: #faf8f5;
+      padding: 10px 14px;
+      font-weight: 700;
+      color: var(--text-muted);
+      border-bottom: 1px solid rgba(13, 12, 11, 0.08);
+      position: sticky;
+      top: 0;
+      z-index: 2;
+    }
+    .live-web-table td {
+      padding: 10px 14px;
+      border-bottom: 1px solid rgba(13, 12, 11, 0.05);
+      color: var(--text);
+      vertical-align: middle;
+    }
+    .live-web-table tr:hover td {
+      background: rgba(234, 88, 12, 0.03);
+    }
+    .live-badge-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 3px 8px;
+      border-radius: 12px;
+      white-space: nowrap;
+    }
+    .live-badge-chip.chip-green {
+      background: #ecfdf5;
+      color: #059669;
+    }
+    .live-badge-chip.chip-amber {
+      background: #fffbeb;
+      color: #d97706;
+    }
+    .live-badge-chip.chip-red {
+      background: #fef2f2;
+      color: #dc2626;
+    }
+    .live-badge-chip.chip-gray {
+      background: #f3f4f6;
+      color: #4b5563;
+    }
+
     /* All Projects Table & Filter Area */
     .projects-block {
       background: #ffffff;
@@ -2456,6 +2739,478 @@
       if (icon) icon.textContent = window._supabaseSyncMonitor.showTable ? '▲ Thu gọn' : '▼ Mở chi tiết';
     }
 
+    /* ==========================================================================
+       BAROPHOLIO LIVE WEB (NON-LOCALHOST) SYNCHRONIZATION MONITOR ENGINE
+       ========================================================================== */
+    window._liveWebSyncStatus = {
+      liveUrl: localStorage.getItem('baro_live_web_url') || 'https://baropholio.vercel.app',
+      isChecking: false,
+      lastChecked: null,
+      online: null,
+      httpStatus: null,
+      latencyMs: null,
+      serverInfo: 'Vercel Edge CDN',
+      showTable: false,
+      summary: {
+        status: 'checking',
+        statusText: 'Đang kiểm tra kết nối...',
+        adminPublished: 0,
+        livePublished: 0,
+        fullySyncedProjects: 0,
+        pendingProjects: 0,
+        localMediaProjects: 0,
+        totalLocalMedia: 0,
+        totalCloudMedia: 0
+      },
+      projectAudits: []
+    };
+
+    function toggleLiveWebTable() {
+      window._liveWebSyncStatus.showTable = !window._liveWebSyncStatus.showTable;
+      const container = document.getElementById('liveWebTableContainer');
+      const icon = document.getElementById('liveWebTableToggleIcon');
+      if (container) container.style.display = window._liveWebSyncStatus.showTable ? 'block' : 'none';
+      if (icon) icon.textContent = window._liveWebSyncStatus.showTable ? '▲ Thu gọn' : '▼ Xem chi tiết';
+    }
+
+    function renderLiveWebSyncStatusHtml() {
+      const ws = window._liveWebSyncStatus;
+      const isChecking = ws.isChecking;
+      const isOnline = ws.online;
+      const summary = ws.summary;
+      const liveUrl = (ws.liveUrl || 'https://baropholio.vercel.app').replace(/\/+$/, '');
+      const lastCheckedText = ws.lastChecked 
+        ? new Date(ws.lastChecked).toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit', second: '2-digit' })
+        : 'Chưa kiểm tra';
+
+      let statusClass = 'status-checking';
+      let dotClass = 'dot-blue';
+      let statusBadgeText = 'Đang kiểm tra kết nối Web...';
+
+      if (!isChecking) {
+        if (ws.online === false) {
+          statusClass = 'status-offline';
+          dotClass = 'dot-red';
+          statusBadgeText = 'Không thể kết nối tới Web';
+        } else if (summary.status === 'synced') {
+          statusClass = 'status-synced';
+          dotClass = 'dot-green';
+          statusBadgeText = 'ĐÃ ĐỒNG BỘ 100% VỚI WEB THỰC TẾ';
+        } else if (summary.status === 'pending') {
+          statusClass = 'status-pending';
+          dotClass = 'dot-amber';
+          statusBadgeText = 'CÓ NỘI DUNG CHƯA ĐỒNG BỘ LÊN WEB';
+        } else {
+          statusClass = 'status-checking';
+          dotClass = 'dot-blue';
+          statusBadgeText = 'Chờ kiểm tra đồng bộ';
+        }
+      }
+
+      let bannerHtml = '';
+      if (!isChecking) {
+        if (ws.online === false) {
+          bannerHtml = `
+            <div class="live-web-alert-banner banner-offline">
+              <div>
+                <strong>🔴 Không thể kết nối tới Web thực tế:</strong> Không nhận được phản hồi từ <code>${escapeHtml(liveUrl)}</code> (${ws.latencyMs || 0}ms). Vui lòng kiểm tra kết nối mạng hoặc domain.
+              </div>
+              <button type="button" class="btn btn-outline-pill btn-xs" id="btnEditLiveWebUrl">Đổi URL Web</button>
+            </div>
+          `;
+        } else if (summary.status === 'synced') {
+          bannerHtml = `
+            <div class="live-web-alert-banner banner-synced">
+              <div style="display:flex; align-items:center; gap:8px;">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                <span><strong>Đã đồng bộ hoàn hảo:</strong> Nội dung Baropholio trên web thực tế (<strong>${escapeHtml(liveUrl)}</strong>) đã đồng bộ <strong>100%</strong> với Admin. Toàn bộ ${summary.adminPublished} dự án công khai và ảnh Cloud CDN đang hoạt động chuẩn xác.</span>
+              </div>
+              <a href="${escapeHtml(liveUrl)}" target="_blank" class="btn btn-baro-primary btn-xs" style="background:#059669; border-color:#059669; text-decoration:none;">Xem Web Trực Tiếp ↗</a>
+            </div>
+          `;
+        } else if (summary.status === 'pending') {
+          let pendingReason = [];
+          if (summary.pendingProjects > 0) pendingReason.push(`có ${summary.pendingProjects} dự án chưa được lưu lên Web`);
+          if (summary.totalLocalMedia > 0) pendingReason.push(`còn ${summary.totalLocalMedia} file media ở dạng local (khách xem web ngoài sẽ bị lỗi ảnh)`);
+
+          bannerHtml = `
+            <div class="live-web-alert-banner banner-pending">
+              <div style="display:flex; align-items:center; gap:8px;">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#d97706" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+                <span><strong>Phát hiện nội dung chưa đồng bộ:</strong> ${pendingReason.join(', ')}. Hãy nhấn "Đồng bộ lên Web" để cập nhật ngay cho khách truy cập.</span>
+              </div>
+              <button type="button" class="btn btn-baro-primary btn-xs" id="btnSyncAllToLiveWeb" style="background:#ea580c; border-color:#ea580c;">⚡ Đồng bộ tất cả lên Web ngay</button>
+            </div>
+          `;
+        }
+      }
+
+      const audits = ws.projectAudits || [];
+      let tableRows = '';
+
+      audits.forEach(item => {
+        let statusChip = '';
+        if (item.verdict === 'synced') {
+          statusChip = `<span class="live-badge-chip chip-green">✓ Đã đồng bộ 100%</span>`;
+        } else if (item.verdict === 'pending_media') {
+          statusChip = `<span class="live-badge-chip chip-amber">⚠️ Còn ${item.mediaLocal} ảnh local</span>`;
+        } else if (item.verdict === 'pending_save') {
+          statusChip = `<span class="live-badge-chip chip-red">⏳ Chưa lưu lên Web</span>`;
+        } else if (item.verdict === 'hidden_live') {
+          statusChip = `<span class="live-badge-chip chip-amber">⚠️ Đã ẩn ở Admin nhưng còn trên Web</span>`;
+        } else {
+          statusChip = `<span class="live-badge-chip chip-gray">○ ${escapeHtml(item.note || 'Bản nháp')}</span>`;
+        }
+
+        let webDisplayChip = item.livePublished
+          ? `<span class="live-badge-chip chip-green">🟢 Đang phát trên Web</span>`
+          : `<span class="live-badge-chip chip-gray">⚪ Đã ẩn / Chưa lên</span>`;
+
+        let mediaDisplay = item.mediaLocal === 0
+          ? `<span style="color:#059669; font-weight:600;">✓ ${item.mediaCloud}/${item.mediaCount} Cloud CDN</span>`
+          : `<span style="color:#ea580c; font-weight:700;">⚠️ ${item.mediaLocal} local</span> / <span style="color:#059669;">${item.mediaCloud} cloud</span>`;
+
+        tableRows += `
+          <tr>
+            <td style="font-family:monospace; color:var(--text-muted);">${escapeHtml(item.stt)}</td>
+            <td>
+              <div style="font-weight:700; max-width:240px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">
+                ${escapeHtml(item.title)}
+              </div>
+              <div style="font-size:10.5px; color:var(--text-muted); font-family:monospace;">
+                ${escapeHtml(item.slug)}
+              </div>
+            </td>
+            <td>
+              ${item.adminPublished 
+                ? '<span class="live-badge-chip chip-green">Published</span>' 
+                : '<span class="live-badge-chip chip-gray">Draft / Hidden</span>'}
+            </td>
+            <td>${webDisplayChip}</td>
+            <td>${mediaDisplay}</td>
+            <td>${statusChip}</td>
+            <td>
+              <a href="${escapeHtml(item.liveUrl)}" target="_blank" class="btn btn-outline-pill btn-xs" style="text-decoration:none; display:inline-flex; align-items:center; gap:4px;" title="Xem dự án trên Web thực tế (Không phải localhost)">
+                <span>Web Live</span> ↗
+              </a>
+            </td>
+          </tr>
+        `;
+      });
+
+      return `
+        <div class="live-web-sync-card">
+          <div class="live-web-sync-header">
+            <div class="live-web-title-group">
+              <span class="live-web-title">
+                <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#ea580c" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <line x1="2" y1="12" x2="22" y2="12"></line>
+                  <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+                </svg>
+                TRẠNG THÁI NỘI DUNG WEB BAROPHOLIO (PRODUCTION)
+              </span>
+
+              <span class="live-web-url-badge" title="Website thực tế đang phát ra internet (Không phải localhost)">
+                <span>Web:</span>
+                <a href="${escapeHtml(liveUrl)}" target="_blank">${escapeHtml(liveUrl)} ↗</a>
+                <button type="button" id="btnEditLiveWebUrl" style="background:none; border:none; cursor:pointer; font-size:11px; padding:0; color:var(--text-muted);" title="Thay đổi domain web thực tế">✏️</button>
+              </span>
+
+              <span class="live-web-status-pill ${statusClass}">
+                <span class="live-web-pulse-dot ${dotClass}"></span>
+                ${isChecking ? 'Đang kiểm tra...' : statusBadgeText}
+              </span>
+            </div>
+
+            <div class="sync-monitor-actions">
+              <button type="button" class="btn btn-outline-pill btn-sm" id="btnCheckLiveWebSync" title="Kiểm tra đối soát nội dung trực tiếp giữa Admin và Web thực tế">
+                ${isChecking ? '⏳ Đang kiểm tra...' : '🔄 Kiểm tra đồng bộ'}
+              </button>
+              <a href="${escapeHtml(liveUrl)}" target="_blank" class="btn btn-cancel btn-sm" style="display:inline-flex; align-items:center; gap:5px; text-decoration:none; background:#ffffff; border-color:rgba(13,12,11,0.18); font-weight:600;" title="Mở trang chủ Web Baropholio thực tế">
+                <span>🌐 Mở Web Thực Tế</span> ↗
+              </a>
+              <button type="button" class="btn btn-baro-primary btn-sm" id="btnSyncAllToLiveWeb" style="background:#ea580c; border-color:#ea580c; color:#ffffff;" title="Đồng bộ tất cả dự án và hình ảnh cục bộ lên Web">
+                ⚡ Đồng bộ lên Web
+              </button>
+            </div>
+          </div>
+
+          <!-- Alert Banner -->
+          ${bannerHtml}
+
+          <!-- 4 Comparison Metric Boxes -->
+          <div class="live-web-metrics-grid">
+            <div class="live-web-metric-box">
+              <div class="live-web-metric-lbl">
+                <span style="color:#059669;">●</span> Đồng bộ nội dung
+              </div>
+              <div class="live-web-metric-val" style="color:${summary.status === 'synced' ? '#059669' : (summary.status === 'pending' ? '#d97706' : '#dc2626')};">
+                ${summary.status === 'synced' ? '100% Đồng bộ' : (summary.status === 'pending' ? `${summary.fullySyncedProjects}/${summary.adminPublished} Đã khớp` : 'Chưa kết nối')}
+              </div>
+              <div class="live-web-metric-sub">
+                ${summary.status === 'synced' ? 'Admin và Web hoàn toàn đồng nhất' : `Còn ${summary.pendingProjects} mục cần cập nhật lên Web`}
+              </div>
+            </div>
+
+            <div class="live-web-metric-box">
+              <div class="live-web-metric-lbl">
+                <span style="color:#0284c7;">●</span> Dự án công khai (Admin vs Web)
+              </div>
+              <div class="live-web-metric-val" style="color:#0284c7;">
+                ${summary.livePublished} / ${summary.adminPublished} dự án
+              </div>
+              <div class="live-web-metric-sub">
+                ${summary.livePublished === summary.adminPublished ? '✓ Số lượng dự án trùng khớp hoàn hảo' : '⚠️ Có dự án chưa công khai trên Web'}
+              </div>
+            </div>
+
+            <div class="live-web-metric-box">
+              <div class="live-web-metric-lbl">
+                <span style="color:#10b981;">●</span> Hình ảnh Cloud (Khách xem ngoài)
+              </div>
+              <div class="live-web-metric-val" style="color:${summary.totalLocalMedia === 0 ? '#059669' : '#d97706'};">
+                ${summary.totalLocalMedia === 0 ? '100% Cloud CDN' : `Còn ${summary.totalLocalMedia} ảnh local`}
+              </div>
+              <div class="live-web-metric-sub">
+                ${summary.totalLocalMedia === 0 ? '✓ Khách xem mượt trên mọi thiết bị' : '⚠️ Cần upload để khách không bị lỗi ảnh'}
+              </div>
+            </div>
+
+            <div class="live-web-metric-box">
+              <div class="live-web-metric-lbl">
+                <span style="color:#8b5cf6;">●</span> Kết nối Web Thực Tế
+              </div>
+              <div class="live-web-metric-val" style="color:${ws.online ? '#059669' : '#dc2626'};">
+                ${ws.online ? `Online (${ws.latencyMs || 0}ms)` : 'Offline / Lỗi'}
+              </div>
+              <div class="live-web-metric-sub">
+                Server: ${escapeHtml(ws.serverInfo || 'Vercel Edge')} • ${lastCheckedText}
+              </div>
+            </div>
+          </div>
+
+          <!-- Collapsible Audit Table -->
+          <div class="live-web-table-wrap">
+            <div class="live-web-table-toggle" onclick="toggleLiveWebTable()">
+              <span style="display:flex; align-items:center; gap:8px;">
+                <span>📋</span>
+                <span>Đối soát chi tiết nội dung từng dự án giữa Admin và Web thực tế (${audits.length} dự án)</span>
+              </span>
+              <span id="liveWebTableToggleIcon">${ws.showTable ? '▲ Thu gọn' : '▼ Xem chi tiết'}</span>
+            </div>
+
+            <div class="live-web-table-container" id="liveWebTableContainer" style="display:${ws.showTable ? 'block' : 'none'};">
+              <table class="live-web-table">
+                <thead>
+                  <tr>
+                    <th style="width:40px;">#</th>
+                    <th>Dự án / Slug</th>
+                    <th>Trạng thái Admin</th>
+                    <th>Hiển thị Web Thực Tế</th>
+                    <th>Media (Cloud / Local)</th>
+                    <th>Kết luận đồng bộ</th>
+                    <th style="width:110px;">Xem trên Web</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  ${tableRows || '<tr><td colspan="7" style="text-align:center; padding:18px; color:var(--text-muted);">Đang tải dữ liệu đối soát...</td></tr>'}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    async function checkLiveWebSyncStatus(manual = true) {
+      const status = window._liveWebSyncStatus;
+      status.isChecking = true;
+      if (manual) showToast('🔍 Đang kiểm tra đối soát với Web thực tế (baropholio.vercel.app)...');
+      
+      const liveUrl = (status.liveUrl || 'https://baropholio.vercel.app').replace(/\/+$/, '');
+      const startTime = performance.now();
+
+      try {
+        // 1. Ping the live web URL (NOT localhost)
+        let isLiveUp = false;
+        let latency = 0;
+        let httpCode = 0;
+        try {
+          const pingRes = await fetch(`${liveUrl}/?_ping=${Date.now()}`, {
+            method: 'HEAD',
+            cache: 'no-store'
+          });
+          latency = Math.round(performance.now() - startTime);
+          httpCode = pingRes.status;
+          isLiveUp = pingRes.ok || (pingRes.status >= 200 && pingRes.status < 400);
+          status.serverInfo = pingRes.headers.get('server') || 'Vercel Edge CDN';
+        } catch (netErr) {
+          try {
+            const pingGet = await fetch(`${liveUrl}/favicon.svg?_t=${Date.now()}`, {
+              method: 'GET',
+              cache: 'no-store'
+            });
+            latency = Math.round(performance.now() - startTime);
+            httpCode = pingGet.status;
+            isLiveUp = pingGet.ok;
+          } catch (getErr) {
+            console.warn('[Live Web Check] Web ping failed:', getErr);
+            isLiveUp = false;
+            latency = Math.round(performance.now() - startTime);
+          }
+        }
+
+        status.online = isLiveUp;
+        status.httpStatus = httpCode;
+        status.latencyMs = latency;
+
+        // 2. Query Supabase Cloud for live published data that the live site serves
+        const sb = getSupabase();
+        let cloudProjects = [];
+        if (sb) {
+          const { data, error } = await sb
+            .from('projects')
+            .select('id, slug, title, stt, published, updated_at, media, collections')
+            .order('stt', { ascending: true });
+          if (!error && Array.isArray(data)) {
+            cloudProjects = data;
+          }
+        }
+
+        // 3. Perform 1-to-1 Content Audit
+        const cloudMap = {};
+        cloudProjects.forEach(cp => {
+          cloudMap[cp.slug || cp.id] = cp;
+          if (cp.id) cloudMap[cp.id] = cp;
+        });
+
+        const audits = [];
+        let adminPublished = 0;
+        let livePublished = 0;
+        let fullySyncedCount = 0;
+        let pendingCount = 0;
+        let localMediaProjectsCount = 0;
+        let totalLocalMediaCount = 0;
+        let totalCloudMediaCount = 0;
+
+        const adminProjects = state.projects || [];
+
+        adminProjects.forEach((p, idx) => {
+          const isPubInAdmin = p.published !== false;
+          if (isPubInAdmin) adminPublished++;
+
+          const cloudP = cloudMap[p.slug] || cloudMap[p.id];
+          const existsOnCloud = !!cloudP;
+          const isPubOnCloud = existsOnCloud && cloudP.published !== false;
+          if (isPubOnCloud) livePublished++;
+
+          // Count media
+          const mediaList = Array.isArray(p.media) ? p.media : [];
+          let mCloud = 0;
+          let mLocal = 0;
+          mediaList.forEach(m => {
+            const u = (m && (m.url || (typeof m === 'string' && m))) || '';
+            if (typeof u === 'string' && (u.startsWith('http://') || u.startsWith('https://'))) {
+              mCloud++;
+              totalCloudMediaCount++;
+            } else {
+              mLocal++;
+              totalLocalMediaCount++;
+            }
+          });
+
+          if (mLocal > 0 && isPubInAdmin) {
+            localMediaProjectsCount++;
+          }
+
+          let itemVerdict = 'synced';
+          let itemNote = 'Đã đồng bộ hoàn toàn với Web';
+
+          if (!existsOnCloud) {
+            itemVerdict = 'pending_save';
+            itemNote = 'Chưa lưu lên Web (chỉ có ở máy local)';
+            pendingCount++;
+          } else if (isPubInAdmin && !isPubOnCloud) {
+            itemVerdict = 'pending_save';
+            itemNote = 'Đang công khai ở Admin nhưng chưa công khai trên Web';
+            pendingCount++;
+          } else if (!isPubInAdmin && isPubOnCloud) {
+            itemVerdict = 'hidden_live';
+            itemNote = 'Đã ẩn ở Admin nhưng vẫn còn hiển thị trên Web!';
+            pendingCount++;
+          } else if (mLocal > 0) {
+            itemVerdict = 'pending_media';
+            itemNote = `Còn ${mLocal} ảnh local (khách ngoài internet chưa xem được)`;
+            pendingCount++;
+          } else {
+            fullySyncedCount++;
+          }
+
+          audits.push({
+            stt: p.stt || (idx + 1 < 10 ? '0' + (idx + 1) : String(idx + 1)),
+            id: p.id,
+            title: p.title || 'Untitled',
+            slug: p.slug || '',
+            adminPublished: isPubInAdmin,
+            livePublished: isPubOnCloud,
+            mediaCount: mediaList.length,
+            mediaCloud: mCloud,
+            mediaLocal: mLocal,
+            verdict: itemVerdict,
+            note: itemNote,
+            liveUrl: `${liveUrl}/project/${encodeURIComponent(p.slug || p.id)}`,
+            updatedAt: cloudP ? cloudP.updated_at : null
+          });
+        });
+
+        // Determine overall summary verdict
+        let overallVerdict = 'synced';
+        let overallText = 'ĐÃ ĐỒNG BỘ 100% VỚI WEB THỰC TẾ';
+
+        if (!isLiveUp) {
+          overallVerdict = 'offline';
+          overallText = 'KHÔNG THỂ KẾT NỐI TỚI WEB THỰC TẾ';
+        } else if (pendingCount > 0 || localMediaProjectsCount > 0) {
+          overallVerdict = 'pending';
+          overallText = `CÓ ${pendingCount} DỰ ÁN HOẶC FILE ẢNH CHƯA ĐỒNG BỘ VỚI WEB`;
+        }
+
+        status.summary = {
+          status: overallVerdict,
+          statusText: overallText,
+          adminPublished,
+          livePublished,
+          fullySyncedProjects: fullySyncedCount,
+          pendingProjects: pendingCount,
+          localMediaProjects: localMediaProjectsCount,
+          totalLocalMedia: totalLocalMediaCount,
+          totalCloudMedia: totalCloudMediaCount
+        };
+        status.projectAudits = audits;
+        status.lastChecked = Date.now();
+        status.isChecking = false;
+
+        render();
+
+        if (manual) {
+          if (overallVerdict === 'synced') {
+            showToast('🎉 Web thực tế (baropholio.vercel.app) đã đồng bộ 100% nội dung với Admin!');
+          } else if (overallVerdict === 'pending') {
+            showToast(`⚠️ Web thực tế còn ${pendingCount} mục hoặc file media chưa đồng bộ.`);
+          } else {
+            showToast('⚠️ Kiểm tra xong: Vui lòng kiểm tra kết nối mạng tới domain web.');
+          }
+        }
+      } catch (err) {
+        console.error('[Live Web Check] Error:', err);
+        status.isChecking = false;
+        status.online = false;
+        render();
+        if (manual) showToast('Lỗi khi kiểm tra web thực tế: ' + err.message);
+      }
+    }
+
     // ── Check Supabase Status (Quota-friendly: 1 read only) ───────────────────
     async function checkSupabaseStatus(manual = true) {
       const sb = getSupabase();
@@ -2623,6 +3378,7 @@
         mon.isSyncing = false;
         mon.currentSyncItem = '';
         await checkSupabaseStatus(false);
+        await checkLiveWebSyncStatus(false);
       }
     }
 
@@ -2680,6 +3436,7 @@
       await saveProjectToSupabase(p);
       await saveState(false);
       await checkSupabaseStatus(false);
+      await checkLiveWebSyncStatus(false);
       showToast(`✓ Đã đồng bộ "${p.title}" (${uploadedFiles} file media lên Cloud)!`);
     }
 
@@ -4261,8 +5018,9 @@ const ICONS = {
         }
       }
 
-      // 4. Khởi tạo trạng thái Cloud Monitor (chỉ đọc, tiết kiệm quota)
+      // 4. Khởi tạo trạng thái Cloud & Live Web Monitor (chỉ đọc, tiết kiệm quota)
       await checkSupabaseStatus(false);
+      await checkLiveWebSyncStatus(false);
     }
 
     function getSortedCollections() {
@@ -4838,8 +5596,12 @@ const ICONS = {
             </button>
             <button class="btn btn-cancel" id="btnImportJson">Import JSON</button>
             <button class="btn btn-cancel" id="btnExportJson">Export Master JSON</button>
-            <a href="index.html" target="_blank" class="btn btn-cancel" style="display:inline-flex; align-items:center; gap:6px; text-decoration:none;">
-              <span>Live Site</span> ↗
+            <a href="${escapeHtml(window._liveWebSyncStatus?.liveUrl || 'https://baropholio.vercel.app')}" target="_blank" class="btn btn-cancel" style="display:inline-flex; align-items:center; gap:6px; text-decoration:none;" title="Mở Web Baropholio thực tế trên internet (Không phải localhost)">
+              <span style="width:7px; height:7px; border-radius:50%; background:${window._liveWebSyncStatus?.online ? '#10b981' : '#f59e0b'}; display:inline-block;"></span>
+              <span>Web Thực Tế</span> ↗
+            </a>
+            <a href="index.html" target="_blank" class="btn btn-cancel" style="display:inline-flex; align-items:center; gap:6px; text-decoration:none;" title="Xem trước bản nội bộ Localhost">
+              <span>Local</span>
             </a>
           </div>
         </header>
@@ -4878,6 +5640,7 @@ const ICONS = {
         </div>
 
         ${!isTrashView ? `
+          ${renderLiveWebSyncStatusHtml()}
           ${renderSupabaseSyncMonitorHtml()}
 
           <!-- 4. All Projects Block -->
@@ -5031,6 +5794,13 @@ const ICONS = {
         if (btnAdd) btnAdd.onclick = startNewProject;
         const btnDom = wrap.querySelector('#btnEssentialDomain');
         if (btnDom) btnDom.onclick = openDomainModal;
+
+        const btnCheckLive = wrap.querySelector('#btnCheckLiveWebSync');
+        if (btnCheckLive) btnCheckLive.onclick = () => checkLiveWebSyncStatus(true);
+        const btnSyncLive = wrap.querySelector('#btnSyncAllToLiveWeb');
+        if (btnSyncLive) btnSyncLive.onclick = () => startBatchSyncToSupabase();
+        const btnEditUrl = wrap.querySelector('#btnEditLiveWebUrl');
+        if (btnEditUrl) btnEditUrl.onclick = () => openDomainModal();
 
         const btnCheck = wrap.querySelector('#btnCheckCloudStatus');
         if (btnCheck) btnCheck.onclick = () => checkSupabaseStatus(true);
@@ -5512,17 +6282,18 @@ const ICONS = {
       });
     }
 
-    /* Modal: Connect Custom Domain */
+    /* Modal: Connect Custom Domain & Live Web URL Config */
     function openDomainModal() {
+      const currentLiveUrl = window._liveWebSyncStatus?.liveUrl || 'https://baropholio.vercel.app';
       const modalContainer = document.getElementById('modalContainer');
       modalContainer.innerHTML = `
         <div class="modal-backdrop active" id="domainModalBackdrop">
-          <div class="modal-card" style="max-width:520px;">
+          <div class="modal-card" style="max-width:540px;">
             <div class="modal-header">
               <div>
-                <h3 style="font-size:18px; font-weight:700;">Connect Custom Domain</h3>
+                <h3 style="font-size:18px; font-weight:700;">🌐 Cấu hình Web Thực Tế (Production)</h3>
                 <p style="font-size:13px; color:var(--text-muted); margin-top:2px;">
-                  Configure your personal domain for Baropholio.
+                  Xác định địa chỉ web thực tế (không phải localhost) để đối soát đồng bộ nội dung.
                 </p>
               </div>
               <button class="btn-cancel btn-sm" id="btnCloseDomainModal">${ICONS.close}</button>
@@ -5530,30 +6301,36 @@ const ICONS = {
             <div class="modal-body" style="padding:22px 24px;">
               <div style="background:#fdfaf6; border:1px solid #fed7aa; border-radius:10px; padding:16px; margin-bottom:20px;">
                 <div style="font-weight:700; color:#c2410c; font-size:14px; margin-bottom:4px;">
-                  🌐 baropholio.com / baropholio.vn
+                  🚀 Website Thực Tế Đang Chạy:
                 </div>
                 <div style="font-size:13px; color:#7c2d12; line-height:1.5;">
-                  To connect your domain with your portfolio hosted on GitHub Pages or Vercel, simply add a CNAME record pointing to your repository.
+                  Địa chỉ mặc định hiện tại là <strong>https://baropholio.vercel.app</strong>. Mọi khách truy cập ngoài internet sẽ xem nội dung tại địa chỉ này.
                 </div>
               </div>
 
               <div class="form-group">
-                <label class="form-label">Domain Name</label>
-                <input type="text" id="domainInput" value="baropholio.com">
+                <label class="form-label">URL Website Thực Tế (Không phải localhost)</label>
+                <input type="text" id="liveWebUrlInput" value="${escapeHtml(currentLiveUrl)}" placeholder="https://baropholio.vercel.app">
+                <div style="font-size:11.5px; color:var(--text-muted); margin-top:5px;">
+                  Mặc định: <code>https://baropholio.vercel.app</code> hoặc domain tùy chỉnh của bạn (vd: <code>https://baropholio.com</code>).
+                </div>
               </div>
 
               <div class="form-group" style="margin-bottom:0;">
-                <label class="form-label">DNS Record Setup</label>
-                <div style="font-size:12.5px; background:#f8fafc; border:1px solid var(--border); border-radius:8px; padding:12px; font-family:monospace; line-height:1.6;">
+                <label class="form-label">Cấu hình DNS CNAME nếu dùng Tên Miền Riêng</label>
+                <div style="font-size:12px; background:#f8fafc; border:1px solid var(--border); border-radius:8px; padding:12px; font-family:monospace; line-height:1.6;">
                   Type: CNAME<br>
-                  Host / Name: @ or www<br>
-                  Value: your-username.github.io
+                  Host / Name: @ hoặc www<br>
+                  Value: cname.vercel-dns.com (hoặc baropholio.github.io)
                 </div>
               </div>
             </div>
             <div class="modal-footer" style="justify-content:space-between;">
-              <button class="btn btn-cancel btn-sm" id="btnDownloadCname">Generate CNAME File</button>
-              <button class="btn btn-baro-primary btn-sm" id="btnCloseDomain">Done</button>
+              <button class="btn btn-cancel btn-sm" id="btnResetLiveUrl">Đặt lại Mặc định</button>
+              <div style="display:flex; gap:8px;">
+                <button class="btn btn-cancel btn-sm" id="btnCloseDomain">Đóng</button>
+                <button class="btn btn-baro-primary btn-sm" id="btnSaveLiveUrl">Lưu & Kiểm Tra Ngay</button>
+              </div>
             </div>
           </div>
         </div>
@@ -5566,11 +6343,22 @@ const ICONS = {
         if (e.target.id === 'domainModalBackdrop') close();
       };
 
-      modalContainer.querySelector('#btnDownloadCname').onclick = () => {
-        const dom = modalContainer.querySelector('#domainInput').value.trim() || 'baropholio.com';
-        const blob = new Blob([dom], { type: 'text/plain' });
-        downloadBlob(blob, 'CNAME');
-        showToast('Downloaded CNAME file!');
+      modalContainer.querySelector('#btnResetLiveUrl').onclick = () => {
+        modalContainer.querySelector('#liveWebUrlInput').value = 'https://baropholio.vercel.app';
+      };
+
+      modalContainer.querySelector('#btnSaveLiveUrl').onclick = async () => {
+        let inputUrl = modalContainer.querySelector('#liveWebUrlInput').value.trim();
+        if (!inputUrl) inputUrl = 'https://baropholio.vercel.app';
+        if (!inputUrl.startsWith('http://') && !inputUrl.startsWith('https://')) {
+          inputUrl = 'https://' + inputUrl;
+        }
+        inputUrl = inputUrl.replace(/\/+$/, '');
+        localStorage.setItem('baro_live_web_url', inputUrl);
+        window._liveWebSyncStatus.liveUrl = inputUrl;
+        close();
+        showToast('✓ Đã cập nhật URL Web: ' + inputUrl);
+        await checkLiveWebSyncStatus(true);
       };
     }
 
@@ -5654,7 +6442,11 @@ const ICONS = {
       header.querySelector('#menuActionDuplicate').onclick = () => duplicateCurrentProject();
       header.querySelector('#menuActionPublishCloud').onclick = () => publishProjectToCloud(p);
       header.querySelector('#menuActionUnpublishCloud').onclick = () => unpublishProjectFromCloud(p);
-      header.querySelector('#menuActionLiveSite').onclick = () => window.open('index.html', '_blank');
+      header.querySelector('#menuActionLiveSite').onclick = () => {
+        const liveBase = (window._liveWebSyncStatus?.liveUrl || 'https://baropholio.vercel.app').replace(/\/+$/, '');
+        const targetUrl = p.slug ? `${liveBase}/project/${encodeURIComponent(p.slug)}` : liveBase;
+        window.open(targetUrl, '_blank');
+      };
       header.querySelector('#menuActionDelete').onclick = () => softDeleteProject(p);
 
       app.appendChild(header);
@@ -7104,6 +7896,7 @@ const ICONS = {
         if (idx >= 0) state.projects[idx] = p;
         saveState(false);
         showToast(`✅ Published "${p.title}" to Supabase successfully.`);
+        await checkLiveWebSyncStatus(false);
         if (state.view === 'list') render();
       } catch(e) {
         showToast(`❌ Publish failed: ${e.message || 'Network error'}. Local data is unchanged.`);
@@ -7142,6 +7935,7 @@ const ICONS = {
         if (idx >= 0) state.projects[idx] = p;
         saveState(false);
         showToast('✅ "' + (p.title || 'Project') + '" has been unpublished from live site.');
+        await checkLiveWebSyncStatus(false);
         if (state.view === 'list') render();
       } catch(e) {
         showToast('❌ Unpublish failed: ' + (e.message || 'Network error'));
