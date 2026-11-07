@@ -715,55 +715,7 @@
       50%, 100% { transform: translateX(100%); }
     }
 
-    /* TASK-07: Sharp Glassmorphic Grid Toggle Button */
-    .gridbtn {
-      position: fixed;
-      left: calc(var(--pad) + env(safe-area-inset-left, 0px));
-      bottom: calc(var(--pad) + env(safe-area-inset-bottom, 0px));
-      z-index: 60;
-      width: 32px;
-      height: 32px;
-      padding: 6px;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 2.5px;
-      opacity: 0;
-      transform: translateY(8px);
-      pointer-events: none;
-      transition: opacity .4s var(--ease), transform .4s var(--ease);
-      border-radius: 0px !important;
-      background: rgba(255, 255, 255, 0.35) !important;
-      backdrop-filter: blur(20px) saturate(180%) !important;
-      -webkit-backdrop-filter: blur(20px) saturate(180%) !important;
-      border: 1px solid rgba(255, 255, 255, 0.45) !important;
-      box-shadow: 0 4px 16px rgba(13, 12, 11, 0.08) !important;
-    }
-    body.revealed .gridbtn {
-      opacity: 1;
-      transform: translateY(0);
-      pointer-events: auto;
-    }
-    body.lit .gridbtn, body.about-open .gridbtn {
-      opacity: 0;
-      pointer-events: none;
-    }
-    /* Auto-hide controls when mouse is inactive / touch idle */
-    body.ui-idle:not(.menu-open):not(.about-open):not(.book-open):not(.lit):not(.gridview) .gridbtn,
-    body.ui-idle:not(.menu-open):not(.about-open):not(.book-open):not(.lit):not(.gridview) .bottom-mode-pill,
-    body.ui-idle:not(.menu-open):not(.about-open):not(.book-open):not(.lit):not(.gridview) .menu-btn {
-      opacity: 0 !important;
-      pointer-events: none !important;
-    }
-    .gridbtn b {
-      background: var(--fg);
-      border-radius: 0px !important;
-      transition: transform .3s var(--ease), background .3s var(--ease);
-    }
-    .gridbtn:hover b {
-      background: var(--accent);
-    }
-    body.gridview .gridbtn b:nth-child(1) { transform: translate(2.5px, 2.5px); }
-    body.gridview .gridbtn b:nth-child(4) { transform: translate(-2.5px, -2.5px); }
+    
 
     /* ==========================================================================
        3D STAGE & ORB ARCHIVE
@@ -799,16 +751,7 @@
       will-change: transform;
     }
 
-    #orb {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 0;
-      height: 0;
-      transform-style: preserve-3d;
-      opacity: 1;
-      transform: none;
-    }
+    #orb { display: none !important; }
 
     #headline {
       display: none;
@@ -847,168 +790,6 @@
       transition-delay: calc(.8s + var(--i) * .085s);
     }
 
-    /* Cards in 3D Sphere */
-    .card {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: var(--cw);
-      cursor: pointer;
-      transform-style: preserve-3d;
-      will-change: transform, opacity;
-      -webkit-tap-highlight-color: transparent;
-    }
-    .card figure {
-      width: 100%;
-      height: 100%;
-      border-radius: 4px;
-      overflow: hidden;
-      background: #e6e3dc;
-      border: 1px solid rgba(13, 12, 11, 0.12);
-      box-shadow: 0 4px 16px rgba(13, 12, 11, 0.06);
-      position: relative;
-      transition: transform .4s var(--ease), box-shadow .4s var(--ease);
-    }
-    .card:hover figure {
-      transform: scale(1.045);
-      box-shadow: 0 12px 30px rgba(13, 12, 11, 0.12);
-      border-color: rgba(13, 12, 11, 0.35);
-    }
-
-    /* Card Background Image & Canvas */
-    .card-bg-img {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      z-index: 1;
-      transition: transform .5s var(--ease), opacity .3s ease;
-      opacity: 1;
-      filter: contrast(1.02);
-      display: block;
-    }
-    .card-bg-img[src=""], .card-bg-img:not([src]) { display: none; }
-    .card:hover .card-bg-img {
-      transform: scale(1.06);
-    }
-
-    /* Card Artwork Interior: Pure image default, hover reveals clean project info */
-    .card-canvas {
-      width: 100%;
-      height: 100%;
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-end;
-      padding: 12px;
-      color: var(--fg);
-      background: linear-gradient(180deg, rgba(13,12,11,0) 30%, rgba(13,12,11,0.78) 100%);
-      position: relative;
-      z-index: 2;
-      opacity: 0;
-      transition: opacity .32s ease;
-      pointer-events: none;
-    }
-    .card:hover .card-canvas {
-      opacity: 1;
-    }
-    .card-sphere-info {
-      display: flex;
-      flex-direction: column;
-      gap: 3px;
-    }
-    .card-canvas .cat-tag {
-      font-size: 8px;
-      letter-spacing: .16em;
-      text-transform: uppercase;
-      font-weight: 700;
-      color: var(--accent);
-    }
-    .card-canvas .mid-title {
-      font-family: var(--serif);
-      font-size: clamp(11px, 1.25vw, 13px);
-      line-height: 1.25;
-      font-weight: 500;
-      color: #ffffff;
-      display: -webkit-box;
-      line-clamp: 2;
-      -webkit-line-clamp: 2;
-      -webkit-box-orient: vertical;
-      overflow: hidden;
-    }
-    .card-canvas .bot-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-end;
-      font-family: var(--sans);
-      font-size: 8px;
-      letter-spacing: .08em;
-      color: rgba(255, 255, 255, 0.55);
-      margin-top: 4px;
-    }
-
-    /* Depth wash */
-    .card figure::after {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: rgba(242, 240, 236, var(--d, 0));
-      border-radius: 4px;
-      pointer-events: none;
-      transition: background .2s ease;
-    }
-
-    /* Reel Mode Card Caption (Inspired by Editorial Strip) */
-    .card-reel-caption {
-      position: absolute;
-      left: 0;
-      right: 0;
-      bottom: -32px;
-      display: flex;
-      align-items: baseline;
-      gap: 6px;
-      font-family: var(--sans);
-      font-size: 11px;
-      letter-spacing: .06em;
-      text-transform: uppercase;
-      color: var(--fg);
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      opacity: 0;
-      transform: translateY(-4px);
-      transition: opacity .4s ease, transform .4s ease;
-      pointer-events: none;
-    }
-    .card-reel-caption .reel-idx {
-      font-weight: 600;
-      color: var(--accent);
-    }
-    .card-reel-caption .reel-title {
-      font-weight: 500;
-      color: var(--fg);
-    }
-    .card-reel-caption .reel-cat {
-      font-size: 9.5px;
-      color: var(--fg-faint);
-    }
-
-    body.reel-mode .card-reel-caption {
-      opacity: 1;
-      transform: translateY(0);
-    }
-    body.reel-mode .sphere-canvas {
-      opacity: 0;
-      pointer-events: none;
-    }
-    body.reel-mode .card figure {
-      box-shadow: 0 16px 44px rgba(13, 12, 11, 0.12);
-      border-color: rgba(13, 12, 11, 0.22);
-    }
-    body.reel-mode .card-bg-img {
-      opacity: 1;
-    }
-
     /* ==========================================================================
        BARO NGUYEN 3D WEBGL SPHERE & INTERACTIVE OVERLAYS
        ========================================================================== */
@@ -1028,14 +809,7 @@
       opacity: 0 !important;
       pointer-events: none !important;
     }
-    body.gridview #orb,
-    body.book-open #orb {
-      opacity: 0 !important;
-      pointer-events: none !important;
-    }
-    #orb {
-      transition: opacity 0.15s linear;
-    }
+    
     body.has-expanded-card #headline {
       opacity: 0 !important;
       pointer-events: none !important;
@@ -1179,7 +953,6 @@
       text-align: center;
       transition: opacity 0.4s var(--ease);
     }
-    body.reel-mode .gn-project-sheet,
     body.gridview .gn-project-sheet,
     body.book-open .gn-project-sheet,
     body.baro-deck-open .gn-project-sheet {
@@ -1401,96 +1174,7 @@
       background: rgba(13, 12, 11, 0.08) !important;
       border-color: rgba(13, 12, 11, 0.16) !important;
     }
-    /* TASK: Orange Harvest Single Mode Switcher (Góc phải, kích thước nhỏ tinh tế) */
-    .bottom-mode-pill.orange-toggle-btn {
-      position: fixed;
-      left: auto;
-      right: calc(var(--pad) + env(safe-area-inset-right, 0px));
-      bottom: calc(var(--pad) + env(safe-area-inset-bottom, 0px));
-      transform: none;
-      z-index: 65;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 0;
-      background: transparent !important;
-      border: none !important;
-      box-shadow: none !important;
-      backdrop-filter: none !important;
-      -webkit-backdrop-filter: none !important;
-      cursor: pointer;
-      opacity: 0;
-      transition: opacity 1s var(--ease) .3s;
-      outline: none;
-      -webkit-tap-highlight-color: transparent;
-    }
-    body.revealed .bottom-mode-pill.orange-toggle-btn {
-      opacity: 1;
-    }
-    body.gridview .bottom-mode-pill,
-    body.lit .bottom-mode-pill,
-    body.about-open .bottom-mode-pill,
-    body.gridview .bottom-mode-pill.orange-toggle-btn {
-      opacity: 0 !important;
-      pointer-events: none !important;
-    }
-    .orange-icon-wrap {
-      position: relative;
-      width: 36px;
-      height: 36px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
-    }
-    .orange-toggle-btn:hover .orange-icon-wrap {
-      transform: scale(1.14);
-    }
-    /* Khi nhấp chuột: quả cam to lên một tí */
-    .orange-toggle-btn:active .orange-icon-wrap,
-    .orange-icon-wrap.popping {
-      transform: scale(1.30) !important;
-    }
-    .orange-toggle-img {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      height: 28px;
-      width: auto;
-      max-width: 36px;
-      object-fit: contain;
-      pointer-events: none;
-      transition: opacity 0.45s cubic-bezier(0.22, 1, 0.36, 1), transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1), filter 0.45s ease;
-      filter: drop-shadow(0 2px 6px rgba(196, 98, 16, 0.3));
-    }
-    /* Trạng thái 3D Sphere: Chỉ hiện quả cam tròn */
-    .orange-toggle-btn.mode-sphere .img-sphere {
-      opacity: 1;
-      transform: translate(-50%, -50%) scale(1) rotate(0deg);
-      visibility: visible;
-    }
-    .orange-toggle-btn.mode-sphere .img-reel {
-      opacity: 0;
-      transform: translate(-50%, -50%) scale(0.6) rotate(-20deg);
-      visibility: hidden;
-      pointer-events: none;
-    }
-    /* Trạng thái Horizontal Reel: Chỉ hiện quả cam cắt lát */
-    .orange-toggle-btn.mode-reel .img-sphere {
-      opacity: 0;
-      transform: translate(-50%, -50%) scale(0.6) rotate(20deg);
-      visibility: hidden;
-      pointer-events: none;
-    }
-    .orange-toggle-btn.mode-reel .img-reel {
-      opacity: 1;
-      transform: translate(-50%, -50%) scale(1) rotate(0deg);
-      visibility: visible;
-    }
-    .mode-tab-sep {
-      color: var(--rule);
-      font-size: 11px;
-    }
+    
 
     /* ==========================================================================
        FLAT GRID VIEW (#grid)
@@ -1543,7 +1227,7 @@
       gap: clamp(10px, 1.5vw, 18px);
     }
 
-    /* â”€â”€ Square image-cover card â”€â”€ */
+    /* ── Square image-cover card ── */
     .grid-card {
       position: relative;
       aspect-ratio: 1 / 1;
@@ -1551,44 +1235,18 @@
       overflow: hidden;
       cursor: pointer;
       background: #1a1715;
-      /* Random floating & pulsing animation via CSS variables */
-      animation: cardFloat var(--float-dur, 4.2s) ease-in-out infinite var(--float-delay, 0s);
+      transform: translateY(0);
       transition:
-        transform .45s cubic-bezier(.22,.61,.36,1),
-        box-shadow .45s cubic-bezier(.22,.61,.36,1);
+        transform .32s cubic-bezier(.22,.61,.36,1),
+        box-shadow .32s cubic-bezier(.22,.61,.36,1);
       will-change: transform;
     }
 
-    @keyframes cardFloat {
-      0%, 100% {
-        transform: translateY(0px) scale(1);
-      }
-      33% {
-        transform: translateY(calc(var(--float-y, -7px) * 0.5)) scale(var(--float-scale-1, 1.025));
-      }
-      66% {
-        transform: translateY(var(--float-y, -8px)) scale(var(--float-scale-2, 0.985));
-      }
-    }
-
-    /* hover: pause float and scale up slightly, show project info */
+    /* hover: gentle lift, show project info */
     .grid-card:hover {
-      animation-play-state: paused;
-      transform: translateY(-4px) scale(1.06) !important;
-      box-shadow: 0 20px 42px rgba(13,12,11,.22);
+      transform: translateY(-4px) scale(1.02);
+      box-shadow: 0 16px 36px rgba(13,12,11,.16);
       z-index: 5;
-    }
-
-    /* scroll-shrink state: co láº¡i báº±ng 1/5 (scale 0.2) khi lÄƒn chuá»™t, quÃ¡ trÃ¬nh co dÃ£n cá»±c ká»³ mÆ°á»£t mÃ  */
-    .grid-card.scrolling {
-      animation-play-state: paused;
-      transform: scale(0.2) !important;
-      box-shadow: none !important;
-      opacity: 0.9;
-      transition: transform .55s cubic-bezier(.16, 1, .3, 1), opacity .55s ease !important;
-    }
-    .grid-card.scrolling:hover {
-      transform: scale(0.2) !important;
     }
 
     /* Cover image fills the square completely */
@@ -3343,32 +3001,55 @@
     }
     video[controlslist="nodownload"]::-internal-media-controls-download-button { display: none !important; }
   
-  /* === WORK PAGE STRICT OVERRIDES === */
+  /* === WORK PAGE CLEAN GRID LAYOUT === */
   body {
     overflow-y: auto !important;
     background: var(--bg) !important;
+    min-height: 100vh;
   }
   header.chrome {
     opacity: 1 !important;
     visibility: visible !important;
     pointer-events: auto !important;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
   }
   .brand-group, .wordmark, .brand-logo-mark, .palette-bar-track {
     opacity: 1 !important;
     visibility: visible !important;
   }
+  #scrolltrack, #stage, #splash, #orb, #modeBtn {
+    display: none !important;
+  }
   #grid {
+    position: relative !important;
+    inset: auto !important;
+    width: 100% !important;
+    min-height: 100vh !important;
+    overflow: visible !important;
     opacity: 1 !important;
     visibility: visible !important;
     pointer-events: auto !important;
     display: block !important;
+    padding-top: calc(var(--pad) * 2.2 + 48px) !important;
+    padding-bottom: calc(var(--pad) * 3) !important;
+    padding-left: var(--pad) !important;
+    padding-right: var(--pad) !important;
+    background: var(--bg) !important;
+  }
+  .grid-container {
+    max-width: 1480px;
+    margin: 0 auto;
+  }
+  .grid-header {
+    margin-bottom: clamp(20px, 3vw, 36px);
   }
   .grid-collection-filter-btn {
     width: 36px !important;
     height: 36px !important;
-  }
-  #splash, #stage, #orb, #modeBtn, #bottomModePill, canvas, .reel-track {
-    display: none !important;
   }
 </style>
 </head>
@@ -3378,23 +3059,7 @@
   <div class="grain"></div>
   <div class="vig"></div>
 
-  <!-- Splash / Preloader with Dynamic Code Matrix into Logo -->
-  <div id="splash">
-    <div class="splash-bg-flash" id="splashBgFlash"></div>
-    <canvas id="splashCanvas"></canvas>
-    
-    <div class="splash-content">
-      <div class="splash-resolved" id="splashResolved">
-        <img src="01.Logo/Baropholio%20logo2-01.png" alt="Baropholio Logo" class="splash-logo">
-        <div class="mark" id="splashMark">BAROPHOLIO<span class="accent-dot"></span></div>
-      </div>
-      <div class="bar-wrap" id="splashBarWrap">
-        <div class="bar">
-          <img src="01.Logo/palette%20bar-01.png" alt="Palette Loading Bar" id="splashBarImg" class="splash-palette-img">
-        </div>
-        <div class="tag" id="splashTag">SPATIAL ARCHIVE &bull; 2026</div>
-      </div>
-    </div>
+  <!-- Splash removed for instant work page render -->
   </div>
 
   <!-- Header Chrome -->
@@ -3419,87 +3084,7 @@
     </div>
   </header>
 
-  <!-- Grid Toggle Button -->
-  <button id="gridBtn" class="gridbtn" aria-label="Toggle flat grid view">
-    <b></b><b></b><b></b><b></b>
-  </button>
-
-  <!-- Orange Harvest Single Mode Switcher (Không nền, chỉ hiện 1 quả cam, khi nhấp to lên và chuyển mượt) -->
-  <button class="bottom-mode-pill orange-toggle-btn mode-sphere" id="bottomModePill" type="button" aria-label="Switch between 3D Sphere and Horizontal Reel" title="Switch View Mode">
-    <div class="orange-icon-wrap" id="orangeIconWrap">
-      <img src="05.Elements/3d%20sphere.webp" alt="3D Sphere" class="orange-toggle-img img-sphere" id="btnSphereTab">
-      <img src="05.Elements/horizontal%20reel.webp" alt="Horizontal Reel" class="orange-toggle-img img-reel" id="btnReelTab">
-    </div>
-  </button>
-
-  <!-- Scrolltrack container for zoom dolly -->
-  <div id="scrolltrack"></div>
-
-  <!-- 3D Stage -->
-  <div id="stage">
-    <!-- Baro Nguyen WebGL 3D Sphere Canvas -->
-    <canvas id="gnSphereCanvas" class="gn-sphere-canvas"></canvas>
-
-    <div id="world">
-      <div id="orb"></div>
-      
-      <!-- Headline Centered on Origin (Baro Typography: Orange Tree Quote) -->
-      <h1 id="headline">
-        <span class="inner">
-          <span class="quote-badge" style="letter-spacing: 0.28em; font-size: 10.5px;">AXIOM &bull; 2026 ARCHIVE</span>
-          <span class="quote-main" style="font-size: clamp(22px, 3vw, 32px); line-height: 1.18; font-family: var(--sans); display: block; max-width: 20ch; margin: 0 auto; font-weight: 500; letter-spacing: -0.03em; color: var(--fg); text-shadow: 0 1px 18px rgba(242,240,236,0.9);">
-            &ldquo;The best time to plant an orange tree was ten years ago. The second best time is now.&rdquo;
-          </span>
-        </span>
-      </h1>
-    </div>
-  </div>
-
-  <!-- Baro Nguyen Interactive Cursor Pill -->
-  <div id="gnCursorPill" class="gn-cursor-pill" aria-hidden="true">
-    <span class="gn-pill-text" id="gnPillText">EXPAND</span>
-  </div>
-
-  <!-- Baro Nguyen Center Intro Monogram, Side Titles & Counter -->
-  <div id="gnIntroOverlay" class="gn-intro-overlay">
-    <span class="gn-intro-side left">Orange Harvest</span>
-    <div class="gn-intro-center-wrap">
-      <div class="gn-intro-monogram">Baro.N~</div>
-    </div>
-    <span class="gn-intro-side right">Spatial Design &amp; Research</span>
-    <div class="gn-intro-counter" id="gnIntroCounter">001</div>
-  </div>
-
-  <!-- Baro Nguyen Bottom Project Info & Expanded Sheet -->
-  <div id="gnProjectSheet" class="gn-project-sheet" aria-live="polite">
-    <!-- Hover Preview -->
-    <div class="gn-sheet-preview" id="gnSheetPreview">
-      <span class="gn-preview-cat" id="gnPreviewCat"></span>
-      <h3 class="gn-preview-title" id="gnPreviewTitle"></h3>
-    </div>
-
-    <!-- Expanded Hero Monograph Drawer -->
-    <div class="gn-sheet-expanded" id="gnSheetExpanded">
-      <div class="gn-expanded-meta">
-        <span class="gn-expanded-badge" id="gnExpandedBadge">ARCHIVE PROJECT</span>
-        <span class="gn-expanded-year" id="gnExpandedYear"></span>
-      </div>
-      <h2 class="gn-expanded-title" id="gnExpandedTitle"></h2>
-      <p class="gn-expanded-org" id="gnExpandedOrg"></p>
-      <div class="gn-expanded-desc-wrap" id="gnExpandedDescWrap">
-        <p class="gn-expanded-desc" id="gnExpandedDesc"></p>
-      </div>
-      <div class="gn-expanded-actions">
-        <button class="gn-action-btn primary" id="gnBtnOpenMonograph" type="button">
-          <span>VIEW FULL MONOGRAPH</span>
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-        </button>
-        <button class="gn-action-btn secondary gn-btn-close-icon" id="gnBtnCloseHero" type="button" aria-label="Close project" title="Close [ESC]">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-        </button>
-      </div>
-    </div>
-  </div>
+  
 
   <!-- Flat Grid View -->
   <div id="grid">
@@ -3520,7 +3105,7 @@
             <div class="grid-coll-item active" data-col="">All Works</div>
           </div>
         </div>
-        <button class="grid-close-btn" onclick="toggleGrid(false)" aria-label="Close grid">
+        <button class="grid-close-btn" onclick="window.location.href='index.html'" aria-label="Back to home" title="Back to home">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
         </button>
       </div>
@@ -4579,7 +4164,7 @@
       function recordsHash(recs) {
         try {
           return recs.map(function(r) {
-            return r.title + '|' + r.image + '|' + r.video + '|' + r.category;
+            return (r.slug || r.id || r.title) + '|' + (r.stt || '') + '|' + (r.category || r.cat || '');
           }).join(';');
         } catch(e) { return ''; }
       }
@@ -4671,22 +4256,15 @@
 
       // ─── SPHERE SCENE STATE (DOM refs & physics vars) ─────────────────────────
       var world     = document.getElementById("world");
-      var orb       = document.getElementById("orb");
       var headline  = document.getElementById("headline");
       var grid      = document.getElementById("grid");
       var gridRows  = document.getElementById("gridRows");
 
       var N           = 0;
-      var GA          = Math.PI * (3 - Math.sqrt(5)); // Golden Angle
-      var cards       = [];
-      var unitVectors = [];
 
       var R           = 280;
       var cw          = 140;
       var perspective = 1150;
-      var reelCardW   = 320;
-      var reelCardH   = 320;
-      var reelGap     = 26;
 
       function calcDimensions() {
         var w = window.innerWidth;
@@ -4698,10 +4276,6 @@
 
         var scale = w <= 380 ? 0.44 : (w <= 640 ? 0.46 : 0.48);
         cw = Math.round(Math.max(88, R * scale));
-
-        reelCardW = Math.round(Math.max(220, Math.min(400, w * 0.28, h * 0.48)));
-        reelCardH = reelCardW;
-        reelGap = Math.round(Math.max(18, w * 0.02));
 
         perspective = w <= 380 ? 640 : (w <= 640 ? 780 : (w <= 900 ? 940 : 1150));
         document.documentElement.style.setProperty("--persp", perspective + "px");
@@ -4928,26 +4502,42 @@
 
       // ─── INITIALIZATION LIFECYCLE (REAL 0% -> 100% PROGRESS TRACKER) ───────
       // ─── SPHERE & GRID BUILDER ───────────────────────────────────────────────
-      function buildSphereAndGrid() {
-        if (!orb || !gridRows) return;
-        orb.innerHTML = "";
-        gridRows.innerHTML = "";
-        cards = [];
-        unitVectors = [];
+      function buildSphereAndGrid(force) {
+        if (!gridRows) return;
         N = RECORDS.length;
+        if (!force && gridRows.children.length === N) {
+          var same = true;
+          var existingCards = gridRows.querySelectorAll('.grid-card');
+          if (existingCards.length === N) {
+            for (var k = 0; k < N; k++) {
+              var oldIdx = parseInt(existingCards[k].getAttribute('data-idx'), 10);
+              var oldRec = RECORDS[oldIdx];
+              var newRec = RECORDS[k];
+              if (!oldRec || !newRec || (oldRec.slug || oldRec.id) !== (newRec.slug || newRec.id)) {
+                same = false;
+                break;
+              }
+            }
+            if (same) {
+              for (var j = 0; j < N; j++) {
+                var cEl = existingCards[j];
+                var r = RECORDS[j];
+                cEl.setAttribute('data-idx', j);
+                var tEl = cEl.querySelector('.card-title');
+                if (tEl && r.title && tEl.textContent !== r.title) tEl.textContent = r.title;
+                var imgEl = cEl.querySelector('.grid-card-thumb');
+                var mCover = r.video || r.image || "";
+                if (imgEl && mCover && imgEl.getAttribute('src') !== mCover) {
+                  imgEl.setAttribute('src', mCover);
+                }
+              }
+              return;
+            }
+          }
+        }
+        gridRows.innerHTML = "";
 
         for (var i = 0; i < N; i++) {
-          var y = 1 - (i / (Math.max(1, N - 1))) * 2;
-          var rad = Math.sqrt(Math.max(0, 1 - y * y));
-          var theta = i * GA;
-          var x = Math.cos(theta) * rad;
-          var z = Math.sin(theta) * rad;
-          unitVectors.push({ x: x, y: y, z: z });
-
-          var card = document.createElement("div");
-          card.className = "card" + (i === 20 ? " tall" : "");
-          card.setAttribute("data-idx", i);
-
           var rec = RECORDS[i];
           var catName = rec.category || rec.cat || "ARCHIVE";
           var dateYear = rec.year || rec.date || "2026";
@@ -4958,58 +4548,10 @@
           var isCoverVideo = /\.(mp4|webm|ogg|mov)(\?.*)?$/i.test(mediaCover) || mediaCover.startsWith('data:video');
           var isCoverGif   = /\.gif(\?.*)?$/i.test(mediaCover) || mediaCover.startsWith('data:image/gif');
 
-          var imgHtml = "";
-          if (isCoverVideo) {
-            imgHtml = '<video src="' + mediaCover + '" autoplay loop muted playsinline disablepictureinpicture preload="metadata" class="card-bg-img" style="object-fit:cover;pointer-events:none;width:100%;height:100%;"></video>';
-          } else if (mediaCover) {
-            // includes GIF — <img> renders animated GIF natively
-            imgHtml = '<img src="' + mediaCover + '" alt="' + rec.title + '" class="card-bg-img" onerror="this.style.display=\'none\';">';
-          } else {
-            imgHtml = '<div class="grid-card-placeholder" style="position:absolute;inset:0;"><span class="ph-cat" style="opacity:1;">' + catName + '</span></div>';
-          }
-
-          var reelCaption = 
-            '<div class="card-reel-caption">' +
-              '<span class="reel-idx">[' + (i < 9 ? "0" + (i+1) : (i+1)) + ']</span>' +
-              '<span class="reel-title">' + rec.title + '</span>' +
-              '<span class="reel-cat">&bull; ' + catName + '</span>' +
-            '</div>';
-
-          card.innerHTML = 
-            '<figure>' +
-              imgHtml +
-              '<div class="card-canvas sphere-canvas">' +
-                '<div class="card-sphere-info">' +
-                  '<span class="cat-tag">' + catName + '</span>' +
-                  '<div class="mid-title">' + rec.title + '</div>' +
-                  '<div class="bot-row">' +
-                    '<span>' + shortOrg + '</span>' +
-                    '<span>NO. ' + (i < 9 ? "0" + (i+1) : (i+1)) + '</span>' +
-                  '</div>' +
-                '</div>' +
-              '</div>' +
-              reelCaption +
-            '</figure>';
-
-          orb.appendChild(card);
-          cards.push(card);
-
           // Populate flat grid card
           var gCard = document.createElement("div");
           gCard.className = "grid-card";
           gCard.setAttribute("data-idx", i);
-
-          var dur = (3.4 + ((i * 1.37) % 2.6)).toFixed(2) + "s";
-          var delay = (-((i * 1.83) % 4.0)).toFixed(2) + "s";
-          var floatY = (-5 - ((i * 2.1) % 8)).toFixed(1) + "px";
-          var sc1 = (1.015 + ((i * 0.007) % 0.035)).toFixed(3);
-          var sc2 = (0.970 - ((i * 0.006) % 0.025)).toFixed(3);
-
-          gCard.style.setProperty("--float-dur", dur);
-          gCard.style.setProperty("--float-delay", delay);
-          gCard.style.setProperty("--float-y", floatY);
-          gCard.style.setProperty("--float-scale-1", sc1);
-          gCard.style.setProperty("--float-scale-2", sc2);
 
           if (isCoverVideo) {
             gCard.innerHTML =
@@ -5049,12 +4591,10 @@
           gridRows.appendChild(gCard);
         }
       }
+      // Render grid synchronously right on load so there is zero layout shift
+      buildSphereAndGrid();
 
       async function initApp() {
-        // Step 1: Real loading progress setup
-        // Progress weight: 1 Database Request = 15%, N images = 85%
-        updateLoadingProgress(5, 'CONNECTING ARCHIVE...');
-
         var projects = null;
         try {
           projects = await fetchPortfolioProjectsOptimized();
@@ -5062,41 +4602,17 @@
           console.warn('[Init] Supabase fetch error:', e);
         }
 
-        updateLoadingProgress(20, 'INITIALIZING ASSETS...');
-
         if (projects && isUsable(projects)) {
           RECORDS = projects;
           window.RECORDS = projects;
           _lastRecordsHash = recordsHash(projects);
+          buildSphereAndGrid();
         }
 
-        // Step 2: Extract only the cover images needed for the 3D Sphere
-        var coverUrls = extract3DSphereCoverUrls(RECORDS);
-        var totalImages = coverUrls.length;
-
-        // Step 3: Real Asset Loading Progress Tracker (0% -> 100%)
-        if (totalImages > 0) {
-          await preloadImagesWithTracker(coverUrls, function(loaded, total) {
-            // Map 20% to 98% based on real loaded/total ratio
-            var realPct = 20 + Math.round((loaded / total) * 78);
-            updateLoadingProgress(realPct, 'LOADING ASSETS... ' + realPct + '%');
-          });
-        }
-
-        // Step 4: 100% Complete
-        updateLoadingProgress(100, 'SPATIAL ARCHIVE &bull; 100%');
-
-        // Step 5: Build Sphere and 3D Canvas textures strictly from RAM
-        buildSphereAndGrid();
-        var activeEngine = window.baroSphereEngine || window.gnSphereEngine;
-        if (activeEngine) {
-          activeEngine.rebuild(RECORDS);
-        }
         if (window._rebuildCollectionDropdown) {
           window._rebuildCollectionDropdown();
         }
 
-        // Step 6: Mark assets 100% ready to unlock Preloader dismissal
         markAssetsReady();
       }
 
@@ -5183,8 +4699,6 @@
       if (_brand) _brand.addEventListener("click", _goHome);
       var _gClose = document.querySelector(".grid-close-btn");
       if (_gClose) _gClose.addEventListener("click", _goHome);
-      var _gBtn = document.getElementById("gridBtn");
-      if (_gBtn) _gBtn.addEventListener("click", _goHome);
 
       // ─── COLLECTION FILTER ENGINE ────────────────────────────────────────────
       (function initCollectionFilter() {
@@ -5540,306 +5054,7 @@
           .catch(function(err) { console.info('[Baro Sync] JSON fetch skipped (file:// or offline):', err.message); });
       })();
 
-      /* ======================================================================
-         3. DUAL-VIEW ENGINE: 3D SPHERE <-> HORIZONTAL REEL MORPH
-         ====================================================================== */
-      var viewMode = "sphere"; // "sphere" or "reel"
-      var morph = 0.0;
-      var targetMorph = 0.0;
-      var reelOffset = 0.0;
-      var reelVel = 0.0;
-      var autoSpeed = 1.15; // Smooth automatic glide from right to left
-      var isHoveringCard = false;
-
-      var spin = 0;
-      var tilt = -4;
-      var dragX = 0;
-      var dragY = 0;
-      var velX = 0;
-      var velY = 0;
-      var camZ = 0;
-      var camZTarget = 0;
-      var focusedIdx = -1;
-      var isDragging = false;
-      var downX = 0;
-      var downY = 0;
-      var lastX = 0;
-      var lastY = 0;
-
-      function renderFrame() {
-        // TASK-05: Morph interpolation with smoothstep & dampened transition
-        morph += (targetMorph - morph) * 0.042;
-        if (Math.abs(targetMorph - morph) < 0.0005) morph = targetMorph;
-        var t = morph;
-        var easeT = t * t * (3 - 2 * t); // smoothstep 0..1
-
-        // Smooth cross-fade between 3D WebGL Canvas and Horizontal Reel DOM Orb
-        var gnCanvas = document.getElementById("gnSphereCanvas");
-        var orbEl = document.getElementById("orb");
-        if (gnCanvas && orbEl) {
-          if (t <= 0.002) {
-            gnCanvas.style.opacity = "1";
-            gnCanvas.style.pointerEvents = "auto";
-            orbEl.style.opacity = "0";
-            orbEl.style.pointerEvents = "none";
-          } else if (t >= 0.998) {
-            gnCanvas.style.opacity = "0";
-            gnCanvas.style.pointerEvents = "none";
-            orbEl.style.opacity = "1";
-            orbEl.style.pointerEvents = "auto";
-          } else {
-            gnCanvas.style.opacity = (1 - easeT).toFixed(3);
-            gnCanvas.style.pointerEvents = "none";
-            orbEl.style.opacity = easeT.toFixed(3);
-            orbEl.style.pointerEvents = "none";
-          }
-        }
-
-        if (t > 0.48) {
-          document.body.classList.add("reel-mode");
-        } else {
-          document.body.classList.remove("reel-mode");
-        }
-
-        // Automatic horizontal pan from right to left in Reel Mode
-        if (t > 0.02 && !isDragging && focusedIdx === -1 && !document.body.classList.contains("about-open")) {
-          var currentSpeed = autoSpeed * (isHoveringCard ? 0.15 : 1.0);
-          reelOffset -= currentSpeed;
-          reelOffset += reelVel;
-          reelVel *= 0.93;
-          if (Math.abs(reelVel) < 0.005) reelVel = 0;
-        }
-
-        // Camera inertia physics in Sphere Mode
-        if (!isDragging && focusedIdx === -1 && !document.body.classList.contains("about-open") && t < 0.5) {
-          dragX += velX;
-          dragY += velY;
-          velX *= 0.94;
-          velY *= 0.94;
-          if (Math.abs(velX) < 0.002) velX = 0;
-          if (Math.abs(velY) < 0.002) velY = 0;
-
-          if (tilt + dragY > 32) dragY = 32 - tilt;
-          if (tilt + dragY < -32) dragY = -32 - tilt;
-        }
-
-        var maxScroll = window.innerHeight * 0.16;
-        var p = Math.min(1, Math.max(0, window.pageYOffset / (maxScroll || 1)));
-        camZTarget = p * Math.min(64, R * 0.14);
-        camZ += (camZTarget - camZ) * 0.08;
-
-        var sx = tilt + dragY;
-        var sy = spin + dragX;
-
-        // In Reel mode, world unrolls smoothly to face user squarely
-        var curSX = sx * (1 - easeT);
-        var curSY = sy * (1 - easeT);
-        var curCamZ = camZ * (1 - easeT);
-
-        world.style.transform = "translateZ(" + curCamZ.toFixed(1) + "px) rotateY(" + curSY.toFixed(1) + "deg) rotateX(" + curSX.toFixed(1) + "deg)";
-
-        // Headline counter-rotates and fades out during morph to reel
-        if (headline) {
-          headline.style.transform = "rotateX(" + (-curSX.toFixed(1)) + "deg) rotateY(" + (-curSY.toFixed(1)) + "deg) translateZ(" + (R * 0.62) + "px)";
-          headline.style.opacity = Math.max(0, (1 - p * 0.55) * (1 - easeT * 1.5));
-        }
-
-        // Seamless conveyor ribbon wrap math
-        var stride = reelCardW + reelGap;
-        var totalReelWidth = N * stride;
-
-        var radSX = curSX * Math.PI / 180;
-        var radSY = curSY * Math.PI / 180;
-        var cosX = Math.cos(radSX), sinX = Math.sin(radSX);
-        var cosY = Math.cos(radSY), sinY = Math.sin(radSY);
-
-        for (var i = 0; i < N; i++) {
-          var u = unitVectors[i];
-          var lat = Math.asin(u.y) * 180 / Math.PI;
-          var lon = Math.atan2(u.x, u.z) * 180 / Math.PI;
-
-          // 3D Sphere Position
-          var sphX = u.x * R;
-          var sphY = -u.y * R;
-          var sphZ = u.z * R;
-
-          // Horizontal Reel Position (smoothly wrapped around center)
-          var rawX = i * stride + reelOffset;
-          var wrappedX = ((rawX % totalReelWidth) + totalReelWidth) % totalReelWidth;
-          var reelX = wrappedX - (totalReelWidth / 2);
-          var reelY = 0;
-          var reelZ = 40;
-
-          // Dynamic Morph Interpolation
-          var curX = sphX * (1 - easeT) + reelX * easeT;
-          var curY = sphY * (1 - easeT) + reelY * easeT;
-          var curZ = sphZ * (1 - easeT) + reelZ * easeT;
-          var curRotY = lon * (1 - easeT);
-          var curRotX = lat * (1 - easeT);
-
-          // Card Dimension Interpolation
-          var curW = cw * (1 - easeT) + reelCardW * easeT;
-          var curH = (cw / 1.45) * (1 - easeT) + reelCardH * easeT;
-
-          var el = cards[i];
-          el.style.width = curW.toFixed(1) + "px";
-          el.style.height = curH.toFixed(1) + "px";
-          el.style.marginLeft = (-curW / 2).toFixed(1) + "px";
-          el.style.marginTop = (-curH / 2).toFixed(1) + "px";
-          el.style.transform = "translate3d(" + curX.toFixed(1) + "px, " + curY.toFixed(1) + "px, " + curZ.toFixed(1) + "px) rotateY(" + curRotY.toFixed(1) + "deg) rotateX(" + curRotX.toFixed(1) + "deg)";
-
-          // Depth Wash (fades out in reel mode so all projects are vivid)
-          var x1 = u.x * cosY + u.z * sinY;
-          var z1 = -u.x * sinY + u.z * cosY;
-          var y2 = -u.y * cosX - z1 * sinX;
-          var z2 = -u.y * sinX + z1 * cosX;
-
-          var zf = z2;
-          var base = 0.14 + 0.86 * Math.pow(Math.max(0, (zf + 1) / 2), 0.85);
-          var shade = 1 - Math.min(1, p * 1.5);
-          var dim = shade * (1 - base) * (1 - easeT);
-
-          if (focusedIdx !== -1) {
-            dim = Math.min(1, dim + 0.75);
-          }
-          el.style.setProperty("--d", dim.toFixed(2));
-          el.style.opacity = (focusedIdx === i ? 0 : 1);
-        }
-
-        requestAnimationFrame(renderFrame);
-      }
-
-      // Hover card slows down the reel
-      cards.forEach(function(c) {
-        c.addEventListener("mouseenter", function() { isHoveringCard = true; });
-        c.addEventListener("mouseleave", function() { isHoveringCard = false; });
-      });
-
-      /* ======================================================================
-         4. POINTER & TOUCH GESTURES (DUAL MODE AWARE)
-         ====================================================================== */
-      var startTarget = null;
-
-      // Wheel → scroll reel left/right (tốc độ nhẹ nhàng, chậm rãi và mượt mà)
-      stage.addEventListener("wheel", function(e) {
-        if (viewMode !== "reel" || focusedIdx !== -1) return;
-        e.preventDefault();
-        var delta = e.deltaY || e.deltaX;
-        reelOffset -= delta * 0.32;
-        reelVel = -delta * 0.22;
-      }, { passive: false });
-
-      stage.addEventListener("pointerdown", function (e) {
-        if (viewMode === "sphere" || focusedIdx !== -1 || document.body.classList.contains("about-open")) return;
-        isDragging = true;
-        downX = e.clientX;
-        downY = e.clientY;
-        lastX = e.clientX;
-        lastY = e.clientY;
-        velX = 0;
-        velY = 0;
-        reelVel = 0;
-        startTarget = e.target;
-        try { stage.setPointerCapture(e.pointerId); } catch(err){}
-      });
-
-      window.addEventListener("pointermove", function (e) {
-        if (!isDragging) return;
-        var dx = e.clientX - lastX;
-        var dy = e.clientY - lastY;
-        lastX = e.clientX;
-        lastY = e.clientY;
-
-        if (viewMode === "sphere") {
-          dragX += dx * 0.16;
-          dragY -= dy * 0.16;
-          velX = dx * 0.14;
-          velY = -dy * 0.14;
-        } else {
-          // Horizontal reel drag
-          reelOffset += dx * 1.6;
-          reelVel = dx * 1.4;
-        }
-      });
-
-      function stopDrag(e) {
-        if (!isDragging) return;
-        isDragging = false;
-        var dist = Math.hypot(e.clientX - downX, e.clientY - downY);
-        // Click action: Opens 3D Architectural Monograph Book Spread
-        if (dist < 10) {
-          var targetCard = (startTarget && startTarget.closest) ? startTarget.closest(".card") : null;
-          if (!targetCard) {
-            targetCard = document.elementFromPoint(e.clientX, e.clientY);
-            if (targetCard) targetCard = targetCard.closest(".card");
-          }
-          if (targetCard) {
-            var idx = parseInt(targetCard.getAttribute("data-idx"), 10);
-            if (!isNaN(idx)) {
-              openBook(idx);
-            }
-          }
-        }
-        startTarget = null;
-      }
-      window.addEventListener("pointerup", stopDrag);
-      window.addEventListener("pointercancel", stopDrag);
-
-      // Mode Switcher function
-      window.switchMode = function(newMode, focusIdx) {
-        viewMode = newMode;
-        var pill = document.getElementById("bottomModePill");
-        var iconWrap = document.getElementById("orangeIconWrap");
-        var cueText = document.getElementById("cueText");
-
-        // Hiệu ứng nhấp chuột: quả cam to lên một tí rồi morph mượt
-        if (iconWrap) {
-          iconWrap.classList.remove("popping");
-          void iconWrap.offsetWidth;
-          iconWrap.classList.add("popping");
-          setTimeout(function() {
-            if (iconWrap) iconWrap.classList.remove("popping");
-          }, 350);
-        }
-
-        if (newMode === "reel") {
-          targetMorph = 1.0;
-          if (pill) {
-            pill.classList.remove("mode-sphere");
-            pill.classList.add("mode-reel");
-            pill.setAttribute("title", "Currently Horizontal Reel — Click to switch to 3D Sphere");
-          }
-          if (cueText) cueText.innerHTML = "Drag to scroll &middot; Click card to view details";
-          if (typeof focusIdx === "number") {
-            var stride = reelCardW + reelGap;
-            reelOffset = -(focusIdx * stride);
-          }
-          var engine = window.baroSphereEngine || window.gnSphereEngine;
-          if (engine) {
-            engine.setMode("reel");
-          }
-        } else {
-          targetMorph = 0.0;
-          if (pill) {
-            pill.classList.remove("mode-reel");
-            pill.classList.add("mode-sphere");
-            pill.setAttribute("title", "Currently 3D Sphere — Click to switch to Horizontal Reel");
-          }
-          if (cueText) cueText.innerHTML = "Click any card or drag to explore sphere";
-          var eng = window.baroSphereEngine || window.gnSphereEngine;
-          if (eng) {
-            eng.setMode("sphere");
-          }
-        }
-      };
-
-      var bottomPill = document.getElementById("bottomModePill");
-      if (bottomPill) {
-        bottomPill.addEventListener("click", function(e) {
-          e.preventDefault();
-          window.switchMode(viewMode === "sphere" ? "reel" : "sphere");
-        });
-      }
+      window.switchMode = function () {};
 
       /* ======================================================================
          5. 3D ARCHITECTURAL MONOGRAPH BOOK SPREAD SYSTEM
@@ -6271,11 +5486,14 @@
       /* ======================================================================
          6. FLAT GRID & ABOUT DRAWER CONTROLS
          ====================================================================== */
-      var gridBtn = document.getElementById("gridBtn");
       var navGrid = document.getElementById("navGrid");
       var menuWorks = document.getElementById("menuWorks");
 
       window.toggleGrid = function (force) {
+        if (force === false) {
+          window.location.href = "index.html";
+          return;
+        }
         var isGrid = document.body.classList.toggle("gridview", force);
         if (isGrid) {
           closeAbout();
@@ -6305,63 +5523,16 @@
           e.preventDefault();
         }
       });
-
-      gridBtn.addEventListener("click", function () { window.location.href = "/work"; });
       navGrid.addEventListener("click", function (e) { e.preventDefault(); window.location.href = "/work"; });
 
-      // â”€â”€ Scroll-shrink effect on grid cards (shrink to 1/5 = scale 0.2) â”€â”€
-      (function() {
-        var gridEl = document.getElementById("grid");
-        var scrollTimer = null;
-        var isScrolling = false;
-
-        function applyScrolling() {
-          if (!document.body.classList.contains("gridview")) return;
-          var cards = gridEl.querySelectorAll(".grid-card");
-          for (var c = 0; c < cards.length; c++) {
-            cards[c].classList.add("scrolling");
-          }
-        }
-        function clearScrolling() {
-          var cards = gridEl.querySelectorAll(".grid-card");
-          for (var c = 0; c < cards.length; c++) {
-            cards[c].classList.remove("scrolling");
-          }
-          isScrolling = false;
-        }
-
-        gridEl.addEventListener("scroll", function() {
-          if (!isScrolling) {
-            isScrolling = true;
-            applyScrolling();
-          }
-          clearTimeout(scrollTimer);
-          scrollTimer = setTimeout(clearScrolling, 380);
-        }, { passive: true });
-
-        window.addEventListener("wheel", function() {
-          if (!document.body.classList.contains("gridview")) return;
-          if (!isScrolling) {
-            isScrolling = true;
-            applyScrolling();
-          }
-          clearTimeout(scrollTimer);
-          scrollTimer = setTimeout(clearScrolling, 380);
-        }, { passive: true });
-      })();
+      // Scroll-shrink effect disabled to prevent screen jumping
 
       // Logo click returns to clean home page
       var brandWordmark = document.querySelector(".wordmark");
       if (brandWordmark) {
         brandWordmark.addEventListener("click", function(e) {
           e.preventDefault();
-          closeBook();
-          closeAbout();
-          closeMenu();
-          if (document.body.classList.contains("gridview")) window.toggleGrid(false);
-          if (viewMode !== "sphere") window.switchMode("sphere");
-          window.scrollTo({ top: 0, behavior: "smooth" });
-          _routerPush('/', {});
+          window.location.href = "index.html";
         });
       }
 
@@ -6486,7 +5657,6 @@
         menuHome.addEventListener("click", function (e) {
           e.preventDefault();
           closeMenu();
-          if (viewMode !== "sphere") window.switchMode("sphere");
           if (document.body.classList.contains("gridview")) window.toggleGrid(false);
           window.scrollTo({ top: 0, behavior: "smooth" });
           _routerPush('/', {});
@@ -6578,7 +5748,6 @@
           else if (document.body.classList.contains("about-open")) closeAbout();
           else if (document.body.classList.contains("menu-open")) closeMenu();
           else if (document.body.classList.contains("gridview")) toggleGrid(false);
-          else if (viewMode === "reel") window.switchMode("sphere");
         } else if (document.body.classList.contains("book-open")) {
           if (e.key === "ArrowLeft") {
             e.preventDefault();
@@ -6619,451 +5788,11 @@
         el.addEventListener("mouseleave", function () { if (dot) dot.classList.remove("wide"); });
       });
 
-      /* ======================================================================
-         8. BOOT / REVEAL WITH CODE-TO-LOGO MATRIX ANIMATION
-         ====================================================================== */
-      window.addEventListener("resize", function () {
-        calcDimensions();
-        layoutSphere();
-      });
+      /* Matrix splash animation removed on work page for instant load */
+      document.body.classList.remove("locked");
+      document.body.classList.add("revealed");
 
-      // --- Matrix Code & Logo Transition Controller ---
-      (function initCodeIntro() {
-        var splash = document.getElementById("splash");
-        var splashBgFlash = document.getElementById("splashBgFlash");
-        var canvas = document.getElementById("splashCanvas");
-        var splashResolved = document.getElementById("splashResolved");
-        var splashMark = document.getElementById("splashMark");
-        var splashBarWrap = document.getElementById("splashBarWrap");
-        var splashBarImg = document.getElementById("splashBarImg");
-        var splashTag = document.getElementById("splashTag");
-
-        if (!canvas || !splash) {
-          if (splash) splash.classList.add("out");
-          document.body.classList.remove("locked");
-          document.body.classList.add("revealed");
-          return;
-        }
-
-        var ctx = canvas.getContext("2d");
-        var dpr = Math.min(window.devicePixelRatio || 1, 2);
-        var cw = 0, ch = 0;
-
-        function resizeCanvas() {
-          cw = canvas.width = window.innerWidth * dpr;
-          ch = canvas.height = window.innerHeight * dpr;
-          ctx.scale(dpr, dpr);
-        }
-        resizeCanvas();
-
-        // Palette of 3 colors: orange, black/dark, white
-        var palette = [
-          { r: 235, g: 86,  b: 8,   hex: "#eb5608" }, // Brand vibrant orange
-          { r: 245, g: 130, b: 32,  hex: "#f58220" }, // Bright orange
-          { r: 255, g: 255, b: 255, hex: "#ffffff" }, // White
-          { r: 230, g: 230, b: 230, hex: "#e6e6e6" }, // Light white
-          { r: 20,  g: 18,  b: 16,  hex: "#141210" }, // Deep black
-          { r: 40,  g: 35,  b: 30,  hex: "#28231e" }  // Charcoal black
-        ];
-
-        var glyphs = "0123456789ABCDEFBAROPHOLIOXYZ<>/[]{}#*+=_!?:~%$^&";
-        var particles = [];
-        var animationStarted = false;
-
-        // Build target shape purely via high-fidelity Canvas vector rendering (zero CORS dependency)
-        function buildParticleGrid() {
-          if (animationStarted) return;
-          animationStarted = true;
-
-          var offW = 600;
-          var offH = 150;
-          var offCanvas = document.createElement("canvas");
-          offCanvas.width = offW;
-          offCanvas.height = offH;
-          var offCtx = offCanvas.getContext("2d");
-
-          // Draw geometric emblem mark of BAROPHOLIO (Orange folded polygon + white accent + black ribbon)
-          // 1. Orange background pentagon/faceted shape
-          offCtx.save();
-          offCtx.fillStyle = "#eb5608";
-          offCtx.beginPath();
-          offCtx.moveTo(25, 30);
-          offCtx.lineTo(95, 15);
-          offCtx.lineTo(125, 45);
-          offCtx.lineTo(125, 125);
-          offCtx.lineTo(25, 125);
-          offCtx.closePath();
-          offCtx.fill();
-
-          // 2. White diamond accent
-          offCtx.fillStyle = "#ffffff";
-          offCtx.beginPath();
-          offCtx.moveTo(85, 35);
-          offCtx.lineTo(98, 48);
-          offCtx.lineTo(85, 61);
-          offCtx.lineTo(72, 48);
-          offCtx.closePath();
-          offCtx.fill();
-
-          // 3. Black stylized folded ribbon 'B'
-          offCtx.fillStyle = "#141210";
-          offCtx.beginPath();
-          offCtx.moveTo(42, 40);
-          offCtx.lineTo(60, 40);
-          offCtx.lineTo(40, 80);
-          offCtx.lineTo(65, 80);
-          offCtx.lineTo(40, 120);
-          offCtx.lineTo(30, 105);
-          offCtx.lineTo(48, 70);
-          offCtx.lineTo(30, 70);
-          offCtx.closePath();
-          offCtx.fill();
-          offCtx.restore();
-
-          // Draw wordmark text "BAROPHOLIO" character by character to detect the 3 "O"s
-          // Set fillStyle WHITE before drawing so characters appear on canvas for sampling
-          offCtx.fillStyle = "#ffffff";
-          offCtx.font = "900 78px 'Space Grotesk', -apple-system, sans-serif";
-          offCtx.textAlign = "left";
-          offCtx.textBaseline = "middle";
-
-          var textLetters = "BAROPHOLIO";
-          // Measure total text width first to check canvas fit
-          var totalTextW = offCtx.measureText(textLetters).width;
-          // Icon occupies ~140px, start text after icon
-          var textStartX = 145;
-          // Expand offCanvas if needed so all text fits
-          if (textStartX + totalTextW + 10 > offW) {
-            offW = Math.ceil(textStartX + totalTextW + 20);
-            offCanvas.width = offW;
-            offCanvas.height = offH;
-            // Must redraw icon since canvas was resized (reset blank)
-            offCtx.fillStyle = "#eb5608";
-            offCtx.beginPath();
-            offCtx.moveTo(25, 30); offCtx.lineTo(95, 15); offCtx.lineTo(125, 45);
-            offCtx.lineTo(125, 125); offCtx.lineTo(25, 125); offCtx.closePath(); offCtx.fill();
-            offCtx.fillStyle = "#ffffff";
-            offCtx.beginPath();
-            offCtx.moveTo(85, 35); offCtx.lineTo(98, 48); offCtx.lineTo(85, 61);
-            offCtx.lineTo(72, 48); offCtx.closePath(); offCtx.fill();
-            offCtx.fillStyle = "#141210";
-            offCtx.beginPath();
-            offCtx.moveTo(42, 40); offCtx.lineTo(60, 40); offCtx.lineTo(40, 80);
-            offCtx.lineTo(65, 80); offCtx.lineTo(40, 120); offCtx.lineTo(30, 105);
-            offCtx.lineTo(48, 70); offCtx.lineTo(30, 70); offCtx.closePath(); offCtx.fill();
-            // Restore font/style for text
-            offCtx.fillStyle = "#ffffff";
-            offCtx.font = "900 78px 'Space Grotesk', -apple-system, sans-serif";
-            offCtx.textAlign = "left";
-            offCtx.textBaseline = "middle";
-          }
-
-          // Draw each letter and record bounding boxes for O-detection
-          var letterBoxes = [];
-          var curX = textStartX;
-          for (var li = 0; li < textLetters.length; li++) {
-            var ch = textLetters[li];
-            offCtx.fillStyle = "#ffffff"; // always white for sampling
-            offCtx.fillText(ch, curX, 75);
-            var chW = offCtx.measureText(ch).width;
-            letterBoxes.push({ char: ch, startX: curX, endX: curX + chW, isO: (ch === 'O') });
-            curX += chW;
-          }
-          console.log("LetterBoxes:", JSON.stringify(letterBoxes.map(function(l){ return l.char+":"+Math.round(l.startX)+"-"+Math.round(l.endX); })));
-          console.log("offW:", offW, "totalTextW:", totalTextW);
-
-          var imgData;
-          try {
-            imgData = offCtx.getImageData(0, 0, offW, offH).data;
-          } catch(e) {
-            console.warn("ImageData sampling fallback", e);
-            imgData = null;
-          }
-
-          var density = 5; // step size in pixels - denser sampling for clearer text shape
-          var screenW = window.innerWidth;
-          var screenH = window.innerHeight;
-          var centerX = screenW / 2;
-          var centerY = screenH / 2 - 20;
-
-          // Target scale on screen — account for dynamically expanded offW
-          var targetW = Math.min(screenW * 0.88, offW * 1.6);
-          var scaleRatio = targetW / offW;
-          var offsetX = centerX - (offW * scaleRatio) / 2;
-          var offsetY = centerY - (offH * scaleRatio) / 2;
-
-          particles = [];
-
-          if (imgData) {
-            for (var py = 0; py < offH; py += density) {
-              for (var px = 0; px < offW; px += density) {
-                var idx = (py * offW + px) * 4;
-                var a = imgData[idx + 3];
-                if (a > 60) {
-                  var isIcon = (px < 140);
-                  var isLetterO = false;
-                  if (!isIcon) {
-                    for (var b = 0; b < letterBoxes.length; b++) {
-                      if (px >= letterBoxes[b].startX && px < letterBoxes[b].endX) {
-                        if (letterBoxes[b].isO) isLetterO = true;
-                        break;
-                      }
-                    }
-                  }
-
-                  var startX = Math.random() * screenW;
-                  var startY = Math.random() * screenH;
-
-                  // Initial random colors for the code phase (cam, Ä‘en, tráº¯ng)
-                  var initialCol = palette[Math.floor(Math.random() * palette.length)];
-
-                  particles.push({
-                    targetX: offsetX + px * scaleRatio,
-                    targetY: offsetY + py * scaleRatio,
-                    x: startX,
-                    y: startY,
-                    vx: (Math.random() - 0.5) * 4,
-                    vy: 3 + Math.random() * 6,
-                    char: glyphs[Math.floor(Math.random() * glyphs.length)],
-                    size: 11 + Math.random() * 5,
-                    color: initialCol,
-                    alpha: 0.85 + Math.random() * 0.15,
-                    changeRate: Math.floor(3 + Math.random() * 6),
-                    counter: 0,
-                    isIcon: isIcon,
-                    isLetterO: isLetterO
-                  });
-                }
-              }
-            }
-          }
-
-          // Ambient code rain particles
-          for (var i = 0; i < 80; i++) {
-            var colAmb = palette[Math.floor(Math.random() * palette.length)];
-            particles.push({
-              targetX: Math.random() * screenW,
-              targetY: Math.random() * screenH,
-              x: Math.random() * screenW,
-              y: Math.random() * screenH,
-              vx: 0,
-              vy: 3 + Math.random() * 8,
-              char: glyphs[Math.floor(Math.random() * glyphs.length)],
-              size: 10 + Math.random() * 4,
-              color: colAmb,
-              alpha: 0.28,
-              changeRate: 4,
-              counter: 0,
-              ambient: true
-            });
-          }
-
-          startMatrixAnimation();
-        }
-
-        // Safety fallback: maximum 8.5s to avoid permanent freeze on bad networks
-        setTimeout(function() {
-          if (!window._assetsLoaded) {
-            console.warn('[Preloader] Safety timeout reached (8.5s). Forcing 100% finish.');
-            updateLoadingProgress(100, 'SPATIAL ARCHIVE &bull; 100%');
-            markAssetsReady();
-          }
-        }, 8500);
-
-        function triggerAppReveal() {
-          if (!splash || splash.classList.contains("out")) return;
-          splash.classList.add("out");
-          document.body.classList.remove("locked");
-          document.body.classList.add("revealed");
-          var eng = window.baroSphereEngine || window.gnSphereEngine;
-          if (eng) {
-            eng.startIntro();
-          } else {
-            // Engine may still be loading THREE.js — retry once after 150ms
-            setTimeout(function() {
-              var eng2 = window.baroSphereEngine || window.gnSphereEngine;
-              if (eng2) eng2.startIntro();
-            }, 150);
-          }
-        }
-
-        // startTime is set just before the animation loop begins (inside startMatrixAnimation)
-        var startTime = 0;
-
-        function startMatrixAnimation() {
-          startTime = performance.now(); // Reset timer right when animation begins
-          requestAnimationFrame(loop);
-        }
-
-        // Start after fonts are ready to ensure correct text rendering on offscreen canvas
-        if (document.fonts && document.fonts.ready) {
-          document.fonts.ready.then(function() { buildParticleGrid(); });
-        } else {
-          // Fallback: short delay for fonts to load
-          setTimeout(buildParticleGrid, 200);
-        }
-
-        function loop(now) {
-          var elapsed = (now - startTime) / 1000;
-          var screenW = window.innerWidth;
-          var screenH = window.innerHeight;
-
-          ctx.clearRect(0, 0, screenW, screenH);
-
-          // Flow timeline:
-          // 0.0s - 1.0s: Code rain with mixed orange/black/white particles on Black BG
-          // 1.0s - 2.2s: Background shifts to ORANGE (#eb5608). Particles gather into BAROPHOLIO:
-          //              - Chá»¯ Ä‘en trÃªn ná»n cam
-          //              - 3 chá»¯ 'O' mÃ u tráº¯ng
-          //              - Icon logo sáº¯c sáº£o
-          // 2.2s - 2.9s: MÃ n hÃ¬nh loang tráº¯ng (White radial ripple wash out) chuyá»ƒn háº¿t ná»n cam thÃ nh tráº¯ng (#f2f0ec)
-          // 2.9s - 4.2s: Logo tháº­t + tÃªn + thanh palette bar hiá»‡n ra vÃ  cháº¡y tiáº¿n Ä‘á»™
-          // 4.3s: Splash biáº¿n máº¥t vÃ o trang chÃ­nh
-
-          var bgFlashColor = "#0d0c0b";
-          if (elapsed < 1.0) {
-            bgFlashColor = "#0d0c0b";
-          } else if (elapsed >= 1.0 && elapsed < 2.2) {
-            bgFlashColor = "#eb5608"; // Full Orange Background
-          } else {
-            bgFlashColor = "var(--bg, #f2f0ec)"; // White site Background
-          }
-          if (splashBgFlash.style.backgroundColor !== bgFlashColor) {
-            splashBgFlash.style.backgroundColor = bgFlashColor;
-          }
-
-          // Gathering progress:
-          // Starts at 1.0s, fully converged by 2.0s (1 second to fully assemble)
-          var gatherProgress = 0;
-          if (elapsed > 1.0) {
-            gatherProgress = Math.min(1, (elapsed - 1.0) / 1.0);
-            gatherProgress = 1 - Math.pow(1 - gatherProgress, 2.5); // Ease out - fast snap
-          }
-
-          // 1. Draw particles
-          ctx.font = "bold 13px 'Space Grotesk', monospace";
-          ctx.textAlign = "center";
-          ctx.textBaseline = "middle";
-
-          for (var i = 0; i < particles.length; i++) {
-            var p = particles[i];
-            p.counter++;
-            if (p.counter % p.changeRate === 0) {
-              p.char = glyphs[Math.floor(Math.random() * glyphs.length)];
-            }
-
-            if (p.ambient) {
-              // Floating ambient code
-              p.y += p.vy;
-              if (p.y > screenH + 20) {
-                p.y = -20;
-                p.x = Math.random() * screenW;
-              }
-              if (elapsed >= 2.0) {
-                p.alpha = Math.max(0, p.alpha - 0.03);
-              }
-              if (p.alpha > 0.01) {
-                ctx.fillStyle = (elapsed >= 1.0 && elapsed < 2.2) ? "#ffffff" : p.color.hex;
-                ctx.globalAlpha = p.alpha;
-                ctx.fillText(p.char, p.x, p.y);
-              }
-              continue;
-            }
-
-            // Target particles (forming BAROPHOLIO)
-            if (gatherProgress <= 0) {
-              p.y += p.vy;
-              p.x += p.vx;
-              if (p.y > screenH + 30) {
-                p.y = -20;
-                p.x = p.targetX + (Math.random() - 0.5) * 160;
-              }
-              p.x += (p.targetX - p.x) * 0.035;
-            } else {
-              // Strongly converge onto target position — larger factor for snappier lock
-              var lockStrength = 0.12 + gatherProgress * 0.22;
-              p.x += (p.targetX - p.x) * lockStrength;
-              p.y += (p.targetY - p.y) * lockStrength;
-            }
-
-            // Particle Color specification:
-            // When gathering on orange background (1.0s - 2.2s):
-            // - Wordmark letters: BLACK (#0d0c0b)
-            // - 3 letters 'O': WHITE (#ffffff)
-            // - Icon: Black & White & deep contrast
-            var drawColor = p.color.hex;
-            if (elapsed >= 1.0) {
-              if (p.isIcon) {
-                drawColor = "#0d0c0b";
-              } else if (p.isLetterO) {
-                drawColor = "#ffffff"; // 3 chá»¯ O mÃ u tráº¯ng
-              } else {
-                drawColor = "#0d0c0b"; // Táº¥t cáº£ cÃ¡c chá»¯ cÃ²n láº¡i mÃ u Ä‘en
-              }
-            }
-
-            var currentAlpha = p.alpha;
-            // When white ripple expands (elapsed >= 2.2), particles dissolve smoothly
-            if (elapsed >= 2.2) {
-              currentAlpha = Math.max(0, 1 - (elapsed - 2.2) / 0.45);
-            }
-
-            if (currentAlpha > 0.01) {
-              ctx.save();
-              ctx.fillStyle = drawColor;
-              ctx.globalAlpha = currentAlpha;
-              ctx.font = "bold " + p.size + "px 'Space Grotesk', monospace";
-              ctx.fillText(p.char, p.x, p.y);
-              ctx.restore();
-            }
-          }
-
-          // 2. White loang ripple effect (Expanding circle loang tá»« giá»¯a ra háº¿t toÃ n mÃ n hÃ¬nh)
-          if (elapsed >= 2.2 && elapsed < 3.2) {
-            var rippleProgress = Math.min(1, (elapsed - 2.2) / 0.65);
-            // Ease out expansion
-            var rFactor = Math.sin(rippleProgress * Math.PI / 2);
-            var maxR = Math.hypot(screenW, screenH);
-            var curR = maxR * rFactor;
-
-            ctx.save();
-            ctx.beginPath();
-            ctx.arc(screenW / 2, screenH / 2, curR, 0, Math.PI * 2);
-            ctx.fillStyle = "#f2f0ec";
-            ctx.fill();
-            ctx.restore();
-          }
-
-          // 3. Reveal clean real logo, name and palette bar
-          if (elapsed >= 2.7 && !splashResolved.classList.contains("show")) {
-            splashResolved.classList.add("show");
-            splashBarWrap.classList.add("show");
-          }
-
-          // Progress palette bar — driven by real asset loading via updateLoadingProgress()
-          // (time-based override removed to avoid conflict with initApp progress tracker)
-
-          // 4. Final dismiss: STRICTLY wait until _assetsLoaded = true (100%)
-          if (elapsed >= 2.9) {
-            if (window._assetsLoaded) {
-              triggerAppReveal();
-              return; // stop loop
-            }
-            // Attach listener ONCE only — avoid stacking .then() every frame
-            if (!window._revealListenerAttached) {
-              window._revealListenerAttached = true;
-              window.assetsLoadedPromise.then(function() {
-                triggerAppReveal();
-              });
-            }
-          }
-
-          requestAnimationFrame(loop);
-        }
-      })();
-
-      // Run camera loop
-      renderFrame();
+      // Camera loop managed by WebGL engine
 
     })();
   </script>

@@ -809,15 +809,7 @@
       images = rec.media.map(function(m) { if (!m) return ""; if (typeof m === "string") return m; return m.url || m.src || (m.dataUrl && !m.dataUrl.startsWith("data:") ? m.dataUrl : ""); }).filter(Boolean);
     }
     if (images.length === 0) {
-      images = ["02.Project/02_Baropholio brand_240401/Baropholio brand (1).jpg", "02.Project/02_Baropholio brand_240401/Baropholio brand (3).jpg"];
-    }
-
-    // Fallback supplementary architectural plates if only 1 image exists
-    if (images.length === 1) {
-      images.push(
-        "02.Project/02_Baropholio brand_240401/Baropholio brand (1).jpg",
-        "02.Project/02_Baropholio brand_240401/Baropholio brand (3).jpg"
-      );
+      if (rec.image) images = [rec.image];
     }
 
     // Populate Background Intro Info (Baro Style)
@@ -845,7 +837,7 @@
       var isVid = /\.(mp4|webm|ogg|mov)(\?.*)?$/i.test(images[i]) || (typeof images[i] === 'string' && images[i].indexOf('data:video') === 0);
       var mediaHtml = isVid
         ? `<video src="${images[i]}" autoplay loop muted playsinline webkit-playsinline disablepictureinpicture controlslist="nodownload" style="width:100%;height:100%;object-fit:cover;display:block;pointer-events:none;"></video>`
-        : `<img src="${images[i]}" alt="${rec.title || 'Baro Project'} - Plate ${plateNum}" loading="eager" />`;
+        : `<img src="${images[i]}" alt="${rec.title || 'Baro Project'} - Plate ${plateNum}" ${i < 2 ? 'loading="eager" fetchpriority="high"' : 'loading="lazy"'} decoding="async" />`;
 
       card.innerHTML = `
         ${mediaHtml}

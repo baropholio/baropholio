@@ -1,0 +1,684 @@
+{
+  "generatedAt": "2026-11-04T06:39:24.501Z",
+  "totalOriginals": 75,
+  "originalTotalBytes": 99844727,
+  "derivativeTotalBytes": 17049160,
+  "savingsPercent": "82.9%",
+  "mappings": [
+    {
+      "originalPath": "02.Project/01_Windy Hill/1-1793085295855_convert_com_vn.webp",
+      "derivativePath": "02.Project/_derivatives/01_Windy Hill/1-1793085295855_convert_com_vn.webp",
+      "originalSize": 3894612,
+      "derivativeSize": 452898,
+      "width": 4905,
+      "height": 3351,
+      "format": "webp"
+    },
+    {
+      "originalPath": "02.Project/01_Windy Hill/370206031_233749272725049_8156576336194971843_n.jpg",
+      "derivativePath": "02.Project/_derivatives/01_Windy Hill/370206031_233749272725049_8156576336194971843_n.webp",
+      "originalSize": 681717,
+      "derivativeSize": 758328,
+      "width": 1890,
+      "height": 1797,
+      "format": "webp"
+    },
+    {
+      "originalPath": "02.Project/01_Windy Hill/Baro Portfolio25.jpg",
+      "derivativePath": "02.Project/_derivatives/01_Windy Hill/Baro Portfolio25.webp",
+      "originalSize": 1369656,
+      "derivativeSize": 368522,
+      "width": 4724,
+      "height": 2362,
+      "format": "webp"
+    },
+    {
+      "originalPath": "02.Project/01_Windy Hill/mh-1793085300964_convert_com_vn.webp",
+      "derivativePath": "02.Project/_derivatives/01_Windy Hill/mh-1793085300964_convert_com_vn.webp",
+      "originalSize": 7014806,
+      "derivativeSize": 530860,
+      "width": 7016,
+      "height": 9933,
+      "format": "webp"
+    },
+    {
+      "originalPath": "02.Project/02_Baropholio brand_240401/Baropholio brand (1).jpg",
+      "derivativePath": "02.Project/_derivatives/02_Baropholio brand_240401/Baropholio brand (1).webp",
+      "originalSize": 224135,
+      "derivativeSize": 64660,
+      "width": 1179,
+      "height": 1841,
+      "format": "webp"
+    },
+    {
+      "originalPath": "02.Project/02_Baropholio brand_240401/Baropholio brand (10).jpg",
+      "derivativePath": "02.Project/_derivatives/02_Baropholio brand_240401/Baropholio brand (10).webp",
+      "originalSize": 493813,
+      "derivativeSize": 173758,
+      "width": 2402,
+      "height": 1197,
+      "format": "webp"
+    },
+    {
+      "originalPath": "02.Project/02_Baropholio brand_240401/Baropholio brand (11).jpg",
+      "derivativePath": "02.Project/_derivatives/02_Baropholio brand_240401/Baropholio brand (11).webp",
+      "originalSize": 171215,
+      "derivativeSize": 26486,
+      "width": 2372,
+      "height": 1582,
+      "format": "webp"
+    },
+    {
+      "originalPath": "02.Project/02_Baropholio brand_240401/Baropholio brand (12).jpg",
+      "derivativePath": "02.Project/_derivatives/02_Baropholio brand_240401/Baropholio brand (12).webp",
+      "originalSize": 103612,
+      "derivativeSize": 16196,
+      "width": 2130,
+      "height": 1592,
+      "format": "webp"
+    },
+    {
+      "originalPath": "02.Project/02_Baropholio brand_240401/Baropholio brand (13).jpg",
+      "derivativePath": "02.Project/_derivatives/02_Baropholio brand_240401/Baropholio brand (13).webp",
+      "originalSize": 454125,
+      "derivativeSize": 111758,
+      "width": 2390,
+      "height": 1582,
+      "format": "webp"
+    },
+    {
+      "originalPath": "02.Project/02_Baropholio brand_240401/Baropholio brand (14).jpg",
+      "derivativePath": "02.Project/_derivatives/02_Baropholio brand_240401/Baropholio brand (14).webp",
+      "originalSize": 495036,
+      "derivativeSize": 155038,
+      "width": 2105,
+      "height": 1570,
+      "format": "webp"
+    },
+    {
+      "originalPath": "02.Project/02_Baropholio brand_240401/Baropholio brand (15).jpg",
+      "derivativePath": "02.Project/_derivatives/02_Baropholio brand_240401/Baropholio brand (15).webp",
+      "originalSize": 552611,
+      "derivativeSize": 157654,
+      "width": 2395,
+      "height": 1435,
+      "format": "webp"
+    },
+    {
+      "originalPath": "02.Project/02_Baropholio brand_240401/Baropholio brand (16).jpg",
+      "derivativePath": "02.Project/_derivatives/02_Baropholio brand_240401/Baropholio brand (16).webp",
+      "originalSize": 354933,
+      "derivativeSize": 82558,
+      "width": 2370,
+      "height": 1580,
+      "format": "webp"
+    },
+    {
+      "originalPath": "02.Project/02_Baropholio brand_240401/Baropholio brand (17).jpg",
+      "derivativePath": "02.Project/_derivatives/02_Baropholio brand_240401/Baropholio brand (17).webp",
+      "originalSize": 162535,
+      "derivativeSize": 50624,
+      "width": 2100,
+      "height": 1552,
+      "format": "webp"
+    },
+    {
+      "originalPath": "02.Project/02_Baropholio brand_240401/Baropholio brand (2).jpg",
+      "derivativePath": "02.Project/_derivatives/02_Baropholio brand_240401/Baropholio brand (2).webp",
+      "originalSize": 272209,
+      "derivativeSize": 35772,
+      "width": 2346,
+      "height": 2794,
+      "format": "webp"
+    },
+    {
+      "originalPath": "02.Project/02_Baropholio brand_240401/Baropholio brand (3).jpg",
+      "derivativePath": "02.Project/_derivatives/02_Baropholio brand_240401/Baropholio brand (3).webp",
+      "originalSize": 47798,
+      "derivativeSize": 10814,
+      "width": 1179,
+      "height": 1818,
+      "format": "webp"
+    },
+    {
+      "originalPath": "02.Project/02_Baropholio brand_240401/Baropholio brand (4).jpg",
+      "derivativePath": "02.Project/_derivatives/02_Baropholio brand_240401/Baropholio brand (4).webp",
+      "originalSize": 351255,
+      "derivativeSize": 106100,
+      "width": 2549,
+      "height": 2449,
+      "format": "webp"
+    },
+    {
+      "originalPath": "02.Project/02_Baropholio brand_240401/Baropholio brand (5).jpg",
+      "derivativePath": "02.Project/_derivatives/02_Baropholio brand_240401/Baropholio brand (5).webp",
+      "originalSize": 361816,
+      "derivativeSize": 65462,
+      "width": 2525,
+      "height": 1685,
+      "format": "webp"
+    },
+    {
+      "originalPath": "02.Project/02_Baropholio brand_240401/Baropholio brand (6).jpg",
+      "derivativePath": "02.Project/_derivatives/02_Baropholio brand_240401/Baropholio brand (6).webp",
+      "originalSize": 555355,
+      "derivativeSize": 69992,
+      "width": 2505,
+      "height": 1670,
+      "format": "webp"
+    },
+    {
+      "originalPath": "02.Project/02_Baropholio brand_240401/Baropholio brand (7).jpg",
+      "derivativePath": "02.Project/_derivatives/02_Baropholio brand_240401/Baropholio brand (7).webp",
+      "originalSize": 203863,
+      "derivativeSize": 36322,
+      "width": 2325,
+      "height": 1660,
+      "format": "webp"
+    },
+    {
+      "originalPath": "02.Project/02_Baropholio brand_240401/Baropholio brand (8).jpg",
+      "derivativePath": "02.Project/_derivatives/02_Baropholio brand_240401/Baropholio brand (8).webp",
+      "originalSize": 94938,
+      "derivativeSize": 26948,
+      "width": 1230,
+      "height": 1240,
+      "format": "webp"
+    },
+    {
+      "originalPath": "02.Project/02_Baropholio brand_240401/Baropholio brand (9).jpg",
+      "derivativePath": "02.Project/_derivatives/02_Baropholio brand_240401/Baropholio brand (9).webp",
+      "originalSize": 241910,
+      "derivativeSize": 26308,
+      "width": 2367,
+      "height": 1670,
+      "format": "webp"
+    },
+    {
+      "originalPath": "02.Project/03_120H/Screenshot 2024-09-30 212638.jpg",
+      "derivativePath": "02.Project/_derivatives/03_120H/Screenshot 2024-09-30 212638.webp",
+      "originalSize": 954386,
+      "derivativeSize": 241226,
+      "width": 2712,
+      "height": 1915,
+      "format": "webp"
+    },
+    {
+      "originalPath": "02.Project/03_120H/Screenshot 2024-09-30 212701.jpg",
+      "derivativePath": "02.Project/_derivatives/03_120H/Screenshot 2024-09-30 212701.webp",
+      "originalSize": 636965,
+      "derivativeSize": 153682,
+      "width": 2710,
+      "height": 1912,
+      "format": "webp"
+    },
+    {
+      "originalPath": "02.Project/03_120H/Screenshot 2024-09-30 212907.jpg",
+      "derivativePath": "02.Project/_derivatives/03_120H/Screenshot 2024-09-30 212907.webp",
+      "originalSize": 729042,
+      "derivativeSize": 322246,
+      "width": 1920,
+      "height": 1930,
+      "format": "webp"
+    },
+    {
+      "originalPath": "02.Project/03_120H/Screenshot 2024-09-30 212932.jpg",
+      "derivativePath": "02.Project/_derivatives/03_120H/Screenshot 2024-09-30 212932.webp",
+      "originalSize": 360604,
+      "derivativeSize": 109262,
+      "width": 1922,
+      "height": 1930,
+      "format": "webp"
+    },
+    {
+      "originalPath": "02.Project/03_120H/Screenshot 2024-09-30 212958.jpg",
+      "derivativePath": "02.Project/_derivatives/03_120H/Screenshot 2024-09-30 212958.webp",
+      "originalSize": 548243,
+      "derivativeSize": 184770,
+      "width": 1930,
+      "height": 1947,
+      "format": "webp"
+    },
+    {
+      "originalPath": "02.Project/04_Thanh Da Market/11.jpg",
+      "derivativePath": "02.Project/_derivatives/04_Thanh Da Market/11.webp",
+      "originalSize": 971515,
+      "derivativeSize": 83750,
+      "width": 2000,
+      "height": 2000,
+      "format": "webp"
+    },
+    {
+      "originalPath": "02.Project/04_Thanh Da Market/12.jpg",
+      "derivativePath": "02.Project/_derivatives/04_Thanh Da Market/12.webp",
+      "originalSize": 868517,
+      "derivativeSize": 62670,
+      "width": 2000,
+      "height": 2000,
+      "format": "webp"
+    },
+    {
+      "originalPath": "02.Project/04_Thanh Da Market/13.jpg",
+      "derivativePath": "02.Project/_derivatives/04_Thanh Da Market/13.webp",
+      "originalSize": 1037809,
+      "derivativeSize": 133354,
+      "width": 2000,
+      "height": 2000,
+      "format": "webp"
+    },
+    {
+      "originalPath": "02.Project/04_Thanh Da Market/14.jpg",
+      "derivativePath": "02.Project/_derivatives/04_Thanh Da Market/14.webp",
+      "originalSize": 1090426,
+      "derivativeSize": 126098,
+      "width": 2000,
+      "height": 2000,
+      "format": "webp"
+    },
+    {
+      "originalPath": "02.Project/04_Thanh Da Market/15.jpg",
+      "derivativePath": "02.Project/_derivatives/04_Thanh Da Market/15.webp",
+      "originalSize": 1137002,
+      "derivativeSize": 140248,
+      "width": 2000,
+      "height": 2000,
+      "format": "webp"
+    },
+    {
+      "originalPath": "02.Project/04_Thanh Da Market/16.jpg",
+      "derivativePath": "02.Project/_derivatives/04_Thanh Da Market/16.webp",
+      "originalSize": 1976245,
+      "derivativeSize": 346580,
+      "width": 2000,
+      "height": 2000,
+      "format": "webp"
+    },
+    {
+      "originalPath": "02.Project/05_Thuy Dai/386047287_3683376851949091_162864876726435184_n.jpg",
+      "derivativePath": "02.Project/_derivatives/05_Thuy Dai/386047287_3683376851949091_162864876726435184_n.webp",
+      "originalSize": 479389,
+      "derivativeSize": 484948,
+      "width": 2017,
+      "height": 1568,
+      "format": "webp"
+    },
+    {
+      "originalPath": "02.Project/05_Thuy Dai/386154707_3683376901949086_4561552392266495583_n.jpg",
+      "derivativePath": "02.Project/_derivatives/05_Thuy Dai/386154707_3683376901949086_4561552392266495583_n.webp",
+      "originalSize": 385765,
+      "derivativeSize": 334790,
+      "width": 2048,
+      "height": 1544,
+      "format": "webp"
+    },
+    {
+      "originalPath": "02.Project/05_Thuy Dai/386155132_3683376858615757_4751522486607492302_n.jpg",
+      "derivativePath": "02.Project/_derivatives/05_Thuy Dai/386155132_3683376858615757_4751522486607492302_n.webp",
+      "originalSize": 314920,
+      "derivativeSize": 277880,
+      "width": 2048,
+      "height": 1462,
+      "format": "webp"
+    },
+    {
+      "originalPath": "02.Project/06_Scomeco/baro-du-duk_01-1793087556464_convert_com_vn.webp",
+      "derivativePath": "02.Project/_derivatives/06_Scomeco/baro-du-duk_01-1793087556464_convert_com_vn.webp",
+      "originalSize": 486420,
+      "derivativeSize": 327840,
+      "width": 1525,
+      "height": 1525,
+      "format": "webp"
+    },
+    {
+      "originalPath": "02.Project/06_Scomeco/baro-du-duk_02-1793087557317_convert_com_vn.webp",
+      "derivativePath": "02.Project/_derivatives/06_Scomeco/baro-du-duk_02-1793087557317_convert_com_vn.webp",
+      "originalSize": 642742,
+      "derivativeSize": 472710,
+      "width": 1526,
+      "height": 1525,
+      "format": "webp"
+    },
+    {
+      "originalPath": "02.Project/06_Scomeco/baro-du-duk_03-1793087558447_convert_com_vn.webp",
+      "derivativePath": "02.Project/_derivatives/06_Scomeco/baro-du-duk_03-1793087558447_convert_com_vn.webp",
+      "originalSize": 386908,
+      "derivativeSize": 286920,
+      "width": 1525,
+      "height": 1525,
+      "format": "webp"
+    },
+    {
+      "originalPath": "02.Project/06_Scomeco/baro-du-duk_04-1793087554583_convert_com_vn.webp",
+      "derivativePath": "02.Project/_derivatives/06_Scomeco/baro-du-duk_04-1793087554583_convert_com_vn.webp",
+      "originalSize": 361076,
+      "derivativeSize": 270526,
+      "width": 1526,
+      "height": 1525,
+      "format": "webp"
+    },
+    {
+      "originalPath": "02.Project/06_Scomeco/baro-du-duk_05-1793087555740_convert_com_vn.webp",
+      "derivativePath": "02.Project/_derivatives/06_Scomeco/baro-du-duk_05-1793087555740_convert_com_vn.webp",
+      "originalSize": 384148,
+      "derivativeSize": 279972,
+      "width": 1525,
+      "height": 1525,
+      "format": "webp"
+    },
+    {
+      "originalPath": "02.Project/07_Park/2-1793088026015_convert_com_vn.webp",
+      "derivativePath": "02.Project/_derivatives/07_Park/2-1793088026015_convert_com_vn.webp",
+      "originalSize": 7244110,
+      "derivativeSize": 482698,
+      "width": 9449,
+      "height": 9449,
+      "format": "webp"
+    },
+    {
+      "originalPath": "02.Project/07_Park/NGUYA1BB84NC3C220BA1BAA2O_M8394C3C220(1)-1793088070119_convert_com_vn.webp",
+      "derivativePath": "02.Project/_derivatives/07_Park/NGUYA1BB84NC3C220BA1BAA2O_M8394C3C220(1)-1793088070119_convert_com_vn.webp",
+      "originalSize": 2419050,
+      "derivativeSize": 175298,
+      "width": 6000,
+      "height": 4000,
+      "format": "webp"
+    },
+    {
+      "originalPath": "02.Project/07_Park/NGUYA1BB84NC3C220BA1BAA2O_M8394C3C220(11)-1793088191872_convert_com_vn.webp",
+      "derivativePath": "02.Project/_derivatives/07_Park/NGUYA1BB84NC3C220BA1BAA2O_M8394C3C220(11)-1793088191872_convert_com_vn.webp",
+      "originalSize": 2775150,
+      "derivativeSize": 130410,
+      "width": 6000,
+      "height": 4000,
+      "format": "webp"
+    },
+    {
+      "originalPath": "02.Project/07_Park/NGUYA1BB84NC3C220BA1BAA2O_M8394C3C220(12)-1793088197750_convert_com_vn.webp",
+      "derivativePath": "02.Project/_derivatives/07_Park/NGUYA1BB84NC3C220BA1BAA2O_M8394C3C220(12)-1793088197750_convert_com_vn.webp",
+      "originalSize": 3079650,
+      "derivativeSize": 150714,
+      "width": 6000,
+      "height": 4000,
+      "format": "webp"
+    },
+    {
+      "originalPath": "02.Project/07_Park/NGUYA1BB84NC3C220BA1BAA2O_M8394C3C220(13)-1793088204232_convert_com_vn.webp",
+      "derivativePath": "02.Project/_derivatives/07_Park/NGUYA1BB84NC3C220BA1BAA2O_M8394C3C220(13)-1793088204232_convert_com_vn.webp",
+      "originalSize": 2919954,
+      "derivativeSize": 140860,
+      "width": 6000,
+      "height": 4000,
+      "format": "webp"
+    },
+    {
+      "originalPath": "02.Project/07_Park/NGUYA1BB84NC3C220BA1BAA2O_M8394C3C220(14)-1793088211111_convert_com_vn.webp",
+      "derivativePath": "02.Project/_derivatives/07_Park/NGUYA1BB84NC3C220BA1BAA2O_M8394C3C220(14)-1793088211111_convert_com_vn.webp",
+      "originalSize": 836312,
+      "derivativeSize": 83096,
+      "width": 6000,
+      "height": 4000,
+      "format": "webp"
+    },
+    {
+      "originalPath": "02.Project/07_Park/NGUYA1BB84NC3C220BA1BAA2O_M8394C3C220(2)-1793088075569_convert_com_vn.webp",
+      "derivativePath": "02.Project/_derivatives/07_Park/NGUYA1BB84NC3C220BA1BAA2O_M8394C3C220(2)-1793088075569_convert_com_vn.webp",
+      "originalSize": 2719426,
+      "derivativeSize": 195412,
+      "width": 6000,
+      "height": 4000,
+      "format": "webp"
+    },
+    {
+      "originalPath": "02.Project/07_Park/NGUYA1BB84NC3C220BA1BAA2O_M8394C3C220(3)-1793088081903_convert_com_vn.webp",
+      "derivativePath": "02.Project/_derivatives/07_Park/NGUYA1BB84NC3C220BA1BAA2O_M8394C3C220(3)-1793088081903_convert_com_vn.webp",
+      "originalSize": 3004766,
+      "derivativeSize": 165664,
+      "width": 6000,
+      "height": 4000,
+      "format": "webp"
+    },
+    {
+      "originalPath": "02.Project/07_Park/NGUYA1BB84NC3C220BA1BAA2O_M8394C3C220(4)-1793088088853_convert_com_vn.webp",
+      "derivativePath": "02.Project/_derivatives/07_Park/NGUYA1BB84NC3C220BA1BAA2O_M8394C3C220(4)-1793088088853_convert_com_vn.webp",
+      "originalSize": 2663910,
+      "derivativeSize": 162584,
+      "width": 6000,
+      "height": 4000,
+      "format": "webp"
+    },
+    {
+      "originalPath": "02.Project/07_Park/NGUYA1BB84NC3C220BA1BAA2O_M8394C3C220(5)-1793088216174_convert_com_vn.webp",
+      "derivativePath": "02.Project/_derivatives/07_Park/NGUYA1BB84NC3C220BA1BAA2O_M8394C3C220(5)-1793088216174_convert_com_vn.webp",
+      "originalSize": 2722288,
+      "derivativeSize": 83858,
+      "width": 6000,
+      "height": 4000,
+      "format": "webp"
+    },
+    {
+      "originalPath": "02.Project/07_Park/NGUYA1BB84NC3C220BA1BAA2O_M8394C3C220(9)-1793088185635_convert_com_vn.webp",
+      "derivativePath": "02.Project/_derivatives/07_Park/NGUYA1BB84NC3C220BA1BAA2O_M8394C3C220(9)-1793088185635_convert_com_vn.webp",
+      "originalSize": 2707190,
+      "derivativeSize": 102326,
+      "width": 6000,
+      "height": 4000,
+      "format": "webp"
+    },
+    {
+      "originalPath": "02.Project/07_Park/ssss.jpg",
+      "derivativePath": "02.Project/_derivatives/07_Park/ssss.webp",
+      "originalSize": 667618,
+      "derivativeSize": 588458,
+      "width": 2080,
+      "height": 2080,
+      "format": "webp"
+    },
+    {
+      "originalPath": "02.Project/08_Rocras/aaaaaaa-1793553668936_convert_com_vn.webp",
+      "derivativePath": "02.Project/_derivatives/08_Rocras/aaaaaaa-1793553668936_convert_com_vn.webp",
+      "originalSize": 4411462,
+      "derivativeSize": 313984,
+      "width": 6000,
+      "height": 3000,
+      "format": "webp"
+    },
+    {
+      "originalPath": "02.Project/08_Rocras/b2d7ff64eb506b0e3241.jpg",
+      "derivativePath": "02.Project/_derivatives/08_Rocras/b2d7ff64eb506b0e3241.webp",
+      "originalSize": 32701,
+      "derivativeSize": 7480,
+      "width": 1270,
+      "height": 1280,
+      "format": "webp"
+    },
+    {
+      "originalPath": "02.Project/08_Rocras/M-1793548321511_convert_com_vn.webp",
+      "derivativePath": "02.Project/_derivatives/08_Rocras/M-1793548321511_convert_com_vn.webp",
+      "originalSize": 2403450,
+      "derivativeSize": 749678,
+      "width": 3000,
+      "height": 3000,
+      "format": "webp"
+    },
+    {
+      "originalPath": "02.Project/08_Rocras/M2-1793548324394_convert_com_vn.webp",
+      "derivativePath": "02.Project/_derivatives/08_Rocras/M2-1793548324394_convert_com_vn.webp",
+      "originalSize": 144692,
+      "derivativeSize": 65400,
+      "width": 3000,
+      "height": 3000,
+      "format": "webp"
+    },
+    {
+      "originalPath": "02.Project/08_Rocras/ppppaaa-1793548325762_convert_com_vn.webp",
+      "derivativePath": "02.Project/_derivatives/08_Rocras/ppppaaa-1793548325762_convert_com_vn.webp",
+      "originalSize": 3661176,
+      "derivativeSize": 976960,
+      "width": 3000,
+      "height": 3000,
+      "format": "webp"
+    },
+    {
+      "originalPath": "02.Project/08_Rocras/ppppaaa2-1793548329352_convert_com_vn.webp",
+      "derivativePath": "02.Project/_derivatives/08_Rocras/ppppaaa2-1793548329352_convert_com_vn.webp",
+      "originalSize": 214226,
+      "derivativeSize": 83544,
+      "width": 3000,
+      "height": 3000,
+      "format": "webp"
+    },
+    {
+      "originalPath": "02.Project/08_Rocras/ppppaaa3-1793548330959_convert_com_vn.webp",
+      "derivativePath": "02.Project/_derivatives/08_Rocras/ppppaaa3-1793548330959_convert_com_vn.webp",
+      "originalSize": 497426,
+      "derivativeSize": 196660,
+      "width": 3000,
+      "height": 3000,
+      "format": "webp"
+    },
+    {
+      "originalPath": "02.Project/08_Rocras/private2-1793548389278_convert_com_vn.webp",
+      "derivativePath": "02.Project/_derivatives/08_Rocras/private2-1793548389278_convert_com_vn.webp",
+      "originalSize": 212618,
+      "derivativeSize": 97086,
+      "width": 3000,
+      "height": 3000,
+      "format": "webp"
+    },
+    {
+      "originalPath": "02.Project/08_Rocras/private3-1793548379641_convert_com_vn.webp",
+      "derivativePath": "02.Project/_derivatives/08_Rocras/private3-1793548379641_convert_com_vn.webp",
+      "originalSize": 170794,
+      "derivativeSize": 75240,
+      "width": 3000,
+      "height": 3000,
+      "format": "webp"
+    },
+    {
+      "originalPath": "02.Project/08_Rocras/process-1793548381762_convert_com_vn.webp",
+      "derivativePath": "02.Project/_derivatives/08_Rocras/process-1793548381762_convert_com_vn.webp",
+      "originalSize": 168050,
+      "derivativeSize": 71430,
+      "width": 3000,
+      "height": 3000,
+      "format": "webp"
+    },
+    {
+      "originalPath": "02.Project/08_Rocras/pt1-1793548383343_convert_com_vn.webp",
+      "derivativePath": "02.Project/_derivatives/08_Rocras/pt1-1793548383343_convert_com_vn.webp",
+      "originalSize": 1692120,
+      "derivativeSize": 641686,
+      "width": 3000,
+      "height": 3000,
+      "format": "webp"
+    },
+    {
+      "originalPath": "02.Project/08_Rocras/Screenshot20165815-1793553675186_convert_com_vn.webp",
+      "derivativePath": "02.Project/_derivatives/08_Rocras/Screenshot20165815-1793553675186_convert_com_vn.webp",
+      "originalSize": 1475810,
+      "derivativeSize": 484722,
+      "width": 2810,
+      "height": 1410,
+      "format": "webp"
+    },
+    {
+      "originalPath": "02.Project/08_Rocras/sssssssssssssss-1793548317908_convert_com_vn.webp",
+      "derivativePath": "02.Project/_derivatives/08_Rocras/sssssssssssssss-1793548317908_convert_com_vn.webp",
+      "originalSize": 2270658,
+      "derivativeSize": 601654,
+      "width": 3000,
+      "height": 3000,
+      "format": "webp"
+    },
+    {
+      "originalPath": "02.Project/08_Rocras/sssssssssssssss-1793548385903_convert_com_vn.webp",
+      "derivativePath": "02.Project/_derivatives/08_Rocras/sssssssssssssss-1793548385903_convert_com_vn.webp",
+      "originalSize": 2270658,
+      "derivativeSize": 601654,
+      "width": 3000,
+      "height": 3000,
+      "format": "webp"
+    },
+    {
+      "originalPath": "02.Project/09_Ben Van Don/0-1793553684143_convert_com_vn.webp",
+      "derivativePath": "02.Project/_derivatives/09_Ben Van Don/0-1793553684143_convert_com_vn.webp",
+      "originalSize": 527856,
+      "derivativeSize": 141810,
+      "width": 3000,
+      "height": 2000,
+      "format": "webp"
+    },
+    {
+      "originalPath": "02.Project/09_Ben Van Don/0_1-1793553685672_convert_com_vn.webp",
+      "derivativePath": "02.Project/_derivatives/09_Ben Van Don/0_1-1793553685672_convert_com_vn.webp",
+      "originalSize": 3638478,
+      "derivativeSize": 274950,
+      "width": 7000,
+      "height": 5800,
+      "format": "webp"
+    },
+    {
+      "originalPath": "02.Project/09_Ben Van Don/0_2-1793553677048_convert_com_vn.webp",
+      "derivativePath": "02.Project/_derivatives/09_Ben Van Don/0_2-1793553677048_convert_com_vn.webp",
+      "originalSize": 2731822,
+      "derivativeSize": 219080,
+      "width": 7000,
+      "height": 5800,
+      "format": "webp"
+    },
+    {
+      "originalPath": "02.Project/09_Ben Van Don/2-1793553907979_convert_com_vn.webp",
+      "derivativePath": "02.Project/_derivatives/09_Ben Van Don/2-1793553907979_convert_com_vn.webp",
+      "originalSize": 3525200,
+      "derivativeSize": 271614,
+      "width": 7000,
+      "height": 5800,
+      "format": "webp"
+    },
+    {
+      "originalPath": "02.Project/09_Ben Van Don/3-1793553924243_convert_com_vn.webp",
+      "derivativePath": "02.Project/_derivatives/09_Ben Van Don/3-1793553924243_convert_com_vn.webp",
+      "originalSize": 2801780,
+      "derivativeSize": 226928,
+      "width": 7000,
+      "height": 5800,
+      "format": "webp"
+    },
+    {
+      "originalPath": "02.Project/09_Ben Van Don/5-1793553931197_convert_com_vn.webp",
+      "derivativePath": "02.Project/_derivatives/09_Ben Van Don/5-1793553931197_convert_com_vn.webp",
+      "originalSize": 444930,
+      "derivativeSize": 151844,
+      "width": 2700,
+      "height": 1600,
+      "format": "webp"
+    },
+    {
+      "originalPath": "02.Project/09_Ben Van Don/6_1-1793553932261_convert_com_vn.webp",
+      "derivativePath": "02.Project/_derivatives/09_Ben Van Don/6_1-1793553932261_convert_com_vn.webp",
+      "originalSize": 340030,
+      "derivativeSize": 114654,
+      "width": 2700,
+      "height": 1600,
+      "format": "webp"
+    },
+    {
+      "originalPath": "02.Project/09_Ben Van Don/6_2-1793553933694_convert_com_vn.webp",
+      "derivativePath": "02.Project/_derivatives/09_Ben Van Don/6_2-1793553933694_convert_com_vn.webp",
+      "originalSize": 317114,
+      "derivativeSize": 114024,
+      "width": 2700,
+      "height": 1600,
+      "format": "webp"
+    },
+    {
+      "originalPath": "02.Project/09_Ben Van Don/9-1793553676240_convert_com_vn.webp",
+      "derivativePath": "02.Project/_derivatives/09_Ben Van Don/9-1793553676240_convert_com_vn.webp",
+      "originalSize": 278180,
+      "derivativeSize": 139170,
+      "width": 2000,
+      "height": 2000,
+      "format": "webp"
+    }
+  ]
+}

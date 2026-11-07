@@ -20,5 +20,8 @@
   "homepage": "https://github.com/baropholio/baropholio#readme",
   "dependencies": {
     "@supabase/supabase-js": "^2.118.0"
+  },
+  "devDependencies": {
+    "sharp": "^0.35.5"
   }
 }

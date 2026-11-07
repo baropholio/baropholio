@@ -22,16 +22,16 @@ Hệ thống Baropholio có các dự án kiến trúc & quy hoạch đô thị 
   File `02.Project/projects_data.json` từng chứa 22 mục vì trước đây được sinh ra từ việc gộp 21 thẻ giải thưởng/thành tích học thuật (text-only archival awards trong `DEFAULT_RECORDS` của `index.html`) + 1 dự án mẫu.
 - **Thực tế:** Các thẻ giải thưởng/thành tích đó không phải là 22 dự án kiến trúc đầy đủ media.
 - **Danh sách 10 Dự Án Chuẩn (`projects_master.json`)**:
-  1. `me` — Me
-  2. `the-veil-national-art-museum-of-andorra` — The Veil - National Art Museum of Andorra
-  3. `rocras-reborn-of-coalmine-restoration-and-sustainability` — ROCRAS - Reborn of Coalmine Restoration and Sustainability
-  4. `saigon-in-sight-van-don-area-urban-design-guidelines` — Saigon in Sight - Van Don Area Urban Design Guidelines
-  5. `sun-of-love-will-to-live-center` — Sun of Love - "Will to Live" Center
-  6. `the-reborn-of-water-reservoirs-thuy-dai` — The Reborn of Water Reservoirs (Thuy Dai)
-  7. `cu-xa-scomeco-smart-community-and-eco-housing` — Cư Xá (S.COMECO) - Smart, Community and Eco Housing
-  8. `central-lake-eco-park` — Central Lake Eco Park
-  9. `windy-hill-neighborhood` — Windy Hill Neighborhood
-  10. `fish-and-orchard` — Fish and Orchard
+  1. `fish-and-orchard` — Fish and Orchard (stt: 01)
+  2. `windy-hill-neighborhood` — Windy Hill Neighborhood (stt: 02)
+  3. `central-lake-eco-park` — Central Lake Eco Park (stt: 03)
+  4. `cu-xa-scomeco-smart-community-and-eco-housing` — Cư Xá (S.COMECO) - Smart, Community and Eco Housing (stt: 04)
+  5. `the-reborn-of-water-reservoirs-thuy-dai` — The Reborn of Water Reservoirs (Thuy Dai) (stt: 05)
+  6. `sun-of-love-will-to-live-center` — Sun of Love - "Will to Live" Center (stt: 06)
+  7. `saigon-in-sight-van-don-area-urban-design-guidelines` — Saigon in Sight - Van Don Area Urban Design Guidelines (stt: 07)
+  8. `rocras-reborn-of-coalmine-restoration-and-sustainability` — ROCRAS - Reborn of Coalmine Restoration and Sustainability (stt: 08)
+  9. `the-veil-national-art-museum-of-andorra` — The Veil - National Art Museum of Andorra (stt: 09)
+  10. `me` — Me (stt: 10)
 
 ---
 

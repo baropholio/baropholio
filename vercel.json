@@ -1,12 +1,29 @@
 {
   "cleanUrls": true,
   "rewrites": [
-    { "source": "/work", "destination": "/work" },
-    { "source": "/admin", "destination": "/admin_project_manager" },
-    { "source": "/home", "destination": "/" },
-    { "source": "/about", "destination": "/" },
-    { "source": "/work/:slug", "destination": "/project?slug=:slug" },
-    { "source": "/project/:slug", "destination": "/project?slug=:slug" }
+    {
+      "source": "/work",
+      "destination": "/work.html"
+    },
+    {
+      "source": "/admin",
+      "destination": "/admin_project_manager"
+    },
+    {
+      "source": "/home",
+      "destination": "/"
+    },
+    {
+      "source": "/about",
+      "destination": "/"
+    },
+    {
+      "source": "/work/:slug",
+      "destination": "/project?slug=:slug"
+    },
+    {
+      "source": "/project/:slug",
+      "destination": "/project?slug=:slug"
+    }
   ]
 }
-

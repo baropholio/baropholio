@@ -715,55 +715,7 @@
       50%, 100% { transform: translateX(100%); }
     }
 
-    /* TASK-07: Sharp Glassmorphic Grid Toggle Button */
-    .gridbtn {
-      position: fixed;
-      left: calc(var(--pad) + env(safe-area-inset-left, 0px));
-      bottom: calc(var(--pad) + env(safe-area-inset-bottom, 0px));
-      z-index: 60;
-      width: 32px;
-      height: 32px;
-      padding: 6px;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 2.5px;
-      opacity: 0;
-      transform: translateY(8px);
-      pointer-events: none;
-      transition: opacity .4s var(--ease), transform .4s var(--ease);
-      border-radius: 0px !important;
-      background: rgba(255, 255, 255, 0.35) !important;
-      backdrop-filter: blur(20px) saturate(180%) !important;
-      -webkit-backdrop-filter: blur(20px) saturate(180%) !important;
-      border: 1px solid rgba(255, 255, 255, 0.45) !important;
-      box-shadow: 0 4px 16px rgba(13, 12, 11, 0.08) !important;
-    }
-    body.revealed .gridbtn {
-      opacity: 1;
-      transform: translateY(0);
-      pointer-events: auto;
-    }
-    body.lit .gridbtn, body.about-open .gridbtn {
-      opacity: 0;
-      pointer-events: none;
-    }
-    /* Auto-hide controls when mouse is inactive / touch idle */
-    body.ui-idle:not(.menu-open):not(.about-open):not(.book-open):not(.lit):not(.gridview) .gridbtn,
-    body.ui-idle:not(.menu-open):not(.about-open):not(.book-open):not(.lit):not(.gridview) .bottom-mode-pill,
-    body.ui-idle:not(.menu-open):not(.about-open):not(.book-open):not(.lit):not(.gridview) .menu-btn {
-      opacity: 0 !important;
-      pointer-events: none !important;
-    }
-    .gridbtn b {
-      background: var(--fg);
-      border-radius: 0px !important;
-      transition: transform .3s var(--ease), background .3s var(--ease);
-    }
-    .gridbtn:hover b {
-      background: var(--accent);
-    }
-    body.gridview .gridbtn b:nth-child(1) { transform: translate(2.5px, 2.5px); }
-    body.gridview .gridbtn b:nth-child(4) { transform: translate(-2.5px, -2.5px); }
+    
 
     /* ==========================================================================
        3D STAGE & ORB ARCHIVE
@@ -799,16 +751,7 @@
       will-change: transform;
     }
 
-    #orb {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 0;
-      height: 0;
-      transform-style: preserve-3d;
-      opacity: 1;
-      transform: none;
-    }
+    #orb { display: none !important; }
 
     #headline {
       display: none;
@@ -958,56 +901,7 @@
       transition: background .2s ease;
     }
 
-    /* Reel Mode Card Caption (Inspired by Editorial Strip) */
-    .card-reel-caption {
-      position: absolute;
-      left: 0;
-      right: 0;
-      bottom: -32px;
-      display: flex;
-      align-items: baseline;
-      gap: 6px;
-      font-family: var(--sans);
-      font-size: 11px;
-      letter-spacing: .06em;
-      text-transform: uppercase;
-      color: var(--fg);
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      opacity: 0;
-      transform: translateY(-4px);
-      transition: opacity .4s ease, transform .4s ease;
-      pointer-events: none;
-    }
-    .card-reel-caption .reel-idx {
-      font-weight: 600;
-      color: var(--accent);
-    }
-    .card-reel-caption .reel-title {
-      font-weight: 500;
-      color: var(--fg);
-    }
-    .card-reel-caption .reel-cat {
-      font-size: 9.5px;
-      color: var(--fg-faint);
-    }
-
-    body.reel-mode .card-reel-caption {
-      opacity: 1;
-      transform: translateY(0);
-    }
-    body.reel-mode .sphere-canvas {
-      opacity: 0;
-      pointer-events: none;
-    }
-    body.reel-mode .card figure {
-      box-shadow: 0 16px 44px rgba(13, 12, 11, 0.12);
-      border-color: rgba(13, 12, 11, 0.22);
-    }
-    body.reel-mode .card-bg-img {
-      opacity: 1;
-    }
+    
 
     /* ==========================================================================
        BARO NGUYEN 3D WEBGL SPHERE & INTERACTIVE OVERLAYS
@@ -1401,13 +1295,12 @@
       background: rgba(13, 12, 11, 0.08) !important;
       border-color: rgba(13, 12, 11, 0.16) !important;
     }
-    /* TASK: Orange Harvest Single Mode Switcher (Góc phải, kích thước nhỏ tinh tế) */
+    /* TASK: Orange Button (Chuyển sang Work) */
     .bottom-mode-pill.orange-toggle-btn {
       position: fixed;
       left: auto;
       right: calc(var(--pad) + env(safe-area-inset-right, 0px));
       bottom: calc(var(--pad) + env(safe-area-inset-bottom, 0px));
-      transform: none;
       z-index: 65;
       display: flex;
       align-items: center;
@@ -1423,6 +1316,7 @@
       transition: opacity 1s var(--ease) .3s;
       outline: none;
       -webkit-tap-highlight-color: transparent;
+      text-decoration: none;
     }
     body.revealed .bottom-mode-pill.orange-toggle-btn {
       opacity: 1;
@@ -1446,10 +1340,8 @@
     .orange-toggle-btn:hover .orange-icon-wrap {
       transform: scale(1.14);
     }
-    /* Khi nhấp chuột: quả cam to lên một tí */
-    .orange-toggle-btn:active .orange-icon-wrap,
-    .orange-icon-wrap.popping {
-      transform: scale(1.30) !important;
+    .orange-toggle-btn:active .orange-icon-wrap {
+      transform: scale(0.92);
     }
     .orange-toggle-img {
       position: absolute;
@@ -1460,32 +1352,8 @@
       max-width: 36px;
       object-fit: contain;
       pointer-events: none;
-      transition: opacity 0.45s cubic-bezier(0.22, 1, 0.36, 1), transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1), filter 0.45s ease;
+      transform: translate(-50%, -50%);
       filter: drop-shadow(0 2px 6px rgba(196, 98, 16, 0.3));
-    }
-    /* Trạng thái 3D Sphere: Chỉ hiện quả cam tròn */
-    .orange-toggle-btn.mode-sphere .img-sphere {
-      opacity: 1;
-      transform: translate(-50%, -50%) scale(1) rotate(0deg);
-      visibility: visible;
-    }
-    .orange-toggle-btn.mode-sphere .img-reel {
-      opacity: 0;
-      transform: translate(-50%, -50%) scale(0.6) rotate(-20deg);
-      visibility: hidden;
-      pointer-events: none;
-    }
-    /* Trạng thái Horizontal Reel: Chỉ hiện quả cam cắt lát */
-    .orange-toggle-btn.mode-reel .img-sphere {
-      opacity: 0;
-      transform: translate(-50%, -50%) scale(0.6) rotate(20deg);
-      visibility: hidden;
-      pointer-events: none;
-    }
-    .orange-toggle-btn.mode-reel .img-reel {
-      opacity: 1;
-      transform: translate(-50%, -50%) scale(1) rotate(0deg);
-      visibility: visible;
     }
     .mode-tab-sep {
       color: var(--rule);
@@ -1543,7 +1411,7 @@
       gap: clamp(10px, 1.5vw, 18px);
     }
 
-    /* â”€â”€ Square image-cover card â”€â”€ */
+    /* ── Square image-cover card ── */
     .grid-card {
       position: relative;
       aspect-ratio: 1 / 1;
@@ -1551,44 +1419,18 @@
       overflow: hidden;
       cursor: pointer;
       background: #1a1715;
-      /* Random floating & pulsing animation via CSS variables */
-      animation: cardFloat var(--float-dur, 4.2s) ease-in-out infinite var(--float-delay, 0s);
+      transform: translateY(0);
       transition:
-        transform .45s cubic-bezier(.22,.61,.36,1),
-        box-shadow .45s cubic-bezier(.22,.61,.36,1);
+        transform .32s cubic-bezier(.22,.61,.36,1),
+        box-shadow .32s cubic-bezier(.22,.61,.36,1);
       will-change: transform;
     }
 
-    @keyframes cardFloat {
-      0%, 100% {
-        transform: translateY(0px) scale(1);
-      }
-      33% {
-        transform: translateY(calc(var(--float-y, -7px) * 0.5)) scale(var(--float-scale-1, 1.025));
-      }
-      66% {
-        transform: translateY(var(--float-y, -8px)) scale(var(--float-scale-2, 0.985));
-      }
-    }
-
-    /* hover: pause float and scale up slightly, show project info */
+    /* hover: gentle lift, show project info */
     .grid-card:hover {
-      animation-play-state: paused;
-      transform: translateY(-4px) scale(1.06) !important;
-      box-shadow: 0 20px 42px rgba(13,12,11,.22);
+      transform: translateY(-4px) scale(1.02);
+      box-shadow: 0 16px 36px rgba(13,12,11,.16);
       z-index: 5;
-    }
-
-    /* scroll-shrink state: co láº¡i báº±ng 1/5 (scale 0.2) khi lÄƒn chuá»™t, quÃ¡ trÃ¬nh co dÃ£n cá»±c ká»³ mÆ°á»£t mÃ  */
-    .grid-card.scrolling {
-      animation-play-state: paused;
-      transform: scale(0.2) !important;
-      box-shadow: none !important;
-      opacity: 0.9;
-      transition: transform .55s cubic-bezier(.16, 1, .3, 1), opacity .55s ease !important;
-    }
-    .grid-card.scrolling:hover {
-      transform: scale(0.2) !important;
     }
 
     /* Cover image fills the square completely */
@@ -3391,18 +3233,14 @@
     </div>
   </header>
 
-  <!-- Grid Toggle Button -->
-  <button id="gridBtn" class="gridbtn" aria-label="Toggle flat grid view">
-    <b></b><b></b><b></b><b></b>
-  </button>
+  
 
-  <!-- Orange Harvest Single Mode Switcher (Không nền, chỉ hiện 1 quả cam, khi nhấp to lên và chuyển mượt) -->
-  <button class="bottom-mode-pill orange-toggle-btn mode-sphere" id="bottomModePill" type="button" aria-label="Switch between 3D Sphere and Horizontal Reel" title="Switch View Mode">
+  <!-- Orange Work Button: Click to navigate directly to Work -->
+  <a href="work.html" class="bottom-mode-pill orange-toggle-btn" id="orangeWorkBtn" aria-label="Go to Works" title="Go to Works">
     <div class="orange-icon-wrap" id="orangeIconWrap">
-      <img src="05.Elements/3d%20sphere.webp" alt="3D Sphere" class="orange-toggle-img img-sphere" id="btnSphereTab">
-      <img src="05.Elements/horizontal%20reel.webp" alt="Horizontal Reel" class="orange-toggle-img img-reel" id="btnReelTab">
+      <img src="05.Elements/3d%20sphere.webp" alt="Work" class="orange-toggle-img">
     </div>
-  </button>
+  </a>
 
   <!-- Scrolltrack container for zoom dolly -->
   <div id="scrolltrack"></div>
@@ -4562,7 +4400,7 @@
       function recordsHash(recs) {
         try {
           return recs.map(function(r) {
-            return r.title + '|' + r.image + '|' + r.video + '|' + r.category;
+            return (r.slug || r.id || r.title) + '|' + (r.stt || '') + '|' + (r.category || r.cat || '');
           }).join(';');
         } catch(e) { return ''; }
       }
@@ -4927,55 +4765,7 @@
           var z = Math.sin(theta) * rad;
           unitVectors.push({ x: x, y: y, z: z });
 
-          var card = document.createElement("div");
-          card.className = "card" + (i === 20 ? " tall" : "");
-          card.setAttribute("data-idx", i);
-
-          var rec = RECORDS[i];
-          var catName = rec.category || rec.cat || "ARCHIVE";
-          var dateYear = rec.year || rec.date || "2026";
-          var orgName = rec.organization || rec.org || "";
-          var shortOrg = orgName ? orgName.split("(")[0].trim().slice(0, 24) : "ARCHIVE";
-
-          var mediaCover = rec.video || rec.image || "";
-          var isCoverVideo = /\.(mp4|webm|ogg|mov)(\?.*)?$/i.test(mediaCover) || mediaCover.startsWith('data:video');
-          var isCoverGif   = /\.gif(\?.*)?$/i.test(mediaCover) || mediaCover.startsWith('data:image/gif');
-
-          var imgHtml = "";
-          if (isCoverVideo) {
-            imgHtml = '<video src="' + mediaCover + '" autoplay loop muted playsinline disablepictureinpicture preload="metadata" class="card-bg-img" style="object-fit:cover;pointer-events:none;width:100%;height:100%;"></video>';
-          } else if (mediaCover) {
-            // includes GIF — <img> renders animated GIF natively
-            imgHtml = '<img src="' + mediaCover + '" alt="' + rec.title + '" class="card-bg-img" onerror="this.style.display=\'none\';">';
-          } else {
-            imgHtml = '<div class="grid-card-placeholder" style="position:absolute;inset:0;"><span class="ph-cat" style="opacity:1;">' + catName + '</span></div>';
-          }
-
-          var reelCaption = 
-            '<div class="card-reel-caption">' +
-              '<span class="reel-idx">[' + (i < 9 ? "0" + (i+1) : (i+1)) + ']</span>' +
-              '<span class="reel-title">' + rec.title + '</span>' +
-              '<span class="reel-cat">&bull; ' + catName + '</span>' +
-            '</div>';
-
-          card.innerHTML = 
-            '<figure>' +
-              imgHtml +
-              '<div class="card-canvas sphere-canvas">' +
-                '<div class="card-sphere-info">' +
-                  '<span class="cat-tag">' + catName + '</span>' +
-                  '<div class="mid-title">' + rec.title + '</div>' +
-                  '<div class="bot-row">' +
-                    '<span>' + shortOrg + '</span>' +
-                    '<span>NO. ' + (i < 9 ? "0" + (i+1) : (i+1)) + '</span>' +
-                  '</div>' +
-                '</div>' +
-              '</div>' +
-              reelCaption +
-            '</figure>';
-
-          orb.appendChild(card);
-          cards.push(card);
+          // DOM orb cards removed — sphere is WebGL
 
           // Populate flat grid card
           var gCard = document.createElement("div");
@@ -5510,303 +5300,17 @@
       })();
 
       /* ======================================================================
-         3. DUAL-VIEW ENGINE: 3D SPHERE <-> HORIZONTAL REEL MORPH
+         3. VIEW ENGINE (3D WebGL SPHERE & DIRECT NAVIGATION)
          ====================================================================== */
-      var viewMode = "sphere"; // "sphere" or "reel"
-      var morph = 0.0;
-      var targetMorph = 0.0;
-      var reelOffset = 0.0;
-      var reelVel = 0.0;
-      var autoSpeed = 1.15; // Smooth automatic glide from right to left
-      var isHoveringCard = false;
+      var viewMode = "sphere";
+      window.switchMode = function() {};
+      function renderFrame() {}
 
-      var spin = 0;
-      var tilt = -4;
-      var dragX = 0;
-      var dragY = 0;
-      var velX = 0;
-      var velY = 0;
-      var camZ = 0;
-      var camZTarget = 0;
-      var focusedIdx = -1;
-      var isDragging = false;
-      var downX = 0;
-      var downY = 0;
-      var lastX = 0;
-      var lastY = 0;
-
-      function renderFrame() {
-        // TASK-05: Morph interpolation with smoothstep & dampened transition
-        morph += (targetMorph - morph) * 0.042;
-        if (Math.abs(targetMorph - morph) < 0.0005) morph = targetMorph;
-        var t = morph;
-        var easeT = t * t * (3 - 2 * t); // smoothstep 0..1
-
-        // Smooth cross-fade between 3D WebGL Canvas and Horizontal Reel DOM Orb
-        var gnCanvas = document.getElementById("gnSphereCanvas");
-        var orbEl = document.getElementById("orb");
-        if (gnCanvas && orbEl) {
-          if (t <= 0.002) {
-            gnCanvas.style.opacity = "1";
-            gnCanvas.style.pointerEvents = "auto";
-            orbEl.style.opacity = "0";
-            orbEl.style.pointerEvents = "none";
-          } else if (t >= 0.998) {
-            gnCanvas.style.opacity = "0";
-            gnCanvas.style.pointerEvents = "none";
-            orbEl.style.opacity = "1";
-            orbEl.style.pointerEvents = "auto";
-          } else {
-            gnCanvas.style.opacity = (1 - easeT).toFixed(3);
-            gnCanvas.style.pointerEvents = "none";
-            orbEl.style.opacity = easeT.toFixed(3);
-            orbEl.style.pointerEvents = "none";
-          }
-        }
-
-        if (t > 0.48) {
-          document.body.classList.add("reel-mode");
-        } else {
-          document.body.classList.remove("reel-mode");
-        }
-
-        // Automatic horizontal pan from right to left in Reel Mode
-        if (t > 0.02 && !isDragging && focusedIdx === -1 && !document.body.classList.contains("about-open")) {
-          var currentSpeed = autoSpeed * (isHoveringCard ? 0.15 : 1.0);
-          reelOffset -= currentSpeed;
-          reelOffset += reelVel;
-          reelVel *= 0.93;
-          if (Math.abs(reelVel) < 0.005) reelVel = 0;
-        }
-
-        // Camera inertia physics in Sphere Mode
-        if (!isDragging && focusedIdx === -1 && !document.body.classList.contains("about-open") && t < 0.5) {
-          dragX += velX;
-          dragY += velY;
-          velX *= 0.94;
-          velY *= 0.94;
-          if (Math.abs(velX) < 0.002) velX = 0;
-          if (Math.abs(velY) < 0.002) velY = 0;
-
-          if (tilt + dragY > 32) dragY = 32 - tilt;
-          if (tilt + dragY < -32) dragY = -32 - tilt;
-        }
-
-        var maxScroll = window.innerHeight * 0.16;
-        var p = Math.min(1, Math.max(0, window.pageYOffset / (maxScroll || 1)));
-        camZTarget = p * Math.min(64, R * 0.14);
-        camZ += (camZTarget - camZ) * 0.08;
-
-        var sx = tilt + dragY;
-        var sy = spin + dragX;
-
-        // In Reel mode, world unrolls smoothly to face user squarely
-        var curSX = sx * (1 - easeT);
-        var curSY = sy * (1 - easeT);
-        var curCamZ = camZ * (1 - easeT);
-
-        world.style.transform = "translateZ(" + curCamZ.toFixed(1) + "px) rotateY(" + curSY.toFixed(1) + "deg) rotateX(" + curSX.toFixed(1) + "deg)";
-
-        // Headline counter-rotates and fades out during morph to reel
-        if (headline) {
-          headline.style.transform = "rotateX(" + (-curSX.toFixed(1)) + "deg) rotateY(" + (-curSY.toFixed(1)) + "deg) translateZ(" + (R * 0.62) + "px)";
-          headline.style.opacity = Math.max(0, (1 - p * 0.55) * (1 - easeT * 1.5));
-        }
-
-        // Seamless conveyor ribbon wrap math
-        var stride = reelCardW + reelGap;
-        var totalReelWidth = N * stride;
-
-        var radSX = curSX * Math.PI / 180;
-        var radSY = curSY * Math.PI / 180;
-        var cosX = Math.cos(radSX), sinX = Math.sin(radSX);
-        var cosY = Math.cos(radSY), sinY = Math.sin(radSY);
-
-        for (var i = 0; i < N; i++) {
-          var u = unitVectors[i];
-          var lat = Math.asin(u.y) * 180 / Math.PI;
-          var lon = Math.atan2(u.x, u.z) * 180 / Math.PI;
-
-          // 3D Sphere Position
-          var sphX = u.x * R;
-          var sphY = -u.y * R;
-          var sphZ = u.z * R;
-
-          // Horizontal Reel Position (smoothly wrapped around center)
-          var rawX = i * stride + reelOffset;
-          var wrappedX = ((rawX % totalReelWidth) + totalReelWidth) % totalReelWidth;
-          var reelX = wrappedX - (totalReelWidth / 2);
-          var reelY = 0;
-          var reelZ = 40;
-
-          // Dynamic Morph Interpolation
-          var curX = sphX * (1 - easeT) + reelX * easeT;
-          var curY = sphY * (1 - easeT) + reelY * easeT;
-          var curZ = sphZ * (1 - easeT) + reelZ * easeT;
-          var curRotY = lon * (1 - easeT);
-          var curRotX = lat * (1 - easeT);
-
-          // Card Dimension Interpolation
-          var curW = cw * (1 - easeT) + reelCardW * easeT;
-          var curH = (cw / 1.45) * (1 - easeT) + reelCardH * easeT;
-
-          var el = cards[i];
-          el.style.width = curW.toFixed(1) + "px";
-          el.style.height = curH.toFixed(1) + "px";
-          el.style.marginLeft = (-curW / 2).toFixed(1) + "px";
-          el.style.marginTop = (-curH / 2).toFixed(1) + "px";
-          el.style.transform = "translate3d(" + curX.toFixed(1) + "px, " + curY.toFixed(1) + "px, " + curZ.toFixed(1) + "px) rotateY(" + curRotY.toFixed(1) + "deg) rotateX(" + curRotX.toFixed(1) + "deg)";
-
-          // Depth Wash (fades out in reel mode so all projects are vivid)
-          var x1 = u.x * cosY + u.z * sinY;
-          var z1 = -u.x * sinY + u.z * cosY;
-          var y2 = -u.y * cosX - z1 * sinX;
-          var z2 = -u.y * sinX + z1 * cosX;
-
-          var zf = z2;
-          var base = 0.14 + 0.86 * Math.pow(Math.max(0, (zf + 1) / 2), 0.85);
-          var shade = 1 - Math.min(1, p * 1.5);
-          var dim = shade * (1 - base) * (1 - easeT);
-
-          if (focusedIdx !== -1) {
-            dim = Math.min(1, dim + 0.75);
-          }
-          el.style.setProperty("--d", dim.toFixed(2));
-          el.style.opacity = (focusedIdx === i ? 0 : 1);
-        }
-
-        requestAnimationFrame(renderFrame);
-      }
-
-      // Hover card slows down the reel
-      cards.forEach(function(c) {
-        c.addEventListener("mouseenter", function() { isHoveringCard = true; });
-        c.addEventListener("mouseleave", function() { isHoveringCard = false; });
-      });
-
-      /* ======================================================================
-         4. POINTER & TOUCH GESTURES (DUAL MODE AWARE)
-         ====================================================================== */
-      var startTarget = null;
-
-      // Wheel → scroll reel left/right (tốc độ nhẹ nhàng, chậm rãi và mượt mà)
-      stage.addEventListener("wheel", function(e) {
-        if (viewMode !== "reel" || focusedIdx !== -1) return;
-        e.preventDefault();
-        var delta = e.deltaY || e.deltaX;
-        reelOffset -= delta * 0.32;
-        reelVel = -delta * 0.22;
-      }, { passive: false });
-
-      stage.addEventListener("pointerdown", function (e) {
-        if (viewMode === "sphere" || focusedIdx !== -1 || document.body.classList.contains("about-open")) return;
-        isDragging = true;
-        downX = e.clientX;
-        downY = e.clientY;
-        lastX = e.clientX;
-        lastY = e.clientY;
-        velX = 0;
-        velY = 0;
-        reelVel = 0;
-        startTarget = e.target;
-        try { stage.setPointerCapture(e.pointerId); } catch(err){}
-      });
-
-      window.addEventListener("pointermove", function (e) {
-        if (!isDragging) return;
-        var dx = e.clientX - lastX;
-        var dy = e.clientY - lastY;
-        lastX = e.clientX;
-        lastY = e.clientY;
-
-        if (viewMode === "sphere") {
-          dragX += dx * 0.16;
-          dragY -= dy * 0.16;
-          velX = dx * 0.14;
-          velY = -dy * 0.14;
-        } else {
-          // Horizontal reel drag
-          reelOffset += dx * 1.6;
-          reelVel = dx * 1.4;
-        }
-      });
-
-      function stopDrag(e) {
-        if (!isDragging) return;
-        isDragging = false;
-        var dist = Math.hypot(e.clientX - downX, e.clientY - downY);
-        // Click action: Opens 3D Architectural Monograph Book Spread (Reel mode only)
-        if (dist < 10 && viewMode !== "sphere") {
-          var targetCard = (startTarget && startTarget.closest) ? startTarget.closest(".card") : null;
-          if (!targetCard) {
-            targetCard = document.elementFromPoint(e.clientX, e.clientY);
-            if (targetCard) targetCard = targetCard.closest(".card");
-          }
-          if (targetCard) {
-            var idx = parseInt(targetCard.getAttribute("data-idx"), 10);
-            if (!isNaN(idx)) {
-              openBook(idx);
-            }
-          }
-        }
-        startTarget = null;
-      }
-      window.addEventListener("pointerup", stopDrag);
-      window.addEventListener("pointercancel", stopDrag);
-
-      // Mode Switcher function
-      window.switchMode = function(newMode, focusIdx) {
-        viewMode = newMode;
-        var pill = document.getElementById("bottomModePill");
-        var iconWrap = document.getElementById("orangeIconWrap");
-        var cueText = document.getElementById("cueText");
-
-        // Hiệu ứng nhấp chuột: quả cam to lên một tí rồi morph mượt
-        if (iconWrap) {
-          iconWrap.classList.remove("popping");
-          void iconWrap.offsetWidth;
-          iconWrap.classList.add("popping");
-          setTimeout(function() {
-            if (iconWrap) iconWrap.classList.remove("popping");
-          }, 350);
-        }
-
-        if (newMode === "reel") {
-          targetMorph = 1.0;
-          if (pill) {
-            pill.classList.remove("mode-sphere");
-            pill.classList.add("mode-reel");
-            pill.setAttribute("title", "Currently Horizontal Reel — Click to switch to 3D Sphere");
-          }
-          if (cueText) cueText.innerHTML = "Drag to scroll &middot; Click card to view details";
-          if (typeof focusIdx === "number") {
-            var stride = reelCardW + reelGap;
-            reelOffset = -(focusIdx * stride);
-          }
-          var engine = window.baroSphereEngine || window.gnSphereEngine;
-          if (engine) {
-            engine.setMode("reel");
-          }
-        } else {
-          targetMorph = 0.0;
-          if (pill) {
-            pill.classList.remove("mode-reel");
-            pill.classList.add("mode-sphere");
-            pill.setAttribute("title", "Currently 3D Sphere — Click to switch to Horizontal Reel");
-          }
-          if (cueText) cueText.innerHTML = "Click any card or drag to explore sphere";
-          var eng = window.baroSphereEngine || window.gnSphereEngine;
-          if (eng) {
-            eng.setMode("sphere");
-          }
-        }
-      };
-
-      var bottomPill = document.getElementById("bottomModePill");
-      if (bottomPill) {
-        bottomPill.addEventListener("click", function(e) {
+      var orangeWorkBtn = document.getElementById("orangeWorkBtn");
+      if (orangeWorkBtn) {
+        orangeWorkBtn.addEventListener("click", function (e) {
           e.preventDefault();
-          window.switchMode(viewMode === "sphere" ? "reel" : "sphere");
+          window.location.href = "work.html";
         });
       }
 
@@ -6276,7 +5780,7 @@
       /* ======================================================================
          6. FLAT GRID & ABOUT DRAWER CONTROLS
          ====================================================================== */
-      var gridBtn = document.getElementById("gridBtn");
+      
       var navGrid = document.getElementById("navGrid");
       var menuWorks = document.getElementById("menuWorks");
 
@@ -6311,49 +5815,10 @@
         }
       });
 
-      gridBtn.addEventListener("click", function () { window.location.href = "/work"; });
-      navGrid.addEventListener("click", function (e) { e.preventDefault(); window.location.href = "/work"; });
+      
+      navGrid.addEventListener("click", function (e) { e.preventDefault(); window.location.href = "work.html"; });
 
-      // â”€â”€ Scroll-shrink effect on grid cards (shrink to 1/5 = scale 0.2) â”€â”€
-      (function() {
-        var gridEl = document.getElementById("grid");
-        var scrollTimer = null;
-        var isScrolling = false;
-
-        function applyScrolling() {
-          if (!document.body.classList.contains("gridview")) return;
-          var cards = gridEl.querySelectorAll(".grid-card");
-          for (var c = 0; c < cards.length; c++) {
-            cards[c].classList.add("scrolling");
-          }
-        }
-        function clearScrolling() {
-          var cards = gridEl.querySelectorAll(".grid-card");
-          for (var c = 0; c < cards.length; c++) {
-            cards[c].classList.remove("scrolling");
-          }
-          isScrolling = false;
-        }
-
-        gridEl.addEventListener("scroll", function() {
-          if (!isScrolling) {
-            isScrolling = true;
-            applyScrolling();
-          }
-          clearTimeout(scrollTimer);
-          scrollTimer = setTimeout(clearScrolling, 380);
-        }, { passive: true });
-
-        window.addEventListener("wheel", function() {
-          if (!document.body.classList.contains("gridview")) return;
-          if (!isScrolling) {
-            isScrolling = true;
-            applyScrolling();
-          }
-          clearTimeout(scrollTimer);
-          scrollTimer = setTimeout(clearScrolling, 380);
-        }, { passive: true });
-      })();
+      // Scroll-shrink effect disabled to prevent screen jumping
 
       // Logo click returns to clean home page
       var brandWordmark = document.querySelector(".wordmark");
@@ -6506,10 +5971,7 @@
       }
 
       if (menuProjects) {
-        menuProjects.addEventListener("click", function (e) {
-          e.preventDefault();
-          window.location.href = "/work";
-        });
+        menuProjects.addEventListener("click", function (e) { e.preventDefault(); window.location.href = "work.html"; });
       }
 
       if (menuArchive) {

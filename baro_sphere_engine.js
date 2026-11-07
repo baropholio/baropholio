@@ -148,50 +148,8 @@
     tex.needsUpdate = true;
   }
 
-  /**
-   * TASK-06: Tạo Texture Glassmorphism trong suốt mờ cho Empty Slot
-   * Hoàn toàn KHÔNG chứa văn bản hay nội dung nào
-   * Nền: rgba(255,255,255,0.25), viền sắc nét 1px solid rgba(255,255,255,0.35)
-   */
-  var _cachedGlassTexture = null;
-  function createGlassmorphicEmptyTexture() {
-    if (_cachedGlassTexture) return _cachedGlassTexture;
-    var canvas = document.createElement("canvas");
-    canvas.width = 512;
-    canvas.height = 710;
-    var ctx = canvas.getContext("2d");
-
-    // Xóa nền
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-    // Lớp nền Glassmorphism mờ trắng
-    ctx.fillStyle = "rgba(255, 255, 255, 0.22)";
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-    // Ánh sáng khúc xạ xiên góc tạo cảm giác kính thực tế
-    var grad = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
-    grad.addColorStop(0, "rgba(255, 255, 255, 0.38)");
-    grad.addColorStop(0.35, "rgba(255, 255, 255, 0.12)");
-    grad.addColorStop(0.7, "rgba(255, 255, 255, 0.04)");
-    grad.addColorStop(1, "rgba(255, 255, 255, 0.22)");
-    ctx.fillStyle = grad;
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-    // Viền sắc cạnh không bo góc (Sharp 1px outer hairline)
-    ctx.strokeStyle = "rgba(255, 255, 255, 0.45)";
-    ctx.lineWidth = 2.0;
-    ctx.strokeRect(1, 1, canvas.width - 2, canvas.height - 2);
-
-    // Viền mỏng phụ bên trong
-    ctx.strokeStyle = "rgba(255, 255, 255, 0.18)";
-    ctx.lineWidth = 1.0;
-    ctx.strokeRect(6, 6, canvas.width - 12, canvas.height - 12);
-
-    var tex = new THREE.CanvasTexture(canvas);
-    tex.colorSpace = THREE.SRGBColorSpace;
-    _cachedGlassTexture = tex;
-    return tex;
-  }
+  // Empty slot texture placeholder (synthetic slots disabled)
+  function createGlassmorphicEmptyTexture() { return null; }
 
   /**
    * Tạo Texture đồ họa kiến trúc Trắng Đen (Black & White Monochrome Plate)
@@ -520,81 +478,11 @@
    */
   GNSphereEngine.prototype.prepareRecordsList = function (rawRecords) {
     rawRecords = getSafeRecords(rawRecords);
-
-    // Kiểm tra thẻ Orange
-    function isOrangeRecord(r) {
-      var str = (r.category || r.cat || "") + " " + (r.title || "") + " " + (r.desc || r.description || "");
-      return /orange/i.test(str);
-    }
-
-    var orangeList = [];
-    var otherList = [];
-
-    for (var i = 0; i < rawRecords.length; i++) {
-      if (isOrangeRecord(rawRecords[i])) {
-        orangeList.push(rawRecords[i]);
-      } else {
-        otherList.push(rawRecords[i]);
-      }
-    }
-
-    // 1. Chuẩn bị 13 thẻ cho vòng tròn
-    var ringRecords = [];
-    for (var o = 0; o < orangeList.length && ringRecords.length < CONFIG.ringCount; o++) {
-      ringRecords.push(orangeList[o]);
-    }
-    for (var u = 0; u < otherList.length && ringRecords.length < CONFIG.ringCount; u++) {
-      ringRecords.push(otherList[u]);
-    }
-    // Nếu vẫn chưa đủ 13 thẻ, sinh thẻ trắng đen đại diện
-    var synthRingIdx = 1;
-    while (ringRecords.length < CONFIG.ringCount) {
-      ringRecords.push({
-        id: "synth-ring-" + synthRingIdx,
-        title: "Spatial Monograph Study " + (synthRingIdx < 10 ? "0" : "") + synthRingIdx,
-        category: "ORANGE ARCHIVE",
-        cat: "ORANGE ARCHIVE",
-        year: "2026",
-        date: "2026",
-        organization: "Baropholio Research",
-        org: "Baropholio Research",
-        description: "Monochrome architectural prototype and spatial typology study.",
-        desc: "Monochrome architectural prototype and spatial typology study.",
-        isSynthetic: true
-      });
-      synthRingIdx++;
-    }
-
-    // 2. Chuẩn bị toàn bộ 28 thẻ cho quả cầu
-    var fullSphereRecords = ringRecords.slice();
-    // Bổ sung các record còn lại chưa có trong ring
-    for (var r = 0; r < otherList.length && fullSphereRecords.length < CONFIG.targetSphereCount; r++) {
-      if (fullSphereRecords.indexOf(otherList[r]) === -1) {
-        fullSphereRecords.push(otherList[r]);
-      }
-    }
-    // Nếu tổng số vẫn chưa đủ 28 thẻ, sinh tiếp thẻ trắng đen đại diện
-    var synthSphereIdx = 1;
-    while (fullSphereRecords.length < CONFIG.targetSphereCount) {
-      fullSphereRecords.push({
-        id: "synth-sphere-" + synthSphereIdx,
-        title: "Urban Topology Monograph " + (synthSphereIdx < 10 ? "0" : "") + synthSphereIdx,
-        category: "MONOCHROME ARCHIVE",
-        cat: "MONOCHROME ARCHIVE",
-        year: "2026",
-        date: "2026",
-        organization: "Baropholio Spatial Lab",
-        org: "Baropholio Spatial Lab",
-        description: "Harvard GSD typological investigation exploring high-density urban voids and micro-architectures.",
-        desc: "Harvard GSD typological investigation exploring high-density urban voids and micro-architectures.",
-        isSynthetic: true
-      });
-      synthSphereIdx++;
-    }
-
+    var actualRingCount = Math.min(CONFIG.ringCount, rawRecords.length);
+    var ringRecords = rawRecords.slice(0, actualRingCount);
     return {
       ring: ringRecords,
-      all: fullSphereRecords
+      all: rawRecords
     };
   };
 
@@ -635,7 +523,7 @@
   function playGifOnMesh(src, mesh, mat, item) {
     // 1. Try ImageDecoder API (Native in modern Chrome, Edge, Safari)
     if (typeof window.ImageDecoder === "function") {
-      function startDecoder(arrayBuffer) {
+      function startDecoder(arrayBuffer, cancelToken) {
         try {
           var decoder = new window.ImageDecoder({ data: arrayBuffer, type: "image/gif" });
           var canvas = document.createElement("canvas");
@@ -645,14 +533,39 @@
           tex.minFilter = THREE.LinearFilter;
           tex.magFilter = THREE.LinearFilter;
 
+          // Store cleanup handle for rebuild()
+          cancelToken.dispose = function () {
+            cancelToken.cancelled = true;
+            try { decoder.close(); } catch(e) {}
+            tex.dispose();
+          };
+
           decoder.tracks.ready.then(function () {
+            if (cancelToken.cancelled) {
+              try { decoder.close(); } catch(e) {}
+              tex.dispose();
+              return;
+            }
             var track = decoder.tracks.selectedTrack;
             var count = track && track.frameCount ? track.frameCount : 1;
             var curFrame = 0;
             var initialized = false;
+            var timerId = null;
+
+            cancelToken.dispose = function () {
+              cancelToken.cancelled = true;
+              if (timerId !== null) { clearTimeout(timerId); timerId = null; }
+              try { decoder.close(); } catch(e) {}
+              tex.dispose();
+            };
 
             function step() {
+              if (cancelToken.cancelled) return;
               decoder.decode({ frameIndex: curFrame }).then(function (result) {
+                if (cancelToken.cancelled) {
+                  result.image.close();
+                  return;
+                }
                 if (!initialized) {
                   canvas.width = result.image.displayWidth;
                   canvas.height = result.image.displayHeight;
@@ -668,9 +581,9 @@
                 var durMs = (result.duration || 100000) / 1000;
                 result.image.close();
                 curFrame = (curFrame + 1) % count;
-                setTimeout(step, Math.max(25, durMs));
+                timerId = setTimeout(step, Math.max(25, durMs));
               }).catch(function (e) {
-                console.warn("GIF frame decode err:", e);
+                if (!cancelToken.cancelled) console.warn("GIF frame decode err:", e);
               });
             }
             step();
@@ -682,13 +595,18 @@
         }
       }
 
+      // Create cancellation token and register on mesh for rebuild() cleanup
+      var cancelToken = { cancelled: false, dispose: function() { this.cancelled = true; } };
+      if (!mesh._gifCancelTokens) mesh._gifCancelTokens = [];
+      mesh._gifCancelTokens.push(cancelToken);
+
       if (src.indexOf("data:") === 0) {
         try {
           var base64 = src.split(",")[1];
           var bin = atob(base64);
           var u8 = new Uint8Array(bin.length);
           for (var bi = 0; bi < bin.length; bi++) u8[bi] = bin.charCodeAt(bi);
-          startDecoder(u8.buffer);
+          startDecoder(u8.buffer, cancelToken);
           return;
         } catch (e) {
           console.warn("GIF base64 decode err:", e);
@@ -698,11 +616,13 @@
         xhr.open("GET", src, true);
         xhr.responseType = "arraybuffer";
         xhr.onload = function () {
+          if (cancelToken.cancelled) return;
           if (xhr.status === 200 || xhr.status === 0) {
-            startDecoder(xhr.response);
+            startDecoder(xhr.response, cancelToken);
           }
         };
         xhr.onerror = function () {
+          if (cancelToken.cancelled) return;
           var mp4 = src.replace(/\.gif(\?.*)?$/i, ".mp4$1");
           if (mp4 !== src) {
             playVideoOnMesh(mp4, mesh, mat, item);
@@ -732,6 +652,13 @@
       if (obj.material) {
         if (obj.material.map) obj.material.map.dispose();
         obj.material.dispose();
+      }
+      // Cancel any active GIF decoder loops on this mesh
+      if (obj._gifCancelTokens) {
+        for (var ti = 0; ti < obj._gifCancelTokens.length; ti++) {
+          try { obj._gifCancelTokens[ti].dispose(); } catch(e) {}
+        }
+        obj._gifCancelTokens = [];
       }
     }
     this.cardMeshes = [];
@@ -783,21 +710,23 @@
       var isOrange = /orange/i.test((rec.category || rec.cat || "") + " " + (rec.title || ""));
 
       // TASK-06: Xác định Empty Slot hay Active Slot
-      var isEmptySlot = !!rec.isSynthetic;
+      var actualRingCount = Math.min(CONFIG.ringCount, N);
+      var isRingItem = i < actualRingCount;
+      var ringSlot = isRingItem ? i : -1;
+      var isOrange = /orange/i.test((rec.category || rec.cat || "") + " " + (rec.title || ""));
+
+      var isEmptySlot = false;
       var imageSrc = null;
-      if (!isEmptySlot) {
-        if (rec.image && !rec.isSynthetic) {
-          imageSrc = rec.image;
-        } else if (rec.media && Array.isArray(rec.media) && rec.media.length > 0) {
-          var cov = rec.media.find(function(m){ return m && m.isCover; }) || rec.media[0];
-          if (cov) imageSrc = cov.url || cov.src || cov.dataUrl;
-        }
-        if (!imageSrc && i < VERIFIED_LOCAL_IMAGES.length) {
-          imageSrc = VERIFIED_LOCAL_IMAGES[i];
-        }
+      if (rec.image) {
+        imageSrc = rec.image;
+      } else if (rec.media && Array.isArray(rec.media) && rec.media.length > 0) {
+        var cov = rec.media.find(function(m){ return m && m.isCover; }) || rec.media[0];
+        if (cov) imageSrc = cov.url || cov.src || cov.dataUrl;
+      }
+      if (!imageSrc && i < VERIFIED_LOCAL_IMAGES.length) {
+        imageSrc = VERIFIED_LOCAL_IMAGES[i];
       }
 
-      // Đảm bảo dữ liệu của record luôn đồng bộ 100% với ảnh hiển thị trên thẻ
       if (imageSrc) {
         if (!rec.image) rec.image = imageSrc;
         if (!rec.gallery || !Array.isArray(rec.gallery) || rec.gallery.length === 0) {
@@ -805,13 +734,12 @@
         }
       }
 
-      // Slot chưa có dự án (Empty Slot) hiển thị dạng Glassmorphism trắng trong suốt mờ
-      var defaultTex = isEmptySlot ? createGlassmorphicEmptyTexture() : createMonochromePlateTexture(rec, i, N, isOrange);
+      var defaultTex = createMonochromePlateTexture(rec, i, N, isOrange);
 
       var mat = new THREE.MeshBasicMaterial({
         map: defaultTex,
         transparent: true,
-        opacity: isEmptySlot ? 0.72 : 1.0,
+        opacity: 1.0,
         side: THREE.DoubleSide,
         depthWrite: false
       });
@@ -828,7 +756,7 @@
         expand: 0,
         isRingItem: isRingItem,
         ringSlot: ringSlot,
-        initialAngle: isRingItem ? -Math.PI / 2 + (2 * Math.PI / CONFIG.ringCount) * ringSlot : 0
+        initialAngle: isRingItem ? -Math.PI / 2 + (2 * Math.PI / Math.max(1, actualRingCount)) * ringSlot : 0
       };
 
       mesh.scale.copy(item.baseScale);
@@ -1204,10 +1132,19 @@
      * TƯƠNG TÁC LĂN CHUỘT:
      * Lăn chuột lên trên / xuống dưới -> tự xoay sang trái / phải theo tốc độ lăn chuột
      */
-    this.canvas.addEventListener(
+    window.addEventListener(
       "wheel",
       function (e) {
         if (self.activeMode !== "sphere") return;
+        if (
+          document.body.classList.contains("about-open") ||
+          document.body.classList.contains("gridview") ||
+          document.body.classList.contains("book-open") ||
+          document.body.classList.contains("baro-deck-open") ||
+          document.body.classList.contains("menu-open")
+        ) {
+          return;
+        }
         e.preventDefault();
         if (self.expandedIdx === -1 && !self.isIntro) {
           // TASK-02: Damped mousewheel - nạp gia tốc xoay với hệ số giảm chấn êm dịu

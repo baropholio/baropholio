@@ -1,5 +1,5 @@
 {
-  "exportedAt": "2026-11-01T17:32:53.549Z",
+  "exportedAt": "2026-11-02T15:58:19.949Z",
   "collections": [
     "Orange~",
     "Urban- Architecture- Landscape",
@@ -81,52 +81,52 @@
         {
           "id": "m-fish-and-orchard-4",
           "type": "image",
-          "src": "02.Project/02_Baropholio brand_240401/Baropholio brand (4).jpg",
-          "url": "02.Project/02_Baropholio brand_240401/Baropholio brand (4).jpg",
-          "dataUrl": "02.Project/02_Baropholio brand_240401/Baropholio brand (4).jpg",
-          "isCover": false,
-          "caption": "Spatial Layout",
-          "alt": "Spatial Layout"
-        },
-        {
-          "id": "m-fish-and-orchard-5",
-          "type": "image",
           "src": "02.Project/02_Baropholio brand_240401/Baropholio brand (5).jpg",
           "url": "02.Project/02_Baropholio brand_240401/Baropholio brand (5).jpg",
           "dataUrl": "02.Project/02_Baropholio brand_240401/Baropholio brand (5).jpg",
           "isCover": false,
-          "caption": "Visual Design",
-          "alt": "Visual Design"
+          "caption": "Baropholio brand (5)",
+          "alt": "Baropholio brand (5)"
         },
         {
-          "id": "m-fish-and-orchard-6",
-          "type": "image",
-          "src": "02.Project/02_Baropholio brand_240401/Baropholio brand (10).jpg",
-          "url": "02.Project/02_Baropholio brand_240401/Baropholio brand (10).jpg",
-          "dataUrl": "02.Project/02_Baropholio brand_240401/Baropholio brand (10).jpg",
-          "isCover": false,
-          "caption": "Graphic Structure",
-          "alt": "Graphic Structure"
-        },
-        {
-          "id": "m-fish-and-orchard-7",
+          "id": "m-fish-and-orchard-5",
           "type": "image",
           "src": "02.Project/02_Baropholio brand_240401/Baropholio brand (11).jpg",
           "url": "02.Project/02_Baropholio brand_240401/Baropholio brand (11).jpg",
           "dataUrl": "02.Project/02_Baropholio brand_240401/Baropholio brand (11).jpg",
           "isCover": false,
-          "caption": "Typography Grid",
-          "alt": "Typography Grid"
+          "caption": "Baropholio brand (11)",
+          "alt": "Baropholio brand (11)"
         },
         {
-          "id": "m-fish-and-orchard-8",
+          "id": "m-fish-and-orchard-6",
           "type": "image",
           "src": "02.Project/02_Baropholio brand_240401/Baropholio brand (12).jpg",
           "url": "02.Project/02_Baropholio brand_240401/Baropholio brand (12).jpg",
           "dataUrl": "02.Project/02_Baropholio brand_240401/Baropholio brand (12).jpg",
           "isCover": false,
-          "caption": "Brand Color Field",
-          "alt": "Brand Color Field"
+          "caption": "Baropholio brand (12)",
+          "alt": "Baropholio brand (12)"
+        },
+        {
+          "id": "m-fish-and-orchard-7",
+          "type": "image",
+          "src": "02.Project/02_Baropholio brand_240401/Baropholio brand (15).jpg",
+          "url": "02.Project/02_Baropholio brand_240401/Baropholio brand (15).jpg",
+          "dataUrl": "02.Project/02_Baropholio brand_240401/Baropholio brand (15).jpg",
+          "isCover": false,
+          "caption": "Baropholio brand (15)",
+          "alt": "Baropholio brand (15)"
+        },
+        {
+          "id": "m-fish-and-orchard-8",
+          "type": "image",
+          "src": "02.Project/02_Baropholio brand_240401/Baropholio brand (14).jpg",
+          "url": "02.Project/02_Baropholio brand_240401/Baropholio brand (14).jpg",
+          "dataUrl": "02.Project/02_Baropholio brand_240401/Baropholio brand (14).jpg",
+          "isCover": false,
+          "caption": "Baropholio brand (14)",
+          "alt": "Baropholio brand (14)"
         }
       ],
       "image": "02.Project/02_Baropholio brand_240401/Baropholio brand (1).jpg",
@@ -134,39 +134,33 @@
         "02.Project/02_Baropholio brand_240401/Baropholio brand (1).jpg",
         "02.Project/02_Baropholio brand_240401/Baropholio brand (2).jpg",
         "02.Project/02_Baropholio brand_240401/Baropholio brand (3).jpg",
-        "02.Project/02_Baropholio brand_240401/Baropholio brand (4).jpg",
         "02.Project/02_Baropholio brand_240401/Baropholio brand (5).jpg",
-        "02.Project/02_Baropholio brand_240401/Baropholio brand (10).jpg",
         "02.Project/02_Baropholio brand_240401/Baropholio brand (11).jpg",
-        "02.Project/02_Baropholio brand_240401/Baropholio brand (12).jpg"
+        "02.Project/02_Baropholio brand_240401/Baropholio brand (12).jpg",
+        "02.Project/02_Baropholio brand_240401/Baropholio brand (15).jpg",
+        "02.Project/02_Baropholio brand_240401/Baropholio brand (14).jpg"
       ],
       "images": [
         "02.Project/02_Baropholio brand_240401/Baropholio brand (1).jpg",
         "02.Project/02_Baropholio brand_240401/Baropholio brand (2).jpg",
         "02.Project/02_Baropholio brand_240401/Baropholio brand (3).jpg",
-        "02.Project/02_Baropholio brand_240401/Baropholio brand (4).jpg",
         "02.Project/02_Baropholio brand_240401/Baropholio brand (5).jpg",
-        "02.Project/02_Baropholio brand_240401/Baropholio brand (10).jpg",
         "02.Project/02_Baropholio brand_240401/Baropholio brand (11).jpg",
-        "02.Project/02_Baropholio brand_240401/Baropholio brand (12).jpg"
+        "02.Project/02_Baropholio brand_240401/Baropholio brand (12).jpg",
+        "02.Project/02_Baropholio brand_240401/Baropholio brand (15).jpg",
+        "02.Project/02_Baropholio brand_240401/Baropholio brand (14).jpg"
       ],
-      "category": "Orange~",
-      "cat": "Orange~",
-      "year": "2024 - 2026",
-      "date": "2024 - 2026",
-      "organization": "Baro Nguyen",
-      "org": "Baro Nguyen",
       "basicInfo": [
         {
-          "key": "Category",
+          "label": "Category",
           "value": "Orange~"
         },
         {
-          "key": "Year",
+          "label": "Year",
           "value": "2024 - 2026"
         },
         {
-          "key": "Author",
+          "label": "Author",
           "value": "Baro Nguyen"
         }
       ]
@@ -211,8 +205,8 @@
           "url": "02.Project/01_Windy Hill/Baro Portfolio25.jpg",
           "dataUrl": "02.Project/01_Windy Hill/Baro Portfolio25.jpg",
           "isCover": true,
-          "caption": "Windy Hill Master Plan",
-          "alt": "Windy Hill Master Plan"
+          "caption": "Baro Portfolio25",
+          "alt": "Baro Portfolio25"
         },
         {
           "id": "m-windy-hill-neighborhood-2",
@@ -221,60 +215,54 @@
           "url": "02.Project/01_Windy Hill/370206031_233749272725049_8156576336194971843_n.jpg",
           "dataUrl": "02.Project/01_Windy Hill/370206031_233749272725049_8156576336194971843_n.jpg",
           "isCover": false,
-          "caption": "Hillside Cluster Section",
-          "alt": "Hillside Cluster Section"
+          "caption": "370206031_233749272725049_8156576336194971843_n",
+          "alt": "370206031_233749272725049_8156576336194971843_n"
         },
         {
           "id": "m-windy-hill-neighborhood-3",
-          "type": "image",
-          "src": "02.Project/01_Windy Hill/1-1793085295855_convert_com_vn.webp",
-          "url": "02.Project/01_Windy Hill/1-1793085295855_convert_com_vn.webp",
-          "dataUrl": "02.Project/01_Windy Hill/1-1793085295855_convert_com_vn.webp",
-          "isCover": false,
-          "caption": "Topographic Contours Study",
-          "alt": "Topographic Contours Study"
-        },
-        {
-          "id": "m-windy-hill-neighborhood-4",
           "type": "image",
           "src": "02.Project/01_Windy Hill/mh-1793085300964_convert_com_vn.webp",
           "url": "02.Project/01_Windy Hill/mh-1793085300964_convert_com_vn.webp",
           "dataUrl": "02.Project/01_Windy Hill/mh-1793085300964_convert_com_vn.webp",
           "isCover": false,
-          "caption": "Wind Flow Simulation",
-          "alt": "Wind Flow Simulation"
+          "caption": "mh-1793085300964_convert_com_vn",
+          "alt": "mh-1793085300964_convert_com_vn"
+        },
+        {
+          "id": "m-windy-hill-neighborhood-4",
+          "type": "image",
+          "src": "02.Project/01_Windy Hill/1-1793085295855_convert_com_vn.webp",
+          "url": "02.Project/01_Windy Hill/1-1793085295855_convert_com_vn.webp",
+          "dataUrl": "02.Project/01_Windy Hill/1-1793085295855_convert_com_vn.webp",
+          "isCover": false,
+          "caption": "1-1793085295855_convert_com_vn",
+          "alt": "1-1793085295855_convert_com_vn"
         }
       ],
       "image": "02.Project/01_Windy Hill/Baro Portfolio25.jpg",
       "gallery": [
         "02.Project/01_Windy Hill/Baro Portfolio25.jpg",
         "02.Project/01_Windy Hill/370206031_233749272725049_8156576336194971843_n.jpg",
-        "02.Project/01_Windy Hill/1-1793085295855_convert_com_vn.webp",
-        "02.Project/01_Windy Hill/mh-1793085300964_convert_com_vn.webp"
+        "02.Project/01_Windy Hill/mh-1793085300964_convert_com_vn.webp",
+        "02.Project/01_Windy Hill/1-1793085295855_convert_com_vn.webp"
       ],
       "images": [
         "02.Project/01_Windy Hill/Baro Portfolio25.jpg",
         "02.Project/01_Windy Hill/370206031_233749272725049_8156576336194971843_n.jpg",
-        "02.Project/01_Windy Hill/1-1793085295855_convert_com_vn.webp",
-        "02.Project/01_Windy Hill/mh-1793085300964_convert_com_vn.webp"
+        "02.Project/01_Windy Hill/mh-1793085300964_convert_com_vn.webp",
+        "02.Project/01_Windy Hill/1-1793085295855_convert_com_vn.webp"
       ],
-      "category": "Urban- Architecture- Landscape",
-      "cat": "Urban- Architecture- Landscape",
-      "year": "2024 - 2026",
-      "date": "2024 - 2026",
-      "organization": "Baro Nguyen",
-      "org": "Baro Nguyen",
       "basicInfo": [
         {
-          "key": "Category",
+          "label": "Category",
           "value": "Urban- Architecture- Landscape"
         },
         {
-          "key": "Year",
+          "label": "Year",
           "value": "2024 - 2026"
         },
         {
-          "key": "Author",
+          "label": "Author",
           "value": "Baro Nguyen"
         }
       ]
@@ -352,26 +340,6 @@
           "isCover": false,
           "caption": "Water Purification Flow",
           "alt": "Water Purification Flow"
-        },
-        {
-          "id": "m-central-lake-eco-park-5",
-          "type": "image",
-          "src": "02.Project/07_Park/NGUYA1BB84NC3C220BA1BAA2O_M8394C3C220(4)-1793088088853_convert_com_vn.webp",
-          "url": "02.Project/07_Park/NGUYA1BB84NC3C220BA1BAA2O_M8394C3C220(4)-1793088088853_convert_com_vn.webp",
-          "dataUrl": "02.Project/07_Park/NGUYA1BB84NC3C220BA1BAA2O_M8394C3C220(4)-1793088088853_convert_com_vn.webp",
-          "isCover": false,
-          "caption": "Bio-filtration Layer",
-          "alt": "Bio-filtration Layer"
-        },
-        {
-          "id": "m-central-lake-eco-park-6",
-          "type": "image",
-          "src": "02.Project/07_Park/NGUYA1BB84NC3C220BA1BAA2O_M8394C3C220(5)-1793088216174_convert_com_vn.webp",
-          "url": "02.Project/07_Park/NGUYA1BB84NC3C220BA1BAA2O_M8394C3C220(5)-1793088216174_convert_com_vn.webp",
-          "dataUrl": "02.Project/07_Park/NGUYA1BB84NC3C220BA1BAA2O_M8394C3C220(5)-1793088216174_convert_com_vn.webp",
-          "isCover": false,
-          "caption": "Canopy Walkway",
-          "alt": "Canopy Walkway"
         }
       ],
       "image": "02.Project/07_Park/NGUYA1BB84NC3C220BA1BAA2O_M8394C3C220(1)-1793088070119_convert_com_vn.webp",
@@ -379,44 +347,34 @@
         "02.Project/07_Park/NGUYA1BB84NC3C220BA1BAA2O_M8394C3C220(1)-1793088070119_convert_com_vn.webp",
         "02.Project/07_Park/ssss.jpg",
         "02.Project/07_Park/NGUYA1BB84NC3C220BA1BAA2O_M8394C3C220(2)-1793088075569_convert_com_vn.webp",
-        "02.Project/07_Park/NGUYA1BB84NC3C220BA1BAA2O_M8394C3C220(3)-1793088081903_convert_com_vn.webp",
-        "02.Project/07_Park/NGUYA1BB84NC3C220BA1BAA2O_M8394C3C220(4)-1793088088853_convert_com_vn.webp",
-        "02.Project/07_Park/NGUYA1BB84NC3C220BA1BAA2O_M8394C3C220(5)-1793088216174_convert_com_vn.webp"
+        "02.Project/07_Park/NGUYA1BB84NC3C220BA1BAA2O_M8394C3C220(3)-1793088081903_convert_com_vn.webp"
       ],
       "images": [
         "02.Project/07_Park/NGUYA1BB84NC3C220BA1BAA2O_M8394C3C220(1)-1793088070119_convert_com_vn.webp",
         "02.Project/07_Park/ssss.jpg",
         "02.Project/07_Park/NGUYA1BB84NC3C220BA1BAA2O_M8394C3C220(2)-1793088075569_convert_com_vn.webp",
-        "02.Project/07_Park/NGUYA1BB84NC3C220BA1BAA2O_M8394C3C220(3)-1793088081903_convert_com_vn.webp",
-        "02.Project/07_Park/NGUYA1BB84NC3C220BA1BAA2O_M8394C3C220(4)-1793088088853_convert_com_vn.webp",
-        "02.Project/07_Park/NGUYA1BB84NC3C220BA1BAA2O_M8394C3C220(5)-1793088216174_convert_com_vn.webp"
+        "02.Project/07_Park/NGUYA1BB84NC3C220BA1BAA2O_M8394C3C220(3)-1793088081903_convert_com_vn.webp"
       ],
-      "category": "Urban- Architecture- Landscape",
-      "cat": "Urban- Architecture- Landscape",
-      "year": "2024 - 2026",
-      "date": "2024 - 2026",
-      "organization": "Baro Nguyen",
-      "org": "Baro Nguyen",
       "basicInfo": [
         {
-          "key": "Category",
+          "label": "Category",
           "value": "Urban- Architecture- Landscape"
         },
         {
-          "key": "Year",
+          "label": "Year",
           "value": "2024 - 2026"
         },
         {
-          "key": "Author",
+          "label": "Author",
           "value": "Baro Nguyen"
         }
       ]
     },
     {
-      "id": "04_cuxa-scomeco-smart-community-and-eco-housing_261101",
+      "id": "04_cu-xa-scomeco-smart-community-and-eco-housing_261101",
       "stt": "04",
-      "slug": "cuxa-scomeco-smart-community-and-eco-housing",
-      "title": "CUXA (S.COMECO) - Smart, Community and Eco Housing",
+      "slug": "cu-xa-scomeco-smart-community-and-eco-housing",
+      "title": "Cư Xá (S.COMECO) - Smart, Community and Eco Housing",
       "subtitle": "Sustainable Social Housing Typology",
       "description": "Reimagining the traditional \"Cư Xá\" (historic housing complex) typologies in Thanh Da following the COVID-19 lockdowns. The project introduces prototype \"healing residential buildings\" equipped with flexible public spaces, micro-economic street markets, green facades, and passive ventilation to foster social resilience and community well-being.",
       "status": "published",
@@ -440,60 +398,60 @@
         "Sustainable Strategy Consulting"
       ],
       "seo": {
-        "slug": "cuxa-scomeco-smart-community-and-eco-housing",
+        "slug": "cu-xa-scomeco-smart-community-and-eco-housing",
         "metaTitle": "Cư Xá (S.COMECO) - Smart, Community and Eco Housing | Baropholio",
         "metaDescription": "Affordable modular living units prioritizing natural cross-ventilation and communal courtyard interactions."
       },
       "media": [
         {
-          "id": "m-cuxa-scomeco-smart-community-and-eco-housing-1",
+          "id": "m-cu-xa-scomeco-smart-community-and-eco-housing-1",
           "type": "image",
           "src": "02.Project/06_Scomeco/baro-du-duk_01-1793087556464_convert_com_vn.webp",
           "url": "02.Project/06_Scomeco/baro-du-duk_01-1793087556464_convert_com_vn.webp",
           "dataUrl": "02.Project/06_Scomeco/baro-du-duk_01-1793087556464_convert_com_vn.webp",
           "isCover": true,
-          "caption": "Cư Xá Housing Facade",
-          "alt": "Cư Xá Housing Facade"
+          "caption": "baro-du-duk_01-1793087556464_convert_com_vn",
+          "alt": "baro-du-duk_01-1793087556464_convert_com_vn"
         },
         {
-          "id": "m-cuxa-scomeco-smart-community-and-eco-housing-2",
+          "id": "m-cu-xa-scomeco-smart-community-and-eco-housing-2",
           "type": "image",
           "src": "02.Project/06_Scomeco/baro-du-duk_02-1793087557317_convert_com_vn.webp",
           "url": "02.Project/06_Scomeco/baro-du-duk_02-1793087557317_convert_com_vn.webp",
           "dataUrl": "02.Project/06_Scomeco/baro-du-duk_02-1793087557317_convert_com_vn.webp",
           "isCover": false,
-          "caption": "Modular Apartment Floor Plan",
-          "alt": "Modular Apartment Floor Plan"
+          "caption": "baro-du-duk_02-1793087557317_convert_com_vn",
+          "alt": "baro-du-duk_02-1793087557317_convert_com_vn"
         },
         {
-          "id": "m-cuxa-scomeco-smart-community-and-eco-housing-3",
+          "id": "m-cu-xa-scomeco-smart-community-and-eco-housing-3",
           "type": "image",
           "src": "02.Project/06_Scomeco/baro-du-duk_03-1793087558447_convert_com_vn.webp",
           "url": "02.Project/06_Scomeco/baro-du-duk_03-1793087558447_convert_com_vn.webp",
           "dataUrl": "02.Project/06_Scomeco/baro-du-duk_03-1793087558447_convert_com_vn.webp",
           "isCover": false,
-          "caption": "Courtyard Ventilation Diagram",
-          "alt": "Courtyard Ventilation Diagram"
+          "caption": "baro-du-duk_03-1793087558447_convert_com_vn",
+          "alt": "baro-du-duk_03-1793087558447_convert_com_vn"
         },
         {
-          "id": "m-cuxa-scomeco-smart-community-and-eco-housing-4",
+          "id": "m-cu-xa-scomeco-smart-community-and-eco-housing-4",
           "type": "image",
           "src": "02.Project/06_Scomeco/baro-du-duk_04-1793087554583_convert_com_vn.webp",
           "url": "02.Project/06_Scomeco/baro-du-duk_04-1793087554583_convert_com_vn.webp",
           "dataUrl": "02.Project/06_Scomeco/baro-du-duk_04-1793087554583_convert_com_vn.webp",
           "isCover": false,
-          "caption": "Community Rooftop Garden",
-          "alt": "Community Rooftop Garden"
+          "caption": "baro-du-duk_04-1793087554583_convert_com_vn",
+          "alt": "baro-du-duk_04-1793087554583_convert_com_vn"
         },
         {
-          "id": "m-cuxa-scomeco-smart-community-and-eco-housing-5",
+          "id": "m-cu-xa-scomeco-smart-community-and-eco-housing-5",
           "type": "image",
           "src": "02.Project/06_Scomeco/baro-du-duk_05-1793087555740_convert_com_vn.webp",
           "url": "02.Project/06_Scomeco/baro-du-duk_05-1793087555740_convert_com_vn.webp",
           "dataUrl": "02.Project/06_Scomeco/baro-du-duk_05-1793087555740_convert_com_vn.webp",
           "isCover": false,
-          "caption": "Materiality & Construction Study",
-          "alt": "Materiality & Construction Study"
+          "caption": "baro-du-duk_05-1793087555740_convert_com_vn",
+          "alt": "baro-du-duk_05-1793087555740_convert_com_vn"
         }
       ],
       "image": "02.Project/06_Scomeco/baro-du-duk_01-1793087556464_convert_com_vn.webp",
@@ -511,23 +469,17 @@
         "02.Project/06_Scomeco/baro-du-duk_04-1793087554583_convert_com_vn.webp",
         "02.Project/06_Scomeco/baro-du-duk_05-1793087555740_convert_com_vn.webp"
       ],
-      "category": "Urban- Architecture- Landscape",
-      "cat": "Urban- Architecture- Landscape",
-      "year": "2024 - 2026",
-      "date": "2024 - 2026",
-      "organization": "Baro Nguyen",
-      "org": "Baro Nguyen",
       "basicInfo": [
         {
-          "key": "Category",
+          "label": "Category",
           "value": "Urban- Architecture- Landscape"
         },
         {
-          "key": "Year",
+          "label": "Year",
           "value": "2024 - 2026"
         },
         {
-          "key": "Author",
+          "label": "Author",
           "value": "Baro Nguyen"
         }
       ]
@@ -573,58 +525,52 @@
           "url": "02.Project/05_Thuy Dai/386047287_3683376851949091_162864876726435184_n.jpg",
           "dataUrl": "02.Project/05_Thuy Dai/386047287_3683376851949091_162864876726435184_n.jpg",
           "isCover": true,
-          "caption": "Thuy Dai Adaptive Reuse Axonometric",
-          "alt": "Thuy Dai Adaptive Reuse Axonometric"
+          "caption": "386047287_3683376851949091_162864876726435184_n",
+          "alt": "386047287_3683376851949091_162864876726435184_n"
         },
         {
           "id": "m-the-reborn-of-water-reservoirs-thuy-dai-2",
-          "type": "image",
-          "src": "02.Project/05_Thuy Dai/386154707_3683376901949086_4561552392266495583_n.jpg",
-          "url": "02.Project/05_Thuy Dai/386154707_3683376901949086_4561552392266495583_n.jpg",
-          "dataUrl": "02.Project/05_Thuy Dai/386154707_3683376901949086_4561552392266495583_n.jpg",
-          "isCover": false,
-          "caption": "Reservoir Structure Cross-Section",
-          "alt": "Reservoir Structure Cross-Section"
-        },
-        {
-          "id": "m-the-reborn-of-water-reservoirs-thuy-dai-3",
           "type": "image",
           "src": "02.Project/05_Thuy Dai/386155132_3683376858615757_4751522486607492302_n.jpg",
           "url": "02.Project/05_Thuy Dai/386155132_3683376858615757_4751522486607492302_n.jpg",
           "dataUrl": "02.Project/05_Thuy Dai/386155132_3683376858615757_4751522486607492302_n.jpg",
           "isCover": false,
-          "caption": "Community Public Floor Plan",
-          "alt": "Community Public Floor Plan"
+          "caption": "386155132_3683376858615757_4751522486607492302_n",
+          "alt": "386155132_3683376858615757_4751522486607492302_n"
+        },
+        {
+          "id": "m-the-reborn-of-water-reservoirs-thuy-dai-3",
+          "type": "image",
+          "src": "02.Project/05_Thuy Dai/386154707_3683376901949086_4561552392266495583_n.jpg",
+          "url": "02.Project/05_Thuy Dai/386154707_3683376901949086_4561552392266495583_n.jpg",
+          "dataUrl": "02.Project/05_Thuy Dai/386154707_3683376901949086_4561552392266495583_n.jpg",
+          "isCover": false,
+          "caption": "386154707_3683376901949086_4561552392266495583_n",
+          "alt": "386154707_3683376901949086_4561552392266495583_n"
         }
       ],
       "image": "02.Project/05_Thuy Dai/386047287_3683376851949091_162864876726435184_n.jpg",
       "gallery": [
         "02.Project/05_Thuy Dai/386047287_3683376851949091_162864876726435184_n.jpg",
-        "02.Project/05_Thuy Dai/386154707_3683376901949086_4561552392266495583_n.jpg",
-        "02.Project/05_Thuy Dai/386155132_3683376858615757_4751522486607492302_n.jpg"
+        "02.Project/05_Thuy Dai/386155132_3683376858615757_4751522486607492302_n.jpg",
+        "02.Project/05_Thuy Dai/386154707_3683376901949086_4561552392266495583_n.jpg"
       ],
       "images": [
         "02.Project/05_Thuy Dai/386047287_3683376851949091_162864876726435184_n.jpg",
-        "02.Project/05_Thuy Dai/386154707_3683376901949086_4561552392266495583_n.jpg",
-        "02.Project/05_Thuy Dai/386155132_3683376858615757_4751522486607492302_n.jpg"
+        "02.Project/05_Thuy Dai/386155132_3683376858615757_4751522486607492302_n.jpg",
+        "02.Project/05_Thuy Dai/386154707_3683376901949086_4561552392266495583_n.jpg"
       ],
-      "category": "Urban- Architecture- Landscape",
-      "cat": "Urban- Architecture- Landscape",
-      "year": "2024 - 2026",
-      "date": "2024 - 2026",
-      "organization": "Baro Nguyen",
-      "org": "Baro Nguyen",
       "basicInfo": [
         {
-          "key": "Category",
+          "label": "Category",
           "value": "Urban- Architecture- Landscape"
         },
         {
-          "key": "Year",
+          "label": "Year",
           "value": "2024 - 2026"
         },
         {
-          "key": "Author",
+          "label": "Author",
           "value": "Baro Nguyen"
         }
       ]
@@ -670,8 +616,8 @@
           "url": "02.Project/07_Park/2-1793088026015_convert_com_vn.webp",
           "dataUrl": "02.Project/07_Park/2-1793088026015_convert_com_vn.webp",
           "isCover": true,
-          "caption": "Center Courtyard Perspective",
-          "alt": "Center Courtyard Perspective"
+          "caption": "2-1793088026015_convert_com_vn",
+          "alt": "2-1793088026015_convert_com_vn"
         },
         {
           "id": "m-sun-of-love-will-to-live-center-2",
@@ -680,8 +626,8 @@
           "url": "02.Project/07_Park/NGUYA1BB84NC3C220BA1BAA2O_M8394C3C220(11)-1793088191872_convert_com_vn.webp",
           "dataUrl": "02.Project/07_Park/NGUYA1BB84NC3C220BA1BAA2O_M8394C3C220(11)-1793088191872_convert_com_vn.webp",
           "isCover": false,
-          "caption": "Light Well Architecture",
-          "alt": "Light Well Architecture"
+          "caption": "NGUYA1BB84NC3C220BA1BAA2O_M8394C3C220(11)-1793088191872_convert_com_vn",
+          "alt": "NGUYA1BB84NC3C220BA1BAA2O_M8394C3C220(11)-1793088191872_convert_com_vn"
         },
         {
           "id": "m-sun-of-love-will-to-live-center-3",
@@ -690,8 +636,8 @@
           "url": "02.Project/07_Park/NGUYA1BB84NC3C220BA1BAA2O_M8394C3C220(12)-1793088197750_convert_com_vn.webp",
           "dataUrl": "02.Project/07_Park/NGUYA1BB84NC3C220BA1BAA2O_M8394C3C220(12)-1793088197750_convert_com_vn.webp",
           "isCover": false,
-          "caption": "Universal Access Pathway",
-          "alt": "Universal Access Pathway"
+          "caption": "NGUYA1BB84NC3C220BA1BAA2O_M8394C3C220(12)-1793088197750_convert_com_vn",
+          "alt": "NGUYA1BB84NC3C220BA1BAA2O_M8394C3C220(12)-1793088197750_convert_com_vn"
         },
         {
           "id": "m-sun-of-love-will-to-live-center-4",
@@ -700,8 +646,8 @@
           "url": "02.Project/07_Park/NGUYA1BB84NC3C220BA1BAA2O_M8394C3C220(13)-1793088204232_convert_com_vn.webp",
           "dataUrl": "02.Project/07_Park/NGUYA1BB84NC3C220BA1BAA2O_M8394C3C220(13)-1793088204232_convert_com_vn.webp",
           "isCover": false,
-          "caption": "Sensory Garden Plan",
-          "alt": "Sensory Garden Plan"
+          "caption": "NGUYA1BB84NC3C220BA1BAA2O_M8394C3C220(13)-1793088204232_convert_com_vn",
+          "alt": "NGUYA1BB84NC3C220BA1BAA2O_M8394C3C220(13)-1793088204232_convert_com_vn"
         },
         {
           "id": "m-sun-of-love-will-to-live-center-5",
@@ -710,8 +656,8 @@
           "url": "02.Project/07_Park/NGUYA1BB84NC3C220BA1BAA2O_M8394C3C220(14)-1793088211111_convert_com_vn.webp",
           "dataUrl": "02.Project/07_Park/NGUYA1BB84NC3C220BA1BAA2O_M8394C3C220(14)-1793088211111_convert_com_vn.webp",
           "isCover": false,
-          "caption": "Community Workshop Hall",
-          "alt": "Community Workshop Hall"
+          "caption": "NGUYA1BB84NC3C220BA1BAA2O_M8394C3C220(14)-1793088211111_convert_com_vn",
+          "alt": "NGUYA1BB84NC3C220BA1BAA2O_M8394C3C220(14)-1793088211111_convert_com_vn"
         }
       ],
       "image": "02.Project/07_Park/2-1793088026015_convert_com_vn.webp",
@@ -729,23 +675,17 @@
         "02.Project/07_Park/NGUYA1BB84NC3C220BA1BAA2O_M8394C3C220(13)-1793088204232_convert_com_vn.webp",
         "02.Project/07_Park/NGUYA1BB84NC3C220BA1BAA2O_M8394C3C220(14)-1793088211111_convert_com_vn.webp"
       ],
-      "category": "Orange~",
-      "cat": "Orange~",
-      "year": "2024 - 2026",
-      "date": "2024 - 2026",
-      "organization": "Baro Nguyen",
-      "org": "Baro Nguyen",
       "basicInfo": [
         {
-          "key": "Category",
+          "label": "Category",
           "value": "Orange~"
         },
         {
-          "key": "Year",
+          "label": "Year",
           "value": "2024 - 2026"
         },
         {
-          "key": "Author",
+          "label": "Author",
           "value": "Baro Nguyen"
         }
       ]
@@ -786,62 +726,62 @@
         {
           "id": "m-saigon-in-sight-van-don-area-urban-design-guidelines-1",
           "type": "image",
-          "src": "02.Project/04_Thanh Da Market/11.jpg",
-          "url": "02.Project/04_Thanh Da Market/11.jpg",
-          "dataUrl": "02.Project/04_Thanh Da Market/11.jpg",
+          "src": "02.Project/09_Ben Van Don/0-1793553684143_convert_com_vn.webp",
+          "url": "02.Project/09_Ben Van Don/0-1793553684143_convert_com_vn.webp",
+          "dataUrl": "02.Project/09_Ben Van Don/0-1793553684143_convert_com_vn.webp",
           "isCover": true,
-          "caption": "Van Don Urban Corridor Analysis",
-          "alt": "Van Don Urban Corridor Analysis"
+          "caption": "0-1793553684143_convert_com_vn",
+          "alt": "0-1793553684143_convert_com_vn"
         },
         {
           "id": "m-saigon-in-sight-van-don-area-urban-design-guidelines-2",
           "type": "image",
-          "src": "02.Project/04_Thanh Da Market/12.jpg",
-          "url": "02.Project/04_Thanh Da Market/12.jpg",
-          "dataUrl": "02.Project/04_Thanh Da Market/12.jpg",
+          "src": "02.Project/09_Ben Van Don/5-1793553931197_convert_com_vn.webp",
+          "url": "02.Project/09_Ben Van Don/5-1793553931197_convert_com_vn.webp",
+          "dataUrl": "02.Project/09_Ben Van Don/5-1793553931197_convert_com_vn.webp",
           "isCover": false,
-          "caption": "Street Elevation Study",
-          "alt": "Street Elevation Study"
+          "caption": "5-1793553931197_convert_com_vn",
+          "alt": "5-1793553931197_convert_com_vn"
         },
         {
           "id": "m-saigon-in-sight-van-don-area-urban-design-guidelines-3",
           "type": "image",
-          "src": "02.Project/04_Thanh Da Market/13.jpg",
-          "url": "02.Project/04_Thanh Da Market/13.jpg",
-          "dataUrl": "02.Project/04_Thanh Da Market/13.jpg",
+          "src": "02.Project/09_Ben Van Don/9-1793553676240_convert_com_vn.webp",
+          "url": "02.Project/09_Ben Van Don/9-1793553676240_convert_com_vn.webp",
+          "dataUrl": "02.Project/09_Ben Van Don/9-1793553676240_convert_com_vn.webp",
           "isCover": false,
-          "caption": "Public Realm Network",
-          "alt": "Public Realm Network"
+          "caption": "9-1793553676240_convert_com_vn",
+          "alt": "9-1793553676240_convert_com_vn"
         },
         {
           "id": "m-saigon-in-sight-van-don-area-urban-design-guidelines-4",
           "type": "image",
-          "src": "02.Project/04_Thanh Da Market/14.jpg",
-          "url": "02.Project/04_Thanh Da Market/14.jpg",
-          "dataUrl": "02.Project/04_Thanh Da Market/14.jpg",
+          "src": "02.Project/09_Ben Van Don/6_1-1793553932261_convert_com_vn.webp",
+          "url": "02.Project/09_Ben Van Don/6_1-1793553932261_convert_com_vn.webp",
+          "dataUrl": "02.Project/09_Ben Van Don/6_1-1793553932261_convert_com_vn.webp",
           "isCover": false,
-          "caption": "Pedestrian Flow Map",
-          "alt": "Pedestrian Flow Map"
+          "caption": "6_1-1793553932261_convert_com_vn",
+          "alt": "6_1-1793553932261_convert_com_vn"
         },
         {
           "id": "m-saigon-in-sight-van-don-area-urban-design-guidelines-5",
           "type": "image",
-          "src": "02.Project/09_Ben Van Don/0-1793553684143_convert_com_vn.webp",
-          "url": "02.Project/09_Ben Van Don/0-1793553684143_convert_com_vn.webp",
-          "dataUrl": "02.Project/09_Ben Van Don/0-1793553684143_convert_com_vn.webp",
+          "src": "02.Project/09_Ben Van Don/6_2-1793553933694_convert_com_vn.webp",
+          "url": "02.Project/09_Ben Van Don/6_2-1793553933694_convert_com_vn.webp",
+          "dataUrl": "02.Project/09_Ben Van Don/6_2-1793553933694_convert_com_vn.webp",
           "isCover": false,
-          "caption": "Waterfront Node Masterplan",
-          "alt": "Waterfront Node Masterplan"
+          "caption": "6_2-1793553933694_convert_com_vn",
+          "alt": "6_2-1793553933694_convert_com_vn"
         },
         {
           "id": "m-saigon-in-sight-van-don-area-urban-design-guidelines-6",
           "type": "image",
-          "src": "02.Project/09_Ben Van Don/2-1793553907979_convert_com_vn.webp",
-          "url": "02.Project/09_Ben Van Don/2-1793553907979_convert_com_vn.webp",
-          "dataUrl": "02.Project/09_Ben Van Don/2-1793553907979_convert_com_vn.webp",
+          "src": "02.Project/09_Ben Van Don/0_1-1793553685672_convert_com_vn.webp",
+          "url": "02.Project/09_Ben Van Don/0_1-1793553685672_convert_com_vn.webp",
+          "dataUrl": "02.Project/09_Ben Van Don/0_1-1793553685672_convert_com_vn.webp",
           "isCover": false,
-          "caption": "Density Matrix",
-          "alt": "Density Matrix"
+          "caption": "0_1-1793553685672_convert_com_vn",
+          "alt": "0_1-1793553685672_convert_com_vn"
         },
         {
           "id": "m-saigon-in-sight-van-don-area-urban-design-guidelines-7",
@@ -850,46 +790,40 @@
           "url": "02.Project/09_Ben Van Don/3-1793553924243_convert_com_vn.webp",
           "dataUrl": "02.Project/09_Ben Van Don/3-1793553924243_convert_com_vn.webp",
           "isCover": false,
-          "caption": "Corridor Section",
-          "alt": "Corridor Section"
+          "caption": "3-1793553924243_convert_com_vn",
+          "alt": "3-1793553924243_convert_com_vn"
         }
       ],
-      "image": "02.Project/04_Thanh Da Market/11.jpg",
+      "image": "02.Project/09_Ben Van Don/0-1793553684143_convert_com_vn.webp",
       "gallery": [
-        "02.Project/04_Thanh Da Market/11.jpg",
-        "02.Project/04_Thanh Da Market/12.jpg",
-        "02.Project/04_Thanh Da Market/13.jpg",
-        "02.Project/04_Thanh Da Market/14.jpg",
         "02.Project/09_Ben Van Don/0-1793553684143_convert_com_vn.webp",
-        "02.Project/09_Ben Van Don/2-1793553907979_convert_com_vn.webp",
+        "02.Project/09_Ben Van Don/5-1793553931197_convert_com_vn.webp",
+        "02.Project/09_Ben Van Don/9-1793553676240_convert_com_vn.webp",
+        "02.Project/09_Ben Van Don/6_1-1793553932261_convert_com_vn.webp",
+        "02.Project/09_Ben Van Don/6_2-1793553933694_convert_com_vn.webp",
+        "02.Project/09_Ben Van Don/0_1-1793553685672_convert_com_vn.webp",
         "02.Project/09_Ben Van Don/3-1793553924243_convert_com_vn.webp"
       ],
       "images": [
-        "02.Project/04_Thanh Da Market/11.jpg",
-        "02.Project/04_Thanh Da Market/12.jpg",
-        "02.Project/04_Thanh Da Market/13.jpg",
-        "02.Project/04_Thanh Da Market/14.jpg",
         "02.Project/09_Ben Van Don/0-1793553684143_convert_com_vn.webp",
-        "02.Project/09_Ben Van Don/2-1793553907979_convert_com_vn.webp",
+        "02.Project/09_Ben Van Don/5-1793553931197_convert_com_vn.webp",
+        "02.Project/09_Ben Van Don/9-1793553676240_convert_com_vn.webp",
+        "02.Project/09_Ben Van Don/6_1-1793553932261_convert_com_vn.webp",
+        "02.Project/09_Ben Van Don/6_2-1793553933694_convert_com_vn.webp",
+        "02.Project/09_Ben Van Don/0_1-1793553685672_convert_com_vn.webp",
         "02.Project/09_Ben Van Don/3-1793553924243_convert_com_vn.webp"
       ],
-      "category": "Urban- Architecture- Landscape",
-      "cat": "Urban- Architecture- Landscape",
-      "year": "2024 - 2026",
-      "date": "2024 - 2026",
-      "organization": "Baro Nguyen",
-      "org": "Baro Nguyen",
       "basicInfo": [
         {
-          "key": "Category",
+          "label": "Category",
           "value": "Urban- Architecture- Landscape"
         },
         {
-          "key": "Year",
+          "label": "Year",
           "value": "2024 - 2026"
         },
         {
-          "key": "Author",
+          "label": "Author",
           "value": "Baro Nguyen"
         }
       ]
@@ -935,106 +869,172 @@
           "url": "02.Project/08_Rocras/b2d7ff64eb506b0e3241.jpg",
           "dataUrl": "02.Project/08_Rocras/b2d7ff64eb506b0e3241.jpg",
           "isCover": true,
-          "caption": "ROCRAS Masterplan Vision",
-          "alt": "ROCRAS Masterplan Vision"
+          "caption": "b2d7ff64eb506b0e3241",
+          "alt": "b2d7ff64eb506b0e3241"
         },
         {
           "id": "m-rocras-reborn-of-coalmine-restoration-and-sustainability-2",
           "type": "image",
-          "src": "02.Project/08_Rocras/M-1793548321511_convert_com_vn.webp",
-          "url": "02.Project/08_Rocras/M-1793548321511_convert_com_vn.webp",
-          "dataUrl": "02.Project/08_Rocras/M-1793548321511_convert_com_vn.webp",
+          "src": "02.Project/08_Rocras/aaaaaaa-1793553668936_convert_com_vn.webp",
+          "url": "02.Project/08_Rocras/aaaaaaa-1793553668936_convert_com_vn.webp",
+          "dataUrl": "02.Project/08_Rocras/aaaaaaa-1793553668936_convert_com_vn.webp",
           "isCover": false,
-          "caption": "Ecological Restoration Diagram",
-          "alt": "Ecological Restoration Diagram"
+          "caption": "aaaaaaa-1793553668936_convert_com_vn",
+          "alt": "aaaaaaa-1793553668936_convert_com_vn"
         },
         {
           "id": "m-rocras-reborn-of-coalmine-restoration-and-sustainability-3",
-          "type": "image",
-          "src": "02.Project/08_Rocras/M2-1793548324394_convert_com_vn.webp",
-          "url": "02.Project/08_Rocras/M2-1793548324394_convert_com_vn.webp",
-          "dataUrl": "02.Project/08_Rocras/M2-1793548324394_convert_com_vn.webp",
-          "isCover": false,
-          "caption": "Mine Void Transformation",
-          "alt": "Mine Void Transformation"
-        },
-        {
-          "id": "m-rocras-reborn-of-coalmine-restoration-and-sustainability-4",
-          "type": "image",
-          "src": "02.Project/08_Rocras/ppppaaa-1793548325762_convert_com_vn.webp",
-          "url": "02.Project/08_Rocras/ppppaaa-1793548325762_convert_com_vn.webp",
-          "dataUrl": "02.Project/08_Rocras/ppppaaa-1793548325762_convert_com_vn.webp",
-          "isCover": false,
-          "caption": "Civic Basin Axonometric",
-          "alt": "Civic Basin Axonometric"
-        },
-        {
-          "id": "m-rocras-reborn-of-coalmine-restoration-and-sustainability-5",
-          "type": "image",
-          "src": "02.Project/08_Rocras/process-1793548381762_convert_com_vn.webp",
-          "url": "02.Project/08_Rocras/process-1793548381762_convert_com_vn.webp",
-          "dataUrl": "02.Project/08_Rocras/process-1793548381762_convert_com_vn.webp",
-          "isCover": false,
-          "caption": "Restoration Phasing Strategy",
-          "alt": "Restoration Phasing Strategy"
-        },
-        {
-          "id": "m-rocras-reborn-of-coalmine-restoration-and-sustainability-6",
-          "type": "image",
-          "src": "02.Project/08_Rocras/pt1-1793548383343_convert_com_vn.webp",
-          "url": "02.Project/08_Rocras/pt1-1793548383343_convert_com_vn.webp",
-          "dataUrl": "02.Project/08_Rocras/pt1-1793548383343_convert_com_vn.webp",
-          "isCover": false,
-          "caption": "Hydrological Basin Flow",
-          "alt": "Hydrological Basin Flow"
-        },
-        {
-          "id": "m-rocras-reborn-of-coalmine-restoration-and-sustainability-7",
           "type": "image",
           "src": "02.Project/08_Rocras/Screenshot20165815-1793553675186_convert_com_vn.webp",
           "url": "02.Project/08_Rocras/Screenshot20165815-1793553675186_convert_com_vn.webp",
           "dataUrl": "02.Project/08_Rocras/Screenshot20165815-1793553675186_convert_com_vn.webp",
           "isCover": false,
-          "caption": "Section Through Mine Terrace",
-          "alt": "Section Through Mine Terrace"
+          "caption": "Screenshot20165815-1793553675186_convert_com_vn",
+          "alt": "Screenshot20165815-1793553675186_convert_com_vn"
+        },
+        {
+          "id": "m-rocras-reborn-of-coalmine-restoration-and-sustainability-4",
+          "type": "image",
+          "src": "02.Project/08_Rocras/process-1793548381762_convert_com_vn.webp",
+          "url": "02.Project/08_Rocras/process-1793548381762_convert_com_vn.webp",
+          "dataUrl": "02.Project/08_Rocras/process-1793548381762_convert_com_vn.webp",
+          "isCover": false,
+          "caption": "process-1793548381762_convert_com_vn",
+          "alt": "process-1793548381762_convert_com_vn"
+        },
+        {
+          "id": "m-rocras-reborn-of-coalmine-restoration-and-sustainability-5",
+          "type": "image",
+          "src": "02.Project/08_Rocras/M-1793548321511_convert_com_vn.webp",
+          "url": "02.Project/08_Rocras/M-1793548321511_convert_com_vn.webp",
+          "dataUrl": "02.Project/08_Rocras/M-1793548321511_convert_com_vn.webp",
+          "isCover": false,
+          "caption": "M-1793548321511_convert_com_vn",
+          "alt": "M-1793548321511_convert_com_vn"
+        },
+        {
+          "id": "m-rocras-reborn-of-coalmine-restoration-and-sustainability-6",
+          "type": "image",
+          "src": "02.Project/08_Rocras/M2-1793548324394_convert_com_vn.webp",
+          "url": "02.Project/08_Rocras/M2-1793548324394_convert_com_vn.webp",
+          "dataUrl": "02.Project/08_Rocras/M2-1793548324394_convert_com_vn.webp",
+          "isCover": false,
+          "caption": "M2-1793548324394_convert_com_vn",
+          "alt": "M2-1793548324394_convert_com_vn"
+        },
+        {
+          "id": "m-rocras-reborn-of-coalmine-restoration-and-sustainability-7",
+          "type": "image",
+          "src": "02.Project/08_Rocras/ppppaaa-1793548325762_convert_com_vn.webp",
+          "url": "02.Project/08_Rocras/ppppaaa-1793548325762_convert_com_vn.webp",
+          "dataUrl": "02.Project/08_Rocras/ppppaaa-1793548325762_convert_com_vn.webp",
+          "isCover": false,
+          "caption": "ppppaaa-1793548325762_convert_com_vn",
+          "alt": "ppppaaa-1793548325762_convert_com_vn"
+        },
+        {
+          "id": "m-rocras-reborn-of-coalmine-restoration-and-sustainability-8",
+          "type": "image",
+          "src": "02.Project/08_Rocras/ppppaaa2-1793548329352_convert_com_vn.webp",
+          "url": "02.Project/08_Rocras/ppppaaa2-1793548329352_convert_com_vn.webp",
+          "dataUrl": "02.Project/08_Rocras/ppppaaa2-1793548329352_convert_com_vn.webp",
+          "isCover": false,
+          "caption": "ppppaaa2-1793548329352_convert_com_vn",
+          "alt": "ppppaaa2-1793548329352_convert_com_vn"
+        },
+        {
+          "id": "m-rocras-reborn-of-coalmine-restoration-and-sustainability-9",
+          "type": "image",
+          "src": "02.Project/08_Rocras/ppppaaa3-1793548330959_convert_com_vn.webp",
+          "url": "02.Project/08_Rocras/ppppaaa3-1793548330959_convert_com_vn.webp",
+          "dataUrl": "02.Project/08_Rocras/ppppaaa3-1793548330959_convert_com_vn.webp",
+          "isCover": false,
+          "caption": "ppppaaa3-1793548330959_convert_com_vn",
+          "alt": "ppppaaa3-1793548330959_convert_com_vn"
+        },
+        {
+          "id": "m-rocras-reborn-of-coalmine-restoration-and-sustainability-10",
+          "type": "image",
+          "src": "02.Project/07_Park/ssss.jpg",
+          "url": "02.Project/07_Park/ssss.jpg",
+          "dataUrl": "02.Project/07_Park/ssss.jpg",
+          "isCover": false,
+          "caption": "sssssssssssssss-1793548385903_convert_com_vn",
+          "alt": "sssssssssssssss-1793548385903_convert_com_vn"
+        },
+        {
+          "id": "m-rocras-reborn-of-coalmine-restoration-and-sustainability-11",
+          "type": "image",
+          "src": "02.Project/08_Rocras/private2-1793548389278_convert_com_vn.webp",
+          "url": "02.Project/08_Rocras/private2-1793548389278_convert_com_vn.webp",
+          "dataUrl": "02.Project/08_Rocras/private2-1793548389278_convert_com_vn.webp",
+          "isCover": false,
+          "caption": "private2-1793548389278_convert_com_vn",
+          "alt": "private2-1793548389278_convert_com_vn"
+        },
+        {
+          "id": "m-rocras-reborn-of-coalmine-restoration-and-sustainability-12",
+          "type": "image",
+          "src": "02.Project/08_Rocras/private3-1793548379641_convert_com_vn.webp",
+          "url": "02.Project/08_Rocras/private3-1793548379641_convert_com_vn.webp",
+          "dataUrl": "02.Project/08_Rocras/private3-1793548379641_convert_com_vn.webp",
+          "isCover": false,
+          "caption": "private3-1793548379641_convert_com_vn",
+          "alt": "private3-1793548379641_convert_com_vn"
+        },
+        {
+          "id": "m-rocras-reborn-of-coalmine-restoration-and-sustainability-13",
+          "type": "image",
+          "src": "02.Project/08_Rocras/pt1-1793548383343_convert_com_vn.webp",
+          "url": "02.Project/08_Rocras/pt1-1793548383343_convert_com_vn.webp",
+          "dataUrl": "02.Project/08_Rocras/pt1-1793548383343_convert_com_vn.webp",
+          "isCover": false,
+          "caption": "pt1-1793548383343_convert_com_vn",
+          "alt": "pt1-1793548383343_convert_com_vn"
         }
       ],
       "image": "02.Project/08_Rocras/b2d7ff64eb506b0e3241.jpg",
       "gallery": [
         "02.Project/08_Rocras/b2d7ff64eb506b0e3241.jpg",
+        "02.Project/08_Rocras/aaaaaaa-1793553668936_convert_com_vn.webp",
+        "02.Project/08_Rocras/Screenshot20165815-1793553675186_convert_com_vn.webp",
+        "02.Project/08_Rocras/process-1793548381762_convert_com_vn.webp",
         "02.Project/08_Rocras/M-1793548321511_convert_com_vn.webp",
         "02.Project/08_Rocras/M2-1793548324394_convert_com_vn.webp",
         "02.Project/08_Rocras/ppppaaa-1793548325762_convert_com_vn.webp",
-        "02.Project/08_Rocras/process-1793548381762_convert_com_vn.webp",
-        "02.Project/08_Rocras/pt1-1793548383343_convert_com_vn.webp",
-        "02.Project/08_Rocras/Screenshot20165815-1793553675186_convert_com_vn.webp"
+        "02.Project/08_Rocras/ppppaaa2-1793548329352_convert_com_vn.webp",
+        "02.Project/08_Rocras/ppppaaa3-1793548330959_convert_com_vn.webp",
+        "02.Project/07_Park/ssss.jpg",
+        "02.Project/08_Rocras/private2-1793548389278_convert_com_vn.webp",
+        "02.Project/08_Rocras/private3-1793548379641_convert_com_vn.webp",
+        "02.Project/08_Rocras/pt1-1793548383343_convert_com_vn.webp"
       ],
       "images": [
         "02.Project/08_Rocras/b2d7ff64eb506b0e3241.jpg",
+        "02.Project/08_Rocras/aaaaaaa-1793553668936_convert_com_vn.webp",
+        "02.Project/08_Rocras/Screenshot20165815-1793553675186_convert_com_vn.webp",
+        "02.Project/08_Rocras/process-1793548381762_convert_com_vn.webp",
         "02.Project/08_Rocras/M-1793548321511_convert_com_vn.webp",
         "02.Project/08_Rocras/M2-1793548324394_convert_com_vn.webp",
         "02.Project/08_Rocras/ppppaaa-1793548325762_convert_com_vn.webp",
-        "02.Project/08_Rocras/process-1793548381762_convert_com_vn.webp",
-        "02.Project/08_Rocras/pt1-1793548383343_convert_com_vn.webp",
-        "02.Project/08_Rocras/Screenshot20165815-1793553675186_convert_com_vn.webp"
+        "02.Project/08_Rocras/ppppaaa2-1793548329352_convert_com_vn.webp",
+        "02.Project/08_Rocras/ppppaaa3-1793548330959_convert_com_vn.webp",
+        "02.Project/07_Park/ssss.jpg",
+        "02.Project/08_Rocras/private2-1793548389278_convert_com_vn.webp",
+        "02.Project/08_Rocras/private3-1793548379641_convert_com_vn.webp",
+        "02.Project/08_Rocras/pt1-1793548383343_convert_com_vn.webp"
       ],
-      "category": "Urban- Architecture- Landscape",
-      "cat": "Urban- Architecture- Landscape",
-      "year": "2024 - 2026",
-      "date": "2024 - 2026",
-      "organization": "Baro Nguyen",
-      "org": "Baro Nguyen",
       "basicInfo": [
         {
-          "key": "Category",
+          "label": "Category",
           "value": "Urban- Architecture- Landscape"
         },
         {
-          "key": "Year",
+          "label": "Year",
           "value": "2024 - 2026"
         },
         {
-          "key": "Author",
+          "label": "Author",
           "value": "Baro Nguyen"
         }
       ]
@@ -1080,8 +1080,8 @@
           "url": "02.Project/03_120H/Screenshot 2024-09-30 212638.jpg",
           "dataUrl": "02.Project/03_120H/Screenshot 2024-09-30 212638.jpg",
           "isCover": true,
-          "caption": "Museum Elevation & Perspective",
-          "alt": "Museum Elevation & Perspective"
+          "caption": "Screenshot 2024-09-30 212638",
+          "alt": "Screenshot 2024-09-30 212638"
         },
         {
           "id": "m-the-veil-national-art-museum-of-andorra-2",
@@ -1090,8 +1090,8 @@
           "url": "02.Project/03_120H/Screenshot 2024-09-30 212701.jpg",
           "dataUrl": "02.Project/03_120H/Screenshot 2024-09-30 212701.jpg",
           "isCover": false,
-          "caption": "Spatial Section Detail",
-          "alt": "Spatial Section Detail"
+          "caption": "Screenshot 2024-09-30 212701",
+          "alt": "Screenshot 2024-09-30 212701"
         },
         {
           "id": "m-the-veil-national-art-museum-of-andorra-3",
@@ -1100,8 +1100,8 @@
           "url": "02.Project/03_120H/Screenshot 2024-09-30 212907.jpg",
           "dataUrl": "02.Project/03_120H/Screenshot 2024-09-30 212907.jpg",
           "isCover": false,
-          "caption": "Structural Framework",
-          "alt": "Structural Framework"
+          "caption": "Screenshot 2024-09-30 212907",
+          "alt": "Screenshot 2024-09-30 212907"
         },
         {
           "id": "m-the-veil-national-art-museum-of-andorra-4",
@@ -1110,8 +1110,8 @@
           "url": "02.Project/03_120H/Screenshot 2024-09-30 212932.jpg",
           "dataUrl": "02.Project/03_120H/Screenshot 2024-09-30 212932.jpg",
           "isCover": false,
-          "caption": "Gallery Interior Flow",
-          "alt": "Gallery Interior Flow"
+          "caption": "Screenshot 2024-09-30 212932",
+          "alt": "Screenshot 2024-09-30 212932"
         },
         {
           "id": "m-the-veil-national-art-museum-of-andorra-5",
@@ -1120,8 +1120,8 @@
           "url": "02.Project/03_120H/Screenshot 2024-09-30 212958.jpg",
           "dataUrl": "02.Project/03_120H/Screenshot 2024-09-30 212958.jpg",
           "isCover": false,
-          "caption": "Site Plan Context",
-          "alt": "Site Plan Context"
+          "caption": "Screenshot 2024-09-30 212958",
+          "alt": "Screenshot 2024-09-30 212958"
         }
       ],
       "image": "02.Project/03_120H/Screenshot 2024-09-30 212638.jpg",
@@ -1139,23 +1139,17 @@
         "02.Project/03_120H/Screenshot 2024-09-30 212932.jpg",
         "02.Project/03_120H/Screenshot 2024-09-30 212958.jpg"
       ],
-      "category": "Urban- Architecture- Landscape",
-      "cat": "Urban- Architecture- Landscape",
-      "year": "2024 - 2026",
-      "date": "2024 - 2026",
-      "organization": "Baro Nguyen",
-      "org": "Baro Nguyen",
       "basicInfo": [
         {
-          "key": "Category",
+          "label": "Category",
           "value": "Urban- Architecture- Landscape"
         },
         {
-          "key": "Year",
+          "label": "Year",
           "value": "2024 - 2026"
         },
         {
-          "key": "Author",
+          "label": "Author",
           "value": "Baro Nguyen"
         }
       ]
@@ -1196,87 +1190,153 @@
       "media": [
         {
           "id": "m-me-1",
-          "type": "image",
-          "src": "02.Project/02_Baropholio brand_240401/Baropholio brand (1).jpg",
-          "url": "02.Project/02_Baropholio brand_240401/Baropholio brand (1).jpg",
-          "dataUrl": "02.Project/02_Baropholio brand_240401/Baropholio brand (1).jpg",
+          "type": "gif",
+          "src": "03. Profile pic/pt.gif",
+          "url": "03. Profile pic/pt.gif",
+          "dataUrl": "03. Profile pic/pt.gif",
           "isCover": true,
-          "caption": "Baro Nguyen - Spatial Practice",
-          "alt": "Baro Nguyen - Spatial Practice"
+          "caption": "pt",
+          "alt": "pt"
         },
         {
           "id": "m-me-2",
           "type": "image",
-          "src": "02.Project/02_Baropholio brand_240401/Baropholio brand (3).jpg",
-          "url": "02.Project/02_Baropholio brand_240401/Baropholio brand (3).jpg",
-          "dataUrl": "02.Project/02_Baropholio brand_240401/Baropholio brand (3).jpg",
+          "src": "03. Profile pic/2.jpg",
+          "url": "03. Profile pic/2.jpg",
+          "dataUrl": "03. Profile pic/2.jpg",
           "isCover": false,
-          "caption": "Design Philosophy",
-          "alt": "Design Philosophy"
+          "caption": "2",
+          "alt": "2"
         },
         {
           "id": "m-me-3",
           "type": "image",
-          "src": "02.Project/02_Baropholio brand_240401/Baropholio brand (6).jpg",
-          "url": "02.Project/02_Baropholio brand_240401/Baropholio brand (6).jpg",
-          "dataUrl": "02.Project/02_Baropholio brand_240401/Baropholio brand (6).jpg",
+          "src": "03. Profile pic/Profile pic 1.jpg",
+          "url": "03. Profile pic/Profile pic 1.jpg",
+          "dataUrl": "03. Profile pic/Profile pic 1.jpg",
           "isCover": false,
-          "caption": "Studio Archive",
-          "alt": "Studio Archive"
+          "caption": "Profile pic 1",
+          "alt": "Profile pic 1"
         },
         {
           "id": "m-me-4",
           "type": "image",
-          "src": "02.Project/02_Baropholio brand_240401/Baropholio brand (7).jpg",
-          "url": "02.Project/02_Baropholio brand_240401/Baropholio brand (7).jpg",
-          "dataUrl": "02.Project/02_Baropholio brand_240401/Baropholio brand (7).jpg",
+          "src": "03. Profile pic/Profile pic 2.jpg",
+          "url": "03. Profile pic/Profile pic 2.jpg",
+          "dataUrl": "03. Profile pic/Profile pic 2.jpg",
           "isCover": false,
-          "caption": "Curatorial Research",
-          "alt": "Curatorial Research"
+          "caption": "Profile pic 2",
+          "alt": "Profile pic 2"
         },
         {
           "id": "m-me-5",
-          "type": "image",
-          "src": "02.Project/02_Baropholio brand_240401/Baropholio brand (8).jpg",
-          "url": "02.Project/02_Baropholio brand_240401/Baropholio brand (8).jpg",
-          "dataUrl": "02.Project/02_Baropholio brand_240401/Baropholio brand (8).jpg",
+          "type": "video",
+          "src": "03. Profile pic/pt.mp4",
+          "url": "03. Profile pic/pt.mp4",
+          "dataUrl": "03. Profile pic/pt.mp4",
           "isCover": false,
-          "caption": "Spatial Explorations",
-          "alt": "Spatial Explorations"
+          "caption": "pt",
+          "alt": "pt"
+        },
+        {
+          "id": "m-me-6",
+          "type": "image",
+          "src": "03. Profile pic/3.jpg",
+          "url": "03. Profile pic/3.jpg",
+          "dataUrl": "03. Profile pic/3.jpg",
+          "isCover": false,
+          "caption": "3",
+          "alt": "3"
+        },
+        {
+          "id": "m-me-7",
+          "type": "image",
+          "src": "03. Profile pic/4.jpg",
+          "url": "03. Profile pic/4.jpg",
+          "dataUrl": "03. Profile pic/4.jpg",
+          "isCover": false,
+          "caption": "4",
+          "alt": "4"
+        },
+        {
+          "id": "m-me-8",
+          "type": "image",
+          "src": "03. Profile pic/5.jpg",
+          "url": "03. Profile pic/5.jpg",
+          "dataUrl": "03. Profile pic/5.jpg",
+          "isCover": false,
+          "caption": "5",
+          "alt": "5"
+        },
+        {
+          "id": "m-me-9",
+          "type": "image",
+          "src": "03. Profile pic/6.jpg",
+          "url": "03. Profile pic/6.jpg",
+          "dataUrl": "03. Profile pic/6.jpg",
+          "isCover": false,
+          "caption": "6",
+          "alt": "6"
+        },
+        {
+          "id": "m-me-10",
+          "type": "image",
+          "src": "03. Profile pic/7.jpg",
+          "url": "03. Profile pic/7.jpg",
+          "dataUrl": "03. Profile pic/7.jpg",
+          "isCover": false,
+          "caption": "7",
+          "alt": "7"
+        },
+        {
+          "id": "m-me-11",
+          "type": "image",
+          "src": "03. Profile pic/8.jpg",
+          "url": "03. Profile pic/8.jpg",
+          "dataUrl": "03. Profile pic/8.jpg",
+          "isCover": false,
+          "caption": "8",
+          "alt": "8"
         }
       ],
-      "image": "02.Project/02_Baropholio brand_240401/Baropholio brand (1).jpg",
+      "image": "03. Profile pic/pt.gif",
       "gallery": [
-        "02.Project/02_Baropholio brand_240401/Baropholio brand (1).jpg",
-        "02.Project/02_Baropholio brand_240401/Baropholio brand (3).jpg",
-        "02.Project/02_Baropholio brand_240401/Baropholio brand (6).jpg",
-        "02.Project/02_Baropholio brand_240401/Baropholio brand (7).jpg",
-        "02.Project/02_Baropholio brand_240401/Baropholio brand (8).jpg"
+        "03. Profile pic/pt.gif",
+        "03. Profile pic/2.jpg",
+        "03. Profile pic/Profile pic 1.jpg",
+        "03. Profile pic/Profile pic 2.jpg",
+        "03. Profile pic/pt.mp4",
+        "03. Profile pic/3.jpg",
+        "03. Profile pic/4.jpg",
+        "03. Profile pic/5.jpg",
+        "03. Profile pic/6.jpg",
+        "03. Profile pic/7.jpg",
+        "03. Profile pic/8.jpg"
       ],
       "images": [
-        "02.Project/02_Baropholio brand_240401/Baropholio brand (1).jpg",
-        "02.Project/02_Baropholio brand_240401/Baropholio brand (3).jpg",
-        "02.Project/02_Baropholio brand_240401/Baropholio brand (6).jpg",
-        "02.Project/02_Baropholio brand_240401/Baropholio brand (7).jpg",
-        "02.Project/02_Baropholio brand_240401/Baropholio brand (8).jpg"
+        "03. Profile pic/pt.gif",
+        "03. Profile pic/2.jpg",
+        "03. Profile pic/Profile pic 1.jpg",
+        "03. Profile pic/Profile pic 2.jpg",
+        "03. Profile pic/pt.mp4",
+        "03. Profile pic/3.jpg",
+        "03. Profile pic/4.jpg",
+        "03. Profile pic/5.jpg",
+        "03. Profile pic/6.jpg",
+        "03. Profile pic/7.jpg",
+        "03. Profile pic/8.jpg"
       ],
-      "category": "Orange~",
-      "cat": "Orange~",
-      "year": "2024 - 2026",
-      "date": "2024 - 2026",
-      "organization": "Baro Nguyen",
-      "org": "Baro Nguyen",
       "basicInfo": [
         {
-          "key": "Category",
+          "label": "Category",
           "value": "Orange~"
         },
         {
-          "key": "Year",
+          "label": "Year",
           "value": "2024 - 2026"
         },
         {
-          "key": "Author",
+          "label": "Author",
           "value": "Baro Nguyen"
         }
       ]

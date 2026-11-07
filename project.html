@@ -20,7 +20,11 @@
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Epilogue:ital,wght@0,300;0,400;0,600;0,700;1,400&family=Newsreader:ital,opsz,wght@0,6..72,400;1,6..72,400&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Epilogue:ital,wght@0,300;0,400;0,600;0,700;1,400&family=Newsreader:ital,opsz,wght@0,6..72,400;1,6..72,400&family=Space+Grotesk:wght@300;400;500;600;700&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Epilogue:ital,wght@0,300;0,400;0,600;0,700;1,400&family=Newsreader:ital,opsz,wght@0,6..72,400;1,6..72,400&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" media="print" onload="this.media='all'">
+  <noscript>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Epilogue:ital,wght@0,300;0,400;0,600;0,700;1,400&family=Newsreader:ital,opsz,wght@0,6..72,400;1,6..72,400&family=Space+Grotesk:wght@300;400;500;600;700&display=swap">
+  </noscript>
 
   <style>
     :root {
@@ -248,6 +252,25 @@
 
     async function init() {
       var slug = getTargetSlug();
+
+      // 0. Live sync with Admin CMS localStorage (Authoritative source in VS Code)
+      try {
+        var adminStorage = localStorage.getItem('baropholio_wix_portfolio_v5');
+        if (adminStorage) {
+          var parsedAdmin = JSON.parse(adminStorage);
+          var pList = Array.isArray(parsedAdmin) ? parsedAdmin : (parsedAdmin.projects || parsedAdmin.records || []);
+          if (Array.isArray(pList) && pList.length > 0) {
+            var aNorm = pList.map(normalizeRecord).filter(Boolean);
+            if (aNorm.length > 0) {
+              window.RECORDS = aNorm;
+              window.BAROPHOLIO_PROJECTS = aNorm;
+              var aIdx = findProjectIndex(window.RECORDS, slug);
+              launchShowcase(aIdx);
+              return;
+            }
+          }
+        }
+      } catch(e) {}
 
       // 1. Check window.BAROPHOLIO_PROJECTS (from 02.Project/projects_data.js)
       if (window.BAROPHOLIO_PROJECTS && window.BAROPHOLIO_PROJECTS.length > 0) {

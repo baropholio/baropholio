@@ -4,7 +4,7 @@ $bucket = "project-media"
 
 $projectsDef = @(
   @{
-    stt = "01"
+    stt = "10"
     slug = "me"
     title = "Me"
     subtitle = "Spatial Practice & Architecture Portfolio"
