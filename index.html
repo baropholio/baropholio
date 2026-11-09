@@ -17,8 +17,18 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   
-  <!-- Google Fonts: Space Grotesk (Baro Architectural Gothic) + Epilogue + Newsreader -->
-  <link href="https://fonts.googleapis.com/css2?family=Epilogue:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@300;400;500;600;700&display=swap&subset=vietnamese,latin-ext" rel="stylesheet">
+  <!-- Google Fonts: Space Grotesk (Baro Architectural Gothic) + Epilogue + Newsreader + EB Garamond (FCaslon 30 ITC body substitute) -->
+  <link href="https://fonts.googleapis.com/css2?family=Epilogue:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@300;400;500;600;700&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap&subset=vietnamese,latin-ext" rel="stylesheet">
+  <style>
+    /* FCaslon 30 ITC — local OTF file */
+    @font-face {
+      font-family: 'FCaslon30ITC';
+      src: url('fonts/fcaslon-thirty-itc-std-maisfontes.ea8c/fcaslon-thirty-itc-std.otf') format('opentype');
+      font-weight: 400;
+      font-style: normal;
+      font-display: swap;
+    }
+  </style>
 
   <style>
     /* ==========================================================================
@@ -39,6 +49,7 @@
       --serif: "Space Grotesk", "Epilogue", -apple-system, sans-serif;
       --sans: "Space Grotesk", "Epilogue", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
       --editorial: "Newsreader", Georgia, serif;
+      --body: "FCaslon30ITC", "EB Garamond", "Garamond", Georgia, serif;
       --hw: min(58vw, 660px);
       --persp: 1150px;
       --tap: 44px;
@@ -53,11 +64,12 @@
     html {
       background: var(--bg);
       color: var(--fg);
-      font-family: var(--sans);
+      font-family: var(--body);
+      font-size: 16px;
       font-weight: 400;
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
-      scrollbar-gutter: stable;
+      scrollbar-gutter: auto;
       text-size-adjust: 100%;
     }
 
@@ -68,6 +80,24 @@
       min-height: 100vh;
       min-height: 100dvh;
       overscroll-behavior-y: none;
+    }
+
+    /* ── Typography: headings keep Space Grotesk; body text uses FCaslon 30 ITC ── */
+    h1, h2, h3, h4, h5, h6,
+    .menu-nav-item,
+    .about-name,
+    .about-orange-quote,
+    .section-heading,
+    .about-welcome-title,
+    .press-card-title,
+    .timeline-content h4 {
+      font-family: var(--sans);
+    }
+    p, li, .about-welcome-desc, .about-bio-paragraphs p,
+    .timeline-content p, .press-card-desc, .menu-orange-drawer {
+      font-family: var(--body);
+      font-size: 15px;
+      line-height: 1.72;
     }
 
     body.locked {
@@ -809,7 +839,7 @@
       height: 100%;
       border-radius: 4px;
       overflow: hidden;
-      background: #e6e3dc;
+      background: #000000;
       border: 1px solid rgba(13, 12, 11, 0.12);
       box-shadow: 0 4px 16px rgba(13, 12, 11, 0.06);
       position: relative;
@@ -1421,7 +1451,7 @@
       border-radius: 6px;
       overflow: hidden;
       cursor: pointer;
-      background: #1a1715;
+      background: #000000;
       transform: translateY(0);
       transition:
         transform .32s cubic-bezier(.22,.61,.36,1),
@@ -1440,7 +1470,7 @@
     .grid-card-thumb-wrap {
       position: absolute;
       inset: 0;
-      background: #2a2520;
+      background: #000000;
     }
     .grid-card-thumb {
       width: 100%;
@@ -1521,7 +1551,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      background: linear-gradient(135deg, #1a1715 0%, #2e2822 100%);
+      background: #000000;
     }
     .grid-card-placeholder .ph-cat {
       font-size: 9px;
@@ -2111,7 +2141,7 @@
 
     /* RIGHT PAGE: Square 1:1, STRICTLY IMAGE VISUAL ONLY (Supports Flip Book for multiple project images) */
     .book-page-right {
-      background: #141312;
+      background: #000000;
       border-top-right-radius: 6px;
       border-bottom-right-radius: 6px;
       border-right: 2px solid #e8e4db;
@@ -2135,7 +2165,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      background: #151413;
+      background: #000000;
       perspective: 1200px;
     }
     .book-full-image {
@@ -2385,20 +2415,22 @@
     }
 
             /* ==========================================================================
-       ABOUT SLIDE-OVER DRAWER (MIST REVEAL & BLACK-TO-WHITE SCROLL GRADIENT)
+       ABOUT DOSSIER — CENTRED BOTTOM-UP MODAL (MIST REVEAL & BLACK-TO-WHITE SCROLL GRADIENT)
        ========================================================================== */
     #about-drawer {
       position: fixed;
-      top: 0;
-      right: 0;
+      left: 50%;
       bottom: 0;
       width: min(100vw, 760px);
+      max-height: 92vh;
       background: #080807;
       color: #0d0c0b;
-      border-left: 1px solid rgba(255, 255, 255, 0.09);
-      box-shadow: -30px 0 70px rgba(0, 0, 0, 0.6);
+      border: 1px solid rgba(255, 255, 255, 0.09);
+      border-bottom: none;
+      border-radius: 16px 16px 0 0;
+      box-shadow: 0 -24px 80px rgba(0, 0, 0, 0.55);
       z-index: 100;
-      transform: translateX(100%);
+      transform: translateX(-50%) translateY(100%);
       transition: transform .55s var(--ease);
       overflow-y: auto;
       overflow-x: hidden;
@@ -2408,7 +2440,7 @@
       scroll-behavior: smooth;
     }
     body.about-open #about-drawer {
-      transform: translateX(0);
+      transform: translateX(-50%) translateY(0);
     }
 
     .about-scrim {
@@ -2450,14 +2482,16 @@
       font-family: var(--sans);
     }
     .about-close-btn {
-      color: #ffffff;
-      border-color: rgba(255, 255, 255, 0.2);
-      background: rgba(255, 255, 255, 0.04);
+      color: rgba(255, 255, 255, 0.75) !important;
+      border-color: rgba(255, 255, 255, 0.1) !important;
+      background: rgba(255, 255, 255, 0.04) !important;
+      backdrop-filter: blur(10px) !important;
+      -webkit-backdrop-filter: blur(10px) !important;
       transition: all .25s var(--ease);
     }
     .about-close-btn:hover {
-      background: var(--accent) !important;
-      border-color: var(--accent) !important;
+      background: rgba(241, 88, 5, 0.65) !important;
+      border-color: rgba(241, 88, 5, 0.5) !important;
       color: #ffffff !important;
     }
 
@@ -2600,15 +2634,56 @@
       flex-shrink: 0;
     }
 
-    /* Body Container (Transparent to reveal smooth background scroll transition) */
+    /* Body Container — full black, white text */
     .about-body {
       padding: clamp(32px, 5vw, 56px) clamp(24px, 4.5vw, 44px) 80px;
       display: flex;
       flex-direction: column;
       gap: clamp(48px, 6vw, 72px);
-      background: transparent;
-      color: #0d0c0b;
+      background: #080807;
+      color: #e8e5e0;
     }
+
+    /* ── All text inside about-body inherits light colors on black ── */
+    .about-body h3,
+    .about-body h4,
+    .about-body .press-card-title,
+    .about-body .about-orange-quote,
+    .about-body .about-welcome-title,
+    .about-body .section-heading {
+      color: #e8e5e0;
+      font-family: var(--sans);
+    }
+    .about-body p,
+    .about-body .about-welcome-desc,
+    .about-body .about-bio-paragraphs p,
+    .about-body .timeline-content p,
+    .about-body .press-card-desc {
+      color: rgba(232, 229, 224, 0.75);
+      font-family: var(--body);
+      font-size: 14px;
+      line-height: 1.78;
+    }
+    .about-body .timeline-content p strong {
+      color: #e8e5e0;
+    }
+    .about-body .about-section-label,
+    .about-body .section-badge,
+    .about-body .about-orange-credit,
+    .about-body .press-source,
+    .about-body .leadership-subhead,
+    .about-body .timeline-date { color: var(--accent); }
+    .about-body .press-year { color: rgba(232, 229, 224, 0.4); }
+    .about-body .about-manifesto-block,
+    .about-body .about-bio-block,
+    .about-body .about-dossier-section { border-bottom-color: rgba(255,255,255,0.08); }
+    .about-body .about-section-header { border-bottom-color: rgba(255,255,255,0.08); }
+    .about-body .about-manifesto-left { border-right-color: rgba(255,255,255,0.08); }
+    .about-body .timeline-item { border-bottom-color: rgba(255,255,255,0.07); }
+    .about-body .press-card { border-bottom-color: rgba(255,255,255,0.07); }
+    .about-body .leadership-subhead::after { background: rgba(255,255,255,0.08); }
+    .about-body .about-palette-row { border-top-color: rgba(255,255,255,0.08); }
+    .about-body .palette-lbl { color: rgba(232,229,224,0.4); }
 
     /* Mist Reveal Animation: Elements emerge as if condensing from dense morning mist */
     .about-reveal-item {
@@ -2627,14 +2702,14 @@
       filter: blur(0px);
     }
 
-    /* Orange Grove Manifesto (Frameless Typography on Paper White) */
+    /* Orange Grove Manifesto (Frameless Typography on Black) */
     .about-manifesto-block {
       display: grid;
       grid-template-columns: 1.1fr 1fr;
       gap: clamp(24px, 4vw, 44px);
       align-items: center;
       padding-bottom: clamp(32px, 4vw, 48px);
-      border-bottom: 1px solid rgba(13, 12, 11, 0.12);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     }
     @media (max-width: 620px) {
       .about-manifesto-block {
@@ -2643,13 +2718,13 @@
       }
     }
     .about-manifesto-left {
-      border-right: 1px solid rgba(13, 12, 11, 0.12);
+      border-right: 1px solid rgba(255, 255, 255, 0.1);
       padding-right: clamp(16px, 3vw, 32px);
     }
     @media (max-width: 620px) {
       .about-manifesto-left {
         border-right: none;
-        border-bottom: 1px solid rgba(13, 12, 11, 0.12);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         padding-right: 0;
         padding-bottom: 24px;
       }
@@ -2661,7 +2736,7 @@
       line-height: 1.3;
       text-transform: uppercase;
       letter-spacing: -0.02em;
-      color: #0d0c0b;
+      color: #e8e5e0;
       margin-bottom: 16px;
     }
     .about-orange-credit {
@@ -2677,17 +2752,17 @@
       justify-content: center;
     }
     .about-welcome-title {
-      font-family: var(--serif);
+      font-family: var(--sans);
       font-size: 15.5px;
-      color: #0d0c0b;
+      color: #e8e5e0;
       margin-bottom: 10px;
       line-height: 1.35;
     }
     .about-welcome-desc {
-      font-family: var(--serif);
-      font-size: 13px;
+      font-family: var(--body);
+      font-size: 15px;
       line-height: 1.74;
-      color: #383531;
+      color: rgba(232, 229, 224, 0.82);
       text-align: justify;
     }
 
@@ -2697,7 +2772,7 @@
       flex-direction: column;
       gap: 18px;
       padding-bottom: clamp(32px, 4vw, 48px);
-      border-bottom: 1px solid rgba(13, 12, 11, 0.12);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     }
     .about-section-label {
       font-size: 10.5px;
@@ -2713,22 +2788,22 @@
       gap: 16px;
     }
     .about-bio-paragraphs p {
-      font-family: 'Inter', var(--sans);
-      font-size: 14px;
+      font-family: var(--body);
+      font-size: 15px;
       line-height: 1.8;
-      color: #242220;
+      color: rgba(232, 229, 224, 0.85);
       text-align: justify;
     }
     .about-palette-row {
       margin-top: 20px;
       padding-top: 18px;
-      border-top: 1px solid rgba(13, 12, 11, 0.08);
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
     }
     .about-palette-row .palette-lbl {
       font-size: 9.5px;
       letter-spacing: 0.22em;
       text-transform: uppercase;
-      color: rgba(13, 12, 11, 0.45);
+      color: rgba(232, 229, 224, 0.45);
       margin-bottom: 8px;
       font-weight: 500;
     }
@@ -2755,16 +2830,16 @@
     .about-socials-row a {
       font-size: 12.5px;
       font-weight: 500;
-      color: #0d0c0b;
+      color: #e8e5e0;
       border: none !important;
       padding: 8px 18px;
       border-radius: 999px;
-      background: #ffffff;
+      background: rgba(255, 255, 255, 0.1);
       transition: all .25s var(--ease);
       display: inline-flex;
       align-items: center;
       gap: 5px;
-      box-shadow: 0 1px 3px rgba(13, 12, 11, 0.04);
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
     }
     .about-socials-row a:hover {
       background: var(--accent);
@@ -2780,7 +2855,7 @@
       flex-direction: column;
       gap: 24px;
       padding-bottom: clamp(32px, 4vw, 48px);
-      border-bottom: 1px solid rgba(13, 12, 11, 0.12);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     }
     .about-dossier-section:last-child {
       border-bottom: none;
@@ -2791,7 +2866,7 @@
       align-items: baseline;
       gap: 12px;
       padding-bottom: 14px;
-      border-bottom: 1px solid rgba(13, 12, 11, 0.12);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     }
     .about-section-header .section-badge {
       font-size: 10px;
@@ -2804,7 +2879,7 @@
       font-family: var(--sans);
       font-size: clamp(20px, 2.6vw, 25px);
       font-weight: 600;
-      color: #0d0c0b;
+      color: #e8e5e0;
       letter-spacing: -0.015em;
       margin: 0;
     }
@@ -2820,7 +2895,7 @@
       gap: 18px;
       align-items: baseline;
       padding-bottom: 18px;
-      border-bottom: 1px dashed rgba(13, 12, 11, 0.14);
+      border-bottom: 1px dashed rgba(255, 255, 255, 0.1);
     }
     .timeline-item:last-child {
       border-bottom: none;
@@ -2837,11 +2912,11 @@
       font-weight: 700;
       letter-spacing: 0.08em;
       color: var(--accent);
-      background: rgba(196, 98, 16, 0.08);
-      border: 1px solid rgba(196, 98, 16, 0.25);
-      padding: 4px 8px;
-      border-radius: 4px;
-      text-align: center;
+      background: none;
+      border: none;
+      padding: 0;
+      border-radius: 0;
+      text-align: left;
       white-space: nowrap;
       font-family: var(--sans);
     }
@@ -2849,19 +2924,19 @@
       font-family: var(--sans);
       font-size: 14px;
       font-weight: 600;
-      color: #0d0c0b;
+      color: #e8e5e0;
       line-height: 1.38;
       margin: 0 0 5px 0;
     }
     .timeline-content p {
-      font-family: 'Inter', var(--sans);
+      font-family: var(--body);
       font-size: 13px;
       line-height: 1.62;
-      color: #484541;
+      color: rgba(232, 229, 224, 0.65);
       margin: 0;
     }
     .timeline-content p strong {
-      color: #0d0c0b;
+      color: #e8e5e0;
       font-weight: 600;
     }
 
@@ -2887,7 +2962,7 @@
       content: '';
       flex: 1;
       height: 1px;
-      background: rgba(13, 12, 11, 0.1);
+      background: rgba(255, 255, 255, 0.08);
     }
 
     /* Press & Publications Cards (Frameless Minimalist Editorial List on Paper White) */
@@ -2898,7 +2973,7 @@
     }
     .press-card {
       padding: 16px 0;
-      border-bottom: 1px solid rgba(13, 12, 11, 0.1);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
       display: flex;
       flex-direction: column;
       gap: 6px;
@@ -2922,20 +2997,20 @@
     .press-year {
       font-size: 11px;
       font-weight: 600;
-      color: rgba(13, 12, 11, 0.42);
+      color: rgba(232, 229, 224, 0.42);
     }
     .press-card-title {
       font-family: var(--sans);
       font-size: 14px;
       font-weight: 600;
       line-height: 1.42;
-      color: #0d0c0b;
+      color: #e8e5e0;
     }
     .press-card-desc {
-      font-family: 'Inter', var(--sans);
-      font-size: 12.5px;
+      font-family: var(--body);
+      font-size: 13px;
       line-height: 1.6;
-      color: #484541;
+      color: rgba(232, 229, 224, 0.6);
     }
     .press-card-links {
       display: flex;
@@ -3557,7 +3632,7 @@
     <!-- 1. Full-Height Initial Cover Portrait -->
     <div class="about-cover-hero">
       <div class="about-cover-media">
-        <img src="03.%20Profile%20pic/Profile%20pic%201.jpg" alt="Baro Nguyen (Bao Hoang Nguyen)" class="about-cover-img" />
+        <img src="03.%20Profile%20pic/Profile%20pic%201.jpg" alt="Baro Nguyen" class="about-cover-img" />
         <video autoplay muted loop playsinline class="about-cover-video">
           <source src="03.%20Profile%20pic/pt.mp4" type="video/mp4" />
         </video>
@@ -3566,7 +3641,6 @@
       <div class="about-cover-content">
         <h2 class="about-name">Baro Nguyen<span class="accent-tilde" style="color: #f15805 !important;">~</span></h2>
         <div class="about-alias-row">
-          <span class="about-alias">Bao Hoang Nguyen<span class="accent-tilde" style="color: #f15805 !important;">~</span></span>
           <span class="ipa">/’bærəʊ ŋwiəʔən/</span>
         </div>
         <div class="about-role-tag">The Orange Orchardist &bull; Keeper of the Grove</div>
@@ -3599,7 +3673,6 @@
 
       <!-- 3. Artist Statement & Living Patterns -->
       <div class="about-bio-block about-reveal-item">
-        <div class="about-section-label">Field Axiom &bull; Living Patterns</div>
         <div class="about-bio-paragraphs">
           <p>I grew up in a small highland region, far from most things people take for granted. The distance taught me one thing early: that movement, even uncertain, even slow is better than standing still.</p>
           <p>Most of what I've learned came from failure. The rare chances that worked out brought me here. The ones that didn't gave me something quieter, a way of seeing, a patience for the long road. Like a small fish rising toward the surface: not because it's sure of the light, but because it hasn't stopped yet.</p>
@@ -3608,7 +3681,6 @@
           <p>I believe a home is rarely just a home. When it's built with care, it shapes the people inside it. Those people carry something outward into their families, their neighbors, the street. The change doesn't announce itself. It just spreads, the way warmth does, slowly and without asking permission.</p>
         </div>
         <div class="about-palette-row">
-          <div class="palette-lbl">Identity Spectrum &bull; Harvest Palette</div>
           <div class="palette-img-wrap">
             <img src="01.Logo/palette%20bar-01.png" alt="Orange Tree Palette" />
           </div>
@@ -3624,7 +3696,6 @@
       <!-- 4. Achievements (Chronological) -->
       <div class="about-dossier-section about-reveal-item">
         <div class="about-section-header">
-          <span class="section-badge">HONORS &bull; MERIT</span>
           <h3 class="section-heading">Achievements</h3>
         </div>
         <div class="timeline-list">
@@ -3718,7 +3789,6 @@
       <!-- 5. Leadership & Workshops -->
       <div class="about-dossier-section about-reveal-item">
         <div class="about-section-header">
-          <span class="section-badge">COMMUNITY &bull; INITIATIVE</span>
           <h3 class="section-heading">Leadership &amp; Workshops</h3>
         </div>
 
@@ -3841,7 +3911,6 @@
       <!-- 6. Press & Publications -->
       <div class="about-dossier-section about-reveal-item">
         <div class="about-section-header">
-          <span class="section-badge">PRESS &bull; MONOGRAPH</span>
           <h3 class="section-heading">News &amp; Publications</h3>
         </div>
         <div class="press-grid">
@@ -5847,45 +5916,21 @@
 
       function updateAboutMistAndTheme() {
         if (!aboutDrawer) return;
-        var scrollTop = aboutDrawer.scrollTop;
-        var hero = aboutDrawer.querySelector(".about-cover-hero");
-        var heroH = hero ? hero.offsetHeight : (window.innerHeight || 700);
 
-        // Smooth background interpolation from pure black (#080807) to paper white (#faf8f5)
-        // Transition starts at 15% scroll and finishes right when hero finishes (90%)
-        var rangeStart = heroH * 0.15;
-        var rangeEnd = heroH * 0.90;
-        var rawT = Math.min(1, Math.max(0, (scrollTop - rangeStart) / (rangeEnd - rangeStart)));
-        // Smoothstep cubic easing for ultra-smooth transition
-        var t = rawT * rawT * (3 - 2 * rawT);
+        // Background stays full black throughout
+        aboutDrawer.style.backgroundColor = "rgb(8,8,7)";
 
-        var r = Math.round(8 + (250 - 8) * t);
-        var g = Math.round(8 + (248 - 8) * t);
-        var b = Math.round(7 + (245 - 7) * t);
-        aboutDrawer.style.backgroundColor = "rgb(" + r + "," + g + "," + b + ")";
-
-        // Sticky header adapts seamlessly so close button is always distinct
+        // Sticky header adapts: stays dark always
         var aboutHeader = aboutDrawer.querySelector(".about-header");
         if (aboutHeader) {
-          if (t > 0.55) {
-            aboutHeader.style.backgroundColor = "rgba(250, 248, 245, 0.94)";
-            aboutHeader.style.borderBottomColor = "rgba(13, 12, 11, 0.1)";
-            if (aboutCloseBtn) {
-              aboutCloseBtn.style.color = "#0d0c0b";
-              aboutCloseBtn.style.borderColor = "rgba(13, 12, 11, 0.22)";
-              aboutCloseBtn.style.backgroundColor = "rgba(13, 12, 11, 0.05)";
-            }
-            aboutDrawer.style.borderLeftColor = "rgba(13, 12, 11, 0.12)";
-          } else {
-            aboutHeader.style.backgroundColor = "rgba(8, 8, 7, 0.88)";
-            aboutHeader.style.borderBottomColor = "rgba(255, 255, 255, 0.08)";
-            if (aboutCloseBtn) {
-              aboutCloseBtn.style.color = "#ffffff";
-              aboutCloseBtn.style.borderColor = "rgba(255, 255, 255, 0.2)";
-              aboutCloseBtn.style.backgroundColor = "rgba(255, 255, 255, 0.04)";
-            }
-            aboutDrawer.style.borderLeftColor = "rgba(255, 255, 255, 0.09)";
+          aboutHeader.style.backgroundColor = "rgba(8, 8, 7, 0.92)";
+          aboutHeader.style.borderBottomColor = "rgba(255, 255, 255, 0.08)";
+          if (aboutCloseBtn) {
+            aboutCloseBtn.style.color = "rgba(255,255,255,0.75)";
+            aboutCloseBtn.style.borderColor = "rgba(255,255,255,0.1)";
+            aboutCloseBtn.style.backgroundColor = "rgba(255,255,255,0.04)";
           }
+          aboutDrawer.style.borderColor = "rgba(255, 255, 255, 0.09)";
         }
 
         // Mist Reveal check (Condense from mist into clarity)
@@ -6395,11 +6440,9 @@
           // 2.9s - 4.2s: Logo tháº­t + tÃªn + thanh palette bar hiá»‡n ra vÃ  cháº¡y tiáº¿n Ä‘á»™
           // 4.3s: Splash biáº¿n máº¥t vÃ o trang chÃ­nh
 
-          var bgFlashColor = "#0d0c0b";
-          if (elapsed < 1.0) {
-            bgFlashColor = "#0d0c0b";
-          } else if (elapsed >= 1.0 && elapsed < 2.2) {
-            bgFlashColor = "#eb5608"; // Full Orange Background
+          var bgFlashColor = "#ffffff";
+          if (elapsed < 2.2) {
+            bgFlashColor = "#ffffff"; // White background
           } else {
             bgFlashColor = "var(--bg, #f2f0ec)"; // White site Background
           }
@@ -6424,8 +6467,8 @@
           ctx.textAlign = "center";
           ctx.textBaseline = "middle";
 
-          // 1. Draw ambient floating particles
-          if (ambientParticles && ambientParticles.length > 0) {
+          // 1. Ambient floating particles disabled (no code rain chaos)
+          if (false && ambientParticles && ambientParticles.length > 0) {
             var ambOrangePhase = (elapsed >= 1.0 && elapsed < 2.2);
             for (var a = 0; a < ambientParticles.length; a++) {
               var ap = ambientParticles[a];
@@ -6449,8 +6492,8 @@
             }
           }
 
-          // 2. Update physics & render target particles (forming BAROPHOLIO)
-          if (targetParticles && targetParticles.length > 0) {
+          // 2. Target particles disabled (no chaotic text gathering animation)
+          if (false && targetParticles && targetParticles.length > 0) {
             for (var i = 0; i < targetParticles.length; i++) {
               var p = targetParticles[i];
               if (!isSnapped) {
@@ -6514,8 +6557,8 @@
           }
 
           // 2. White loang ripple effect (Expanding circle loang tá»« giá»¯a ra háº¿t toÃ n mÃ n hÃ¬nh)
-          if (elapsed >= 2.2 && elapsed < 3.2) {
-            var rippleProgress = Math.min(1, (elapsed - 2.2) / 0.65);
+          if (elapsed >= 0.8 && elapsed < 1.8) {
+            var rippleProgress = Math.min(1, (elapsed - 0.8) / 0.65);
             // Ease out expansion
             var rFactor = Math.sin(rippleProgress * Math.PI / 2);
             var maxR = Math.hypot(screenW, screenH);
@@ -6529,7 +6572,7 @@
           }
 
           // 3. Reveal clean real logo, name and palette bar
-          if (elapsed >= 2.7 && !splashResolved.classList.contains("show")) {
+          if (elapsed >= 1.3 && !splashResolved.classList.contains("show")) {
             splashResolved.classList.add("show");
             splashBarWrap.classList.add("show");
           }
@@ -6538,7 +6581,7 @@
           // (time-based override removed to avoid conflict with initApp progress tracker)
 
           // 4. Final dismiss: STRICTLY wait until _assetsLoaded = true (100%)
-          if (elapsed >= 2.9) {
+          if (elapsed >= 1.5) {
             if (window._assetsLoaded) {
               triggerAppReveal();
               return; // stop loop
@@ -6622,5 +6665,165 @@
       }
     })();
   </script>
+
+  <!-- ============================================================
+       CUSTOM DOT SCROLLBAR — replaces all native scrollbars
+       with a single tiny dot that travels along a hair-thin track
+       ============================================================ -->
+  <style>
+    /* ── Hide ALL native scrollbars globally ── */
+    *,
+    *::before,
+    *::after {
+      scrollbar-width: none !important;
+      -ms-overflow-style: none !important;
+    }
+    *::-webkit-scrollbar {
+      display: none !important;
+      width: 0 !important;
+      height: 0 !important;
+    }
+    html {
+      scrollbar-gutter: auto;
+    }
+
+    /* ── Dot scrollbar track + dot ── */
+    #dot-scroll-track {
+      position: fixed;
+      right: 7px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 1px;
+      /* height set by JS per container */
+      background: rgba(13, 12, 11, 0.10);
+      border-radius: 1px;
+      z-index: 9000;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity .35s ease, height .2s ease;
+    }
+    #dot-scroll-track.visible {
+      opacity: 1;
+    }
+    /* Dark theme variant (about drawer, menu) */
+    #dot-scroll-track.dark {
+      background: rgba(255, 255, 255, 0.12);
+    }
+    #dot-scroll-dot {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%) translateY(0);
+      width: 3px;
+      height: 3px;
+      border-radius: 50%;
+      background: rgba(13, 12, 11, 0.55);
+      transition: background .3s ease, transform .08s linear;
+      will-change: transform;
+    }
+    #dot-scroll-track.dark #dot-scroll-dot {
+      background: rgba(255, 255, 255, 0.65);
+    }
+  </style>
+
+  <div id="dot-scroll-track" aria-hidden="true">
+    <div id="dot-scroll-dot"></div>
+  </div>
+
+  <script>
+    (function () {
+      var track  = document.getElementById('dot-scroll-track');
+      var dot    = document.getElementById('dot-scroll-dot');
+      if (!track || !dot) return;
+
+      // Track height in px (the visible column the dot rides)
+      var TRACK_H = 120;
+      // Idle-hide delay (ms)
+      var HIDE_DELAY = 1200;
+
+      var hideTimer = null;
+      var currentEl = null;  // element being tracked
+
+      // ── Position the track vertically centred on screen ──
+      track.style.height = TRACK_H + 'px';
+
+      function show(dark) {
+        clearTimeout(hideTimer);
+        track.classList.toggle('dark', !!dark);
+        track.classList.add('visible');
+      }
+      function scheduleHide() {
+        clearTimeout(hideTimer);
+        hideTimer = setTimeout(function () {
+          track.classList.remove('visible');
+        }, HIDE_DELAY);
+      }
+
+      // ── Move dot: ratio 0–1 → translateY 0 … TRACK_H-dotSize ──
+      function moveDot(ratio) {
+        var dotSize = 3;
+        var travel  = TRACK_H - dotSize;
+        var y       = Math.max(0, Math.min(travel, ratio * travel));
+        dot.style.transform = 'translateX(-50%) translateY(' + y + 'px)';
+      }
+
+      // ── Compute scroll ratio for any element ──
+      function ratio(el) {
+        var max = el.scrollHeight - el.clientHeight;
+        return max > 0 ? el.scrollTop / max : 0;
+      }
+
+      // ── Window / body scroll ──
+      function onWindowScroll() {
+        var max = document.documentElement.scrollHeight - window.innerHeight;
+        var r   = max > 0 ? window.scrollY / max : 0;
+        moveDot(r);
+        show(false);
+        scheduleHide();
+      }
+      window.addEventListener('scroll', onWindowScroll, { passive: true });
+
+      // ── Scrollable panel containers ──
+      // about-drawer (dark), #grid (light), #bookModal inner, #menu (dark), misc
+      var panels = [
+        { sel: '#about-drawer', dark: true  },
+        { sel: '#grid',         dark: false },
+        { sel: '#menu',         dark: true  },
+        { sel: '#bookModal',    dark: false },
+      ];
+
+      function attachPanel(el, dark) {
+        if (!el || el._dotScrollBound) return;
+        el._dotScrollBound = true;
+        el.addEventListener('scroll', function () {
+          currentEl = el;
+          moveDot(ratio(el));
+          show(dark);
+          scheduleHide();
+        }, { passive: true });
+      }
+
+      // Attach after DOM ready (elements may already exist)
+      function attachAll() {
+        panels.forEach(function (p) {
+          var el = document.querySelector(p.sel);
+          if (el) attachPanel(el, p.dark);
+        });
+        // Also catch any other overflow-y:auto containers dynamically created
+        var extras = document.querySelectorAll('.gn-expanded-desc-wrap, .page-desc-text, .book-page-left, .about-body');
+        extras.forEach(function (el) {
+          attachPanel(el, false);
+        });
+      }
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', attachAll);
+      } else {
+        attachAll();
+        // Retry once after page fully sets up (sphere engine / async content)
+        setTimeout(attachAll, 1200);
+      }
+    })();
+  </script>
+
 </body>
 </html>

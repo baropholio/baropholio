@@ -9,3 +9,11 @@ node_modules/
 *.backup*
 *.bak
 *.tmp
+
+# Design drafts & reference materials
+draft/
+ref/
+06.Trash/
+GLTFLoader.js
+verify_v4.js
+favicon-48x48.png

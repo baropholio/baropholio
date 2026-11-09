@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -23,11 +23,22 @@
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Epilogue:ital,wght@0,300;0,400;0,600;0,700;1,400&family=Newsreader:ital,opsz,wght@0,6..72,400;1,6..72,400&family=Space+Grotesk:wght@300;400;500;600;700&display=swap">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Epilogue:ital,wght@0,300;0,400;0,600;0,700;1,400&family=Newsreader:ital,opsz,wght@0,6..72,400;1,6..72,400&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" media="print" onload="this.media='all'">
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Epilogue:ital,wght@0,300;0,400;0,600;0,700;1,400&family=Newsreader:ital,opsz,wght@0,6..72,400;1,6..72,400&family=EB+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Space+Grotesk:wght@300;400;500;600;700&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Epilogue:ital,wght@0,300;0,400;0,600;0,700;1,400&family=Newsreader:ital,opsz,wght@0,6..72,400;1,6..72,400&family=EB+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" media="print" onload="this.media='all'">
   <noscript>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Epilogue:ital,wght@0,300;0,400;0,600;0,700;1,400&family=Newsreader:ital,opsz,wght@0,6..72,400;1,6..72,400&family=Space+Grotesk:wght@300;400;500;600;700&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Epilogue:ital,wght@0,300;0,400;0,600;0,700;1,400&family=Newsreader:ital,opsz,wght@0,6..72,400;1,6..72,400&family=EB+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Space+Grotesk:wght@300;400;500;600;700&display=swap">
   </noscript>
+
+  <style>
+    /* FCaslon 30 ITC — local OTF */
+    @font-face {
+      font-family: 'FCaslon30ITC';
+      src: url('fonts/fcaslon-thirty-itc-std-maisfontes.ea8c/fcaslon-thirty-itc-std.otf') format('opentype');
+      font-weight: 400;
+      font-style: normal;
+      font-display: swap;
+    }
+  </style>
 
   <style>
     :root {
@@ -36,6 +47,7 @@
       --fg-soft: rgba(13,12,11,0.64);
       --accent: #c46210;
       --sans: "Space Grotesk", "Epilogue", -apple-system, sans-serif;
+      --body: "FCaslon30ITC", "EB Garamond", "Garamond", Georgia, serif;
     }
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html, body {
@@ -43,10 +55,11 @@
       height: 100%;
       background: #ffffff;
       color: var(--fg);
-      font-family: var(--sans);
+      font-family: var(--body);
       -webkit-font-smoothing: antialiased;
       overflow-x: hidden;
     }
+    h1, h2, h3, h4, h5, h6 { font-family: var(--sans); }
     #dot {
       position: fixed; pointer-events: none; z-index: 100005;
       width: 8px; height: 8px; border-radius: 50%;
@@ -353,5 +366,147 @@
 
   })();
 </script>
+  <!-- ============================================================
+       CUSTOM DOT SCROLLBAR — replaces all native scrollbars
+       with a single tiny dot that travels along a hair-thin track
+       ============================================================ -->
+  <style>
+    /* ── Hide ALL native scrollbars globally ── */
+    *,
+    *::before,
+    *::after {
+      scrollbar-width: none !important;
+      -ms-overflow-style: none !important;
+    }
+    *::-webkit-scrollbar {
+      display: none !important;
+      width: 0 !important;
+      height: 0 !important;
+    }
+    html {
+      scrollbar-gutter: auto;
+    }
+
+    /* ── Dot scrollbar track + dot ── */
+    #dot-scroll-track {
+      position: fixed;
+      right: 7px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 1px;
+      background: rgba(13, 12, 11, 0.10);
+      border-radius: 1px;
+      z-index: 9000;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity .35s ease, height .2s ease;
+    }
+    #dot-scroll-track.visible {
+      opacity: 1;
+    }
+    #dot-scroll-track.dark {
+      background: rgba(255, 255, 255, 0.12);
+    }
+    #dot-scroll-dot {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%) translateY(0);
+      width: 3px;
+      height: 3px;
+      border-radius: 50%;
+      background: rgba(13, 12, 11, 0.55);
+      transition: background .3s ease, transform .08s linear;
+      will-change: transform;
+    }
+    #dot-scroll-track.dark #dot-scroll-dot {
+      background: rgba(255, 255, 255, 0.65);
+    }
+  </style>
+
+  <div id="dot-scroll-track" aria-hidden="true">
+    <div id="dot-scroll-dot"></div>
+  </div>
+
+  <script>
+    (function () {
+      var track  = document.getElementById('dot-scroll-track');
+      var dot    = document.getElementById('dot-scroll-dot');
+      if (!track || !dot) return;
+
+      var TRACK_H    = 120;
+      var HIDE_DELAY = 1200;
+      var hideTimer  = null;
+
+      track.style.height = TRACK_H + 'px';
+
+      function show(dark) {
+        clearTimeout(hideTimer);
+        track.classList.toggle('dark', !!dark);
+        track.classList.add('visible');
+      }
+      function scheduleHide() {
+        clearTimeout(hideTimer);
+        hideTimer = setTimeout(function () {
+          track.classList.remove('visible');
+        }, HIDE_DELAY);
+      }
+      function moveDot(ratio) {
+        var dotSize = 3;
+        var travel  = TRACK_H - dotSize;
+        var y       = Math.max(0, Math.min(travel, ratio * travel));
+        dot.style.transform = 'translateX(-50%) translateY(' + y + 'px)';
+      }
+      function ratio(el) {
+        var max = el.scrollHeight - el.clientHeight;
+        return max > 0 ? el.scrollTop / max : 0;
+      }
+
+      // Window scroll
+      window.addEventListener('scroll', function () {
+        var max = document.documentElement.scrollHeight - window.innerHeight;
+        var r   = max > 0 ? window.scrollY / max : 0;
+        moveDot(r);
+        show(false);
+        scheduleHide();
+      }, { passive: true });
+
+      // Panel containers
+      function attachPanel(el, dark) {
+        if (!el || el._dotScrollBound) return;
+        el._dotScrollBound = true;
+        el.addEventListener('scroll', function () {
+          moveDot(ratio(el));
+          show(dark);
+          scheduleHide();
+        }, { passive: true });
+      }
+
+      function attachAll() {
+        // Light panels
+        var lightSels = ['#grid', '#bookModal', '#work-grid', '.project-detail', '.work-list'];
+        lightSels.forEach(function (s) {
+          var el = document.querySelector(s);
+          if (el) attachPanel(el, false);
+        });
+        // Dark panels
+        var darkSels = ['#about-drawer', '#menu'];
+        darkSels.forEach(function (s) {
+          var el = document.querySelector(s);
+          if (el) attachPanel(el, true);
+        });
+        // Any remaining overflow-y:auto containers
+        var extras = document.querySelectorAll('[style*="overflow-y"]');
+        extras.forEach(function (el) { attachPanel(el, false); });
+      }
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', attachAll);
+      } else {
+        attachAll();
+        setTimeout(attachAll, 1200);
+      }
+    })();
+  </script>
+
 </body>
 </html>

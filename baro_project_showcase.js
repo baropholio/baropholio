@@ -50,6 +50,14 @@
     var style = document.createElement("style");
     style.id = "baro-showcase-styles";
     style.textContent = `
+      @font-face {
+        font-family: 'FCaslon30ITC';
+        src: url('fonts/fcaslon-thirty-itc-std-maisfontes.ea8c/fcaslon-thirty-itc-std.otf') format('opentype');
+        font-weight: 400;
+        font-style: normal;
+        font-display: swap;
+      }
+
       /* Ensure legacy 2-page book spread is permanently hidden */
       #bookModal {
         display: none !important;
@@ -75,6 +83,7 @@
         --baro-border: rgba(13, 12, 11, 0.1);
         --baro-border-light: rgba(13, 12, 11, 0.06);
         --baro-font-stack: var(--sans, "Space Grotesk", "Epilogue", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif);
+        --baro-body-font: var(--body, "FCaslon30ITC", "EB Garamond", "Garamond", Georgia, serif);
         --baro-ease: cubic-bezier(0.16, 1, 0.3, 1);
         --baro-duration-fast: 300ms;
         --baro-duration-instant: 150ms;
@@ -87,7 +96,7 @@
         z-index: 99995;
         background: #ffffff;
         color: var(--baro-text-primary);
-        font-family: var(--baro-font-stack);
+        font-family: var(--baro-body-font);
         overflow-y: auto;
         overflow-x: hidden;
         opacity: 0;
@@ -117,13 +126,16 @@
         height: 64px;
         display: flex;
         align-items: center;
-        justify-content: space-between;
+        justify-content: flex-end;
         padding: 0 32px;
         z-index: 120;
         pointer-events: none;
       }
 
-      .baro-top-nav-left,
+      .baro-top-nav-left {
+        display: none !important;
+      }
+
       .baro-top-nav-right {
         display: flex;
         align-items: center;
@@ -132,6 +144,7 @@
       }
 
       .baro-pill-badge {
+        display: none !important;
         font-size: 11px;
         font-weight: 600;
         letter-spacing: 0.12em;
@@ -224,8 +237,38 @@
                     transform 0.22s ease 0.06s;
       }
 
-      /* Unified Sharp Glassmorphic Close Button (100% Baropholio Spec) */
-      .baro-close-button,
+      /* Sharp Close Button — Main: ultra-transparent glass */
+      .baro-close-button {
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        width: 36px !important;
+        height: 36px !important;
+        border-radius: 0px !important;
+        background: rgba(255, 255, 255, 0.06) !important;
+        backdrop-filter: blur(8px) !important;
+        -webkit-backdrop-filter: blur(8px) !important;
+        border: 1px solid rgba(13, 12, 11, 0.07) !important;
+        box-shadow: none !important;
+        color: rgba(13, 12, 11, 0.28) !important;
+        cursor: pointer !important;
+        transition:
+          background .25s ease,
+          border-color .25s ease,
+          transform .25s ease,
+          color .25s ease !important;
+        flex-shrink: 0;
+        padding: 0;
+      }
+
+      .baro-close-button:hover {
+        background: #0d0c0b !important;
+        color: #ffffff !important;
+        border-color: #0d0c0b !important;
+        transform: rotate(90deg) !important;
+      }
+
+      /* Lightbox close: standard white glass */
       .baro-lb-close-btn {
         display: inline-flex !important;
         align-items: center !important;
@@ -249,7 +292,6 @@
         padding: 0;
       }
 
-      .baro-close-button:hover,
       .baro-lb-close-btn:hover {
         background: #0d0c0b !important;
         color: #ffffff !important;
@@ -434,7 +476,7 @@
         position: relative;
         max-width: 1360px;
         margin: 0 auto;
-        padding: 80px 32px 120px;
+        padding: 72px 32px 120px;
         background: #ffffff;
         border-top: 1px solid var(--baro-border);
       }
@@ -455,6 +497,7 @@
 
       /* Tiêu đề dự án nhỏ gọn, thanh nhã */
       .baro-dossier-title {
+        font-family: var(--baro-font-stack);
         font-size: clamp(1.4rem, 2.4vw, 2.1rem);
         font-weight: 700;
         letter-spacing: -0.025em;
@@ -466,9 +509,10 @@
 
       /* Toàn bộ chữ mô tả dự án nhỏ lại */
       .baro-dossier-narrative {
-        font-size: 0.92rem;
+        font-family: var(--baro-body-font);
+        font-size: 0.98rem;
         line-height: 1.75;
-        color: var(--baro-text-secondary);
+        color: #0d0c0b;
         white-space: pre-line;
       }
 
@@ -485,6 +529,7 @@
         display: flex;
         flex-direction: column;
         gap: 5px;
+        font-family: var(--baro-body-font);
       }
 
       .baro-meta-row {
@@ -504,16 +549,18 @@
       }
 
       .baro-meta-key {
+        font-family: var(--baro-font-stack);
         font-weight: 600;
         letter-spacing: 0.07em;
         text-transform: uppercase;
         font-size: 0.65rem;
-        color: var(--baro-text-tertiary);
+        color: #0d0c0b;
       }
 
       .baro-meta-val {
+        font-family: var(--baro-body-font);
         font-weight: 500;
-        font-size: 0.72rem;
+        font-size: 0.82rem;
         color: var(--baro-text-primary);
       }
 
@@ -539,41 +586,75 @@
         transform: translateY(-1px);
       }
 
-      /* Asymmetrical Uncropped Gallery Stream */
+      /* Asymmetrical Moodboard Collage Gallery — Non-overlapping, Varied Sizes */
       .baro-gallery-stream {
         display: flex;
         flex-direction: column;
-        gap: 60px;
-        margin-top: 36px;
+        gap: 20px;
+        margin-top: 0;
       }
 
+      /* Row containers */
       .baro-plate-row {
         width: 100%;
         display: flex;
-        align-items: center;
-        justify-content: center;
+        align-items: stretch;
+        gap: 20px;
       }
 
+      /* Full bleed hero shot */
       .baro-plate-row.full-width {
         max-width: 100%;
       }
 
+      /* Landscape left (60%) + Portrait right (38%) */
       .baro-plate-row.split-uneven-1 {
         display: grid;
-        grid-template-columns: 1.3fr 0.9fr;
-        gap: 40px;
-        align-items: center;
+        grid-template-columns: 1.58fr 1fr;
+        gap: 20px;
+        align-items: start;
       }
 
+      /* Portrait left (38%) + Landscape right (60%) */
       .baro-plate-row.split-uneven-2 {
         display: grid;
-        grid-template-columns: 0.9fr 1.3fr;
-        gap: 40px;
-        align-items: center;
+        grid-template-columns: 1fr 1.58fr;
+        gap: 20px;
+        align-items: start;
       }
 
+      /* Three equal squares */
+      .baro-plate-row.triple-col {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 20px;
+        align-items: start;
+      }
+
+      /* Wide panoramic center, 88% width */
+      .baro-plate-row.panoramic {
+        max-width: 88%;
+        margin: 0 auto;
+        display: block;
+      }
+
+      /* Offset square — 50% centered, shifted right */
+      .baro-plate-row.offset-right {
+        max-width: 54%;
+        margin: 0 0 0 auto;
+        display: block;
+      }
+
+      /* Offset square — 50% centered, shifted left */
+      .baro-plate-row.offset-left {
+        max-width: 54%;
+        margin: 0 auto 0 0;
+        display: block;
+      }
+
+      /* Legacy alias */
       .baro-plate-row.centered-focus {
-        max-width: 82%;
+        max-width: 68%;
         margin: 0 auto;
       }
 
@@ -816,9 +897,9 @@
 
       /* Responsive adjustments */
       @media (max-width: 960px) {
-        .baro-dossier-header {
+        .baro-dossier-info-block {
           grid-template-columns: 1fr;
-          gap: 36px;
+          gap: 28px;
         }
 
         .baro-plate-row.split-uneven-1,
@@ -1395,42 +1476,45 @@
       var imgCount = images.length;
       var curIdx = 0;
 
-      while (curIdx < imgCount) {
-        var pattern = (curIdx % 4);
+      // Asymmetric moodboard collage layout — no overlap, full frame visibility
+      // Cycle through varied layout patterns for organic magazine spread feel
+      var layoutCycle = [
+        'full-width',      // 1 img: hero full bleed
+        'split-uneven-1',  // 2 imgs: landscape 60% left + portrait 40% right
+        'offset-right',    // 1 img: 54% right-offset
+        'triple-col',      // 3 imgs: equal squares
+        'split-uneven-2',  // 2 imgs: portrait 40% left + landscape 60% right
+        'panoramic',       // 1 img: 88% wide centered
+        'offset-left',     // 1 img: 54% left-offset
+        'full-width'       // 1 img: full bleed
+      ];
+      var layoutStep = 0;
 
-        if (pattern === 0 || curIdx === imgCount - 1) {
-          var rowFull = document.createElement("div");
-          rowFull.className = "baro-plate-row full-width";
-          rowFull.appendChild(createBaroPlateItem(images[curIdx], curIdx, rec));
-          streamEl.appendChild(rowFull);
-          curIdx += 1;
-        } else if (pattern === 1 && curIdx + 1 < imgCount) {
-          var rowSplit1 = document.createElement("div");
-          rowSplit1.className = "baro-plate-row split-uneven-1";
-          rowSplit1.appendChild(createBaroPlateItem(images[curIdx], curIdx, rec));
-          rowSplit1.appendChild(createBaroPlateItem(images[curIdx + 1], curIdx + 1, rec));
-          streamEl.appendChild(rowSplit1);
-          curIdx += 2;
-        } else if (pattern === 2) {
-          var rowCenter = document.createElement("div");
-          rowCenter.className = "baro-plate-row centered-focus";
-          rowCenter.appendChild(createBaroPlateItem(images[curIdx], curIdx, rec));
-          streamEl.appendChild(rowCenter);
-          curIdx += 1;
-        } else if (pattern === 3 && curIdx + 1 < imgCount) {
-          var rowSplit2 = document.createElement("div");
-          rowSplit2.className = "baro-plate-row split-uneven-2";
-          rowSplit2.appendChild(createBaroPlateItem(images[curIdx], curIdx, rec));
-          rowSplit2.appendChild(createBaroPlateItem(images[curIdx + 1], curIdx + 1, rec));
-          streamEl.appendChild(rowSplit2);
-          curIdx += 2;
-        } else {
-          var rowFallback = document.createElement("div");
-          rowFallback.className = "baro-plate-row full-width";
-          rowFallback.appendChild(createBaroPlateItem(images[curIdx], curIdx, rec));
-          streamEl.appendChild(rowFallback);
-          curIdx += 1;
+      while (curIdx < imgCount) {
+        var layout = layoutCycle[layoutStep % layoutCycle.length];
+        layoutStep++;
+
+        // How many images this pattern needs
+        var need = (layout === 'split-uneven-1' || layout === 'split-uneven-2') ? 2
+                 : (layout === 'triple-col') ? 3
+                 : 1;
+
+        // Adapt if not enough images remain
+        var remaining = imgCount - curIdx;
+        if (remaining < need) {
+          if (remaining === 2) { layout = 'split-uneven-1'; need = 2; }
+          else { layout = 'full-width'; need = 1; }
         }
+
+        var row = document.createElement('div');
+        row.className = 'baro-plate-row ' + layout;
+
+        for (var k = 0; k < need; k++) {
+          row.appendChild(createBaroPlateItem(images[curIdx + k], curIdx + k, rec));
+        }
+
+        streamEl.appendChild(row);
+        curIdx += need;
       }
     }
   }
@@ -1625,10 +1709,7 @@
     }
     startHeroSlideshow(currentImages);
 
-    // 2. Full-Width Intermediate Image Stream (Không chữ mô tả, dính với nhau)
-    buildFullStreamTrack(currentRecord, currentImages);
-
-    // 3. Dossier & Asymmetrical Gallery (Chữ mô tả nhỏ lại)
+    // 2. Build dossier info + moodboard gallery (removed full stream track)
     buildDossierAndGallery(currentRecord, currentImages);
 
     var prevIdx = (currentProjectIdx - 1 + recs.length) % recs.length;
