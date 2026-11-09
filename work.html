@@ -3140,23 +3140,27 @@
   </div>
 
   <!-- Header Chrome -->
-  <header class="chrome">
-    <div class="brand-group">
-      <a href="#" class="wordmark" aria-label="Baropholio Home">
-        <img src="01.Logo/Baropholio%20logo2-01.png" alt="Baropholio Logo" class="brand-logo-mark">
-        <span class="brand-title">BAROPHOLIO</span>
-      </a>
-      <!-- Subtle Palette Bar revealing from left to right -->
-      <div class="palette-bar-track" title="Orange Tree Palette &bull; 2026 Archive">
-        <img src="01.Logo/palette%20bar-01.png" alt="Color Palette" class="palette-bar-img">
-      </div>
-    </div>
+  <header class="chrome" style="justify-content: space-between; align-items: center;">
+    <!-- Logo only — no palette bar, no nav links -->
+    <a href="#" class="wordmark" id="workHomeLogo" aria-label="Back to Baropholio Home" style="gap: 8px;">
+      <img src="01.Logo/Baropholio%20logo2-01.png" alt="Baropholio Logo" class="brand-logo-mark">
+    </a>
 
-    <div class="header-nav">
-      <a href="#" class="nav-link" id="navGrid">Works</a>
-      <a href="#" class="nav-link" id="navAbout">About</a>
-      <button id="menuBtn" class="menu-btn" aria-expanded="false" aria-controls="menu" aria-label="Open menu">
-        <span class="bars"><i></i><i></i></span>
+    <!-- Right controls: collection sort filter + close X -->
+    <div style="display:flex; align-items:center; gap:8px;">
+      <div style="position:relative;" id="collFilterWrap">
+        <button class="grid-collection-filter-btn" id="gridCollFilterBtn" aria-label="Filter by collection" title="Sort / filter">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 3C7.03 3 3 7.03 3 12s4.03 9 9 9" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/>
+            <path d="M12 3C16.97 3 21 7.03 21 12s-4.03 9-9 9" fill="currentColor" stroke="none"/>
+          </svg>
+        </button>
+        <div class="grid-collection-dropdown" id="gridCollDropdown">
+          <div class="grid-coll-item active" data-col="">All Works</div>
+        </div>
+      </div>
+      <button class="grid-close-btn" id="workCloseBtn" aria-label="Back to home" title="Back to home">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
       </button>
     </div>
   </header>
@@ -3166,26 +3170,8 @@
   <!-- Flat Grid View -->
   <div id="grid">
     <div class="grid-container">
-      <div class="grid-header" style="justify-content: flex-end; border-bottom: none; margin-bottom: 12px; padding-bottom: 0; display:flex; align-items:center; gap:8px;">
-        <!-- Collection Title Badge (visible when filtering collection) -->
-        <div id="gridHeaderMeta" style="display:none; align-items:center; gap:10px; margin-right:auto;"></div>
-        <!-- Collection Filter Button -->
-        <div style="position:relative;" id="collFilterWrap">
-          <button class="grid-collection-filter-btn" id="gridCollFilterBtn" aria-label="Filter by collection" title="Filter by collection">
-            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <!-- Half-orange icon: left half filled, right half outline -->
-              <path d="M12 3C7.03 3 3 7.03 3 12s4.03 9 9 9" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/>
-              <path d="M12 3C16.97 3 21 7.03 21 12s-4.03 9-9 9" fill="currentColor" stroke="none"/>
-            </svg>
-          </button>
-          <div class="grid-collection-dropdown" id="gridCollDropdown">
-            <div class="grid-coll-item active" data-col="">All Works</div>
-          </div>
-        </div>
-        <button class="grid-close-btn" onclick="window.location.href='index.html'" aria-label="Back to home" title="Back to home">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-        </button>
-      </div>
+      <!-- Collection badge — shown by JS when filtering (hidden by default) -->
+      <div id="gridHeaderMeta" style="display:none; align-items:center; gap:10px; margin-bottom:12px;"></div>
       <div class="grid-rows" id="gridRows"></div>
     </div>
   </div>
@@ -4767,10 +4753,11 @@
         var isFile = window.location.protocol === 'file:';
         window.location.href = isFile ? 'index.html' : '/';
       }
-      var _brand = document.querySelector(".wordmark");
-      if (_brand) _brand.addEventListener("click", _goHome);
-      var _gClose = document.querySelector(".grid-close-btn");
-      if (_gClose) _gClose.addEventListener("click", _goHome);
+      // Wire up new minimal header controls
+      var _brand = document.getElementById('workHomeLogo') || document.querySelector('.wordmark');
+      if (_brand) _brand.addEventListener('click', _goHome);
+      var _wClose = document.getElementById('workCloseBtn');
+      if (_wClose) _wClose.addEventListener('click', _goHome);
 
       // ─── COLLECTION FILTER ENGINE ────────────────────────────────────────────
       (function initCollectionFilter() {
