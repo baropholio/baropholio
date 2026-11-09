@@ -897,9 +897,15 @@
 
       /* Responsive adjustments */
       @media (max-width: 960px) {
+        .baro-dossier-header,
         .baro-dossier-info-block {
           grid-template-columns: 1fr;
-          gap: 28px;
+          gap: 36px;
+          margin-bottom: 48px;
+        }
+
+        .baro-dossier-right {
+          padding: 0;
         }
 
         .baro-plate-row.split-uneven-1,
