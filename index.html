@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -4343,7 +4343,7 @@
       // --- CMS Project → RECORD converter (handles both Admin localStorage & JSON file schemas) ---
       function convertCmsProjectToRecord(p, idx) {
         // Date: try meta first, then dateAdded, then createdAt
-        var dateVal = _metaGet(p, ['date'])
+        var dateVal = _metaGet(p, ['year', 'date'])
           || safeStr(p.dateAdded)
           || (p.createdAt ? new Date(p.createdAt).getFullYear().toString() : '2025');
 
@@ -4523,7 +4523,7 @@
         // 2. Static JS bundle (projects_data.js injects window.BAROPHOLIO_PROJECTS)
         try {
           if (window.BAROPHOLIO_PROJECTS) {
-            var fromJs = normalizeRecords(window.BAROPHOLIO_PROJECTS);
+            var fromJs = normalizeRecords(window.BAROPHOLIO_PROJECTS.map(convertCmsProjectToRecord));
             if (isUsable(fromJs)) {
               console.log('[Baro Sync] Loaded ' + fromJs.length + ' projects from window.BAROPHOLIO_PROJECTS');
               return fromJs;
@@ -4698,7 +4698,7 @@
       }
 
       // ─── QUOTA OPTIMIZED SUPABASE FETCHING & CLIENT CACHE (TTL: 8 mins) ────
-      var SUPABASE_CACHE_KEY = 'baro_projects_cache_v1';
+      var SUPABASE_CACHE_KEY = 'baro_projects_cache_v2'; // v2: merged gallery from projects_data.js
       var CACHE_TTL_MS = 24 * 60 * 60 * 1000; // 8 minutes
 
       async function fetchPortfolioProjectsOptimized() {
@@ -4762,6 +4762,23 @@
           });
 
           var normalized = normalizeRecords(mapped.map(convertCmsProjectToRecord));
+          // Merge gallery/description from projects_data.js when Supabase only fetched media->0
+          if (window.BAROPHOLIO_PROJECTS && Array.isArray(window.BAROPHOLIO_PROJECTS)) {
+            normalized.forEach(function(rec) {
+              var localProj = window.BAROPHOLIO_PROJECTS.find(function(p) {
+                return (p.slug && rec.slug && p.slug === rec.slug) ||
+                       (p.title && rec.title && p.title.toLowerCase() === rec.title.toLowerCase());
+              });
+              if (localProj) {
+                if (!rec.gallery || rec.gallery.length <= 1) {
+                  var lm = Array.isArray(localProj.media) ? localProj.media : [];
+                  var lg = lm.map(function(m){ return (m && (m.src || m.url || m.dataUrl)) || ''; }).filter(Boolean);
+                  if (lg.length > 0) { rec.gallery = lg; if (!rec.image) rec.image = lg[0]; }
+                }
+                if (!rec.description && localProj.description) { rec.description = rec.desc = localProj.description; }
+              }
+            });
+          }
           if (isUsable(normalized)) {
             console.log('[Supabase Portfolio] Fetched ' + normalized.length + ' projects from Cloud.');
             // Save to LocalStorage with timestamp
