@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -333,7 +333,7 @@
       text-decoration: none;
     }
     .brand-logo-mark {
-      height: clamp(26px, 2.6vw, 34px);
+      height: clamp(24px, 2.5vw, 32px);
       width: auto;
       object-fit: contain;
       display: inline-block;
@@ -466,6 +466,10 @@
       justify-content: center;
       width: 36px;
       height: 36px;
+    }
+    .grid-close-btn {
+      width: clamp(24px, 2.5vw, 32px) !important;
+      height: clamp(24px, 2.5vw, 32px) !important;
       border-radius: 0px !important;
       background: rgba(255, 255, 255, 0.35) !important;
       backdrop-filter: blur(20px) saturate(180%) !important;
@@ -502,8 +506,8 @@
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      width: 30px;
-      height: 30px;
+      width: clamp(24px, 2.5vw, 32px) !important;
+      height: clamp(24px, 2.5vw, 32px) !important;
       border-radius: 0px;
       background: rgba(255,255,255,0.35);
       backdrop-filter: blur(20px) saturate(180%);
@@ -527,21 +531,21 @@
       pointer-events: none;
     }
 
-    /* Collection Dropdown */
+    /* Collection Dropdown - Transparent Glass */
     .grid-collection-dropdown {
       position: absolute;
       top: calc(100% + 6px);
       right: 0;
-      min-width: 200px;
-      background: rgba(13,12,11,0.45);
+      min-width: 190px;
+      background: rgba(255, 255, 255, 0.18);
       backdrop-filter: blur(28px) saturate(160%);
       -webkit-backdrop-filter: blur(28px) saturate(160%);
-      border: none;
-      border-radius: 0;
+      border: 1px solid rgba(255, 255, 255, 0.45);
+      border-radius: 4px;
       padding: 6px 0;
       z-index: 9999;
       display: none;
-      box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+      box-shadow: 0 12px 32px rgba(13, 12, 11, 0.08), 0 2px 8px rgba(13, 12, 11, 0.03);
     }
     .grid-collection-dropdown.open { display: block; }
     .grid-coll-item {
@@ -549,24 +553,49 @@
       align-items: center;
       justify-content: space-between;
       gap: 16px;
-      padding: 9px 18px;
-      font-size: 12px;
+      padding: 7px 16px;
+      font-family: var(--sans);
+      font-size: 9pt;
+      font-style: normal !important;
       font-weight: 500;
-      letter-spacing: 0.06em;
-      color: rgba(242,240,236,0.7);
+      letter-spacing: 0.08em;
+      color: rgba(13, 12, 11, 0.82);
       cursor: pointer;
       transition: color .18s, background .18s;
       white-space: nowrap;
-      text-transform: uppercase;
+      text-transform: lowercase;
     }
-    .grid-coll-item:hover { color: #f2f0ec; background: rgba(255,255,255,0.07); }
-    .grid-coll-item.active { color: #e67e22; font-weight: 700; }
+    .grid-coll-item:hover {
+      color: #f15805;
+      background: rgba(255, 255, 255, 0.35);
+    }
+    .grid-coll-item.active {
+      color: #f15805;
+      font-weight: 600;
+      background: rgba(241, 88, 5, 0.08);
+    }
+    .grid-coll-name {
+      font-family: var(--sans);
+      font-size: 9pt;
+      font-style: normal !important;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: lowercase;
+      display: inline-flex;
+      align-items: center;
+    }
     .grid-coll-count {
-      font-size: 10px;
-      opacity: 0.65;
-      font-weight: 400;
-      letter-spacing: 0.02em;
+      font-family: var(--sans);
+      font-size: 7pt;
+      font-style: normal !important;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      color: rgba(13, 12, 11, 0.48);
       margin-left: auto;
+    }
+    .grid-coll-item.active .grid-coll-count {
+      color: #f15805;
+      opacity: 0.85;
     }
     .grid-empty-state {
       grid-column: 1 / -1;
@@ -589,7 +618,7 @@
     /* CSS Grid layout: spacer + card đặt đúng thứ tự DOM → checkerboard tự nhiên */
     #grid.collection-caro-mode .grid-rows {
       display: grid !important;
-      grid-template-columns: repeat(var(--caro-cols, 3), 1fr) !important;
+      grid-template-columns: repeat(var(--caro-cols, 5), 1fr) !important;
       gap: 0 !important;   /* spacer IS the gap */
     }
     #grid.collection-caro-mode .grid-rows .grid-card,
@@ -623,7 +652,7 @@
     .grid-card-spacer {
       aspect-ratio: 1 / 1;
       width: 100%;
-      border-radius: 6px;
+      border-radius: 4px;
       visibility: hidden;
       pointer-events: none;
     }
@@ -1257,15 +1286,15 @@
 
     .grid-rows {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-      gap: clamp(10px, 1.5vw, 18px);
+      grid-template-columns: repeat(auto-fill, minmax(133px, 1fr));
+      gap: clamp(7px, 1vw, 12px);
     }
 
     /* ── Square image-cover card ── */
     .grid-card {
       position: relative;
       aspect-ratio: 1 / 1;
-      border-radius: 6px;
+      border-radius: 4px;
       overflow: hidden;
       cursor: pointer;
       background: #1a1715;
@@ -1278,8 +1307,8 @@
 
     /* hover: gentle lift, show project info */
     .grid-card:hover {
-      transform: translateY(-4px) scale(1.02);
-      box-shadow: 0 16px 36px rgba(13,12,11,.16);
+      transform: translateY(-3px) scale(1.02);
+      box-shadow: 0 11px 24px rgba(13,12,11,.16);
       z-index: 5;
     }
 
@@ -1323,12 +1352,12 @@
     .grid-card-info {
       position: absolute;
       bottom: 0; left: 0; right: 0;
-      padding: 14px 16px;
+      padding: 9px 11px;
       color: #fff;
       pointer-events: none;
       opacity: 0;
       visibility: hidden;
-      transform: translateY(8px);
+      transform: translateY(6px);
       transition: opacity .32s var(--ease), transform .32s var(--ease), visibility .32s ease;
     }
     .grid-card:hover .grid-card-info {
@@ -1338,26 +1367,26 @@
     }
 
     .grid-card-info .cat-label {
-      font-size: 8.5px;
-      letter-spacing: .22em;
+      font-size: 7.5px;
+      letter-spacing: .2em;
       text-transform: uppercase;
       color: var(--accent);
       font-weight: 700;
-      margin-bottom: 4px;
+      margin-bottom: 3px;
       display: block;
     }
     .grid-card-info .card-title {
-      font-size: 12px;
+      font-size: 10.5px;
       font-weight: 500;
       font-family: var(--serif);
-      line-height: 1.35;
+      line-height: 1.3;
       color: rgba(255,255,255,.95);
     }
     .grid-card-info .card-index {
-      font-size: 9px;
-      letter-spacing: .15em;
+      font-size: 8px;
+      letter-spacing: .12em;
       color: rgba(255,255,255,.5);
-      margin-top: 5px;
+      margin-top: 3px;
       display: block;
     }
 
@@ -1371,12 +1400,12 @@
       background: linear-gradient(135deg, #1a1715 0%, #2e2822 100%);
     }
     .grid-card-placeholder .ph-cat {
-      font-size: 9px;
+      font-size: 8px;
       letter-spacing: .26em;
       text-transform: uppercase;
       color: var(--accent);
       text-align: center;
-      padding: 0 12px;
+      padding: 0 8px;
       opacity: 0;
       transition: opacity .3s ease;
     }
@@ -3124,9 +3153,15 @@
   .grid-header {
     margin-bottom: clamp(20px, 3vw, 36px);
   }
-  .grid-collection-filter-btn {
-    width: 36px !important;
-    height: 36px !important;
+  .grid-collection-filter-btn,
+  .grid-close-btn {
+    width: clamp(24px, 2.5vw, 32px) !important;
+    height: clamp(24px, 2.5vw, 32px) !important;
+  }
+  .grid-collection-filter-btn svg,
+  .grid-close-btn svg {
+    width: 14px !important;
+    height: 14px !important;
   }
 </style>
 </head>
@@ -3156,7 +3191,7 @@
           </svg>
         </button>
         <div class="grid-collection-dropdown" id="gridCollDropdown">
-          <div class="grid-coll-item active" data-col="">All Works</div>
+          <div class="grid-coll-item active" data-col=""><span class="grid-coll-name">All Works</span><span class="grid-coll-count"></span></div>
         </div>
       </div>
       <button class="grid-close-btn" id="workCloseBtn" aria-label="Back to home" title="Back to home">
@@ -4841,7 +4876,7 @@
           var allItem = document.createElement('div');
           allItem.className = 'grid-coll-item' + (activeCol === '' ? ' active' : '');
           allItem.dataset.col = '';
-          allItem.innerHTML = '<span style="display:flex; align-items:center;"><span style="width:7px; height:7px; border-radius:50%; background:#888; display:inline-block; margin-right:8px;"></span>All Works</span><span class="grid-coll-count">(' + allCount + ')</span>';
+          allItem.innerHTML = '<span class="grid-coll-name">All Works</span><span class="grid-coll-count">(' + allCount + ')</span>';
           allItem.onclick = function() { applyFilter(''); };
           dropdown.appendChild(allItem);
 
@@ -4855,7 +4890,7 @@
             var item = document.createElement('div');
             item.className = 'grid-coll-item' + (activeCol === col ? ' active' : '');
             item.dataset.col = col;
-            item.innerHTML = '<span style="display:flex; align-items:center;"><span style="width:7px; height:7px; border-radius:50%; background:' + dotColor + '; display:inline-block; margin-right:8px; flex-shrink:0; border:1px solid rgba(255,255,255,0.25);"></span>' + col + pinIcon + '</span><span class="grid-coll-count">(' + count + ')</span>';
+            item.innerHTML = '<span class="grid-coll-name">' + col + pinIcon + '</span><span class="grid-coll-count">(' + count + ')</span>';
             // Clickable even when count is 0
             item.onclick = function() { applyFilter(col); };
             dropdown.appendChild(item);
@@ -4871,9 +4906,9 @@
         // Tính số cột checkerboard: luôn dùng số lẻ (3 hoặc 5) để caro luôn đối xứng
         function getCaroCols() {
           var w = window.innerWidth || 800;
-          if (w >= 1200) return 5;
-          if (w >= 800)  return 5;
-          if (w >= 640)  return 3;
+          if (w >= 1200) return 7;
+          if (w >= 800)  return 7;
+          if (w >= 640)  return 5;
           return 1;
         }
 
